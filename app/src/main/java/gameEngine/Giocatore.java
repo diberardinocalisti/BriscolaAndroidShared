@@ -1,0 +1,158 @@
+package gameEngine;
+
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.util.ArrayList;
+import java.util.Collections;
+
+import static gameEngine.Game.briscola;
+import static gameEngine.Game.lastManche;
+import static gameEngine.Game.ultimoVincitore;
+
+public class Giocatore {
+    // Array contenente le carte che il giocatore ha in mano;
+    protected Carta carte[];
+
+    // ArrayList contenente le carte prese;
+    protected ArrayList<Carta> prese;
+
+    // Nome del giocatore;
+    protected String nome;
+
+    // Round vinti del giocatore;
+    protected Integer score = 0;
+
+    // Se il giocatore è controllato dalla CPU o no;
+    protected boolean CPU;
+
+    protected Integer index;
+
+    public Giocatore(String nome, Integer index){
+        this(nome, index, false);
+    }
+
+    protected Giocatore(String nome, Integer index, boolean CPU){
+        this.nome = nome;
+        this.CPU = CPU;
+        this.index = index;
+        this.carte = new Carta[3];
+        this.prese = new ArrayList<>();
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void mostraMazzo(){
+        final Integer daMostrare = 3;
+
+        ArrayList<Carta> carte = prese;
+        Collections.sort(carte, Engine.ordinaCarte);
+        Collections.reverse(carte);
+
+        //@// TODO: 04/06/2021 Mostrare le 3 carte più alte del mazzo a fine partita;
+        //if(carte.size() <= daMostrare)
+            //this.pMazzo.remove(this.mazzo);
+
+        //for(int i = 0; i < daMostrare && i < carte.size(); i++)
+            //this.pTavolo.add(carte.get(i));
+    }
+
+    public void svuotaMazzo(){
+        for(int i = 0; i < carte.length; i++)
+            carte[i] = null;
+
+        this.prese.clear();
+    }
+
+    public void azzeraPunteggio(){
+        this.score = 0;
+    }
+
+    public void aggiornaPunteggio(){
+        this.score++;
+    }
+
+    public Carta pesca(){
+        if(Game.mazzo.size() == 0){
+            if(!lastManche){
+                //anteprimaCarte.setVisible(false);
+                lastManche = true;
+                //pGiocoR.remove(briscola);
+                return pesca(briscola);
+            }
+        }else{
+            return pesca(Game.mazzo.get(0));
+        }
+
+        return null;
+    }
+
+    public Carta pesca(Carta carta) {
+        carta.setPortatore(this);
+        carta.abilita();
+
+        this.prendi(carta);
+        //this.pTavolo.add(carta);
+        Game.mazzo.remove(carta);
+
+        return carta;
+    }
+
+    public void mancheVinta() {
+        /*for(Component c : pGiocoC.getComponents()) {
+            prese.add((Carta) c);
+            ((Carta) c).setBorderPainted(false);
+        }*/
+
+        ultimoVincitore = this;
+    }
+
+    public void lancia(Carta carta){
+        carta.disabilita();
+        carta.mostra();
+        this.rimuovi(carta);
+        //this.pTavolo.remove(carta);
+        //GUI.pGiocoC.add(carta);
+    }
+
+    public Integer conta(){
+        return 0;
+    }
+
+    public Integer n_carte(){
+        Integer size = 0;
+
+        for(Carta carta : carte)
+            if(carta != null)
+                size++;
+
+        return size;
+    }
+
+    public void rimuovi(Carta daRimuovere){
+        for(int i = 0; i < carte.length; i++)
+            if(carte[i] == daRimuovere){
+                carte[i] = null;
+                return;
+            }
+    }
+
+    public void prendi(Carta daAggiungere){
+        for(int i = 0; i < carte.length; i++)
+            if(carte[i] == null){
+                carte[i] = daAggiungere;
+                carte[i].setPortatore(this);
+                return;
+            }
+    }
+
+    public void toccaA(){}
+}
