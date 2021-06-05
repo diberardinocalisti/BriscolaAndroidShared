@@ -37,6 +37,8 @@ public class Giocatore {
     // Se il giocatore è controllato dalla CPU o no;
     protected boolean CPU;
 
+    protected Integer punteggioCarte = 0;
+
     protected Integer index;
 
     public Giocatore(String nome, Integer index){
@@ -88,6 +90,7 @@ public class Giocatore {
         for(int i = 0; i < carte.length; i++)
             carte[i] = null;
 
+        this.punteggioCarte = 0;
         this.prese.clear();
     }
 
@@ -124,11 +127,15 @@ public class Giocatore {
         return carta;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void mancheVinta() {
-        /*for(Component c : pGiocoC.getComponents()) {
-            prese.add((Carta) c);
-            ((Carta) c).setBorderPainted(false);
-        }*/
+        for(Integer i : I_CAMPO_GIOCO){
+            if(carte[i] != null){
+                Carta c = getCartaFromButton(Game.carte[i]);
+                prese.add(c);
+                punteggioCarte += c.getValore();
+            }
+        }
 
         ultimoVincitore = this;
     }
@@ -142,13 +149,10 @@ public class Giocatore {
                 return;
             }
         }
-
-        //this.pTavolo.remove(carta);
-        //GUI.pGiocoC.add(carta);
     }
 
-    public Integer conta(){
-        return 0;
+    public Integer getPunteggioCarte(){
+        return punteggioCarte;
     }
 
     public Integer n_carte(){

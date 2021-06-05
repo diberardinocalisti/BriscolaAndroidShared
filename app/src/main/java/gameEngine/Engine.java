@@ -1,5 +1,6 @@
 package gameEngine;
 
+import android.content.DialogInterface;
 import android.os.Build;
 import android.widget.Button;
 
@@ -11,6 +12,7 @@ import java.util.Comparator;
 
 import static gameEngine.Game.I_BRISCOLA;
 import static gameEngine.Game.I_CAMPO_GIOCO;
+import static gameEngine.Game.activity;
 import static gameEngine.Game.briscola;
 import static gameEngine.Game.carte;
 import static gameEngine.Game.giocante;
@@ -146,19 +148,20 @@ public class Engine{
     }
 
     static void terminaPartita(Giocatore vincitore){
-        Game.endEvent = 1;
-        //pGiocoC.add(new Messaggio(vincitore.getNome() + " ha vinto! ("+vincitore.conta()+")", "Premi INVIO per un'altra partita!"));
+        String titolo = vincitore.getNome() + " ha vinto! ("+vincitore.getPunteggioCarte()+")";
+        String sottotitolo = "Premi OK per un'altra partita!";
+        Utility.confirmDialog(activity, titolo, sottotitolo, (dialog, which) -> iniziaPartita(), dialog -> iniziaPartita());
     }
 
     static void terminaRound(Giocatore vincitore){
-        Game.endEvent = 0;
-        String titolo = vincitore == null ? "Pareggio!" : vincitore.getNome() + " ha vinto il round (" + vincitore.conta() + ")!";
-        //pGiocoC.add(new Messaggio(titolo, "Premi INVIO per il prossimo round!"));
+        String titolo = vincitore == null ? "Pareggio!" : vincitore.getNome() + " ha vinto il round (" + vincitore.getPunteggioCarte() + ")!";
+        String sottotitolo = "Premi OK per un altro round!";
+        Utility.confirmDialog(activity, titolo, sottotitolo, (dialog, which) -> iniziaRound(), dialog -> iniziaRound());
     }
 
     static Giocatore trovaVincitore(){
-        Integer score_1 = giocatori[0].conta();
-        Integer score_2 = giocatori[1].conta();
+        Integer score_1 = giocatori[0].getPunteggioCarte();
+        Integer score_2 = giocatori[1].getPunteggioCarte();
 
         if(score_1 > score_2)
             return giocatori[0];

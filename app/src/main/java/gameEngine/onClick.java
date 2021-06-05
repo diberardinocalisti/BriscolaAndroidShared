@@ -2,10 +2,15 @@ package gameEngine;
 
 import static gameEngine.Engine.*;
 import static gameEngine.Game.*;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import androidx.annotation.RequiresApi;
+
+import com.example.briscolav10.R;
 
 public class onClick implements View.OnClickListener {
     // @todo adattare il vecchio algoritmo;
@@ -15,7 +20,7 @@ public class onClick implements View.OnClickListener {
         Button bottone = (Button) v;
         Carta carta = Engine.getCartaFromButton(bottone);
 
-        giocante.lancia(carta);
+        // giocante.lancia(carta);
 
         /*if(carta == null)
             return;
