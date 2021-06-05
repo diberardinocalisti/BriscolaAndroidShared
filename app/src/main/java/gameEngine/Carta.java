@@ -26,10 +26,14 @@ public class Carta {
 
     public void abilita(){
         enabled = true;
+        this.b.setBackground(this.getImage());
+        this.b.setEnabled(true);
     }
 
     public void disabilita(){
         enabled = false;
+        this.b.setBackground(null);
+        this.b.setEnabled(false);
     }
 
     public boolean isEnabled(){
@@ -113,16 +117,6 @@ public class Carta {
         this.b.setBackground(image);
     }
 
-    public void disable(){
-        this.b.setBackground(null);
-        this.b.setEnabled(false);
-    }
-
-    public void enable(){
-        this.b.setBackground(this.getImage());
-        this.b.setEnabled(true);
-    }
-    
     public Drawable getImage(){
         int resID = activity.getResources().getIdentifier(this.getNome(), "drawable", activity.getPackageName());
         return activity.getResources().getDrawable(resID);

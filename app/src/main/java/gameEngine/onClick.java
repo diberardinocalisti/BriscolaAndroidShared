@@ -8,12 +8,14 @@ import android.widget.Button;
 import androidx.annotation.RequiresApi;
 
 public class onClick implements View.OnClickListener {
+    // @todo adattare il vecchio algoritmo;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
         Button bottone = (Button) v;
-        bottone.setBackground(null);
         Carta carta = Engine.getCartaFromButton(bottone);
+
+        giocante.lancia(carta);
 
         /*if(carta == null)
             return;

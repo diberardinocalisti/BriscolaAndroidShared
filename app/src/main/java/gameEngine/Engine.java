@@ -5,6 +5,7 @@ import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -192,9 +193,24 @@ public class Engine{
     static Carta getCartaFromButton(Button button){
         for(Giocatore g : giocatori)
             for(Carta carta : g.carte)
-                if(carta.getButton().getId() == button.getId())
-                    return carta;
+                if(carta == null)
+                    continue;
+                else
+                    if(carta.getButton().getId() == button.getId())
+                        return carta;
         return null;
+    }
+
+
+    static Carta[] getCarteATerra(){
+        ArrayList<Carta> aTerra = new ArrayList<>();
+
+        for(Integer i : I_CAMPO_GIOCO){
+            Carta c = getCartaFromButton(carte[i]);
+            aTerra.add(c);
+        }
+
+        return aTerra.toArray(new Carta[0]);
     }
 
     static Carta getOtherCarta(Carta current){
@@ -211,13 +227,8 @@ public class Engine{
 
     public static Comparator<Carta> ordinaCarte = Comparator.comparingInt(c -> c.getValore());
 
-    static Integer getCarteATerra(){
-        return 0;
-        //return pGiocoUser.getComponentCount() + pGiocoCPU.getComponentCount();
-    }
-
     static boolean isTerminata(){
-        return getCarteATerra() == 0;
+        return getCarteATerra().length == 0;
     }
 
     static Giocatore doLogic(Carta last, Carta first) {

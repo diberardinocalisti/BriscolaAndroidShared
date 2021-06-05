@@ -58,5 +58,10 @@ public class Game {
     public static void startGame(AppCompatActivity activity){
         initialize(activity);
         Engine.inizializza();
+
+        for(Giocatore g : giocatori){
+            for(Carta c : g.carte)
+                System.out.println(c.getButton().getId());
+        }
     }
 }
