@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Briscola V 1.0</string>
+    <string name="facebook_app_id">603960137243421</string>
+    <string name="fb_login_protocol_scheme">fb603960137243421</string>
 </resources>
