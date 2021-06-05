@@ -27,9 +27,8 @@ public class MainMenu extends AppCompatActivity {
                 break;
 
             case "Come si gioca?":
-                String title = "Alcune regole prima di iniziare";
-
-                String msg = "Per giocare a Briscola si utilizza un mazzo di 40 carte diviso in 4 semi, ciascuno di 10 carte. Nel mazzo vi sono un totale di 120 punti, pertanto vincerà il round chi ne realizza almeno 61; se i punti sono 60 il round è considerato pari.Di seguito i punteggi:\nAsso --> 11 punti\nTre --> 10 punti\nRe --> 4 punti\nCavallo --> 3 punti\nFante --> 2 punti\n\nBUON DIVERTIMENTO!";
+                String title = "Come si gioca?";
+                String msg = "Per giocare a Briscola si utilizza un mazzo di 40 carte diviso in 4 semi, ciascuno di 10 carte.\nNel mazzo vi sono un totale di 120 punti, pertanto vincerà il round chi ne realizza almeno 61. \nSe i punti sono 60 il round è considerato pari.\n\nDi seguito i punteggi:\nAsso: 11 punti;\nTre: 10 punti;\nRe: 4 punti;\nCavallo: 3 punti;\nFante: 2 punti;\n\nBUON DIVERTIMENTO!";
 
                 Utility.createDialog(main,title, msg);
                 break;

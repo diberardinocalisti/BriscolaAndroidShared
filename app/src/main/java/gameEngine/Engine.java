@@ -1,14 +1,20 @@
 package gameEngine;
 
+import android.content.DialogInterface;
 import android.os.Build;
 import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import static gameEngine.Game.I_BRISCOLA;
+import static gameEngine.Game.I_CAMPO_GIOCO;
+import static gameEngine.Game.activity;
 import static gameEngine.Game.briscola;
+import static gameEngine.Game.carte;
 import static gameEngine.Game.giocante;
 import static gameEngine.Game.giocatori;
 import static gameEngine.Game.lastManche;
@@ -48,7 +54,6 @@ public class Engine{
         terminata = false;
     }
 
-    // @TODO: 04/06/2021 add button to constructor;
     static void creaMazzo() {
         lastManche = false;
         mazzo.clear();
@@ -70,18 +75,16 @@ public class Engine{
 
     static void creaGiocatori(){
         for(int i = 0; i < giocatori.length; i++){
-            boolean CPU = i == 0 ? false : true;
-            giocatori[i] = CPU == false ? new Giocatore("Giocatore", i + 1) : new CPU("CPU", i + 1);
+            boolean CPU = i == 0 ? true : false;
+            giocatori[i] = CPU == false ? new Giocatore("Giocatore", i) : new CPU("CPU", i);
         }
     }
 
     static void estraiBriscola(){
         briscola = mazzo.get(0);
-        briscola.disabilita();
         mazzo.remove(briscola);
-        //pGiocoR.add(briscola);
-        //pGiocoR.add(anteprimaCarte);
-        //anteprimaCarte.setVisible(true);
+        briscola.setButton(carte[I_BRISCOLA]);
+        briscola.mostra();
     }
 
     static void distribuisciCarte(){
@@ -145,19 +148,20 @@ public class Engine{
     }
 
     static void terminaPartita(Giocatore vincitore){
-        Game.endEvent = 1;
-        //pGiocoC.add(new Messaggio(vincitore.getNome() + " ha vinto! ("+vincitore.conta()+")", "Premi INVIO per un'altra partita!"));
+        String titolo = vincitore.getNome() + " ha vinto! ("+vincitore.getPunteggioCarte()+")";
+        String sottotitolo = "Premi OK per un'altra partita!";
+        Utility.confirmDialog(activity, titolo, sottotitolo, (dialog, which) -> iniziaPartita(), dialog -> iniziaPartita());
     }
 
     static void terminaRound(Giocatore vincitore){
-        Game.endEvent = 0;
-        String titolo = vincitore == null ? "Pareggio!" : vincitore.getNome() + " ha vinto il round (" + vincitore.conta() + ")!";
-        //pGiocoC.add(new Messaggio(titolo, "Premi INVIO per il prossimo round!"));
+        String titolo = vincitore == null ? "Pareggio!" : vincitore.getNome() + " ha vinto il round (" + vincitore.getPunteggioCarte() + ")!";
+        String sottotitolo = "Premi OK per un altro round!";
+        Utility.confirmDialog(activity, titolo, sottotitolo, (dialog, which) -> iniziaRound(), dialog -> iniziaRound());
     }
 
     static Giocatore trovaVincitore(){
-        Integer score_1 = giocatori[0].conta();
-        Integer score_2 = giocatori[1].conta();
+        Integer score_1 = giocatori[0].getPunteggioCarte();
+        Integer score_2 = giocatori[1].getPunteggioCarte();
 
         if(score_1 > score_2)
             return giocatori[0];
@@ -169,25 +173,12 @@ public class Engine{
 
     static void pulisciTavolo(){
         pulisciPianoGioco();
-        pulisciTavoloGiocatori();
-        pulisciMazzo();
     }
 
     static void pulisciPianoGioco(){
-        //for(Component component: pGiocoC.getComponents())
-            //pGiocoC.remove(component);
-    }
-
-    static void pulisciTavoloGiocatori(){
-        for(Giocatore p : giocatori){
-            //p.pTavolo.removeAll();
-            //p.pMazzo.removeAll();
+        for(Integer i : I_CAMPO_GIOCO){
+            carte[i].setBackground(null);
         }
-    }
-
-    static void pulisciMazzo(){
-        //for(Component component : pGiocoR.getComponents())
-            //pGiocoR.remove(component);
     }
 
     static Giocatore getRandomPlayer(){
@@ -205,9 +196,24 @@ public class Engine{
     static Carta getCartaFromButton(Button button){
         for(Giocatore g : giocatori)
             for(Carta carta : g.carte)
-                if(carta.getButton().getId() == button.getId())
-                    return carta;
+                if(carta == null)
+                    continue;
+                else
+                    if(carta.getButton().getId() == button.getId())
+                        return carta;
         return null;
+    }
+
+
+    static Carta[] getCarteATerra(){
+        ArrayList<Carta> aTerra = new ArrayList<>();
+
+        for(Integer i : I_CAMPO_GIOCO){
+            Carta c = getCartaFromButton(carte[i]);
+            aTerra.add(c);
+        }
+
+        return aTerra.toArray(new Carta[0]);
     }
 
     static Carta getOtherCarta(Carta current){
@@ -224,13 +230,8 @@ public class Engine{
 
     public static Comparator<Carta> ordinaCarte = Comparator.comparingInt(c -> c.getValore());
 
-    static Integer getCarteATerra(){
-        return 0;
-        //return pGiocoUser.getComponentCount() + pGiocoCPU.getComponentCount();
-    }
-
     static boolean isTerminata(){
-        return getCarteATerra() == 0;
+        return getCarteATerra().length == 0;
     }
 
     static Giocatore doLogic(Carta last, Carta first) {

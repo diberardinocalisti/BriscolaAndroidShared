@@ -1,17 +1,27 @@
 package gameEngine;
 
 import android.os.Build;
+import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
+import static gameEngine.Engine.getCartaFromButton;
+import static gameEngine.Game.I_CAMPO_GIOCO;
 import static gameEngine.Game.briscola;
+import static gameEngine.Game.carte;
+import static gameEngine.Game.carteBottoni;
+import static gameEngine.Game.giocatori;
 import static gameEngine.Game.lastManche;
+import static gameEngine.Game.mazzo;
+import static gameEngine.Game.nCarte;
 import static gameEngine.Game.ultimoVincitore;
 
 public class Giocatore {
+    protected Button bottoni[];
+
     // Array contenente le carte che il giocatore ha in mano;
     protected Carta carte[];
 
@@ -27,6 +37,8 @@ public class Giocatore {
     // Se il giocatore è controllato dalla CPU o no;
     protected boolean CPU;
 
+    protected Integer punteggioCarte = 0;
+
     protected Integer index;
 
     public Giocatore(String nome, Integer index){
@@ -39,6 +51,11 @@ public class Giocatore {
         this.index = index;
         this.carte = new Carta[3];
         this.prese = new ArrayList<>();
+        this.bottoni = new Button[nCarte];
+
+        for(int i = this.index * 3, j = 0; j < nCarte; j++, i++){
+            this.bottoni[j] = carteBottoni[i];
+        }
     }
 
     public String getNome() {
@@ -47,6 +64,10 @@ public class Giocatore {
 
     public Integer getScore() {
         return score;
+    }
+
+    public boolean isCPU(){
+        return CPU;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -69,6 +90,7 @@ public class Giocatore {
         for(int i = 0; i < carte.length; i++)
             carte[i] = null;
 
+        this.punteggioCarte = 0;
         this.prese.clear();
     }
 
@@ -97,34 +119,40 @@ public class Giocatore {
 
     public Carta pesca(Carta carta) {
         carta.setPortatore(this);
+        this.prendi(carta);
         carta.abilita();
 
-        this.prendi(carta);
-        //this.pTavolo.add(carta);
         Game.mazzo.remove(carta);
 
         return carta;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void mancheVinta() {
-        /*for(Component c : pGiocoC.getComponents()) {
-            prese.add((Carta) c);
-            ((Carta) c).setBorderPainted(false);
-        }*/
+        for(Integer i : I_CAMPO_GIOCO){
+            if(carte[i] != null){
+                Carta c = getCartaFromButton(Game.carte[i]);
+                prese.add(c);
+                punteggioCarte += c.getValore();
+            }
+        }
 
         ultimoVincitore = this;
     }
 
     public void lancia(Carta carta){
-        carta.disabilita();
-        carta.mostra();
-        this.rimuovi(carta);
-        //this.pTavolo.remove(carta);
-        //GUI.pGiocoC.add(carta);
+        for(Integer i : I_CAMPO_GIOCO){
+            if(Game.carte[i].getBackground() == null){
+                Game.carte[i].setBackground(carta.getImage());
+                carta.disabilita();
+                this.rimuovi(carta);
+                return;
+            }
+        }
     }
 
-    public Integer conta(){
-        return 0;
+    public Integer getPunteggioCarte(){
+        return punteggioCarte;
     }
 
     public Integer n_carte(){
@@ -138,11 +166,15 @@ public class Giocatore {
     }
 
     public void rimuovi(Carta daRimuovere){
-        for(int i = 0; i < carte.length; i++)
-            if(carte[i] == daRimuovere){
+        for(int i = 0; i < carte.length; i++) {
+            if(carte[i] == null)
+                continue;
+
+            if (carte[i].getNome() == daRimuovere.getNome()) {
                 carte[i] = null;
                 return;
             }
+        }
     }
 
     public void prendi(Carta daAggiungere){
@@ -150,6 +182,13 @@ public class Giocatore {
             if(carte[i] == null){
                 carte[i] = daAggiungere;
                 carte[i].setPortatore(this);
+                carte[i].setButton(this.bottoni[i]);
+
+                if(this.isCPU())
+                    this.carte[i].nascondi();
+                else
+                    this.carte[i].mostra();
+
                 return;
             }
     }
