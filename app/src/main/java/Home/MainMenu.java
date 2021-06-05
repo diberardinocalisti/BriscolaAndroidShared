@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
 
+import Login.LoginActivity;
 import gameEngine.Utility;
 
 
@@ -36,6 +37,12 @@ public class MainMenu extends AppCompatActivity {
             case "Esci dal gioco":
                 android.os.Process.killProcess(android.os.Process.myPid());
                 System.exit(1);
+                break;
+
+            case "Il mio profilo":
+                Intent i = new Intent(main, LoginActivity.class);
+                main.startActivity(i);
+                //Toast.makeText(main,"prova",Toast.LENGTH_SHORT).show();
                 break;
         }
     }
