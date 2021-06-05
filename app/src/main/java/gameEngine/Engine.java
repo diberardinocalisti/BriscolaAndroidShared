@@ -8,7 +8,10 @@ import androidx.annotation.RequiresApi;
 import java.util.Collections;
 import java.util.Comparator;
 
+import static gameEngine.Game.I_BRISCOLA;
+import static gameEngine.Game.I_CAMPO_GIOCO;
 import static gameEngine.Game.briscola;
+import static gameEngine.Game.carte;
 import static gameEngine.Game.giocante;
 import static gameEngine.Game.giocatori;
 import static gameEngine.Game.lastManche;
@@ -48,7 +51,6 @@ public class Engine{
         terminata = false;
     }
 
-    // @TODO: 04/06/2021 add button to constructor;
     static void creaMazzo() {
         lastManche = false;
         mazzo.clear();
@@ -70,18 +72,16 @@ public class Engine{
 
     static void creaGiocatori(){
         for(int i = 0; i < giocatori.length; i++){
-            boolean CPU = i == 0 ? false : true;
-            giocatori[i] = CPU == false ? new Giocatore("Giocatore", i + 1) : new CPU("CPU", i + 1);
+            boolean CPU = i == 0 ? true : false;
+            giocatori[i] = CPU == false ? new Giocatore("Giocatore", i) : new CPU("CPU", i);
         }
     }
 
     static void estraiBriscola(){
         briscola = mazzo.get(0);
-        briscola.disabilita();
         mazzo.remove(briscola);
-        //pGiocoR.add(briscola);
-        //pGiocoR.add(anteprimaCarte);
-        //anteprimaCarte.setVisible(true);
+        briscola.setButton(carte[I_BRISCOLA]);
+        briscola.mostra();
     }
 
     static void distribuisciCarte(){
@@ -169,25 +169,12 @@ public class Engine{
 
     static void pulisciTavolo(){
         pulisciPianoGioco();
-        pulisciTavoloGiocatori();
-        pulisciMazzo();
     }
 
     static void pulisciPianoGioco(){
-        //for(Component component: pGiocoC.getComponents())
-            //pGiocoC.remove(component);
-    }
-
-    static void pulisciTavoloGiocatori(){
-        for(Giocatore p : giocatori){
-            //p.pTavolo.removeAll();
-            //p.pMazzo.removeAll();
+        for(Integer i : I_CAMPO_GIOCO){
+            carte[i].setBackground(null);
         }
-    }
-
-    static void pulisciMazzo(){
-        //for(Component component : pGiocoR.getComponents())
-            //pGiocoR.remove(component);
     }
 
     static Giocatore getRandomPlayer(){

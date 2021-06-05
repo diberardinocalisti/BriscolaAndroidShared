@@ -107,12 +107,22 @@ public class Carta {
         if(Game.carteScoperte && this.getPortatore() != null)
             return;
 
-        int resID = activity.getResources().getIdentifier(this.getNome(), "drawable", activity.getPackageName());
+        int resID = activity.getResources().getIdentifier("vuoto", "drawable", activity.getPackageName());
         Drawable image = activity.getResources().getDrawable(resID);
 
         this.b.setBackground(image);
     }
 
+    public void disable(){
+        this.b.setBackground(null);
+        this.b.setEnabled(false);
+    }
+
+    public void enable(){
+        this.b.setBackground(this.getImage());
+        this.b.setEnabled(true);
+    }
+    
     public Drawable getImage(){
         int resID = activity.getResources().getIdentifier(this.getNome(), "drawable", activity.getPackageName());
         return activity.getResources().getDrawable(resID);

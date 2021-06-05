@@ -1,25 +1,22 @@
 package gameEngine;
 
+import static gameEngine.Engine.*;
+import static gameEngine.Game.*;
 import android.os.Build;
 import android.view.View;
 import android.widget.Button;
-
 import androidx.annotation.RequiresApi;
-
-import static gameEngine.Game.mazzo;
 
 public class onClick implements View.OnClickListener {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
         Button bottone = (Button) v;
+        bottone.setBackground(null);
+        Carta carta = Engine.getCartaFromButton(bottone);
 
-        // Carta carta = Engine.getCartaFromButton(bottone);
-
-        Carta carta = mazzo.get(0);
-        bottone.setBackground(carta.getImage());
-
-        /*Carta carta = new Carta(null, null, null, null);
+        /*if(carta == null)
+            return;
 
         if(carta.getPortatore() != giocante)
             return;

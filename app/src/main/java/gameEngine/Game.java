@@ -16,6 +16,9 @@ public class Game {
     public static Integer scoreLimit = 3;
     public static Carta briscola;
 
+    public static final Integer I_BRISCOLA = 6;
+    public static final Integer[] I_CAMPO_GIOCO = new Integer[] {8,9};
+
     protected static Giocatore[] giocatori;
     protected static Button[] carte, carteBottoni;
     protected static ArrayList<Carta> mazzo;
@@ -44,7 +47,7 @@ public class Game {
 
             carte[i] = activity.findViewById(id);
 
-            if(i < nCarte * 2){
+            if(i < nCarte * nGiocatori){
                 carte[i].setOnClickListener(new onClick());
                 carteBottoni[i] = carte[i];
             }
@@ -53,13 +56,7 @@ public class Game {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void startGame(AppCompatActivity activity){
-        //initialize(activity);
-        /**
-         * Dovrebbe invocare il metodo "inizializza" ma non è ancora pronto,
-         * per ora viene mostrata la prima carta del mazzo quando si clicca su un bottone.
-         */
-        //Engine.inizializza();
-        Engine.creaGiocatori();
-        Engine.creaMazzo();
+        initialize(activity);
+        Engine.inizializza();
     }
 }
