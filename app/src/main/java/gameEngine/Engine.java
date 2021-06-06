@@ -10,18 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import static gameEngine.Game.I_BRISCOLA;
-import static gameEngine.Game.I_CAMPO_GIOCO;
-import static gameEngine.Game.activity;
-import static gameEngine.Game.briscola;
-import static gameEngine.Game.carte;
-import static gameEngine.Game.giocante;
-import static gameEngine.Game.giocatori;
-import static gameEngine.Game.lastManche;
-import static gameEngine.Game.mazzo;
-import static gameEngine.Game.semi;
-import static gameEngine.Game.terminata;
-import static gameEngine.Game.ultimoVincitore;
+import static gameEngine.Game.*;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
@@ -58,12 +47,14 @@ public class Engine{
         lastManche = false;
         mazzo.clear();
 
-        for(String seme : semi) {
+        Carta.nascondi(carte[I_MAZZO]);
+
+        for(String seme : semi)
             for(Integer i = 1; i <= 10; i++)
                 mazzo.add(new Carta(i, seme));
-        }
 
         Collections.shuffle(mazzo);
+        mazzoIniziale = mazzo.toArray(new Carta[0]);
     }
 
     static void reset(){
@@ -107,7 +98,8 @@ public class Engine{
     static void terminaManche(Giocatore vincitore) throws InterruptedException {
         Game.canPlay = false;
 
-        Thread.sleep(1750);
+        // @// TODO: 06/06/2021 ad ora non è possibile modificare dei bottoni se il thread non è quello padre perciò rimuovo temporaneamente la sleep;
+        //Thread.sleep(1750);
 
         vincitore.mancheVinta();
         pulisciPianoGioco();
@@ -173,12 +165,18 @@ public class Engine{
 
     static void pulisciTavolo(){
         pulisciPianoGioco();
+        pulisciPianoLaterale();
     }
 
     static void pulisciPianoGioco(){
         for(Integer i : I_CAMPO_GIOCO){
             carte[i].setBackground(null);
         }
+    }
+
+    static void pulisciPianoLaterale(){
+        Game.carte[I_BRISCOLA].setBackground(null);
+        Game.carte[I_MAZZO].setBackground(null);
     }
 
     static Giocatore getRandomPlayer(){
@@ -194,16 +192,18 @@ public class Engine{
     }
 
     static Carta getCartaFromButton(Button button){
-        for(Giocatore g : giocatori)
-            for(Carta carta : g.carte)
-                if(carta == null)
-                    continue;
-                else
-                    if(carta.getButton().getId() == button.getId())
-                        return carta;
+        for(Carta carta : mazzoIniziale){
+            if(carta == null)
+                continue;
+
+            if(carta.getButton() == null)
+                continue;
+
+            if(carta.getButton().getId() == button.getId())
+                return carta;
+        }
         return null;
     }
-
 
     static Carta[] getCarteATerra(){
         ArrayList<Carta> aTerra = new ArrayList<>();
@@ -217,15 +217,20 @@ public class Engine{
     }
 
     static Carta getOtherCarta(Carta current){
-        return null;
-        /*for(Component component: pGiocoC.getComponents()){
-            Carta carta = (Carta) component;
+        for(Integer i : I_CAMPO_GIOCO) {
+            Carta c = getCartaFromButton(carte[i]);
 
-            if(carta != current)
-                return carta;
+            if(c == null)
+                continue;
+
+            if(isLibero(Game.carte[i]))
+                continue;
+
+            if(c.getNome() != current.getNome())
+                return c;
         }
 
-        return null;*/
+        return null;
     }
 
     public static Comparator<Carta> ordinaCarte = Comparator.comparingInt(c -> c.getValore());
@@ -234,9 +239,16 @@ public class Engine{
         return getCarteATerra().length == 0;
     }
 
+    static boolean isLibero(Button b){
+        return b.getBackground() == null;
+    }
+
     static Giocatore doLogic(Carta last, Carta first) {
         if(last != null && first == null)
             return null;
+
+        System.out.println("first " + first.getNome());
+        System.out.println("last " + last.getNome());
 
         Carta[] carte = {first, last};
         Carta comanda = first;

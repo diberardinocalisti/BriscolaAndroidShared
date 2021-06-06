@@ -16,7 +16,7 @@ public class Game {
     public static Integer scoreLimit = 3;
     public static Carta briscola;
 
-    public static final Integer I_BRISCOLA = 6;
+    public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;
     public static final Integer[] I_CAMPO_GIOCO = new Integer[] {8,9};
 
     protected static Giocatore[] giocatori;
@@ -28,8 +28,10 @@ public class Game {
     protected static Button[] carteBottoni;
 
     protected static ArrayList<Carta> mazzo;
+    protected static Carta[] mazzoIniziale;
+
     protected static Giocatore giocante, ultimoVincitore;
-    protected static boolean canPlay = true, lastManche = false, terminata = false;
+    protected static boolean canPlay, lastManche, terminata;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private static void initialize(AppCompatActivity activity){
@@ -37,6 +39,9 @@ public class Game {
 
         giocatori = new Giocatore[nGiocatori];
         mazzo = new ArrayList<>();
+        canPlay = true;
+        lastManche = false;
+        terminata = false;
         giocante = null;
         ultimoVincitore = null;
         canPlay = true;
@@ -44,6 +49,7 @@ public class Game {
         terminata = false;
         carte = new Button[10];
         carteBottoni = new Button[nCarte * 2];
+        mazzoIniziale = new Carta[40];
 
         for(int i = 0; i < carte.length; i++){
             String idS = "button" + (i+1);

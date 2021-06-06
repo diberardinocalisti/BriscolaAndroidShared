@@ -20,9 +20,7 @@ public class onClick implements View.OnClickListener {
         Button bottone = (Button) v;
         Carta carta = Engine.getCartaFromButton(bottone);
 
-        // giocante.lancia(carta);
-
-        /*if(carta == null)
+        if(carta == null)
             return;
 
         if(carta.getPortatore() != giocante)
@@ -31,20 +29,19 @@ public class onClick implements View.OnClickListener {
         if(!Game.canPlay || terminata)
             return;
 
-        giocante.lancia(carta);
+        // @// TODO: 06/06/2021 problema in getOtherCarta, restituisce una carta diversa da quella che è effettivamente nel piano di gioco; 
         Giocatore vincente = doLogic(carta, getOtherCarta(carta));
+        giocante.lancia(carta);
 
         if(vincente == null) {
             prossimoTurno(getOtherPlayer(giocante));
         }else{
             Giocatore finalVincente = vincente;
-            new Thread(() -> {
-                try{
-                    terminaManche(finalVincente);
-                }catch(InterruptedException interruptedException) {
-                    interruptedException.printStackTrace();
-                }
-            }).start();
-        }*/
+            try {
+                terminaManche(finalVincente);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

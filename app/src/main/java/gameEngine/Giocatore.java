@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import static gameEngine.Engine.getCartaFromButton;
+import static gameEngine.Engine.isLibero;
+import static gameEngine.Engine.pulisciPianoLaterale;
+import static gameEngine.Game.I_BRISCOLA;
 import static gameEngine.Game.I_CAMPO_GIOCO;
 import static gameEngine.Game.briscola;
 import static gameEngine.Game.carte;
@@ -53,7 +56,7 @@ public class Giocatore {
         this.prese = new ArrayList<>();
         this.bottoni = new Button[nCarte];
 
-        for(int i = this.index * 3, j = 0; j < nCarte; j++, i++){
+        for(int i = this.index * nCarte, j = 0; j < nCarte; j++, i++){
             this.bottoni[j] = carteBottoni[i];
         }
     }
@@ -102,12 +105,13 @@ public class Giocatore {
         this.score++;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public Carta pesca(){
+        System.out.println(mazzo.size());
         if(Game.mazzo.size() == 0){
             if(!lastManche){
-                //anteprimaCarte.setVisible(false);
                 lastManche = true;
-                //pGiocoR.remove(briscola);
+                pulisciPianoLaterale();
                 return pesca(briscola);
             }
         }else{
@@ -117,20 +121,18 @@ public class Giocatore {
         return null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public Carta pesca(Carta carta) {
-        carta.setPortatore(this);
-        this.prendi(carta);
-        carta.abilita();
-
-        Game.mazzo.remove(carta);
-
-        return carta;
+        int index = this.prendi(carta);
+        this.carte[index].abilita();
+        Game.mazzo.remove(this.carte[index]);
+        return this.carte[index];
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void mancheVinta() {
         for(Integer i : I_CAMPO_GIOCO){
-            if(carte[i] != null){
+            if(Game.carte[i] != null){
                 Carta c = getCartaFromButton(Game.carte[i]);
                 prese.add(c);
                 punteggioCarte += c.getValore();
@@ -140,11 +142,13 @@ public class Giocatore {
         ultimoVincitore = this;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void lancia(Carta carta){
         for(Integer i : I_CAMPO_GIOCO){
-            if(Game.carte[i].getBackground() == null){
-                Game.carte[i].setBackground(carta.getImage());
+            if(isLibero(Game.carte[i])){
                 carta.disabilita();
+                carta.setButton(Game.carte[i]);
+                carta.abilita();
                 this.rimuovi(carta);
                 return;
             }
@@ -177,20 +181,41 @@ public class Giocatore {
         }
     }
 
-    public void prendi(Carta daAggiungere){
-        for(int i = 0; i < carte.length; i++)
-            if(carte[i] == null){
-                carte[i] = daAggiungere;
-                carte[i].setPortatore(this);
-                carte[i].setButton(this.bottoni[i]);
-
-                if(this.isCPU())
-                    this.carte[i].nascondi();
-                else
-                    this.carte[i].mostra();
-
-                return;
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public int prendi(Carta daAggiungere){
+        for(int i = 0; i < carte.length; i++) {
+            if (this.carte[i] == null) {
+                prendi(i, daAggiungere);
+                return i;
+            } else if (this.carte[i].getButton() == null) {
+                prendi(i, daAggiungere);
+                return i;
+            } else if (isLibero(this.carte[i].getButton())) {
+                prendi(i, daAggiungere);
+                return i;
             }
+        }
+        return -1;
+    }
+
+    public void prendi(Integer indice, Carta daAggiungere){
+        this.carte[indice] = daAggiungere;
+        this.carte[indice].setPortatore(this);
+        this.carte[indice].setButton(this.bottoni[indice]);
+
+        if(this.isCPU())
+            this.carte[indice].nascondi();
+        else
+            this.carte[indice].mostra();
+    }
+
+    public Carta getAvailableCarta(){
+        for(Carta c : this.carte){
+            Button b = c.getButton();
+            if(b == null)
+                return c;
+        }
+        return null;
     }
 
     public void toccaA(){}

@@ -111,10 +111,13 @@ public class Carta {
         if(Game.carteScoperte && this.getPortatore() != null)
             return;
 
+        nascondi(this.b);
+    }
+
+    public static void nascondi(Button b){
         int resID = activity.getResources().getIdentifier("vuoto", "drawable", activity.getPackageName());
         Drawable image = activity.getResources().getDrawable(resID);
-
-        this.b.setBackground(image);
+        b.setBackground(image);
     }
 
     public Drawable getImage(){
