@@ -2,7 +2,6 @@ package Login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,45 +12,65 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.squareup.picasso.Picasso;
+import com.facebook.login.widget.ProfilePictureView;
+
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextView i;
-    private LoginButton l;
     private CallbackManager callbackManager;
-    private ImageView image;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_page);
 
 
-        callbackManager = CallbackManager.Factory.create();
+        if(!loginClass.isFacebookLoggedIn())
+        {
+            TextView i;
+            LoginButton l;
+            setContentView(R.layout.login_page);
 
-        i = (TextView)findViewById(R.id.info);
-        l = (LoginButton)findViewById(R.id.login_button);
-        image = (ImageView) findViewById(R.id.img);
 
-        l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                i.setText("User ID: " + loginResult.getAccessToken().getUserId() + "\n" + "Auth Token: " + loginResult.getAccessToken().getToken());
-                String imgUrl = "https://graph.facebook.com/" + loginResult.getAccessToken().getUserId() + "/picture?return_ssl_resources=1";
-                Picasso.get().load(imgUrl).into(image);
-            }
+            callbackManager = CallbackManager.Factory.create();
 
-            @Override
-            public void onCancel() {
-                i.setText("Login attempt canceled.");
-            }
+            i = (TextView)findViewById(R.id.info);
+            l = (LoginButton)findViewById(R.id.login_button);
 
-            @Override
-            public void onError(FacebookException e) {
-                i.setText("Login attempt failed.");
-            }
-        });
+            l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                @Override
+                public void onSuccess(LoginResult loginResult) {
+                    i.setText("User ID: " + loginResult.getAccessToken().getUserId() + "\n" + "Auth Token: " + loginResult.getAccessToken().getToken());
+                }
+
+                @Override
+                public void onCancel() {
+                    i.setText("Login attempt canceled.");
+                }
+
+                @Override
+                public void onError(FacebookException e) {
+                    i.setText("Login attempt failed.");
+                }
+            });
+
+        }else
+        {
+            setContentView(R.layout.fb_profile);
+
+            TextView nome,cognome;
+            ProfilePictureView imgProfile;
+
+            nome = (TextView)findViewById(R.id.nome);
+            cognome = (TextView) findViewById(R.id.cognome);
+            imgProfile = (ProfilePictureView) findViewById(R.id.friendProfilePicture);
+
+
+            loginClass.setImgProfile(imgProfile);
+            nome.setText(loginClass.getFBNome());
+            cognome.setText(loginClass.getFBCognome());
+        }
+
     }
 
     @Override

@@ -6,6 +6,10 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.R;
+import com.facebook.Profile;
+import com.facebook.login.widget.ProfilePictureView;
+
+import Login.loginClass;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         /*
         *   Collego i bottoni del file XML agli elementi dell'array
@@ -30,5 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
             button[index].setOnClickListener(v -> new MainMenu().startGame(button[index], this));
         }
+
     }
 }
