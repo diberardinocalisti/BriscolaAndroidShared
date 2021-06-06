@@ -13,9 +13,7 @@ public class loginClass {
     public static boolean isFacebookLoggedIn()
     {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
-
-        return isLoggedIn;
+        return accessToken != null && !accessToken.isExpired();
     }
 
     public static String getFBUserId()

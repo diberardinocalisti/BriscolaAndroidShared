@@ -10,8 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:layout_marginTop="70dp"
-        />
+        android:layout_marginTop="70dp" />
 
     <TextView
         android:id="@+id/nome"
@@ -19,8 +18,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:gravity="center"
-        android:background="@drawable/bordo_text_view" />
+        android:background="@drawable/bordo_text_view"
+        android:gravity="center" />
 
 
     <TextView
@@ -29,8 +28,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="100dp"
-        android:gravity="center"
-        android:background="@drawable/bordo_text_view">
+        android:background="@drawable/bordo_text_view"
+        android:gravity="center">
 
     </TextView>
 
@@ -39,7 +38,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp"
-        />
+        android:layout_marginTop="100dp" />
 
 </LinearLayout>
