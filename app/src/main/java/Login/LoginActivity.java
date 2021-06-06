@@ -60,8 +60,12 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }else{
+            if (!loginClass.isFacebookLoggedIn())
+                Toast.makeText(getApplicationContext(),"NOOOO",Toast.LENGTH_SHORT).show();
+
             logIn();
         }
+
 
     }
 
@@ -81,6 +85,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void logIn(){
+
         setContentView(R.layout.fb_profile);
 
         TextView nome, cognome;
@@ -94,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
         loginClass.setImgProfile(imgProfile);
         nome.setText(loginClass.getFBNome());
         cognome.setText(loginClass.getFBCognome());
+
     }
 
     void registerButtons(){

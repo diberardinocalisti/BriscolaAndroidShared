@@ -3,8 +3,7 @@ package gameEngine;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-
-import com.example.briscolav10.R;
+import android.content.Intent;
 
 public class Utility {
 
@@ -24,6 +23,12 @@ public class Utility {
         builder.setOnCancelListener(onCancel);
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    public static void goTo(Context c, Class cl)
+    {
+        Intent i = new Intent(c,cl);
+        c.startActivity(i);
     }
 
 }
