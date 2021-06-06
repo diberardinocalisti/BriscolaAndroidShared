@@ -2,13 +2,12 @@ package Login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -47,18 +46,17 @@ public class LoginActivity extends AppCompatActivity {
             l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-                    i.setText("User ID: " + loginResult.getAccessToken().getUserId() + "\n" + "Auth Token: " + loginResult.getAccessToken().getToken());
-                    logIn();
+                    loginMsg("Login effettuato con successo!");
                 }
 
                 @Override
                 public void onCancel() {
-                    i.setText("Login attempt canceled.");
+                    loginMsg("Ops... qualcosa è andato storto!");
                 }
 
                 @Override
                 public void onError(FacebookException e) {
-                    i.setText("Login attempt failed.");
+                    loginMsg("Ops... qualcosa è andato storto!");
                 }
             });
         }else{
@@ -72,6 +70,14 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode , resultCode , data);
 
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    void loginMsg(CharSequence msg)
+    {
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
+        Toast.makeText(getBaseContext(),msg,Toast.LENGTH_LONG).show();
     }
 
     void logIn(){
