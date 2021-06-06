@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import static gameEngine.Game.*;
+import static gameEngine.Game.carte;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
@@ -95,12 +96,10 @@ public class Engine{
         p.toccaA();
     }
 
-    static void terminaManche(Giocatore vincitore) throws InterruptedException {
+    static void terminaManche(Giocatore vincitore) {
         Game.canPlay = false;
 
         // @// TODO: 06/06/2021 ad ora non è possibile modificare dei bottoni se il thread non è quello padre perciò rimuovo temporaneamente la sleep;
-        //Thread.sleep(1750);
-
         vincitore.mancheVinta();
         pulisciPianoGioco();
 
@@ -210,10 +209,25 @@ public class Engine{
 
         for(Integer i : I_CAMPO_GIOCO){
             Carta c = getCartaFromButton(carte[i]);
-            aTerra.add(c);
+
+            if(c != null)
+                aTerra.add(c);
         }
 
         return aTerra.toArray(new Carta[0]);
+    }
+
+    static Carta[] getCarteGiocatori(){
+        ArrayList<Carta> carte = new ArrayList<>();
+
+        for(Giocatore p : giocatori){
+            for(Carta c : p.carte){
+                if(c != null)
+                    carte.add(c);
+            }
+        }
+
+        return carte.toArray(carte.toArray(new Carta[0]));
     }
 
     static Carta getOtherCarta(Carta current){
@@ -236,7 +250,7 @@ public class Engine{
     public static Comparator<Carta> ordinaCarte = Comparator.comparingInt(c -> c.getValore());
 
     static boolean isTerminata(){
-        return getCarteATerra().length == 0;
+        return getCarteGiocatori().length == 0;
     }
 
     static boolean isLibero(Button b){
@@ -246,9 +260,6 @@ public class Engine{
     static Giocatore doLogic(Carta last, Carta first) {
         if(last != null && first == null)
             return null;
-
-        System.out.println("first " + first.getNome());
-        System.out.println("last " + last.getNome());
 
         Carta[] carte = {first, last};
         Carta comanda = first;

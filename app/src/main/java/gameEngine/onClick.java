@@ -13,7 +13,6 @@ import androidx.annotation.RequiresApi;
 import com.example.briscolav10.R;
 
 public class onClick implements View.OnClickListener {
-    // @todo adattare il vecchio algoritmo;
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
@@ -29,19 +28,17 @@ public class onClick implements View.OnClickListener {
         if(!Game.canPlay || terminata)
             return;
 
-        // @// TODO: 06/06/2021 problema in getOtherCarta, restituisce una carta diversa da quella che è effettivamente nel piano di gioco; 
-        Giocatore vincente = doLogic(carta, getOtherCarta(carta));
         giocante.lancia(carta);
+        Giocatore vincente = doLogic(carta, getOtherCarta(carta));
 
         if(vincente == null) {
             prossimoTurno(getOtherPlayer(giocante));
         }else{
             Giocatore finalVincente = vincente;
-            try {
-                terminaManche(finalVincente);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            System.out.println(vincente.getNome());
+
+            terminaManche(finalVincente);
+
         }
     }
 }

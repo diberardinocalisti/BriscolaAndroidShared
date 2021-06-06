@@ -124,7 +124,6 @@ public class Giocatore {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Carta pesca(Carta carta) {
         int index = this.prendi(carta);
-        this.carte[index].abilita();
         Game.mazzo.remove(this.carte[index]);
         return this.carte[index];
     }
@@ -134,11 +133,11 @@ public class Giocatore {
         for(Integer i : I_CAMPO_GIOCO){
             if(Game.carte[i] != null){
                 Carta c = getCartaFromButton(Game.carte[i]);
+                c.setButton(null);
                 prese.add(c);
                 punteggioCarte += c.getValore();
             }
         }
-
         ultimoVincitore = this;
     }
 
@@ -202,11 +201,7 @@ public class Giocatore {
         this.carte[indice] = daAggiungere;
         this.carte[indice].setPortatore(this);
         this.carte[indice].setButton(this.bottoni[indice]);
-
-        if(this.isCPU())
-            this.carte[indice].nascondi();
-        else
-            this.carte[indice].mostra();
+        this.carte[indice].abilita();
     }
 
     public Carta getAvailableCarta(){

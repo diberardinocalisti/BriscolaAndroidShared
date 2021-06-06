@@ -25,19 +25,17 @@ public class Carta {
     }
 
     public void abilita(){
-        enabled = true;
-        this.b.setBackground(this.getImage());
+        this.mostra();
         this.b.setEnabled(true);
     }
 
     public void disabilita(){
-        enabled = false;
         this.b.setBackground(null);
         this.b.setEnabled(false);
     }
 
     public boolean isEnabled(){
-        return enabled;
+        return this.b.isEnabled();
     }
 
     public String getNome() {

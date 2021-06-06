@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 
+import com.example.briscolav10.R;
+
 public class Utility {
 
     public static void createDialog(Context c, String title,String msg){
@@ -30,5 +32,4 @@ public class Utility {
         Intent i = new Intent(c,cl);
         c.startActivity(i);
     }
-
 }
