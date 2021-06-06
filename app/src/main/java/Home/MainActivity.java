@@ -18,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
         /*
         *   Collego i bottoni del file XML agli elementi dell'array
+        * prova
         **/
         for(int i = 0; i < button.length; i++){
             int index = i;
