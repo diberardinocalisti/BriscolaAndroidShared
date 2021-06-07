@@ -3,7 +3,6 @@ package multiplayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -32,8 +31,7 @@ public class MultiplayerActivity extends AppCompatActivity {
                     switch ((index+1))
                     {
                         case 1:
-                            String codice = engineMultiplayer.creaStanza();
-                            Toast.makeText(MultiplayerActivity.this,codice,Toast.LENGTH_LONG).show();
+                            engineMultiplayer.creaStanza(MultiplayerActivity.this);
                             break;
                         case 2:
                             //Unisciti ad una stanza

@@ -24,6 +24,7 @@ public class MainMenu extends AppCompatActivity {
         switch(tmp){
             case "1 VS CPU":
                 Intent intent = new Intent(main, ActivityGame.class);
+                intent.putExtra("multiplayer",false);
                 main.startActivity(intent);
                 break;
 

@@ -21,12 +21,16 @@ public class ActivityGame extends AppCompatActivity {
     ProfilePictureView imgP;
     ImageButton impostazioni;
     ActivityGame a;
+    public static boolean multiplayer = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campo_da_gioco);
+
+        Bundle extras = getIntent().getExtras();
+        multiplayer = extras.getBoolean("multiplayer");
 
         imgP = (ProfilePictureView) findViewById(R.id.friendProfilePicture);
 
