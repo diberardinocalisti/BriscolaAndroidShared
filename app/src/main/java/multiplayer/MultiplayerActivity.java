@@ -3,6 +3,7 @@ package multiplayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -31,7 +32,8 @@ public class MultiplayerActivity extends AppCompatActivity {
                     switch ((index+1))
                     {
                         case 1:
-                            //Crea stanza
+                            String codice = engineMultiplayer.creaStanza();
+                            Toast.makeText(MultiplayerActivity.this,codice,Toast.LENGTH_LONG).show();
                             break;
                         case 2:
                             //Unisciti ad una stanza
@@ -39,7 +41,6 @@ public class MultiplayerActivity extends AppCompatActivity {
                         case 3:
                             MultiplayerActivity.super.onBackPressed();
                             break;
-
                         case 4:
                             Utility.createDialog(MultiplayerActivity.this,"Come puoi giocare con i tuoi amici?","Giocare con i tuoi amici non è mai stato così semplice!\nCrea una tua stanza privata e fornisci al tuo amico il codice che ti viene mostrato, oppure entra in una stanza utilizzando il codice che ti ha fornito il tuo amico!");
                             break;
