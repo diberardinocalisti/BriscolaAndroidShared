@@ -11,6 +11,7 @@ import com.example.briscolav10.ActivityGame;
 
 import Login.LoginActivity;
 import gameEngine.Utility;
+import multiplayer.MultiplayerActivity;
 
 
 public class MainMenu extends AppCompatActivity {
@@ -26,6 +27,11 @@ public class MainMenu extends AppCompatActivity {
                 main.startActivity(intent);
                 break;
 
+            case "MULTIPLAYER":
+                Intent i = new Intent(main, MultiplayerActivity.class);
+                main.startActivity(i);
+                break;
+
             case "Come si gioca?":
                 String title = "Come si gioca?";
                 String msg = "Per giocare a Briscola si utilizza un mazzo di 40 carte diviso in 4 semi, ciascuno di 10 carte.\nNel mazzo vi sono un totale di 120 punti, pertanto vincerà il round chi ne realizza almeno 61. \nSe i punti sono 60 il round è considerato pari.\n\nDi seguito i punteggi:\nAsso: 11 punti;\nTre: 10 punti;\nRe: 4 punti;\nCavallo: 3 punti;\nFante: 2 punti;\n\nBUON DIVERTIMENTO!";
@@ -39,8 +45,8 @@ public class MainMenu extends AppCompatActivity {
                 break;
 
             case "Il mio profilo":
-                Intent i = new Intent(main, LoginActivity.class);
-                main.startActivity(i);
+                Intent in = new Intent(main, LoginActivity.class);
+                main.startActivity(in);
                 //Toast.makeText(main,"prova",Toast.LENGTH_SHORT).show();
                 break;
         }

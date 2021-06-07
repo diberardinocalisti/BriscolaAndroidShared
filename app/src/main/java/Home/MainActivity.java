@@ -10,14 +10,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.R;
-import com.facebook.Profile;
-import com.facebook.login.widget.ProfilePictureView;
 
 import Login.loginClass;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button button[] = new Button[4];
+    Button button[] = new Button[5];
     ImageButton rank;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
