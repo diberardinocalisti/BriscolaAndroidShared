@@ -278,6 +278,9 @@ public class Engine{
         Carta max = null;
 
         for(int i = 0; i < array.length; i++){
+            if(array[i] == null)
+                continue;
+
             if(max == null){
                 max = array[i];
                 continue;
@@ -299,6 +302,9 @@ public class Engine{
         Carta min = null;
 
         for(int i = 0; i < array.length; i++) {
+            if(array[i] == null)
+                continue;
+
             if (min == null) {
                 min = array[i];
                 continue;
@@ -314,5 +320,17 @@ public class Engine{
         }
 
         return min;
+    }
+
+    public static Carta[] getCarteGiocate(){
+        ArrayList<Carta> carteGiocate = new ArrayList();
+
+        for(Integer i : I_CAMPO_GIOCO){
+            Carta c = getCartaFromButton(Game.carte[i]);
+            if(c != null)
+                carteGiocate.add(c);
+        }
+
+        return carteGiocate.toArray(new Carta[0]);
     }
 }

@@ -125,7 +125,7 @@ public class Giocatore {
     public Carta pesca(Carta carta) {
         int index = this.prendi(carta);
         Game.mazzo.remove(this.carte[index]);
-        return this.carte[index];
+        return carta;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
