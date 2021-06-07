@@ -47,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
                     loginMsg("Login effettuato con successo!");
-                    System.out.println("prova");
                 }
 
                 @Override
