@@ -4,41 +4,64 @@ package gameEngine;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
+
+import static gameEngine.Game.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static gameEngine.Game.giocatori;
 
 public class Settings extends AppCompatActivity {
 
 
+    private boolean checked = false;
+
     public void createSettingsMenu(Context c)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
-        // Add the buttons
-                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                    }
-                });
-                builder.setNegativeButton("Esci", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
-        // Set other dialog properties
-        View mView = getLayoutInflater().inflate(R.layout.spinner_tipo_carte,null);
-        Spinner tipoCarte = (Spinner) mView.findViewById(R.id.spinner);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item,getResources().getStringArray(R.array.tipoCarte));
+        // Set other dialog properties
+        LayoutInflater inflater = (LayoutInflater) c.getSystemService( c.LAYOUT_INFLATER_SERVICE );
+
+        View tipoCarteView = inflater.inflate( R.layout.spinner_tipo_carte, null );
+
+        Spinner tipoCarte = (Spinner) tipoCarteView.findViewById(R.id.spinner);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item,c.getResources().getStringArray(R.array.tipoCarte));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tipoCarte.setAdapter(adapter);
 
+        CheckBox carteScoperte = (CheckBox) tipoCarteView.findViewById(R.id.checkbox);
+
+        carteScoperte.setChecked(Game.carteScoperte);
+        builder.setPositiveButton("OK", (dialog, id) -> {
+            if(carteScoperte.isChecked()){
+                Game.carteScoperte = true;
+                Game.CPU.scopriCarte();
+            }else{
+                Game.carteScoperte = false;
+                Game.CPU.copriCarte();
+            }
+        });
+
+        builder.setNegativeButton("ANNULLA", null);
+        builder.setView(tipoCarteView);
+
         // Create the AlertDialog
-        builder.setView(mView);
         AlertDialog dialog = builder.create();
         dialog.show();
     }

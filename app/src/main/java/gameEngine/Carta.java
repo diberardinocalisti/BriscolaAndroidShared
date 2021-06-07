@@ -106,7 +106,7 @@ public class Carta {
     }
 
     public void nascondi() {
-        if(Game.carteScoperte && this.getPortatore() != null)
+        if(Game.carteScoperte)
             return;
 
         nascondi(this.b);

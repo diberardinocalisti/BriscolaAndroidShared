@@ -6,6 +6,7 @@ import static gameEngine.Game.*;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Build;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import androidx.annotation.RequiresApi;
@@ -35,10 +36,8 @@ public class onClick implements View.OnClickListener {
             prossimoTurno(getOtherPlayer(giocante));
         }else{
             Giocatore finalVincente = vincente;
-            System.out.println(vincente.getNome());
-
-            terminaManche(finalVincente);
-
+            canPlay = false;
+            new Handler().postDelayed(() -> terminaManche(finalVincente), 1750);
         }
     }
 }

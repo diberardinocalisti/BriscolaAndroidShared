@@ -20,6 +20,7 @@ public class Game {
     public static final Integer[] I_CAMPO_GIOCO = new Integer[] {8,9};
 
     protected static Giocatore[] giocatori;
+    protected static CPU CPU;
 
     // Tutte le carte presenti nel campo di gioco;
     protected static Button[] carte;
@@ -44,6 +45,7 @@ public class Game {
         terminata = false;
         giocante = null;
         ultimoVincitore = null;
+        CPU = null;
         canPlay = true;
         lastManche = false;
         terminata = false;

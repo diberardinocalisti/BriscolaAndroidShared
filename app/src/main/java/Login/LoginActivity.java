@@ -43,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
             i = (TextView)findViewById(R.id.info);
             l = (LoginButton)findViewById(R.id.login_button);
 
+            //@TODO gestire il logout da facebook
             l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {

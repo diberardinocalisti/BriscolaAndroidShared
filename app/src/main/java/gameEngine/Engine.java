@@ -99,7 +99,6 @@ public class Engine{
     static void terminaManche(Giocatore vincitore) {
         Game.canPlay = false;
 
-        // @// TODO: 06/06/2021 ad ora non è possibile modificare dei bottoni se il thread non è quello padre perciò rimuovo temporaneamente la sleep;
         vincitore.mancheVinta();
         pulisciPianoGioco();
 
