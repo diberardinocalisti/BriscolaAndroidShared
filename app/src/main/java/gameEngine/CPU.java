@@ -21,17 +21,15 @@ public class CPU extends Giocatore {
     }
 
     public void scopriCarte(){
-        for(Carta c : carte){
+        for(Carta c : carte)
             if(c != null)
                 c.mostra();
-        }
     }
 
     public void copriCarte(){
-        for(Carta c : carte){
+        for(Carta c : carte)
             if(c != null)
                 c.nascondi();
-        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -50,7 +48,7 @@ public class CPU extends Giocatore {
 
         Game.canPlay = true;
 
-        Carta[] sulTavolo = getCarteGiocate();
+        Carta[] sulTavolo = Engine.getCarteGiocate();
         Carta[] mieCarte = this.carte;
 
         // LA CARTA CON PUNTEGGIO PIU' BASSO;
@@ -62,12 +60,12 @@ public class CPU extends Giocatore {
         // LA PRIMA MOSSA SPETTA AL PC;
         if(sulTavolo.length == 0){
             /**
-             *  Nota: minBriscEsc esclude le briscole mentre ciò non accade invece per minPunti, per cui minBriscEsc viene
-             *  giocata solo nel caso in cui valga zero oppure nel caso in cui abbia un valore maggiore di 0 ma nel mazzo
-             *  non ci sia nessun'altra carta (briscole comprese) che valga zero.
-             *  Questo serve ad evitare che il giocatore alla prima mano giochi un carico nonostante abbia nel mazzo una
-             *  briscola con valore 0;
-             **/
+            *  Nota: minBriscEsc esclude le briscole mentre ciò non accade invece per minPunti, per cui minBriscEsc viene
+            *  giocata solo nel caso in cui valga zero oppure nel caso in cui abbia un valore maggiore di 0 ma nel mazzo
+            *  non ci sia nessun'altra carta (briscole comprese) che valga zero.
+            *  Questo serve ad evitare che il giocatore alla prima mano giochi un carico nonostante abbia nel mazzo una
+            *  briscola con valore 0;
+            **/
             if(minBriscEsc.getValore() > 0){
                 if(minPunti.getValore() == 0)
                     return minPunti;
@@ -78,20 +76,48 @@ public class CPU extends Giocatore {
             }
         }
 
-        Carta cartaSulTavolo = (Carta) sulTavolo[0];
+        Carta cartaSulTavolo = sulTavolo[0];
 
         // ARRAY CONTENENTE LE CARTE DEL MAZZO CHE SUPERANO QUELLA AVVERSARIA;
-        Carta[] superano = getSuperano((Carta) sulTavolo[0]);
-
-        /** Se nessuna delle carte supera quella avversaria, lancia quella più bassa tra quelle possedute; */
-        if(superano.length == 0)
-            return minBriscEsc;
+        Carta[] superano = getSuperano(cartaSulTavolo);
 
         // LA CARTA PIU' BASSA DEL MAZZO (TRA QUELLE CHE SUPERANO LA CARTA AVVERSARIA), ESCLUDENDO LE BRISCOLE SE PRESENTI;
         Carta minSupera = Engine.getMin(nonBriscole(superano));
 
         // LA CARTA PIU' ALTA DEL MAZZO (TRA QUELLE CHE SUPERANO LA CARTA AVVERSARIA), ESCLUDENDO LE BRISCOLE SE PRESENTI;
         Carta maxSupera = Engine.getMax(nonBriscole(superano));
+
+        // LA CARTA PIU' ALTA DEL MAZZO, SENZA ESCLUDERE LE BRISCOLE;
+        Carta maxSuperaBrisc = Engine.getMax(superano);
+
+        /** Se nessuna delle carte supera quella avversaria */
+        if(superano.length == 0){
+            /**
+             * Se, escludendo le briscole, la carta più bassa del proprio mazzo ha valore maggiore di zero, la lancia
+             * solo nel caso in cui non abbia una briscola con valore 0 da poter giocare;
+             **/
+            if(minBriscEsc.getValore() > 0){
+                if(minPunti.getValore() == 0){
+                    return minPunti;
+                }else{
+                    return minBriscEsc;
+                }
+            }else{
+                return minBriscEsc;
+            }
+        }
+
+        /**
+         * Se la somma della carta massima e la carta avveraria più il punteggio attuale
+         * garantisce la vittoria al giocatore, gioca la stessa (solo nel caso in cui la carta stessa
+         * supera quella avversaria);
+         */
+        if(maxSuperaBrisc.supera(cartaSulTavolo)){
+            Integer sommaCarte = maxSuperaBrisc.getValore() + cartaSulTavolo.getValore();
+
+            if(sommaCarte + this.punteggioCarte > Game.maxPunti / 2)
+                return maxSuperaBrisc;
+        }
 
         // L'AVVERSARIO HA GIOCATO UN "LISCIO";
         if(cartaSulTavolo.getValore() == 0){
@@ -106,8 +132,8 @@ public class CPU extends Giocatore {
                 }else{
                     return minSupera;
                 }
-            }else if(!minSupera.isBriscola()){
-                return minSupera;
+            }else if(!maxSupera.isBriscola()){
+                return maxSupera;
             }else{
                 return minBriscEsc;
             }

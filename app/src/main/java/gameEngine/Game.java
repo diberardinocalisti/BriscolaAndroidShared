@@ -10,10 +10,9 @@ import java.util.ArrayList;
 
 public class Game {
     public static AppCompatActivity activity;
-    public static final Integer nGiocatori = 2, nCarte = 3;
+    public static final Integer nGiocatori = 2, nCarte = 3, maxPunti = 120, scoreLimit = 3;
     public static final String[] semi = {"bastoni", "denara", "spade", "coppe"};
     public static boolean carteScoperte = false;
-    public static Integer scoreLimit = 3;
     public static Carta briscola;
 
     public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;

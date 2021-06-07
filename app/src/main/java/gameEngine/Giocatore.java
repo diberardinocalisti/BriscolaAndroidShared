@@ -45,7 +45,8 @@ public class Giocatore {
 
     protected Integer index;
 
-    protected Button icon;
+    // Icona che mostra il punteggio del giocatore;
+    protected Button iconaPunteggio;
 
     public Giocatore(String nome, Integer index){
         this(nome, index, false);
@@ -65,7 +66,7 @@ public class Giocatore {
 
         String idS = "button" + (this.index + 1 + 10);
         int id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
-        this.icon = (Button) activity.findViewById(id);
+        this.iconaPunteggio = (Button) activity.findViewById(id);
     }
 
     public String getNome() {
@@ -147,7 +148,7 @@ public class Giocatore {
                 punteggioCarte += c.getValore();
             }
         }
-        this.icon.setText(punteggioCarte.toString());
+        this.iconaPunteggio.setText(punteggioCarte.toString());
         ultimoVincitore = this;
     }
 
