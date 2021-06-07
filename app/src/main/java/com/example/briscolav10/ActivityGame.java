@@ -41,12 +41,9 @@ public class ActivityGame extends AppCompatActivity {
             setImgProfile(imgP);
         }
 
-        impostazioni.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Settings s = new Settings();
-                s.createSettingsMenu(ActivityGame.this);
-            }
+        impostazioni.setOnClickListener(v -> {
+            Settings s = new Settings();
+            s.createSettingsMenu(ActivityGame.this);
         });
 
         Game.startGame(this);
