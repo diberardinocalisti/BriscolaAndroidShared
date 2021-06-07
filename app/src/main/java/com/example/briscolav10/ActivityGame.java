@@ -40,9 +40,6 @@ public class ActivityGame extends AppCompatActivity {
         {
             imgP.setVisibility(View.VISIBLE);
             setImgProfile(imgP);
-        }else
-        {
-            imgP.setVisibility(View.INVISIBLE);
         }
 
         impostazioni.setOnClickListener(new View.OnClickListener() {
