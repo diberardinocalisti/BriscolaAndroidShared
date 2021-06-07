@@ -74,7 +74,7 @@ public class Giocatore {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void mostraMazzo(){
+    public void mostraMazzo() {
         final Integer daMostrare = 3;
 
         ArrayList<Carta> carte = prese;
@@ -82,11 +82,13 @@ public class Giocatore {
         Collections.reverse(carte);
 
         //@// TODO: 04/06/2021 Mostrare le 3 carte più alte del mazzo a fine partita;
-        //if(carte.size() <= daMostrare)
-            //this.pMazzo.remove(this.mazzo);
 
-        //for(int i = 0; i < daMostrare && i < carte.size(); i++)
-            //this.pTavolo.add(carte.get(i));
+        for(int i = 0; i < daMostrare && i < carte.size(); i++){
+            Carta c = carte.get(i);
+            this.carte[i] = c;
+            this.carte[i].setButton(this.bottoni[i]);
+            this.carte[i].mostra();
+        }
     }
 
     public void svuotaMazzo(){

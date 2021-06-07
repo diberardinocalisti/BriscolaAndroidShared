@@ -144,7 +144,7 @@ public class Engine{
     }
 
     static void terminaRound(Giocatore vincitore){
-        String titolo = vincitore == null ? "Pareggio!" : vincitore.getNome() + " ha vinto il round (" + vincitore.getPunteggioCarte() + ")!";
+        String titolo = vincitore == null ? "Pareggio!" : vincitore.getNome() + " ha vinto il round! (" + vincitore.getPunteggioCarte() + ")";
         String sottotitolo = "Premi OK per un altro round!";
         Utility.confirmDialog(activity, titolo, sottotitolo, (dialog, which) -> iniziaRound(), dialog -> iniziaRound());
     }

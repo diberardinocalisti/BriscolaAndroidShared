@@ -35,6 +35,24 @@
 
             </ImageButton>
 
+            <com.facebook.login.widget.ProfilePictureView
+                android:id="@+id/friendProfilePicture"
+                android:layout_width="50dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="345dp"
+                android:layout_marginRight="345dp"
+                android:layout_marginBottom="663dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </com.facebook.login.widget.ProfilePictureView>
+
             <Button
                 android:id="@+id/button1"
                 android:layout_width="73dp"
@@ -84,17 +102,22 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.facebook.login.widget.ProfilePictureView
-                android:id="@+id/friendProfilePicture"
+                android:id="@+id/friendProfilePicture2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginTop="600dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="666dp"
+                android:layout_marginEnd="330dp"
+                android:layout_marginRight="330dp"
+                android:layout_marginBottom="3dp"
+                android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.045"
+                app:layout_constraintHorizontal_bias="0.044"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.791"
-                />
+                app:layout_constraintVertical_bias="0.802" />
 
             <Button
                 android:id="@+id/button4"
@@ -160,6 +183,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+
             <Button
                 android:id="@+id/button8"
                 android:layout_width="73dp"
@@ -207,6 +231,44 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/button11"
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:layout_marginStart="51dp"
+                android:layout_marginLeft="51dp"
+                android:layout_marginTop="660dp"
+                android:layout_marginEnd="331dp"
+                android:layout_marginRight="331dp"
+                android:layout_marginBottom="42dp"
+                android:background="@drawable/round_button"
+                android:gravity="center"
+                android:text="12"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </Button>
+
+            <Button
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="60dp"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="326dp"
+                android:layout_marginRight="326dp"
+                android:layout_marginBottom="694dp"
+                android:background="@drawable/round_button"
+                android:text="12"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </Button>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
