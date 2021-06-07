@@ -26,12 +26,7 @@ public class engineMultiplayer extends AppCompatActivity {
         for (int i = 0; i < len; i++)
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
 
-        DialogInterface.OnClickListener action = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                accediAllaStanza(c);
-            }
-        };
+        DialogInterface.OnClickListener action = (dialog, which) -> accediAllaStanza(c);
 
         Utility.confirmDialog(c,"Il codice della tua stanza",sb.toString(),action,null);
     }
