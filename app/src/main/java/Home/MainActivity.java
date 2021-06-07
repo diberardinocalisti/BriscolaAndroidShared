@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
             int id = getResources().getIdentifier(idS, "id", getPackageName());
 
             button[index] = findViewById(id);
-
             button[index].setOnClickListener(v -> new MainMenu().startGame(button[index], this));
         }
 
