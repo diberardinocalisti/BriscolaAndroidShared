@@ -64,6 +64,9 @@ public class Carta {
 
     public void setButton(Button b){
         this.b = b;
+
+        if(this.b != null)
+            this.b.setAlpha(1);
     }
 
     public Button getButton(){

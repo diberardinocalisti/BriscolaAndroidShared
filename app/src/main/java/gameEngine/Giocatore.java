@@ -13,6 +13,7 @@ import static gameEngine.Engine.isLibero;
 import static gameEngine.Engine.pulisciPianoLaterale;
 import static gameEngine.Game.I_BRISCOLA;
 import static gameEngine.Game.I_CAMPO_GIOCO;
+import static gameEngine.Game.activity;
 import static gameEngine.Game.briscola;
 import static gameEngine.Game.carte;
 import static gameEngine.Game.carteBottoni;
@@ -44,6 +45,8 @@ public class Giocatore {
 
     protected Integer index;
 
+    protected Button icon;
+
     public Giocatore(String nome, Integer index){
         this(nome, index, false);
     }
@@ -59,6 +62,10 @@ public class Giocatore {
         for(int i = this.index * nCarte, j = 0; j < nCarte; j++, i++){
             this.bottoni[j] = carteBottoni[i];
         }
+
+        String idS = "button" + (this.index + 1 + 10);
+        int id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
+        this.icon = (Button) activity.findViewById(id);
     }
 
     public String getNome() {
@@ -140,6 +147,7 @@ public class Giocatore {
                 punteggioCarte += c.getValore();
             }
         }
+        this.icon.setText(punteggioCarte.toString());
         ultimoVincitore = this;
     }
 

@@ -270,6 +270,11 @@ public class Engine{
 
         Carta c_vincente = first.getSeme() == last.getSeme() ? getMax(carte) : comanda;
 
+        if(c_vincente != null){
+            Carta c_perdente = first == c_vincente ? last : first;
+            c_perdente.getButton().setAlpha(0.5f);
+        }
+        
         //c_vincente.setBorderPainted(true);
         return c_vincente.getPortatore();
     }
