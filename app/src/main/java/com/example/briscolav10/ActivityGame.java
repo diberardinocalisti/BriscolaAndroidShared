@@ -1,5 +1,6 @@
 package com.example.briscolav10;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.ImageButton;
@@ -18,6 +19,7 @@ import com.google.firebase.database.annotations.NotNull;
 import firebase.FirebaseClass;
 import gameEngine.Game;
 import gameEngine.Settings;
+import multiplayer.Game.ActivityMultiplayerGame;
 
 import static Login.loginClass.isFacebookLoggedIn;
 import static Login.loginClass.setImgProfile;
@@ -65,16 +67,24 @@ public class ActivityGame extends AppCompatActivity {
             setContentView(R.layout.stanza_di_attesa);
             attesa = true;
 
-            FirebaseClass.getFbRefSpeicific(codiceStanza).addListenerForSingleValueEvent(new ValueEventListener() {
+            FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
                     for(DataSnapshot d : dataSnapshot.getChildren())
                     {
-                        System.out.println("Cambiato!");
-                        if(d.child("enemy").exists())
+                        String key = d.getKey();
+                        Object value = d.getValue();
+
+                        if(key.equals("enemy"))
                         {
-                            System.out.println("Value --> " + d.child("enemy").getValue().toString());
+                            //è entrato l'avverrsario nella stanza
+                            if(value != "null")
+                            {
+                                Intent i = new Intent(ActivityGame.this,ActivityMultiplayerGame.class);
+                                ActivityGame.this.startActivity(i);
+                                Toast.makeText(getBaseContext(),value + " si è unito alla partita!",Toast.LENGTH_LONG).show();
+                            }
                         }else
                             System.out.println("NULL");
                     }

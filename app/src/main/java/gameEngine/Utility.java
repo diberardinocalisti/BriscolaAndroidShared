@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 
 import firebase.FirebaseClass;
+import multiplayer.Game.ActivityMultiplayerGame;
 import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
 
@@ -62,7 +63,10 @@ public class Utility {
                             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
                                 if(dataSnapshot.exists())
+                                {
                                     FirebaseClass.editFieldFirebase(input.getText().toString());
+                                    goTo(c, ActivityMultiplayerGame.class);
+                                }
                                 else
                                 {
                                     goTo(c, MultiplayerActivity.class);
