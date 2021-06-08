@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,13 +27,15 @@ import static Login.loginClass.setImgProfile;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class ActivityGame extends AppCompatActivity {
+    private final int STANZA_ATTESA_ID = 1300113;
 
     ProfilePictureView imgP;
     ImageButton impostazioni;
     ActivityGame a;
-    public static boolean multiplayer = false;
-    public static boolean attesa = false;
-    private static final int STANZA_ATTESA_ID = 1300113;
+
+    public boolean multiplayer = false;
+    public boolean attesa = false;
+    private String codice_stanza;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -48,7 +51,7 @@ public class ActivityGame extends AppCompatActivity {
             multiplayer = false;
             attesa = false;
 
-            imgP = findViewById(R.id.friendProfilePictureUSER);
+            imgP = findViewById(R.id.friendProfilePicture2);
             impostazioni = findViewById(R.id.impostazioni);
 
             if(isFacebookLoggedIn())
@@ -66,6 +69,8 @@ public class ActivityGame extends AppCompatActivity {
         {
             setContentView(R.layout.stanza_di_attesa);
             attesa = true;
+            codice_stanza = extras.getString("codice");
+            ((TextView) findViewById(R.id.codice)).setText("Codice: " + codice_stanza);
 
             FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
                 @Override

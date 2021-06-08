@@ -86,7 +86,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.facebook.login.widget.ProfilePictureView
-                android:id="@+id/friendProfilePictureUSER"
+                android:id="@+id/friendProfilePicture2"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="13dp"

@@ -25,25 +25,20 @@ public class MultiplayerActivity extends AppCompatActivity {
             int id = getResources().getIdentifier(idS, "id", getPackageName());
 
             button[index] = findViewById(id);
-            button[index].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    switch ((index+1))
-                    {
-                        case 1:
-                            engineMultiplayer.creaStanza(MultiplayerActivity.this);
-                            break;
-                        case 2:
-                            Utility.createInputDialogMultiplayer(MultiplayerActivity.this);
-                            break;
-                        case 3:
-                            MultiplayerActivity.super.onBackPressed();
-                            break;
-                        case 4:
-                            Utility.createDialog(MultiplayerActivity.this,"Come puoi giocare con i tuoi amici?","Giocare con i tuoi amici non è mai stato così semplice!\nCrea una tua stanza privata e fornisci al tuo amico il codice che ti viene mostrato, oppure entra in una stanza utilizzando il codice che ti ha fornito il tuo amico!");
-                            break;
-                    }
-
+            button[index].setOnClickListener(v -> {
+                switch ((index+1)){
+                    case 1:
+                        engineMultiplayer.creaStanza(MultiplayerActivity.this);
+                        break;
+                    case 2:
+                        Utility.createInputDialogMultiplayer(MultiplayerActivity.this);
+                        break;
+                    case 3:
+                        MultiplayerActivity.super.onBackPressed();
+                        break;
+                    case 4:
+                        Utility.createDialog(MultiplayerActivity.this,"Come sfidare i tuoi amici","Giocare con i tuoi amici non è mai stato così semplice!\nCrea una tua stanza privata e fornisci al tuo amico il codice che ti viene mostrato oppure entra in una stanza utilizzando il codice che ti ha fornito il tuo amico!");
+                        break;
                 }
             });
         }

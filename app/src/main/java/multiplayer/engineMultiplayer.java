@@ -26,14 +26,12 @@ public class engineMultiplayer extends AppCompatActivity {
         String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Random rnd = new Random();
         StringBuilder sb = new StringBuilder(len);
+
         for (int i = 0; i < len; i++)
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
 
         codiceStanza = sb.toString();
-
-        DialogInterface.OnClickListener action = (dialog, which) -> accediAllaStanza(c, sb.toString());
-
-        Utility.confirmDialog(c,"Il codice della tua stanza",sb.toString(),action,null);
+        accediAllaStanza(c, sb.toString());
     }
 
     public static void accediAllaStanza(Context c,String gameCode)
@@ -42,9 +40,8 @@ public class engineMultiplayer extends AppCompatActivity {
         FirebaseClass.addToFirebase(g);
 
         Intent i = new Intent(c, ActivityGame.class);
+        i.putExtra("codice", gameCode);
         i.putExtra("multiplayer",true);
         c.startActivity(i);
     }
-
-
 }
