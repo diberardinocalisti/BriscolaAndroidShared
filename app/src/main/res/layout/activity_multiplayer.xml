@@ -20,7 +20,7 @@
             android:layout_height="193dp"
             android:layout_marginStart="113dp"
             android:layout_marginLeft="113dp"
-            android:layout_marginTop="57dp"
+            android:layout_marginTop="90dp"
             android:layout_marginEnd="114dp"
             android:layout_marginRight="114dp"
             android:layout_marginBottom="481dp"
@@ -28,7 +28,25 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo"/>
+            app:srcCompat="@drawable/logo" />
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="170dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="120dp"
+            android:layout_marginLeft="120dp"
+            android:layout_marginTop="320dp"
+            android:layout_marginEnd="121dp"
+            android:layout_marginRight="121dp"
+            android:layout_marginBottom="424dp"
+            android:alpha="0.85"
+            android:background="@drawable/yellow_button"
+            android:text="Crea una stanza"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button2"
@@ -36,7 +54,7 @@
             android:layout_height="44dp"
             android:layout_marginStart="120dp"
             android:layout_marginLeft="120dp"
-            android:layout_marginTop="390dp"
+            android:layout_marginTop="420dp"
             android:layout_marginEnd="121dp"
             android:layout_marginRight="121dp"
             android:layout_marginBottom="424dp"
@@ -50,31 +68,12 @@
 
 
         <Button
-            android:id="@+id/button1"
-            android:layout_width="170dp"
-            android:layout_height="44dp"
-            android:layout_marginStart="120dp"
-            android:layout_marginLeft="120dp"
-            android:layout_marginTop="290dp"
-            android:layout_marginEnd="121dp"
-            android:layout_marginRight="121dp"
-            android:layout_marginBottom="424dp"
-            android:alpha="0.85"
-            android:background="@drawable/yellow_button"
-            android:text="Crea una stanza"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <Button
             android:id="@+id/button3"
             android:layout_width="170dp"
             android:layout_height="44dp"
             android:layout_marginStart="120dp"
             android:layout_marginLeft="120dp"
-            android:layout_marginTop="490dp"
+            android:layout_marginTop="420dp"
             android:layout_marginEnd="121dp"
             android:layout_marginRight="121dp"
             android:layout_marginBottom="321dp"
@@ -84,7 +83,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button4"

@@ -203,28 +203,13 @@ public class Engine{
         return null;
     }
 
-    static Carta[] getCarteATerra(){
-        ArrayList<Carta> aTerra = new ArrayList<>();
-
-        for(Integer i : I_CAMPO_GIOCO){
-            Carta c = getCartaFromButton(carte[i]);
-
-            if(c != null)
-                aTerra.add(c);
-        }
-
-        return aTerra.toArray(new Carta[0]);
-    }
-
     static Carta[] getCarteGiocatori(){
         ArrayList<Carta> carte = new ArrayList<>();
 
-        for(Giocatore p : giocatori){
-            for(Carta c : p.carte){
+        for(Giocatore p : giocatori)
+            for(Carta c : p.carte)
                 if(c != null)
                     carte.add(c);
-            }
-        }
 
         return carte.toArray(carte.toArray(new Carta[0]));
     }
@@ -275,7 +260,6 @@ public class Engine{
             c_perdente.getButton().setAlpha(0.5f);
         }
         
-        //c_vincente.setBorderPainted(true);
         return c_vincente.getPortatore();
     }
 

@@ -104,6 +104,7 @@ public class Giocatore {
             carte[i] = null;
 
         this.punteggioCarte = 0;
+        this.aggiornaIconaCarte();
         this.prese.clear();
     }
 
@@ -113,6 +114,10 @@ public class Giocatore {
 
     public void aggiornaPunteggio(){
         this.score++;
+    }
+
+    public void aggiornaIconaCarte(){
+        this.iconaPunteggio.setText(this.punteggioCarte.toString());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -148,7 +153,9 @@ public class Giocatore {
                 punteggioCarte += c.getValore();
             }
         }
-        this.iconaPunteggio.setText(punteggioCarte.toString());
+
+        this.aggiornaIconaCarte();
+
         ultimoVincitore = this;
     }
 
