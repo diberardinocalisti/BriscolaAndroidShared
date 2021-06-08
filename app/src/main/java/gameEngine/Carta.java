@@ -100,6 +100,18 @@ public class Carta {
         return this.getSeme() == Game.briscola.getSeme();
     }
 
+    public boolean isCarico(){
+        return this.valore >= 10;
+    }
+
+    public boolean isLiscio(){
+        return this.valore == 0;
+    }
+
+    public boolean isPunti(){
+        return !isLiscio() && !isCarico();
+    }
+
     public void mostra(){
         this.b.setBackground(this.getImage());
     }

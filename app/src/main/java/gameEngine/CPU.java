@@ -44,12 +44,13 @@ public class CPU extends Giocatore {
     // METODO CHE RESTITUISCE LA MIGLIOR CARTA DA GIOCARE;
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Carta scegli(){
-        final Integer FANTE = 2, CAVALIERE = 3, RE = 4, TRE = 10, ASSO = 11;
-
         Game.canPlay = true;
 
         Carta[] sulTavolo = Engine.getCarteGiocate();
         Carta[] mieCarte = this.carte;
+
+        // ARRAY CONTENENTE LE CARTE DEL MAZZO CHE SUPERANO QUELLA AVVERSARIA;
+        Carta[] superano = getSuperano(sulTavolo);
 
         // LA CARTA CON PUNTEGGIO PIU' BASSO;
         Carta minPunti = Engine.getMin(mieCarte);
@@ -57,29 +58,24 @@ public class CPU extends Giocatore {
         // LA CARTA CON PUNTEGGIO PIU' BASSO, ESCLUDENDO LE BRISCOLE;
         Carta minBriscEsc = Engine.getMin(nonBriscole());
 
-        // LA PRIMA MOSSA SPETTA AL PC;
-        if(sulTavolo.length == 0){
+        // LA BRISCOLA PIU' BASSA NEL MAZZO;
+        Carta minBrisc = Engine.getMin(briscole());
+
+        /** Se nessuna delle carte supera quella avversaria o se si sta facendo la prima mossa; */
+        if(superano.length == 0){
             /**
-            *  Nota: minBriscEsc esclude le briscole mentre ciò non accade invece per minPunti, per cui minBriscEsc viene
-            *  giocata solo nel caso in cui valga zero oppure nel caso in cui abbia un valore maggiore di 0 ma nel mazzo
-            *  non ci sia nessun'altra carta (briscole comprese) che valga zero.
-            *  Questo serve ad evitare che il giocatore alla prima mano giochi un carico nonostante abbia nel mazzo una
-            *  briscola con valore 0;
-            **/
-            if(minBriscEsc.getValore() > 0){
-                if(minPunti.getValore() == 0)
-                    return minPunti;
-                else
-                    return minBriscEsc;
+             * Se, escludendo le briscole, la carta più bassa del proprio mazzo è un carico, la lancia
+             * solo nel caso in cui non abbia una briscola non carico da lanciare;
+             **/
+
+            if(minBriscEsc.isCarico()){
+                return minBrisc.isCarico() ? minBriscEsc : minBrisc;
             }else{
                 return minBriscEsc;
             }
         }
 
         Carta cartaSulTavolo = sulTavolo[0];
-
-        // ARRAY CONTENENTE LE CARTE DEL MAZZO CHE SUPERANO QUELLA AVVERSARIA;
-        Carta[] superano = getSuperano(cartaSulTavolo);
 
         // LA CARTA PIU' BASSA DEL MAZZO (TRA QUELLE CHE SUPERANO LA CARTA AVVERSARIA), ESCLUDENDO LE BRISCOLE SE PRESENTI;
         Carta minSupera = Engine.getMin(nonBriscole(superano));
@@ -89,23 +85,6 @@ public class CPU extends Giocatore {
 
         // LA CARTA PIU' ALTA DEL MAZZO, SENZA ESCLUDERE LE BRISCOLE;
         Carta maxSuperaBrisc = Engine.getMax(superano);
-
-        /** Se nessuna delle carte supera quella avversaria */
-        if(superano.length == 0){
-            /**
-             * Se, escludendo le briscole, la carta più bassa del proprio mazzo ha valore maggiore di zero, la lancia
-             * solo nel caso in cui non abbia una briscola con valore 0 da poter giocare;
-             **/
-            if(minBriscEsc.getValore() > 0){
-                if(minPunti.getValore() == 0){
-                    return minPunti;
-                }else{
-                    return minBriscEsc;
-                }
-            }else{
-                return minBriscEsc;
-            }
-        }
 
         /**
          * Se la somma della carta massima e la carta avveraria più il punteggio attuale
@@ -119,23 +98,18 @@ public class CPU extends Giocatore {
                 return maxSuperaBrisc;
         }
 
-        // L'AVVERSARIO HA GIOCATO UN "LISCIO";
-        if(cartaSulTavolo.getValore() == 0){
+        if(cartaSulTavolo.isLiscio()){
             /**
-             Se si possede una carta briscola con valore 0 che supera la carta avversaria
-             la si gioca solo nel caso in cui non si abbia un liscio da poter lanciare,
-             altrimenti si gioca il liscio;
-             */
-            if(minSupera.isBriscola() && minSupera.getValore() == 0){
-                if(minBriscEsc.getValore() == 0) {
-                    return minBriscEsc;
-                }else{
-                    return minSupera;
-                }
+            Se la carta più bassa che supera quella avversaria è una briscola e non è un carico
+            la si gioca solo nel caso in cui non si abbia un non carico (non briscola)
+            da poter lanciare, altrimenti si gioca il non carico;
+            */
+            if(minSupera.isBriscola() && !minSupera.isCarico()){
+                return minBriscEsc.isCarico() ? minSupera : minBriscEsc;
             }else if(!maxSupera.isBriscola()){
                 return maxSupera;
             }else{
-                return minBriscEsc;
+                return minSupera;
             }
         }else{
             /**
@@ -145,10 +119,7 @@ public class CPU extends Giocatore {
              * il mazzo è formato da sole briscole e perciò l'avversario giocherà la più bassa tra queste; Se invece maxSupera non
              * è una briscola, allora l'avversario giocherà quest'ultima in modo da ottenere più punti possibili con una sola presa.
              **/
-            if(maxSupera.isBriscola())
-                return minSupera;
-            else
-                return maxSupera;
+            return maxSupera.isBriscola() ? minSupera : maxSupera;
         }
     }
 
@@ -172,12 +143,36 @@ public class CPU extends Giocatore {
             return nonBriscole.toArray(new Carta[0]);
     }
 
+    public Carta[] briscole(){
+        return briscole(this.carte);
+    }
+
+    public static Carta[] briscole(Carta[] carte){
+        ArrayList<Carta> briscole = new ArrayList<>();
+
+        for(Carta carta : carte)
+            if(carta != null)
+                if(carta.isBriscola())
+                    briscole.add(carta);
+
+        if(briscole.size() == 0)
+            return carte;
+        else
+            return briscole.toArray(new Carta[0]);
+    }
+
+    public Carta[] getSuperano(Carta[] daSuperare){
+        if(daSuperare.length == 0)
+            return new Carta[]{};
+
+        return getSuperano(daSuperare[0]);
+    }
     public Carta[] getSuperano(Carta daSuperare){
         return getSuperano(daSuperare, this.carte);
     }
 
     // METODO CHE RESTITUISCE UN ARRAY DI "CARTA" CONTENENTE LE CARTE CHE SONO PIU' ALTE DELLA CARTA PASSATA;
-    public Carta[] getSuperano(Carta daSuperare, Carta[] mazzo){
+    public static Carta[] getSuperano(Carta daSuperare, Carta[] mazzo){
         ArrayList<Carta> maggiori = new ArrayList<>();
 
         for(Carta carta : mazzo)
