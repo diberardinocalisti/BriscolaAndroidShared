@@ -86,7 +86,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.facebook.login.widget.ProfilePictureView
-                android:id="@+id/friendProfilePictureAvv"
+                android:id="@+id/friendProfilePictureUSER"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginEnd="13dp"
@@ -127,13 +127,14 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.facebook.login.widget.ProfilePictureView
-                android:id="@+id/friendProfilePicture2"
+                android:id="@+id/friendProfilePictureCPU"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="13dp"
                 android:layout_marginRight="13dp"
                 android:visibility="visible"
+                android:src="@drawable/ic_baseline_account_circle_24"
                 app:layout_constraintEnd_toStartOf="@+id/button1"
                 app:layout_constraintTop_toTopOf="parent">
 

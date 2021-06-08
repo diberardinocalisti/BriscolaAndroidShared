@@ -2,7 +2,6 @@ package com.example.briscolav10;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ImageButton;
 
 import androidx.annotation.RequiresApi;
@@ -32,7 +31,7 @@ public class ActivityGame extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         multiplayer = extras.getBoolean("multiplayer");
 
-        imgP = (ProfilePictureView) findViewById(R.id.friendProfilePicture2);
+        imgP = (ProfilePictureView) findViewById(R.id.friendProfilePictureUSER);
 
         impostazioni = (ImageButton) findViewById(R.id.impostazioni);
 
