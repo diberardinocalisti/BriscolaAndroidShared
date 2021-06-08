@@ -50,4 +50,11 @@ public class MultiplayerActivity extends AppCompatActivity {
 
     }
 
+    /*@Override
+    protected void onStop() {
+        super.onStop();
+
+        Toast.makeText(getApplicationContext(),"CHIUSA",Toast.LENGTH_LONG).show();
+    }*/
+
 }

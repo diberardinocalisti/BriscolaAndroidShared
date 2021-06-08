@@ -3,6 +3,7 @@ package Home;
 import android.content.Intent;
 import android.os.Build;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.briscolav10.ActivityGame;
 
 import Login.LoginActivity;
+import Login.loginClass;
 import gameEngine.Utility;
 import multiplayer.MultiplayerActivity;
 
@@ -29,8 +31,14 @@ public class MainMenu extends AppCompatActivity {
                 break;
 
             case "multiplayer":
-                Intent i = new Intent(main, MultiplayerActivity.class);
-                main.startActivity(i);
+                if(loginClass.isFacebookLoggedIn())
+                {
+                    Intent i = new Intent(main, MultiplayerActivity.class);
+                    main.startActivity(i);
+                }else
+                {
+                    Toast.makeText(main,"Accedi premendo il bottone \"Il mio profilo\" per iniziare a giocare con i tuoi amici!",Toast.LENGTH_LONG).show();
+                }
                 break;
 
             case "come si gioca?":
