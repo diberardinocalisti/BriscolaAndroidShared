@@ -89,13 +89,9 @@ public class Carta {
             if(this.getValore() > daSuperare.getValore()){
                 return true;
             }else if(this.getValore() == daSuperare.getValore()){
-                if(this.getNumero() > daSuperare.getNumero()){
-                    return true;
-                }
+                return this.getNumero() > daSuperare.getNumero();
             }
-        }else if(this.isBriscola()){
-            return true;
-        }
+        }else return this.isBriscola();
 
         return false;
     }

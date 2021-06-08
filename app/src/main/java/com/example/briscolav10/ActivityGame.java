@@ -31,9 +31,8 @@ public class ActivityGame extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         multiplayer = extras.getBoolean("multiplayer");
 
-        imgP = (ProfilePictureView) findViewById(R.id.friendProfilePictureUSER);
-
-        impostazioni = (ImageButton) findViewById(R.id.impostazioni);
+        imgP = findViewById(R.id.friendProfilePictureUSER);
+        impostazioni = findViewById(R.id.impostazioni);
 
         if(isFacebookLoggedIn())
         {

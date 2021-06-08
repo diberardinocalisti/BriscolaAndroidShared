@@ -6,28 +6,26 @@ import android.widget.Button;
 import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import static gameEngine.Engine.getCartaFromButton;
 import static gameEngine.Engine.isLibero;
 import static gameEngine.Engine.pulisciPianoLaterale;
-import static gameEngine.Game.I_BRISCOLA;
 import static gameEngine.Game.I_CAMPO_GIOCO;
 import static gameEngine.Game.activity;
 import static gameEngine.Game.briscola;
-import static gameEngine.Game.carte;
 import static gameEngine.Game.carteBottoni;
-import static gameEngine.Game.giocatori;
 import static gameEngine.Game.lastManche;
 import static gameEngine.Game.mazzo;
 import static gameEngine.Game.nCarte;
 import static gameEngine.Game.ultimoVincitore;
 
 public class Giocatore {
-    protected Button bottoni[];
+    protected Button[] bottoni;
 
     // Array contenente le carte che il giocatore ha in mano;
-    protected Carta carte[];
+    protected Carta[] carte;
 
     // ArrayList contenente le carte prese;
     protected ArrayList<Carta> prese;
@@ -83,7 +81,7 @@ public class Giocatore {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void mostraMazzo() {
-        final Integer daMostrare = 3;
+        final int daMostrare = 3;
 
         ArrayList<Carta> carte = prese;
         Collections.sort(carte, Engine.ordinaCarte);
@@ -100,8 +98,7 @@ public class Giocatore {
     }
 
     public void svuotaMazzo(){
-        for(int i = 0; i < carte.length; i++)
-            carte[i] = null;
+        Arrays.fill(carte, null);
 
         this.punteggioCarte = 0;
         this.aggiornaIconaCarte();
@@ -121,26 +118,23 @@ public class Giocatore {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public Carta pesca(){
+    public void pesca(){
         System.out.println(mazzo.size());
         if(Game.mazzo.size() == 0){
             if(!lastManche){
                 lastManche = true;
                 pulisciPianoLaterale();
-                return pesca(briscola);
+                pesca(briscola);
             }
         }else{
-            return pesca(Game.mazzo.get(0));
+            pesca(Game.mazzo.get(0));
         }
-
-        return null;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public Carta pesca(Carta carta) {
+    public void pesca(Carta carta) {
         int index = this.prendi(carta);
         Game.mazzo.remove(this.carte[index]);
-        return carta;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -191,7 +185,7 @@ public class Giocatore {
             if(carte[i] == null)
                 continue;
 
-            if (carte[i].getNome() == daRimuovere.getNome()) {
+            if(carte[i].getNome().equals(daRimuovere.getNome())) {
                 carte[i] = null;
                 return;
             }

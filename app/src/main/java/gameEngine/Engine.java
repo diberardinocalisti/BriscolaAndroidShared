@@ -6,12 +6,14 @@ import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 
+import com.facebook.login.Login;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import static gameEngine.Game.*;
-import static gameEngine.Game.carte;
+import static Login.loginClass.*;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
@@ -67,8 +69,17 @@ public class Engine{
 
     static void creaGiocatori(){
         for(int i = 0; i < giocatori.length; i++){
-            boolean CPU = i == 0 ? true : false;
-            giocatori[i] = CPU == false ? new Giocatore("Giocatore", i) : new CPU("CPU", i);
+            boolean CPU = i == 0;
+            if(!CPU){
+                String username = "Ospite";
+
+                if(isFacebookLoggedIn())
+                    username = getFBNome();
+
+                giocatori[i] = new Giocatore(username, i);
+            }else{
+                giocatori[i] = new CPU("CPU", i);
+            }
         }
     }
 
@@ -266,20 +277,20 @@ public class Engine{
     public static Carta getMax(Carta[] array) {
         Carta max = null;
 
-        for(int i = 0; i < array.length; i++){
-            if(array[i] == null)
+        for (Carta carta : array) {
+            if (carta == null)
                 continue;
 
-            if(max == null){
-                max = array[i];
+            if (max == null) {
+                max = carta;
                 continue;
             }
 
-            if(array[i].getValore() > max.getValore()) {
-                max = array[i];
-            }else if(array[i].getValore() == max.getValore()){
-                if(array[i].getNumero() > max.getNumero()){
-                    max = array[i];
+            if (carta.getValore() > max.getValore()) {
+                max = carta;
+            } else if (carta.getValore() == max.getValore()) {
+                if (carta.getNumero() > max.getNumero()) {
+                    max = carta;
                 }
             }
         }
@@ -290,20 +301,20 @@ public class Engine{
     public static Carta getMin(Carta[] array) {
         Carta min = null;
 
-        for(int i = 0; i < array.length; i++) {
-            if(array[i] == null)
+        for (Carta carta : array) {
+            if (carta == null)
                 continue;
 
             if (min == null) {
-                min = array[i];
+                min = carta;
                 continue;
             }
 
-            if (array[i].getValore() < min.getValore()){
-                min = array[i];
-            }else if(array[i].getValore() == min.getValore()){
-                if(array[i].getNumero() < min.getNumero()){
-                    min = array[i];
+            if (carta.getValore() < min.getValore()) {
+                min = carta;
+            } else if (carta.getValore() == min.getValore()) {
+                if (carta.getNumero() < min.getNumero()) {
+                    min = carta;
                 }
             }
         }
