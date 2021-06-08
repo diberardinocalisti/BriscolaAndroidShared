@@ -2,15 +2,16 @@ package multiplayer;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.briscolav10.ActivityGame;
-
 import java.util.Random;
 
+import Login.loginClass;
 import gameEngine.Utility;
+
+import firebase.FirebaseClass;
 
 
 public class engineMultiplayer extends AppCompatActivity {
@@ -26,16 +27,20 @@ public class engineMultiplayer extends AppCompatActivity {
         for (int i = 0; i < len; i++)
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
 
-        DialogInterface.OnClickListener action = (dialog, which) -> accediAllaStanza(c);
+        DialogInterface.OnClickListener action = (dialog, which) -> accediAllaStanza(c, sb.toString());
 
         Utility.confirmDialog(c,"Il codice della tua stanza",sb.toString(),action,null);
     }
 
-    public static void accediAllaStanza(Context c)
+    public static void accediAllaStanza(Context c,String gameCode)
     {
-        Intent i = new Intent(c, ActivityGame.class);
+        /*Intent i = new Intent(c, ActivityGame.class);
         i.putExtra("multiplayer",true);
-        c.startActivity(i);
+        c.startActivity(i);*/
+        GameRoom g = new GameRoom(loginClass.getFBNome(),"null", gameCode);
+        FirebaseClass.addToFirebase(g);
+
+        Toast.makeText(c,"Stanza creata con successo!",Toast.LENGTH_LONG);
     }
 
 
