@@ -34,7 +34,7 @@ public class MultiplayerActivity extends AppCompatActivity {
                             engineMultiplayer.creaStanza(MultiplayerActivity.this);
                             break;
                         case 2:
-                            //Unisciti ad una stanza
+                            Utility.createInputDialog(MultiplayerActivity.this);
                             break;
                         case 3:
                             MultiplayerActivity.super.onBackPressed();
