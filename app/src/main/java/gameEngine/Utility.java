@@ -9,9 +9,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.example.briscolav10.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 
 import firebase.FirebaseClass;
+import multiplayer.MultiplayerActivity;
 
 public class Utility {
 
@@ -33,7 +40,7 @@ public class Utility {
         alert.show();
     }
 
-    public static void createInputDialog(Context c)
+    public static void createInputDialogMultiplayer(Context c)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
 
@@ -44,11 +51,33 @@ public class Utility {
 
         EditText input = (EditText)  tipoCarteView.findViewById(R.id.inputCodice);
 
-        builder.setPositiveButton("OK", (dialog, id) -> {
-            Toast.makeText(c,"Exists --> " + FirebaseClass.hasRoom(c,String.valueOf(input.getText())),Toast.LENGTH_LONG).show();
-        });
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FirebaseClass.getFbRefSpeicific(input.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
-        builder.setNegativeButton("ANNULLA", null);
+                                if(dataSnapshot.exists())
+                                    FirebaseClass.editFieldFirebase(input.getText().toString());
+                                else
+                                {
+                                    goTo(c, MultiplayerActivity.class);
+                                    Toast.makeText(c,"Errore! La stanza non esiste.",Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
+
+                            }
+
+                        });
+                    }
+                }
+        );
+
+                builder.setNegativeButton("ANNULLA", null);
         builder.setView(tipoCarteView);
 
         // Create the AlertDialog
