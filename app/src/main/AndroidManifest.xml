@@ -19,6 +19,12 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+        <activity android:name="multiplayer.Game.ActivityMultiplayerGame">
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+        </intent-filter>
+    </activity>
+
         <activity android:name="Login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

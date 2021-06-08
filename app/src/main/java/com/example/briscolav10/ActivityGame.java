@@ -2,21 +2,26 @@ package com.example.briscolav10;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.login.widget.ProfilePictureView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 
+import firebase.FirebaseClass;
 import gameEngine.Game;
 import gameEngine.Settings;
 
 import static Login.loginClass.isFacebookLoggedIn;
 import static Login.loginClass.setImgProfile;
+import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class ActivityGame extends AppCompatActivity {
 
@@ -60,10 +65,31 @@ public class ActivityGame extends AppCompatActivity {
             setContentView(R.layout.stanza_di_attesa);
             attesa = true;
 
-            Button waiting;
-            waiting = findViewById(R.id.waiting);
+            FirebaseClass.getFbRefSpeicific(codiceStanza).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+
+                    for(DataSnapshot d : dataSnapshot.getChildren())
+                    {
+                        System.out.println("Cambiato!");
+                        if(d.child("enemy").exists())
+                        {
+                            System.out.println("Value --> " + d.child("enemy").getValue().toString());
+                        }else
+                            System.out.println("NULL");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError databaseError) {
+
+                }
+
+
+            });
         }
-        View contentView = this.findViewById(android.R.id.content).getRootView();
+
+        //View contentView = this.findViewById(android.R.id.content).getRootView();
 
     }
 

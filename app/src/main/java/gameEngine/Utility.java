@@ -19,6 +19,7 @@ import com.google.firebase.database.annotations.NotNull;
 
 import firebase.FirebaseClass;
 import multiplayer.MultiplayerActivity;
+import multiplayer.engineMultiplayer;
 
 public class Utility {
 
@@ -50,6 +51,8 @@ public class Utility {
         View tipoCarteView = inflater.inflate( R.layout.input_codice_stanza, null );
 
         EditText input = (EditText)  tipoCarteView.findViewById(R.id.inputCodice);
+
+        engineMultiplayer.codiceStanza = input.getText().toString();
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
