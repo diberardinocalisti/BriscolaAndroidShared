@@ -1,5 +1,6 @@
 package multiplayer.Game;
 
+import android.bluetooth.BluetoothA2dp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -24,27 +25,53 @@ import static multiplayer.engineMultiplayer.role;
 public class ActivityMultiplayerGame extends AppCompatActivity {
 
     private String onStopUser;
+    private boolean stopApp = false;
+    private String roleId;
+    private boolean tavolino = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campo_da_gioco);
 
-        Toast.makeText(ActivityMultiplayerGame.this,codiceStanza,Toast.LENGTH_LONG).show();
 
-        //@TODO nella stanza di gioco controllare se la stanza viene eliminata
+        //@TODO viene prima stampato che il giocatore null si è unito alla partia
         //Se la stanza viene eliminata
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
-                //La stanza non esiste più
-                if(dataSnapshot.getChildrenCount() == 0)
+                for(DataSnapshot d : dataSnapshot.getChildren())
                 {
-                    if(onStopUser != role)
+                    String key = d.getKey();
+                    Object value = d.getValue();
+
+                    if(key.equals("enemy"))
                     {
-                        Toast.makeText(getApplicationContext(),"L'avversario ha abbandonato la partita! Hai vinto a tavolino!",Toast.LENGTH_LONG).show();
-                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                        //è entrato l'avverrsario nella stanza
+                        if(value == "null")
+                        {
+                            if(roleId != "enemy")
+                            {
+                                Toast.makeText(getApplicationContext(),"L'avversario ha abbandonato la partita!\n Hai vinto a tavolino!",Toast.LENGTH_LONG).show();
+                                Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                                tavolino = true;
+                            }
+                        }
+                    }
+
+                    if(key.equals("host"))
+                    {
+                        //è entrato l'avverrsario nella stanza
+                        if(value == "null")
+                        {
+                            if(roleId != "host")
+                            {
+                                Toast.makeText(getApplicationContext(),"L'avversario ha abbandonato la partita!\n Hai vinto a tavolino!",Toast.LENGTH_LONG).show();
+                                Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                                tavolino = true;
+                            }
+                        }
                     }
                 }
             }
@@ -66,7 +93,13 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
         //Elimino la stanza dal db
 
-        FirebaseClass.deleteFieldFirebase(null,codiceStanza);
-        onStopUser = role;
+        if(!tavolino)
+        {
+            roleId = (role == "HOST" ? "host" : "enemy");
+
+            FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
+        }
+
+        //FirebaseClass.deleteFieldFirebase(codiceStanza,roleId);
     }
 }

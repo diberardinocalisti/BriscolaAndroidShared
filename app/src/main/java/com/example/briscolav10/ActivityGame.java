@@ -43,6 +43,7 @@ public class ActivityGame extends AppCompatActivity {
     public boolean multiplayer = false;
     public boolean attesa = false;
     private String codice_stanza;
+    public boolean finishAttesa = false;    //Se mando l'utente alla pagina del gioco è comunque onmStop() e quindi verrebbe eliminata la staanza
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -100,6 +101,7 @@ public class ActivityGame extends AppCompatActivity {
                             //è entrato l'avverrsario nella stanza
                             if(value != "null")
                             {
+                                finishAttesa = true;
                                 Intent i = new Intent(ActivityGame.this,ActivityMultiplayerGame.class);
                                 ActivityGame.this.startActivity(i);
                                 Toast.makeText(getBaseContext(),value + " si è unito alla partita!",Toast.LENGTH_LONG).show();
@@ -126,7 +128,6 @@ public class ActivityGame extends AppCompatActivity {
 
                     //Lo riporto nella homepage
                     Utility.goTo(ActivityGame.this, MainActivity.class);
-
                 };
 
                 Utility.confirmDialog(ActivityGame.this,"Conferma la chiusura della sessione","Sicuro di voler abbandonare la sessione?",action,null);
@@ -143,10 +144,11 @@ public class ActivityGame extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        /*if(multiplayer && attesa)
+        if(multiplayer && attesa && !finishAttesa)
         {
-            Toast.makeText(getApplicationContext(),"CHIUSA",Toast.LENGTH_LONG).show();
-        }*/
+            FirebaseClass.deleteFieldFirebase(null,codiceStanza);
+            Toast.makeText(getApplicationContext(),"La sessione è stata interrotta!\nCrea una nuova stanza per giocare di nuovo",Toast.LENGTH_LONG).show();
+        }
 
     }
 
@@ -154,6 +156,6 @@ public class ActivityGame extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
 
-        Toast.makeText(getApplicationContext(),"ON DESTROY",Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),"ON DESTROY",Toast.LENGTH_LONG).show();
     }
 }
