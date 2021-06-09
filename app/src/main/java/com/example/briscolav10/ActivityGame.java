@@ -106,8 +106,7 @@ public class ActivityGame extends AppCompatActivity {
                                 ActivityGame.this.startActivity(i);
                                 Toast.makeText(getBaseContext(),value + " si è unito alla partita!",Toast.LENGTH_LONG).show();
                             }
-                        }else
-                            System.out.println("NULL");
+                        }
                     }
                 }
 
@@ -141,8 +140,8 @@ public class ActivityGame extends AppCompatActivity {
 
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
 
         if(multiplayer && attesa && !finishAttesa)
         {

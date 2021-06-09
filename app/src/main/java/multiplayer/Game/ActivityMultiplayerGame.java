@@ -41,7 +41,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
-                for(DataSnapshot d : dataSnapshot.getChildren())
+                /*for(DataSnapshot d : dataSnapshot.getChildren())
                 {
                     String key = d.getKey();
                     Object value = d.getValue();
@@ -73,7 +73,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                             }
                         }
                     }
-                }
+                }*/
             }
 
             @Override
@@ -88,17 +88,23 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
     //Un utente è uscito dal campo da gioco
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onPause() {
+        super.onPause();
 
         //Elimino la stanza dal db
 
-        if(!tavolino)
+        /*if(!tavolino)
         {
-            roleId = (role == "HOST" ? "host" : "enemy");
+
 
             FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
-        }
+        }*/
+
+        //roleId = (role == "HOST" ? "host" : "enemy");
+
+        //FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
+
+        System.out.println("role --> " + roleId);
 
         //FirebaseClass.deleteFieldFirebase(codiceStanza,roleId);
     }
