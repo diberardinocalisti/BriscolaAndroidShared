@@ -26,6 +26,8 @@ import gameEngine.Game;
 import gameEngine.Settings;
 import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
+import multiplayer.MultiplayerActivity;
+import okhttp3.internal.Util;
 
 import static Login.loginClass.getFBNome;
 import static Login.loginClass.isFacebookLoggedIn;
@@ -65,6 +67,10 @@ public class ActivityGame extends AppCompatActivity {
             Game.startGame(this);
         }else
         {
+            if(ActivityMultiplayerGame.onStop)
+            {
+                Utility.goTo(ActivityGame.this,MainActivity.class);
+            }
             setContentView(R.layout.stanza_di_attesa);
             attesa = true;
 

@@ -28,7 +28,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     private boolean stopApp = false;
     private String roleId, noteRoleId;
     private String host,enemy;
-    private boolean onStop = false;
+    public static boolean onStop = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
