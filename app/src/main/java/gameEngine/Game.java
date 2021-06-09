@@ -1,6 +1,7 @@
 package gameEngine;
 
 import android.os.Build;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
@@ -21,7 +22,7 @@ public class Game {
     protected static CPU CPU;
 
     // Tutte le carte presenti nel campo di gioco;
-    protected static Button[] carte;
+    protected static View[] carte;
 
     // Tutte le carte dei giocatori (quelle che possono essere giocate);
     protected static Button[] carteBottoni;
@@ -47,7 +48,7 @@ public class Game {
         canPlay = true;
         lastManche = false;
         terminata = false;
-        carte = new Button[10];
+        carte = new View[10];
         carteBottoni = new Button[nCarte * 2];
         mazzoIniziale = new Carta[40];
 
@@ -59,7 +60,7 @@ public class Game {
 
             if(i < nCarte * nGiocatori){
                 carte[i].setOnClickListener(new onClick());
-                carteBottoni[i] = carte[i];
+                carteBottoni[i] = (Button) carte[i];
             }
         }
     }

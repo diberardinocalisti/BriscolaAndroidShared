@@ -1,6 +1,7 @@
 package gameEngine;
 
 import android.os.Build;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -221,7 +222,7 @@ public class Giocatore {
 
     public Carta getAvailableCarta(){
         for(Carta c : this.carte){
-            Button b = c.getButton();
+            View b = c.getButton();
             if(b == null)
                 return c;
         }

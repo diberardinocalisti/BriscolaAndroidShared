@@ -2,6 +2,7 @@ package gameEngine;
 
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
@@ -11,7 +12,7 @@ import Home.MainMenu;
 import static gameEngine.Game.activity;
 
 public class Carta {
-    protected Button b;
+    protected View b;
     protected Integer valore, numero;
     protected String seme;
     protected boolean enabled = true;
@@ -64,14 +65,14 @@ public class Carta {
         this.portatore = portatore;
     }
 
-    public void setButton(Button b){
+    public void setButton(View b){
         this.b = b;
 
         if(this.b != null)
             this.b.setAlpha(1);
     }
 
-    public Button getButton(){
+    public View getButton(){
         return b;
     }
 
@@ -125,7 +126,7 @@ public class Carta {
         nascondi(this.b);
     }
 
-    public static void nascondi(Button b){
+    public static void nascondi(View b){
         int resID = activity.getResources().getIdentifier("vuoto", "drawable", activity.getPackageName());
         Drawable image = activity.getResources().getDrawable(resID);
         b.setBackground(image);
