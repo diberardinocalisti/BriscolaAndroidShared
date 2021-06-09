@@ -13,12 +13,12 @@ public class FirebaseClass {
 
     public static DatabaseReference getFbRef()
     {
-        return FirebaseDatabase.getInstance("https://briscola-d6aed-default-rtdb.europe-west1.firebasedatabase.app/").getReference();
+        return FirebaseDatabase.getInstance("https://briscola-472a8-default-rtdb.firebaseio.com/").getReference();
     }
 
     public static DatabaseReference getFbRefSpeicific(String path)
     {
-        return FirebaseDatabase.getInstance("https://briscola-d6aed-default-rtdb.europe-west1.firebasedatabase.app/").getReference(path);
+        return FirebaseDatabase.getInstance("https://briscola-472a8-default-rtdb.firebaseio.com/").getReference(path);
     }
 
 
