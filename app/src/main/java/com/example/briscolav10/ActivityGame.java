@@ -122,7 +122,7 @@ public class ActivityGame extends AppCompatActivity {
                 DialogInterface.OnClickListener action = (dialog, which) -> {
 
                     //Elimino la stanza dal db
-                    FirebaseClass.getFbRef().child(codiceStanza).removeValue();
+                    FirebaseClass.deleteFieldFirebase(null,codiceStanza);
 
                     //Lo riporto nella homepage
                     Utility.goTo(ActivityGame.this, MainActivity.class);

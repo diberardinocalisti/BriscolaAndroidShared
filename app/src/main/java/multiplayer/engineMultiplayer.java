@@ -16,6 +16,7 @@ import firebase.FirebaseClass;
 public class engineMultiplayer extends AppCompatActivity {
 
     public static String codiceStanza;
+    public static String role;
 
     public static void creaStanza(Context c)
     {

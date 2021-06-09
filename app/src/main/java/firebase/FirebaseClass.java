@@ -6,6 +6,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import Login.loginClass;
 import multiplayer.GameRoom;
 
+import static multiplayer.engineMultiplayer.codiceStanza;
+
 public class FirebaseClass {
 
     public static boolean exists;
@@ -27,10 +29,18 @@ public class FirebaseClass {
         getFbRef().child(g.getGameCode()).setValue(g);
     }
 
-    public static void editFieldFirebase(String codiceStanza)
+    public static <T> void editFieldFirebase(String codiceStanza, String fieldToUpdate, T value)
     {
         DatabaseReference update =  getFbRef().child(codiceStanza); //Mi posiziono nella tabella della stanza
-        update.child("enemy").setValue(loginClass.getFBNome());
+        update.child(fieldToUpdate).setValue(value);
+    }
+
+    public static <T> void deleteFieldFirebase(String specific,String field)
+    {
+        if(specific != null)
+            getFbRefSpeicific(specific).child(field).removeValue();
+        else
+            getFbRef().child(field).removeValue();
     }
 
 

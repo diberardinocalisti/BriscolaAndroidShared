@@ -29,6 +29,7 @@ public class MultiplayerActivity extends AppCompatActivity {
                 switch ((index+1)){
                     case 1:
                         engineMultiplayer.creaStanza(MultiplayerActivity.this);
+                        engineMultiplayer.role = "HOST";
                         break;
                     case 2:
                         Utility.createInputDialogMultiplayer(MultiplayerActivity.this);
