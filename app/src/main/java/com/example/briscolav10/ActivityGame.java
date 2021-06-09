@@ -70,6 +70,7 @@ public class ActivityGame extends AppCompatActivity {
             if(ActivityMultiplayerGame.onStop)
             {
                 Utility.goTo(ActivityGame.this,MainActivity.class);
+                ActivityMultiplayerGame.onStop = false;
             }
             setContentView(R.layout.stanza_di_attesa);
             attesa = true;
