@@ -41,6 +41,26 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
+                for(DataSnapshot d : dataSnapshot.getChildren())
+                {
+                    String key = d.getKey();
+                    Object value = d.getValue();
+
+                    if(key.equals(roleId))
+                    {
+                        if(value == "null")
+                        {
+                            Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
+                            Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                        }else
+                        {
+                            Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
+                            Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                        }
+                    }
+
+
+                }
                 /*for(DataSnapshot d : dataSnapshot.getChildren())
                 {
                     String key = d.getKey();
@@ -107,8 +127,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         roleId = (role == "HOST" ? "host" : "enemy");
 
         FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
-        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-        Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
 
         //FirebaseClass.deleteFieldFirebase(codiceStanza,roleId);
     }
