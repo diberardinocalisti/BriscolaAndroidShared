@@ -81,8 +81,7 @@ public class ActivityGame extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
-                    if(dataSnapshot.hasChild(codiceStanza))
-
+                    if(dataSnapshot.hasChild("gameCode"))
                     {
                         for(DataSnapshot d : dataSnapshot.getChildren())
                         {
