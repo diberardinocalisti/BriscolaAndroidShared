@@ -34,6 +34,8 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campo_da_gioco);
 
+        roleId = (role == "HOST" ? "host" : "enemy");
+
 
         //@TODO viene prima stampato che il giocatore null si è unito alla partia
         //Se la stanza viene eliminata
@@ -119,12 +121,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
             FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
         }*/
-
-
-
-
-
-        roleId = (role == "HOST" ? "host" : "enemy");
 
         FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
 
