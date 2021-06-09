@@ -60,7 +60,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 System.out.println("Host --> " + host+"\nEnemy --> " + enemy);
 
                 //L'host ha abbandonato
-                if(host.equals("null") && !enemy.equals("null"))
+                if(host == null && enemy != null)
                 {
                     if(roleId.equals("host"))
                     {
@@ -73,7 +73,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     }
                 }
 
-                if(!host.equals("null") && enemy.equals("null"))
+                if(host != null && enemy == null)
                 {
                     if(roleId.equals("enemy"))
                     {
