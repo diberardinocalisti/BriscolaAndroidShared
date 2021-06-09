@@ -43,6 +43,16 @@ public class Utility {
         alert.show();
     }
 
+    public static void confirmDenyDialog(Context c, String title, String message, DialogInterface.OnClickListener action, DialogInterface.OnCancelListener onCancel){
+        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.setPositiveButton("Ok", action);
+        builder.setNegativeButton("Annulla", null);
+        builder.setOnCancelListener(onCancel);
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
     public static void createInputDialogMultiplayer(Context c)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);

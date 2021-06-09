@@ -203,7 +203,7 @@ public class Engine{
         return null;
     }
 
-    static Carta getCartaFromButton(Button button){
+    static Carta getCartaFromButton(View button){
         for(Carta carta : mazzoIniziale){
             if(carta == null)
                 continue;
@@ -245,13 +245,13 @@ public class Engine{
         return null;
     }
 
-    public static Comparator<Carta> ordinaCarte = Comparator.comparingInt(c -> c.getValore());
+    public static Comparator<Carta> ordinaCarte = Comparator.comparingInt(Carta::getValore);
 
     static boolean isTerminata(){
         return getCarteGiocatori().length == 0;
     }
 
-    static boolean isLibero(Button b){
+    static boolean isLibero(View b){
         return b.getBackground() == null;
     }
 
@@ -338,10 +338,10 @@ public class Engine{
     }
 
     public static void aggiornaNCarte(){
-        Integer n_carte = Game.mazzo.size();
+        Integer n_carte = Game.mazzo.size() + 1;
         TextView icona = activity.findViewById(R.id.n_carte);
 
-        if(n_carte == 0) {
+        if(n_carte - 1 == 0) {
             icona.setVisibility(View.INVISIBLE);
         }else{
             icona.setText(n_carte.toString());

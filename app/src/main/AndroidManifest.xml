@@ -9,23 +9,31 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.BriscolaV10">
-        <activity android:name=".ActivityGame">
+        <activity android:name=".ActivityGame"
+            android:parentActivityName = "Home.MainActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name="multiplayer.MultiplayerActivity">
+        <activity android:name="multiplayer.MultiplayerActivity"
+            android:parentActivityName = "Home.MainActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name="multiplayer.Game.ActivityMultiplayerGame">
+        <activity android:name="multiplayer.Game.ActivityMultiplayerGame"
+            android:parentActivityName = "Home.MainActivity"
+            >
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
         </intent-filter>
     </activity>
 
-        <activity android:name="Login.LoginActivity">
+        <activity android:name="Login.LoginActivity"
+            android:parentActivityName = "Home.MainActivity"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>

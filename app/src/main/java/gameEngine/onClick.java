@@ -30,14 +30,13 @@ public class onClick implements View.OnClickListener {
             return;
 
         giocante.lancia(carta);
-        Giocatore vincente = doLogic(carta, getOtherCarta(carta));
+        final Giocatore vincente = doLogic(carta, getOtherCarta(carta));
 
         if(vincente == null) {
             prossimoTurno(getOtherPlayer(giocante));
         }else{
-            Giocatore finalVincente = vincente;
             canPlay = false;
-            new Handler().postDelayed(() -> terminaManche(finalVincente), 1750);
+            new Handler().postDelayed(() -> terminaManche(vincente), 1750);
         }
     }
 }
