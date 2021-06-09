@@ -2,8 +2,13 @@ package gameEngine;
 
 import android.os.Build;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+
+import com.example.briscolav10.R;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -135,6 +140,7 @@ public class Giocatore {
     public void pesca(Carta carta) {
         int index = this.prendi(carta);
         Game.mazzo.remove(this.carte[index]);
+        Engine.aggiornaNCarte();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -155,15 +161,14 @@ public class Giocatore {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void lancia(Carta carta){
-        for(Integer i : I_CAMPO_GIOCO){
-            if(isLibero(Game.carte[i])){
-                carta.disabilita();
-                carta.setButton(Game.carte[i]);
-                carta.abilita();
-                this.rimuovi(carta);
-                return;
-            }
-        }
+        int indice = this.index + I_CAMPO_GIOCO[0];
+        if(!isLibero(Game.carte[indice]))
+            return;
+
+        carta.disabilita();
+        carta.setButton(Game.carte[indice]);
+        carta.abilita();
+        this.rimuovi(carta);
     }
 
     public Integer getPunteggioCarte(){

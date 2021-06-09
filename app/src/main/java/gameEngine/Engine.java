@@ -2,10 +2,13 @@ package gameEngine;
 
 import android.content.DialogInterface;
 import android.os.Build;
+import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.briscolav10.R;
 import com.facebook.login.Login;
 
 import java.util.ArrayList;
@@ -332,5 +335,17 @@ public class Engine{
         }
 
         return carteGiocate.toArray(new Carta[0]);
+    }
+
+    public static void aggiornaNCarte(){
+        Integer n_carte = Game.mazzo.size();
+        TextView icona = activity.findViewById(R.id.n_carte);
+
+        if(n_carte == 0) {
+            icona.setVisibility(View.INVISIBLE);
+        }else{
+            icona.setText(n_carte.toString());
+            icona.setVisibility(View.VISIBLE);
+        }
     }
 }

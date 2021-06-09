@@ -117,26 +117,20 @@ public class ActivityGame extends AppCompatActivity {
 
             });
 
-            chiudi.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+            chiudi.setOnClickListener(v -> {
 
-                    DialogInterface.OnClickListener action = new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                DialogInterface.OnClickListener action = (dialog, which) -> {
 
-                            //Elimino la stanza dal db
-                            FirebaseClass.getFbRef().child(codiceStanza).removeValue();
+                    //Elimino la stanza dal db
+                    FirebaseClass.getFbRef().child(codiceStanza).removeValue();
 
-                            //Lo riporto nella homepage
-                            Utility.goTo(ActivityGame.this, MainActivity.class);
+                    //Lo riporto nella homepage
+                    Utility.goTo(ActivityGame.this, MainActivity.class);
 
-                        }
-                    };
+                };
 
-                    Utility.confirmDialog(ActivityGame.this,"Conferma la chiusura della sessione","Sicuro di voler abbandonare la sessione?",action,null);
+                Utility.confirmDialog(ActivityGame.this,"Conferma la chiusura della sessione","Sicuro di voler abbandonare la sessione?",action,null);
 
-                }
             });
         }
 
