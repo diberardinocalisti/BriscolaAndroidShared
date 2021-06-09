@@ -45,49 +45,53 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
-                for(DataSnapshot d : dataSnapshot.getChildren())
+                if(dataSnapshot.hasChild(codiceStanza))
                 {
-                    String key = d.getKey();
-                    Object value = d.getValue();
-
-                    if(key.equals("host"))
-                        host = String.valueOf(value);
-                    else if(key.equals("enemy"))
-                        enemy = String.valueOf(value);
-
-                }
-
-                System.out.println("Host --> " + host+"\nEnemy --> " + enemy);
-
-                //L'host ha abbandonato
-                if(host == null && enemy != null)
-                {
-                    if(roleId.equals("host"))
+                    for(DataSnapshot d : dataSnapshot.getChildren())
                     {
-                        Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-                    }else
-                    {
-                        Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
-                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                        String key = d.getKey();
+                        Object value = d.getValue();
+
+                        if(key.equals("host"))
+                            host = String.valueOf(value);
+                        else if(key.equals("enemy"))
+                            enemy = String.valueOf(value);
+
                     }
-                }
 
-                if(host != null && enemy == null)
-                {
-                    if(roleId.equals("enemy"))
+                    System.out.println("Host --> " + host+"\nEnemy --> " + enemy);
+
+                    //L'host ha abbandonato
+                    if(host == null && enemy != null)
                     {
-                        Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-                    }else
-                    {
-                        Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
-                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                        if(roleId.equals("host"))
+                        {
+                            Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
+                            Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                        }else
+                        {
+                            Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
+                            Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                        }
                     }
+
+                    if(host != null && enemy == null)
+                    {
+                        if(roleId.equals("enemy"))
+                        {
+                            Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
+                            Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                        }else
+                        {
+                            Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
+                            Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                        }
+                    }
+
+                    if(onStop)
+                        FirebaseClass.deleteFieldFirebase(null, codiceStanza);
                 }
 
-                if(onStop)
-                    FirebaseClass.deleteFieldFirebase(null, codiceStanza);
 
             }
 
