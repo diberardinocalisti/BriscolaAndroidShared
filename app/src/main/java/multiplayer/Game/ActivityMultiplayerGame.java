@@ -55,28 +55,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     else if(key.equals("enemy"))
                         enemy = String.valueOf(value);
 
-                   /* if(key.equals(roleId))
-                    {
-                        if(key == "host")
-                            host = String.valueOf(value);
-                        else
-                            enemy = String.valueOf(value);
-                        /*if(value == "null")
-                        {
-                            Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                            Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-                        }else
-                        {
-                            Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
-                            Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-                        }
-                    }
-
-                    if(key.equals(noteRoleId))
-                    {
-
-                    }*/
                 }
+
+                System.out.println("Host --> " + host+"\nEnemy --> " + enemy);
 
                 //L'host ha abbandonato
                 if(host == "null" && enemy != "null")
