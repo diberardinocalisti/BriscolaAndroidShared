@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.briscolav10.R;
 
 import gameEngine.Utility;
+import multiplayer.Game.ActivityMultiplayerGame;
 
 public class MultiplayerActivity extends AppCompatActivity {
 
@@ -18,6 +19,8 @@ public class MultiplayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer);
+
+        ActivityMultiplayerGame.onStop = false;
 
         for(int i = 0; i < button.length; i++){
             int index = i;

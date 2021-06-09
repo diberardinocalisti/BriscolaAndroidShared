@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.briscolav10.R;
 
 import Login.loginClass;
+import multiplayer.Game.ActivityMultiplayerGame;
+import multiplayer.MultiplayerActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         else
             rank.setVisibility(View.INVISIBLE);
 
+        ActivityMultiplayerGame.onStop = false;
         /*
         *   Collego i bottoni del file XML agli elementi dell'array
         * prova
