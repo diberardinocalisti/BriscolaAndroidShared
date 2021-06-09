@@ -85,6 +85,8 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
                 }
+
+                FirebaseClass.deleteFieldFirebase(null, codiceStanza);
             }
 
             @Override
