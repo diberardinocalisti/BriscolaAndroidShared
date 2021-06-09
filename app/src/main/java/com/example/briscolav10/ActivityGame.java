@@ -1,8 +1,11 @@
 package com.example.briscolav10;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,11 +20,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 
+import Home.MainActivity;
+import Login.loginClass;
 import firebase.FirebaseClass;
 import gameEngine.Game;
 import gameEngine.Settings;
+import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
 
+import static Login.loginClass.getFBNome;
 import static Login.loginClass.isFacebookLoggedIn;
 import static Login.loginClass.setImgProfile;
 import static multiplayer.engineMultiplayer.codiceStanza;
@@ -69,8 +76,15 @@ public class ActivityGame extends AppCompatActivity {
         {
             setContentView(R.layout.stanza_di_attesa);
             attesa = true;
-            codice_stanza = extras.getString("codice");
-            ((TextView) findViewById(R.id.codice)).setText("Codice: " + codice_stanza);
+
+            ((TextView) findViewById(R.id.codice)).setText("Codice: " + codiceStanza);
+
+            ((TextView) findViewById(R.id.nome1)).setText(getFBNome());
+
+            Button chiudi = (Button) findViewById(R.id.chiudisala);
+
+            loginClass.setImgProfile((ProfilePictureView) findViewById(R.id.friendProfilePicture1));
+
 
             FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -102,6 +116,28 @@ public class ActivityGame extends AppCompatActivity {
 
 
             });
+
+            chiudi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    DialogInterface.OnClickListener action = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            //Elimino la stanza dal db
+                            FirebaseClass.getFbRef().child(codiceStanza).removeValue();
+
+                            //Lo riporto nella homepage
+                            Utility.goTo(ActivityGame.this, MainActivity.class);
+
+                        }
+                    };
+
+                    Utility.confirmDialog(ActivityGame.this,"Conferma la chiusura della sessione","Sicuro di voler abbandonare la sessione?",action,null);
+
+                }
+            });
         }
 
         //View contentView = this.findViewById(android.R.id.content).getRootView();
@@ -113,10 +149,17 @@ public class ActivityGame extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        if(multiplayer && attesa)
+        /*if(multiplayer && attesa)
         {
             Toast.makeText(getApplicationContext(),"CHIUSA",Toast.LENGTH_LONG).show();
-        }
+        }*/
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        Toast.makeText(getApplicationContext(),"ON DESTROY",Toast.LENGTH_LONG).show();
     }
 }

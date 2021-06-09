@@ -1,7 +1,6 @@
 package multiplayer;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +11,6 @@ import java.util.Random;
 
 import Login.loginClass;
 import firebase.FirebaseClass;
-import gameEngine.Utility;
 
 
 public class engineMultiplayer extends AppCompatActivity {
@@ -40,7 +38,6 @@ public class engineMultiplayer extends AppCompatActivity {
         FirebaseClass.addToFirebase(g);
 
         Intent i = new Intent(c, ActivityGame.class);
-        i.putExtra("codice", gameCode);
         i.putExtra("multiplayer",true);
         c.startActivity(i);
     }

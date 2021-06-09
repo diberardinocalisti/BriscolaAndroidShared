@@ -108,7 +108,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#00000000"
-            android:text="codice: 123abc"
+            android:text="codice: "
             android:textAllCaps="true"
             android:textColor="@color/purple_700"
             android:textSize="20sp"
