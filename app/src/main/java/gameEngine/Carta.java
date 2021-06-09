@@ -6,6 +6,8 @@ import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 
+import Home.MainMenu;
+
 import static gameEngine.Game.activity;
 
 public class Carta {
@@ -117,7 +119,7 @@ public class Carta {
     }
 
     public void nascondi() {
-        if(Game.carteScoperte)
+        if(MainMenu.carteScoperte)
             return;
 
         nascondi(this.b);

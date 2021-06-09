@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -37,12 +36,10 @@ public class ActivityGame extends AppCompatActivity {
     private final int STANZA_ATTESA_ID = 1300113;
 
     ProfilePictureView imgP;
-    ImageButton impostazioni;
     ActivityGame a;
 
     public boolean multiplayer = false;
     public boolean attesa = false;
-    private String codice_stanza;
     public boolean finishAttesa = false;    //Se mando l'utente alla pagina del gioco è comunque onmStop() e quindi verrebbe eliminata la staanza
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -60,17 +57,10 @@ public class ActivityGame extends AppCompatActivity {
             attesa = false;
 
             imgP = findViewById(R.id.friendProfilePicture2);
-            impostazioni = findViewById(R.id.impostazioni);
 
-            if(isFacebookLoggedIn())
-            {
+            if(isFacebookLoggedIn()){
                 setImgProfile(imgP);
             }
-
-            impostazioni.setOnClickListener(v -> {
-                Settings s = new Settings();
-                s.createSettingsMenu(ActivityGame.this);
-            });
 
             Game.startGame(this);
         }else
@@ -130,13 +120,10 @@ public class ActivityGame extends AppCompatActivity {
                     Utility.goTo(ActivityGame.this, MainActivity.class);
                 };
 
-                Utility.confirmDialog(ActivityGame.this,"Conferma la chiusura della sessione","Sicuro di voler abbandonare la sessione?",action,null);
+                Utility.confirmDenyDialog(ActivityGame.this,"Chiusura sessione","Sicuro di voler abbandonare la sessione?",action,null);
 
             });
         }
-
-        //View contentView = this.findViewById(android.R.id.content).getRootView();
-
     }
 
 
@@ -144,10 +131,9 @@ public class ActivityGame extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        if(multiplayer && attesa && !finishAttesa)
-        {
-            FirebaseClass.deleteFieldFirebase(null,codiceStanza);
-            Toast.makeText(getApplicationContext(),"La sessione è stata interrotta!\nCrea una nuova stanza per giocare di nuovo",Toast.LENGTH_LONG).show();
+        if(multiplayer && attesa && !finishAttesa){
+            FirebaseClass.deleteFieldFirebase(null, codiceStanza);
+            Toast.makeText(getApplicationContext(),"La sessione è stata interrotta!\nCrea una nuova stanza per giocare di nuovo.",Toast.LENGTH_LONG).show();
         }
 
     }

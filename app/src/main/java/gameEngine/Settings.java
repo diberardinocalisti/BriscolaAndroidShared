@@ -23,6 +23,8 @@ import static gameEngine.Game.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import Home.MainMenu;
+
 import static gameEngine.Game.giocatori;
 
 public class Settings extends AppCompatActivity {
@@ -39,22 +41,20 @@ public class Settings extends AppCompatActivity {
 
         View tipoCarteView = inflater.inflate( R.layout.spinner_tipo_carte, null );
 
-        Spinner tipoCarte = (Spinner) tipoCarteView.findViewById(R.id.spinner);
+        Spinner tipoCarte = tipoCarteView.findViewById(R.id.spinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item,c.getResources().getStringArray(R.array.tipoCarte));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tipoCarte.setAdapter(adapter);
 
-        CheckBox carteScoperte = (CheckBox) tipoCarteView.findViewById(R.id.checkbox);
+        CheckBox carteScoperte = tipoCarteView.findViewById(R.id.checkbox);
 
-        carteScoperte.setChecked(Game.carteScoperte);
+        carteScoperte.setChecked(MainMenu.carteScoperte);
         builder.setPositiveButton("OK", (dialog, id) -> {
             if(carteScoperte.isChecked()){
-                Game.carteScoperte = true;
-                Game.CPU.scopriCarte();
+                MainMenu.carteScoperte = true;
             }else{
-                Game.carteScoperte = false;
-                Game.CPU.copriCarte();
+                MainMenu.carteScoperte = false;
             }
         });
 

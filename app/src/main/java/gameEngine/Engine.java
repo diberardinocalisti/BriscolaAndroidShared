@@ -245,7 +245,7 @@ public class Engine{
         return null;
     }
 
-    public static Comparator<Carta> ordinaCarte = Comparator.comparingInt(c -> c.getValore());
+    public static Comparator<Carta> ordinaCarte = Comparator.comparingInt(Carta::getValore);
 
     static boolean isTerminata(){
         return getCarteGiocatori().length == 0;

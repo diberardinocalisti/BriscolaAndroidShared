@@ -15,7 +15,7 @@ import Login.loginClass;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button button[] = new Button[5];
+    View button[] = new View[6];
     ImageButton rank;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -23,8 +23,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        rank = (ImageButton) findViewById(R.id.rank);
+        rank = findViewById(R.id.rank);
 
         if(loginClass.isFacebookLoggedIn())
             rank.setVisibility(View.VISIBLE);
@@ -42,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
             int id = getResources().getIdentifier(idS, "id", getPackageName());
 
             button[index] = findViewById(id);
-            button[index].setOnClickListener(v -> new MainMenu().startGame(button[index], this));
+            button[index].setOnClickListener(v -> new MainMenu().startGame(idS, this));
         }
 
     }

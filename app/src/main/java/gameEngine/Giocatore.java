@@ -92,8 +92,6 @@ public class Giocatore {
         Collections.sort(carte, Engine.ordinaCarte);
         Collections.reverse(carte);
 
-        //@// TODO: 04/06/2021 Mostrare le 3 carte più alte del mazzo a fine partita;
-
         for(int i = 0; i < daMostrare && i < carte.size(); i++){
             Carta c = carte.get(i);
             this.carte[i] = c;
@@ -129,10 +127,10 @@ public class Giocatore {
             if(!lastManche){
                 lastManche = true;
                 pulisciPianoLaterale();
-                pesca(briscola);
+                this.pesca(briscola);
             }
         }else{
-            pesca(Game.mazzo.get(0));
+            this.pesca(Game.mazzo.get(0));
         }
     }
 
