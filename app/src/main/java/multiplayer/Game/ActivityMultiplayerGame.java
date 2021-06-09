@@ -26,7 +26,8 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
     private String onStopUser;
     private boolean stopApp = false;
-    private String roleId;
+    private String roleId, noteRoleId;
+    private String host,enemy;
     private boolean tavolino = false;
 
     @Override
@@ -35,6 +36,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         setContentView(R.layout.campo_da_gioco);
 
         roleId = (role == "HOST" ? "host" : "enemy");
+        noteRoleId = (role == "HOST" ? "enemy" : "host");
 
 
         //@TODO viene prima stampato che il giocatore null si è unito alla partia
@@ -48,9 +50,18 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     String key = d.getKey();
                     Object value = d.getValue();
 
-                    if(key.equals(roleId))
+                    if(key.equals("host"))
+                        host = String.valueOf(value);
+                    else if(key.equals("enemy"))
+                        enemy = String.valueOf(value);
+
+                   /* if(key.equals(roleId))
                     {
-                        if(value == "null")
+                        if(key == "host")
+                            host = String.valueOf(value);
+                        else
+                            enemy = String.valueOf(value);
+                        /*if(value == "null")
                         {
                             Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
                             Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
@@ -61,41 +72,38 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         }
                     }
 
+                    if(key.equals(noteRoleId))
+                    {
 
+                    }*/
                 }
-                /*for(DataSnapshot d : dataSnapshot.getChildren())
+
+                //L'host ha abbandonato
+                if(host == "null" && enemy != "null")
                 {
-                    String key = d.getKey();
-                    Object value = d.getValue();
-
-                    if(key.equals("enemy"))
+                    if(roleId == "host")
                     {
-                        //è entrato l'avverrsario nella stanza
-                        if(value == "null")
-                        {
-                            if(roleId != "enemy")
-                            {
-                                Toast.makeText(getApplicationContext(),"L'avversario ha abbandonato la partita!\n Hai vinto a tavolino!",Toast.LENGTH_LONG).show();
-                                Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-                                tavolino = true;
-                            }
-                        }
-                    }
-
-                    if(key.equals("host"))
+                        Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
+                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                    }else
                     {
-                        //è entrato l'avverrsario nella stanza
-                        if(value == "null")
-                        {
-                            if(roleId != "host")
-                            {
-                                Toast.makeText(getApplicationContext(),"L'avversario ha abbandonato la partita!\n Hai vinto a tavolino!",Toast.LENGTH_LONG).show();
-                                Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-                                tavolino = true;
-                            }
-                        }
+                        Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
+                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
-                }*/
+                }
+
+                if(host != "null" && enemy == "null")
+                {
+                    if(roleId == "enemy")
+                    {
+                        Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
+                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                    }else
+                    {
+                        Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
+                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                    }
+                }
             }
 
             @Override
@@ -113,17 +121,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        //Elimino la stanza dal db
-
-        /*if(!tavolino)
-        {
-
-
-            FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
-        }*/
-
         FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
-
-        //FirebaseClass.deleteFieldFirebase(codiceStanza,roleId);
     }
 }
