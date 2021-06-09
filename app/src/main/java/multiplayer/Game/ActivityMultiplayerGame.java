@@ -88,8 +88,8 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
     //Un utente è uscito dal campo da gioco
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
 
         //Elimino la stanza dal db
 
@@ -100,11 +100,13 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
         }*/
 
-        //roleId = (role == "HOST" ? "host" : "enemy");
+
 
         //FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
 
-        System.out.println("role --> " + roleId);
+        roleId = (role == "HOST" ? "host" : "enemy");
+
+        Toast.makeText(getApplicationContext(),"role --> " + roleId,Toast.LENGTH_SHORT).show();
 
         //FirebaseClass.deleteFieldFirebase(codiceStanza,roleId);
     }
