@@ -107,7 +107,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         roleId = (role == "HOST" ? "host" : "enemy");
 
         FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
-        Utility.goTo(getApplicationContext(),MainActivity.class);
+        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
         Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
 
         //FirebaseClass.deleteFieldFirebase(codiceStanza,roleId);
