@@ -81,23 +81,20 @@ public class ActivityGame extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
-                    if(dataSnapshot.hasChild("gameCode"))
+                    for(DataSnapshot d : dataSnapshot.getChildren())
                     {
-                        for(DataSnapshot d : dataSnapshot.getChildren())
-                        {
-                            String key = d.getKey();
-                            Object value = d.getValue();
+                        String key = d.getKey();
+                        Object value = d.getValue();
 
-                            if(key.equals("enemy"))
+                        if(key.equals("enemy"))
+                        {
+                            //è entrato l'avverrsario nella stanza
+                            if(value != "null")
                             {
-                                //è entrato l'avverrsario nella stanza
-                                if(value != "null")
-                                {
-                                    finishAttesa = true;
-                                    Intent i = new Intent(ActivityGame.this,ActivityMultiplayerGame.class);
-                                    ActivityGame.this.startActivity(i);
-                                    Toast.makeText(getBaseContext(),value + " si è unito alla partita!",Toast.LENGTH_LONG).show();
-                                }
+                                finishAttesa = true;
+                                Intent i = new Intent(ActivityGame.this,ActivityMultiplayerGame.class);
+                                ActivityGame.this.startActivity(i);
+                                Toast.makeText(getBaseContext(),value + " si è unito alla partita!",Toast.LENGTH_LONG).show();
                             }
                         }
                     }
