@@ -60,9 +60,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 System.out.println("Host --> " + host+"\nEnemy --> " + enemy);
 
                 //L'host ha abbandonato
-                if(host == "null" && enemy != "null")
+                if(host.equals("null") && !enemy.equals("null"))
                 {
-                    if(roleId == "host")
+                    if(roleId.equals("host"))
                     {
                         Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
@@ -73,9 +73,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     }
                 }
 
-                if(host != "null" && enemy == "null")
+                if(!host.equals("null") && enemy.equals("null"))
                 {
-                    if(roleId == "enemy")
+                    if(roleId.equals("enemy"))
                     {
                         Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
