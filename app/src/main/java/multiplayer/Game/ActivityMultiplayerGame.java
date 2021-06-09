@@ -28,7 +28,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     private boolean stopApp = false;
     private String roleId, noteRoleId;
     private String host,enemy;
-    private boolean tavolino = false;
+    private boolean onStop = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +71,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
-
-                    FirebaseClass.deleteFieldFirebase(null, codiceStanza);
                 }
 
                 if(!host.equals("null") && enemy.equals("null"))
@@ -86,10 +84,10 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
-
-                    FirebaseClass.deleteFieldFirebase(null, codiceStanza);
                 }
 
+                if(onStop)
+                    FirebaseClass.deleteFieldFirebase(null, codiceStanza);
 
             }
 
@@ -109,5 +107,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         super.onStop();
 
         FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
+
+        onStop = true;
     }
 }
