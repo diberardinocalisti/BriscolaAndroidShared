@@ -71,6 +71,8 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
+
+                    FirebaseClass.deleteFieldFirebase(null, codiceStanza);
                 }
 
                 if(!host.equals("null") && enemy.equals("null"))
@@ -84,9 +86,11 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
+
+                    FirebaseClass.deleteFieldFirebase(null, codiceStanza);
                 }
 
-                FirebaseClass.deleteFieldFirebase(null, codiceStanza);
+
             }
 
             @Override
