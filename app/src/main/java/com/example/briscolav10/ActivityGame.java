@@ -102,7 +102,7 @@ public class ActivityGame extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError databaseError) {
-
+                    System.out.println("ERROREEEE");
                 }
 
 
