@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.service.autofill.Dataset;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
 
 public class Utility {
+
 
     public static void createDialog(Context c, String title,String msg){
         AlertDialog.Builder builder=new AlertDialog.Builder(c);
@@ -72,19 +74,42 @@ public class Utility {
                             @Override
                             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
+                                String host = "null";
+                                String enemy = "null";
+
                                 if(dataSnapshot.exists())
                                 {
-                                    engineMultiplayer.codiceStanza = input.getText().toString();
-                                    engineMultiplayer.role = "NOTHOST";
-                                    FirebaseClass.editFieldFirebase(input.getText().toString(),"enemy", loginClass.getFBNome());
-                                    goTo(c, ActivityMultiplayerGame.class);
+                                    for(DataSnapshot d : dataSnapshot.getChildren())
+                                    {
+                                        String key = d.getKey();
+                                        Object value = d.getValue();
+
+                                        if(key.equals("host"))
+                                            host = String.valueOf(value);
+                                        if(key.equals("enemy"))
+                                            enemy = String.valueOf(value);
+
+                                    }
+
+                                    if(!host.equals("null") && !enemy.equals("null"))
+                                    {
+                                        Toast.makeText(c.getApplicationContext(), "La stanza è al momento piena!",Toast.LENGTH_LONG).show();
+                                    }else
+                                    {
+                                        engineMultiplayer.codiceStanza = input.getText().toString();
+                                        engineMultiplayer.role = "NOTHOST";
+                                        FirebaseClass.editFieldFirebase(input.getText().toString(),"enemy", loginClass.getFBNome());
+                                        goTo(c, ActivityMultiplayerGame.class);
+                                    }
+
+
 
                                 }
                                 else
                                 {
-                                    goTo(c, MultiplayerActivity.class);
                                     Toast.makeText(c,"Errore! La stanza non esiste.",Toast.LENGTH_LONG).show();
                                 }
+
                             }
 
                             @Override

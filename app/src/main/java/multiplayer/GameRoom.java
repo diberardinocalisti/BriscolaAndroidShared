@@ -18,6 +18,14 @@ public class GameRoom {
     //Nome giocatore che partecipa alla partita
     private String enemy;
 
+    /*
+    *   Private String carteRimanenti (carte da cui pescare e dare le carte)
+    *   private String gioocataDaHost
+    *   private String giocataDaEnemy
+    *   private int puntiHost
+    *   private int puntiEnemy
+    * */
+
     public GameRoom(){};
 
     public GameRoom(String host, String enemy, String gameCode) {
