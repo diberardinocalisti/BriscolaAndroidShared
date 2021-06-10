@@ -78,40 +78,34 @@ public class engineMultiplayer extends AppCompatActivity {
         return mazzoFb;
    }
 
-   public static String[] getInitialCards() throws InterruptedException {
+   public static String[] getInitialCards(){
        String[] daDare = new String[CARTE_INIZIALI];
-       Object event = new Object();
 
-       new Thread(() -> {
-           ValueEventListener postListener = new ValueEventListener() {
-               @Override
-               public void onDataChange(DataSnapshot dataSnapshot) {
-                   // Get Post object and use the values to update the UI
-                   System.out.println("Changed!!!");
-                   GameRoom g = dataSnapshot.getValue(GameRoom.class);
+       ValueEventListener postListener = new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+               // Get Post object and use the values to update the UI
+               System.out.println("Changed!!!");
+               GameRoom g = dataSnapshot.getValue(GameRoom.class);
 
-                   String rimanenti = g.getCarteRimanenti();
-                   String[] singole = rimanenti.split(";");
+               String rimanenti = g.getCarteRimanenti();
+               String[] singole = rimanenti.split(";");
 
-                   for(int i = 0; i< CARTE_INIZIALI ;i++)
-                   {
-                       daDare[i] = singole[i];
-                   }
-
-                   event.notifyAll();
+               for(int i = 0; i< CARTE_INIZIALI ;i++)
+               {
+                   daDare[i] = singole[i];
                }
 
-               @Override
-               public void onCancelled(DatabaseError databaseError) {
-               }
-           };
-           FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(postListener);
-       }).start();
+           }
 
-       synchronized (event){
-           event.wait();
-           return daDare;
-       }
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+           }
+       };
+       FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(postListener);
+
+       return daDare;
+
     }
 
 }
