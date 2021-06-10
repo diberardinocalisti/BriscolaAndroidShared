@@ -49,7 +49,7 @@ public class Engine{
         terminata = false;
     }
 
-    static void creaMazzo() {
+    public static void creaMazzo() {
         lastManche = false;
         mazzo.clear();
 
@@ -203,7 +203,7 @@ public class Engine{
         return null;
     }
 
-    static Carta getCartaFromButton(View button){
+    public static Carta getCartaFromButton(View button){
         for(Carta carta : mazzoIniziale){
             if(carta == null)
                 continue;

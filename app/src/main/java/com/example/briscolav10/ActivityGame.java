@@ -96,7 +96,7 @@ public class ActivityGame extends AppCompatActivity {
                         if(key.equals("enemy"))
                         {
                             //è entrato l'avverrsario nella stanza
-                            if(value != "null")
+                            if(!value.equals("null"))
                             {
                                 finishAttesa = true;
                                 Intent i = new Intent(ActivityGame.this,ActivityMultiplayerGame.class);
@@ -132,6 +132,14 @@ public class ActivityGame extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(ActivityMultiplayerGame.onStop)
+        {
+           Utility.goTo(ActivityGame.this,MainActivity.class);
+        }
+    }
 
     @Override
     protected void onPause() {

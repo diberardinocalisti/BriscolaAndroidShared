@@ -2,10 +2,14 @@ package multiplayer.Game;
 
 import android.bluetooth.BluetoothA2dp;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
@@ -17,7 +21,10 @@ import com.google.firebase.database.annotations.NotNull;
 
 import Home.MainActivity;
 import firebase.FirebaseClass;
+import gameEngine.Carta;
+import gameEngine.Engine;
 import gameEngine.Utility;
+import gameEngine.onClick;
 
 import static multiplayer.engineMultiplayer.codiceStanza;
 import static multiplayer.engineMultiplayer.role;
@@ -30,10 +37,44 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     private String host,enemy;
     public static boolean onStop = false;
 
+    //I primi 3 bottoni sono dell'avversario
+    private Button carte[] = new Button[6];
+
+
+    //button9 carta dell'avversario button10 mia carta
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campo_da_gioco);
+
+        for(int i = 0; i < carte.length; i++){
+            String idS = "button" + (i+1);
+            int id = getResources().getIdentifier(idS, "id", getPackageName());
+
+            carte[i] = findViewById(id);
+
+            int finalI = i;
+            carte[i].setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.N)
+                @Override
+                public void onClick(View v) {
+                    if(finalI < 3)
+                    {
+                        //Ha premuto l'avversario";
+                        Carta premuta = Engine.getCartaFromButton((Button) v);
+                        Toast.makeText(ActivityMultiplayerGame.this,"carta --> " + premuta.getNome(),Toast.LENGTH_SHORT).show();
+                    }else
+                    {
+                        //Ho premuto io
+                    }
+
+                }
+            });
+        }
+
+
+
 
         roleId = (role == "HOST" ? "host" : "enemy");
         noteRoleId = (role == "HOST" ? "enemy" : "host");

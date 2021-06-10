@@ -2,7 +2,9 @@ package multiplayer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
@@ -11,6 +13,7 @@ import java.util.Random;
 
 import Login.loginClass;
 import firebase.FirebaseClass;
+import gameEngine.Engine;
 
 
 public class engineMultiplayer extends AppCompatActivity {
@@ -42,4 +45,11 @@ public class engineMultiplayer extends AppCompatActivity {
         i.putExtra("multiplayer",true);
         c.startActivity(i);
     }
+
+   /* @RequiresApi(api = Build.VERSION_CODES.N)
+    public static String creaMazzoOnline()
+    {
+
+
+    }*/
 }
