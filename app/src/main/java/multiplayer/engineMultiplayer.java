@@ -78,9 +78,9 @@ public class engineMultiplayer extends AppCompatActivity {
         return mazzoFb;
    }
 
-   public static String[] getInitialCards()
-   {
+   public static String[] getInitialCards() throws InterruptedException {
        String[] daDare = new String[CARTE_INIZIALI];
+       Object event = new Object();
 
        ValueEventListener postListener = new ValueEventListener() {
            @Override
@@ -97,9 +97,7 @@ public class engineMultiplayer extends AppCompatActivity {
                    daDare[i] = singole[i];
                }
 
-               for(String s : daDare)
-                   System.out.println("daDare --> " + s);
-
+               event.notifyAll();
            }
 
            @Override
@@ -109,8 +107,10 @@ public class engineMultiplayer extends AppCompatActivity {
 
        FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(postListener);
 
-
-       return daDare;
-   }
+       synchronized (event){
+           event.wait();
+           return daDare;
+       }
+    }
 
 }

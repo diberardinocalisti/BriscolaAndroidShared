@@ -153,7 +153,12 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                String[] daDare = getInitialCards();
+                String[] daDare = new String[0];
+                try {
+                    daDare = getInitialCards();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 for(String s: daDare)
                     System.out.println("s --> " + s);
             }
