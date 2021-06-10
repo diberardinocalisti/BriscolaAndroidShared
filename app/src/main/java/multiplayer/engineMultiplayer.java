@@ -87,7 +87,7 @@ public class engineMultiplayer extends AppCompatActivity {
                @Override
                public void onDataChange(DataSnapshot dataSnapshot) {
                    // Get Post object and use the values to update the UI
-                   System.out.println("Changed!!");
+                   System.out.println("Changed!!!");
                    GameRoom g = dataSnapshot.getValue(GameRoom.class);
 
                    String rimanenti = g.getCarteRimanenti();
