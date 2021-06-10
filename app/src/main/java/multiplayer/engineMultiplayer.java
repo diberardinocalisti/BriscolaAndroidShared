@@ -82,30 +82,31 @@ public class engineMultiplayer extends AppCompatActivity {
        String[] daDare = new String[CARTE_INIZIALI];
        Object event = new Object();
 
-       ValueEventListener postListener = new ValueEventListener() {
-           @Override
-           public void onDataChange(DataSnapshot dataSnapshot) {
-               // Get Post object and use the values to update the UI
-               System.out.println("Changed!!");
-               GameRoom g = dataSnapshot.getValue(GameRoom.class);
+       new Thread(() -> {
+           ValueEventListener postListener = new ValueEventListener() {
+               @Override
+               public void onDataChange(DataSnapshot dataSnapshot) {
+                   // Get Post object and use the values to update the UI
+                   System.out.println("Changed!!");
+                   GameRoom g = dataSnapshot.getValue(GameRoom.class);
 
-               String rimanenti = g.getCarteRimanenti();
-               String[] singole = rimanenti.split(";");
+                   String rimanenti = g.getCarteRimanenti();
+                   String[] singole = rimanenti.split(";");
 
-               for(int i = 0; i< CARTE_INIZIALI ;i++)
-               {
-                   daDare[i] = singole[i];
+                   for(int i = 0; i< CARTE_INIZIALI ;i++)
+                   {
+                       daDare[i] = singole[i];
+                   }
+
+                   event.notifyAll();
                }
 
-               event.notifyAll();
-           }
-
-           @Override
-           public void onCancelled(DatabaseError databaseError) {
-           }
-       };
-
-       FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(postListener);
+               @Override
+               public void onCancelled(DatabaseError databaseError) {
+               }
+           };
+           FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(postListener);
+       }).start();
 
        synchronized (event){
            event.wait();
