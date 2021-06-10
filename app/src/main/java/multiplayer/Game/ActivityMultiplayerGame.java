@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothA2dp;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,11 +27,11 @@ import gameEngine.Engine;
 import gameEngine.Utility;
 import gameEngine.onClick;
 
-import static multiplayer.engineMultiplayer.codiceStanza;
-import static multiplayer.engineMultiplayer.role;
+import static multiplayer.engineMultiplayer.*;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
 
+    public static boolean start = false;
     private String onStopUser;
     private boolean stopApp = false;
     private String roleId, noteRoleId;
@@ -47,6 +48,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campo_da_gioco);
+
 
         for(int i = 0; i < carte.length; i++){
             String idS = "button" + (i+1);
@@ -73,9 +75,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             });
         }
 
-
-
-
         roleId = (role == "HOST" ? "host" : "enemy");
         noteRoleId = (role == "HOST" ? "enemy" : "host");
 
@@ -98,7 +97,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
                 }
 
-                System.out.println("Host --> " + host+"\nEnemy --> " + enemy);
+
 
                 //L'host ha abbandonato
                 if(host.equals("null") && !enemy.equals("null"))
@@ -127,6 +126,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     }
                 }
 
+
                 if(onStop)
                     FirebaseClass.deleteFieldFirebase(null, codiceStanza);
             }
@@ -139,6 +139,20 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
 
         });
+
+        if(role == "HOST" && !start)
+        {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startMultiplayerGame();
+                    ActivityMultiplayerGame.start = true;
+                }
+            }, 2000);
+            //Toast.makeText(getApplicationContext(),"Ora si dovrebbe creare il mazzo",Toast.LENGTH_LONG).show();
+        }
+
     }
 
 

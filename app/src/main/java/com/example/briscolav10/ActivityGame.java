@@ -96,7 +96,7 @@ public class ActivityGame extends AppCompatActivity {
                         if(key.equals("enemy"))
                         {
                             //è entrato l'avverrsario nella stanza
-                            if(!value.equals("null"))
+                            if(!value.equals("null") && !ActivityMultiplayerGame.start && !ActivityMultiplayerGame.onStop)
                             {
                                 finishAttesa = true;
                                 Intent i = new Intent(ActivityGame.this,ActivityMultiplayerGame.class);

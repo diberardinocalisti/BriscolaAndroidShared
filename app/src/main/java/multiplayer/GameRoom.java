@@ -17,21 +17,27 @@ public class GameRoom {
     private String host;
     //Nome giocatore che partecipa alla partita
     private String enemy;
+    
+    //Carte rimanenti nel mazzo
+    
+    private String carteRimanenti;
 
-    /*
-    *   Private String carteRimanenti (carte da cui pescare e dare le carte)
-    *   private String gioocataDaHost
-    *   private String giocataDaEnemy
-    *   private int puntiHost
-    *   private int puntiEnemy
-    * */
+   private String giocataDaHost;
+   private String giocataDaEnemy;
+   private int puntiHost;
+   private int puntiEnemy;
 
     public GameRoom(){};
 
-    public GameRoom(String host, String enemy, String gameCode) {
+    public GameRoom(String gameCode, String host, String enemy, String carteRimanenti, String giocataDaHost, String giocataDaEnemy, int puntiHost, int puntiEnemy) {
+        this.gameCode = gameCode;
         this.host = host;
         this.enemy = enemy;
-        this.gameCode = gameCode;
+        this.carteRimanenti = carteRimanenti;
+        this.giocataDaHost = giocataDaHost;
+        this.giocataDaEnemy = giocataDaEnemy;
+        this.puntiHost = puntiHost;
+        this.puntiEnemy = puntiEnemy;
     }
 
 
@@ -49,5 +55,45 @@ public class GameRoom {
 
     public void setEnemy(String enemy) {
         this.enemy = enemy;
+    }
+
+    public String getCarteRimanenti() {
+        return carteRimanenti;
+    }
+
+    public void setCarteRimanenti(String carteRimanenti) {
+        this.carteRimanenti = carteRimanenti;
+    }
+
+    public String getgiocataDaHost() {
+        return giocataDaHost;
+    }
+
+    public void setgiocataDaHost(String giocataDaHost) {
+        this.giocataDaHost = giocataDaHost;
+    }
+
+    public String getGiocataDaEnemy() {
+        return giocataDaEnemy;
+    }
+
+    public void setGiocataDaEnemy(String giocataDaEnemy) {
+        this.giocataDaEnemy = giocataDaEnemy;
+    }
+
+    public int getPuntiHost() {
+        return puntiHost;
+    }
+
+    public void setPuntiHost(int puntiHost) {
+        this.puntiHost = puntiHost;
+    }
+
+    public int getPuntiEnemy() {
+        return puntiEnemy;
+    }
+
+    public void setPuntiEnemy(int puntiEnemy) {
+        this.puntiEnemy = puntiEnemy;
     }
 }
