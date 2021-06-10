@@ -102,8 +102,6 @@ public class Utility {
                                         goTo(c, ActivityMultiplayerGame.class);
                                     }
 
-
-
                                 }
                                 else
                                 {

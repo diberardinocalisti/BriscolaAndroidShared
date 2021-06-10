@@ -38,7 +38,7 @@ public class engineMultiplayer extends AppCompatActivity {
 
     public static void accediAllaStanza(Context c,String gameCode)
     {
-        GameRoom g = new GameRoom(loginClass.getFBNome(),"null", gameCode);
+        GameRoom g = new GameRoom(gameCode,loginClass.getFBNome(),"null","null","null","null",-1,-1);
         FirebaseClass.addToFirebase(g);
 
         Intent i = new Intent(c, ActivityGame.class);
@@ -46,10 +46,29 @@ public class engineMultiplayer extends AppCompatActivity {
         c.startActivity(i);
     }
 
-   /* @RequiresApi(api = Build.VERSION_CODES.N)
-    public static String creaMazzoOnline()
-    {
+   public static void startMultiplayerGame()
+   {
+       //Devo inserire le carte rimanenti, quindi tutto il mazzo
+       FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",creaMazzoFirebase());
 
+   }
 
-    }*/
+   public static String creaMazzoFirebase()
+   {
+       String[] numeri = {"1","2","3","4","5","6","7","8","9","10"};
+       String[] semi = {"denara","spade","coppe","bastoni"};
+        String mazzo = "";
+
+        for(String s : semi)
+        {
+            for(String n : numeri)
+            {
+                mazzo += n+"_"+s+";";
+            }
+        }
+
+        mazzo = mazzo.substring(0, mazzo.length()-1);
+        return mazzo;
+   }
+
 }

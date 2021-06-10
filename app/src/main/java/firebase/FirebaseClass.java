@@ -31,7 +31,7 @@ public class FirebaseClass {
 
     public static <T> void editFieldFirebase(String codiceStanza, String fieldToUpdate, T value)
     {
-        DatabaseReference update =  getFbRef().child(codiceStanza); //Mi posiziono nella tabella della stanza
+        DatabaseReference update =  getFbRefSpeicific(codiceStanza); //Mi posiziono nella tabella della stanza
         update.child(fieldToUpdate).setValue(value);
     }
 
