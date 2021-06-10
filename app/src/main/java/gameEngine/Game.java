@@ -27,14 +27,14 @@ public class Game {
     // Tutte le carte dei giocatori (quelle che possono essere giocate);
     protected static Button[] carteBottoni;
 
-    protected static ArrayList<Carta> mazzo;
+    public static ArrayList<Carta> mazzo;
     protected static Carta[] mazzoIniziale;
 
     protected static Giocatore giocante, ultimoVincitore;
     protected static boolean canPlay, lastManche, terminata;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private static void initialize(AppCompatActivity activity){
+    public static void initialize(AppCompatActivity activity){
         Game.activity = activity;
 
         giocatori = new Giocatore[nGiocatori];

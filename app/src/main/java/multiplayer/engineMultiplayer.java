@@ -8,18 +8,25 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Random;
 
 import Login.loginClass;
 import firebase.FirebaseClass;
+import gameEngine.Carta;
 import gameEngine.Engine;
+import gameEngine.Game;
+import multiplayer.Game.ActivityMultiplayerGame;
 
 
 public class engineMultiplayer extends AppCompatActivity {
 
     public static String codiceStanza;
     public static String role;
+    private static final int CARTE_INIZIALI = 3;
 
     public static void creaStanza(Context c)
     {
@@ -46,29 +53,64 @@ public class engineMultiplayer extends AppCompatActivity {
         c.startActivity(i);
     }
 
-   public static void startMultiplayerGame()
+   @RequiresApi(api = Build.VERSION_CODES.N)
+   public static void startMultiplayerGame(AppCompatActivity c)
    {
+       Game.initialize(c);
        //Devo inserire le carte rimanenti, quindi tutto il mazzo
        FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",creaMazzoFirebase());
 
    }
 
+   @RequiresApi(api = Build.VERSION_CODES.N)
    public static String creaMazzoFirebase()
    {
-       String[] numeri = {"1","2","3","4","5","6","7","8","9","10"};
-       String[] semi = {"denara","spade","coppe","bastoni"};
-        String mazzo = "";
+       String mazzoFb = "";
+       Engine.creaMazzo();
 
-        for(String s : semi)
-        {
-            for(String n : numeri)
-            {
-                mazzo += n+"_"+s+";";
-            }
-        }
+       for(Carta c : Game.mazzo)
+       {
+           mazzoFb += c.getNome()+";";
+       }
 
-        mazzo = mazzo.substring(0, mazzo.length()-1);
-        return mazzo;
+       mazzoFb = mazzoFb.substring(0, mazzoFb.length()-1);
+
+        return mazzoFb;
+   }
+
+   public static String[] getInitialCards()
+   {
+       String[] daDare = new String[CARTE_INIZIALI];
+
+       ValueEventListener postListener = new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+               // Get Post object and use the values to update the UI
+               System.out.println("Changed!!");
+               GameRoom g = dataSnapshot.getValue(GameRoom.class);
+
+               String rimanenti = g.getCarteRimanenti();
+               String[] singole = rimanenti.split(";");
+
+               for(int i = 0; i< CARTE_INIZIALI ;i++)
+               {
+                   daDare[i] = singole[i];
+               }
+
+               for(String s : daDare)
+                   System.out.println("daDare --> " + s);
+
+           }
+
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+           }
+       };
+
+       FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(postListener);
+
+
+       return daDare;
    }
 
 }

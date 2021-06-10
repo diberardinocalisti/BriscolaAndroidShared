@@ -96,4 +96,6 @@ public class GameRoom {
     public void setPuntiEnemy(int puntiEnemy) {
         this.puntiEnemy = puntiEnemy;
     }
+
+
 }

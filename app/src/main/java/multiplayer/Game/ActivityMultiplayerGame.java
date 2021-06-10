@@ -44,6 +44,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
     //button9 carta dell'avversario button10 mia carta
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,16 +143,22 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
         if(role == "HOST" && !start)
         {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startMultiplayerGame();
-                    ActivityMultiplayerGame.start = true;
-                }
-            }, 2000);
+            startMultiplayerGame(ActivityMultiplayerGame.this);
+            ActivityMultiplayerGame.start = true;
             //Toast.makeText(getApplicationContext(),"Ora si dovrebbe creare il mazzo",Toast.LENGTH_LONG).show();
         }
+
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String[] daDare = getInitialCards();
+                for(String s: daDare)
+                    System.out.println("s --> " + s);
+            }
+        }, 800);
+
 
     }
 
