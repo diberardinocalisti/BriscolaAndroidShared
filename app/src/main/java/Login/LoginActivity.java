@@ -85,10 +85,10 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.fb_profile);
         findViewById(R.id.logout).setOnClickListener(v -> findViewById(R.id.logoutHook).performClick());
 
-        TextView nome = (TextView) findViewById(R.id.nome);
+        TextView nome = findViewById(R.id.nome);
         nome.setText(loginClass.getFBNome() + " " + loginClass.getFBCognome());
 
-        ProfilePictureView imgProfile = (ProfilePictureView) findViewById(R.id.friendProfilePicture);
+        ProfilePictureView imgProfile = findViewById(R.id.friendProfilePicture);
         loginClass.setImgProfile(imgProfile);
     }
 }
