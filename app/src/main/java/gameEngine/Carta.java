@@ -136,4 +136,8 @@ public class Carta {
         int resID = activity.getResources().getIdentifier(this.getNome(), "drawable", activity.getPackageName());
         return activity.getResources().getDrawable(resID);
     }
+
+    public int getImage(int type){
+        return activity.getResources().getIdentifier(this.getNome(), "drawable", activity.getPackageName());
+    }
 }

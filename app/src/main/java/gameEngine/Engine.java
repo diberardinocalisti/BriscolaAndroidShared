@@ -1,6 +1,7 @@
 package gameEngine;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.view.View;
 import android.widget.Button;
@@ -125,7 +126,7 @@ public class Engine{
         if(isTerminata()){
             termina();
         }else{
-            prossimoTurno(ultimoVincitore);
+            prossimoTurno(vincitore);
         }
     }
 
@@ -133,28 +134,30 @@ public class Engine{
         Giocatore vincitore = trovaVincitore();
 
         Game.canPlay = false;
-        terminata = true;
+        terminata = true;;
 
-        for(Giocatore p : giocatori)
-            p.mostraMazzo();
+        terminaPartita();
 
-        if(vincitore != null){
+        /*if(vincitore != null){
             vincitore.aggiornaPunteggio();
 
             if(vincitore.getScore() == Game.scoreLimit){
-                terminaPartita(vincitore);
+                terminaPartita();
             }else{
                 terminaRound(vincitore);
             }
         }else{
             terminaRound(null);
-        }
+        }*/
     }
 
-    static void terminaPartita(Giocatore vincitore){
-        String titolo = vincitore.getNome() + " ha vinto! ("+vincitore.getPunteggioCarte()+")";
-        String sottotitolo = "Premi OK per un'altra partita!";
-        Utility.confirmDialog(activity, titolo, sottotitolo, (dialog, which) -> iniziaPartita(), dialog -> iniziaPartita());
+    static void terminaPartita(){
+        Intent i = new Intent(activity,com.example.briscolav10.postPartita.class);
+
+        i.putExtra("punteggio", user.getPunteggioCarte());
+        i.putExtra("carte", user.mostraMazzo());
+
+        activity.startActivity(i);
     }
 
     static void terminaRound(Giocatore vincitore){
@@ -212,6 +215,17 @@ public class Engine{
                 continue;
 
             if(carta.getButton().getId() == button.getId())
+                return carta;
+        }
+        return null;
+    }
+
+    public static Carta getCartaFromName(String nome){
+        for(Carta carta : mazzoIniziale){
+            if(carta == null)
+                continue;
+
+            if(carta.getNome().equals(nome))
                 return carta;
         }
         return null;

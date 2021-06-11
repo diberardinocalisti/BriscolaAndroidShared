@@ -40,9 +40,9 @@ public class ActivityGame extends AppCompatActivity {
     ProfilePictureView imgP;
     ActivityGame a;
 
-    public boolean multiplayer = false;
-    public boolean attesa = false;
-    public boolean finishAttesa = false;    //Se mando l'utente alla pagina del gioco è comunque onmStop() e quindi verrebbe eliminata la staanza
+    public static boolean multiplayer = false;
+    public static boolean attesa = false;
+    public static boolean finishAttesa = false;    //Se mando l'utente alla pagina del gioco è comunque onmStop() e quindi verrebbe eliminata la staanza
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override

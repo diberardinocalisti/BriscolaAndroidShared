@@ -20,6 +20,7 @@ public class Game {
 
     protected static Giocatore[] giocatori;
     protected static CPU CPU;
+    protected static Giocatore user;
 
     // Tutte le carte presenti nel campo di gioco;
     protected static View[] carte;

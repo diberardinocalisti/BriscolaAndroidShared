@@ -11,10 +11,19 @@
         android:theme="@style/Theme.BriscolaV10">
         <activity android:name=".ActivityGame"
             android:parentActivityName = "Home.MainActivity"
-            >
+        >
             <intent-filter>
+
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
+        </activity>
+        <activity android:name=".postPartita"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:parentActivityName = "Home.MainActivity"
+            >
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW" />
+        </intent-filter>
         </activity>
         <activity android:name="multiplayer.MultiplayerActivity"
             android:parentActivityName = "Home.MainActivity"

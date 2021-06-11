@@ -54,6 +54,7 @@ public class Giocatore {
 
     public Giocatore(String nome, Integer index){
         this(nome, index, false);
+        Game.user = this;
     }
 
     protected Giocatore(String nome, Integer index, boolean CPU){
@@ -86,19 +87,19 @@ public class Giocatore {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void mostraMazzo() {
+    public String[] mostraMazzo() {
         final int daMostrare = 3;
 
         ArrayList<Carta> carte = prese;
         Collections.sort(carte, Engine.ordinaCarte);
         Collections.reverse(carte);
+        ArrayList<String> mostrate = new ArrayList<>();
 
         for(int i = 0; i < daMostrare && i < carte.size(); i++){
-            Carta c = carte.get(i);
-            this.carte[i] = c;
-            this.carte[i].setButton(this.bottoni[i]);
-            this.carte[i].mostra();
+            mostrate.add(carte.get(i).getNome());
         }
+
+        return mostrate.toArray(new String[0]);
     }
 
     public void svuotaMazzo(){
