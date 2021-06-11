@@ -10,21 +10,21 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#131C21">
+        android:background="#ffffff">
 
         <TextView
             android:id="@+id/nome"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
             android:fontFamily="sans-serif"
             android:text="Nome cognome"
-            android:textColor="#FFFFFF"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/frameLayout3"
             app:layout_constraintStart_toEndOf="@+id/frameLayout3"
-            app:layout_constraintTop_toTopOf="@+id/frameLayout3" />
+            app:layout_constraintTop_toTopOf="@+id/frameLayout3"
+            app:layout_constraintVertical_bias="0.511" />
 
         <View
             android:id="@+id/seperator4"
@@ -37,115 +37,21 @@
             app:layout_constraintTop_toBottomOf="@+id/frameLayout3" />
 
         <View
-            android:id="@+id/seperator5"
+            android:id="@+id/seperator"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="25dp"
             android:background="#808080"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seperator4" />
-
-        <View
-            android:id="@+id/seperator6"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginTop="100dp"
-            android:background="#808080"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seperator5" />
-
-        <View
-            android:id="@+id/seperator7"
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginTop="100dp"
-            android:background="#808080"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seperator6" />
-
-        <ImageView
-            android:id="@+id/stella4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:foregroundGravity="center_vertical"
-            app:layout_constraintBottom_toTopOf="@+id/seperator5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seperator4"
-            app:srcCompat="@android:drawable/star_big_on" />
-
-        <TextView
-            android:id="@+id/n_Vittorie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="Vittorie: "
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/stella4"
-            app:layout_constraintStart_toEndOf="@+id/stella4"
-            app:layout_constraintTop_toTopOf="@+id/stella4" />
-
-        <ImageView
-            android:id="@+id/stella5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:foregroundGravity="center_vertical"
-            app:layout_constraintBottom_toTopOf="@+id/seperator6"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seperator5"
-            app:srcCompat="@android:drawable/star_big_on" />
-
-        <TextView
-            android:id="@+id/n_Sconfitte"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="Sconfitte:"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/stella5"
-            app:layout_constraintStart_toEndOf="@+id/stella5"
-            app:layout_constraintTop_toTopOf="@+id/stella5" />
-
-        <ImageView
-            android:id="@+id/stella6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginLeft="20dp"
-            android:foregroundGravity="center_vertical"
-            app:layout_constraintBottom_toTopOf="@+id/seperator7"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/seperator6"
-            app:srcCompat="@android:drawable/star_big_on" />
-
-        <TextView
-            android:id="@+id/n_Pareggi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="Pareggi:"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/stella6"
-            app:layout_constraintStart_toEndOf="@+id/stella6"
-            app:layout_constraintTop_toTopOf="@+id/stella6" />
+            app:layout_constraintTop_toBottomOf="@+id/ratio" />
 
         <TextView
             android:id="@+id/footer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="25dp"
             android:text="Accesso effettuato a Facebook"
             android:textColor="#323739"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -153,15 +59,66 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
-            android:id="@+id/logout"
+            android:id="@+id/vittorie"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="25dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperator4"
+            app:srcCompat="@drawable/trophy" />
+
+        <TextView
+            android:id="@+id/nVittorie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            app:layout_constraintBottom_toTopOf="@+id/seperator4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_delete" />
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:text="Numero vittorie:"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/vittorie"
+            app:layout_constraintStart_toEndOf="@+id/vittorie"
+            app:layout_constraintTop_toTopOf="@+id/vittorie"
+            app:layout_constraintVertical_bias="0.391" />
+
+        <ImageView
+            android:id="@+id/sconfitte"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintStart_toStartOf="@+id/vittorie"
+            app:layout_constraintTop_toBottomOf="@+id/vittorie"
+            app:srcCompat="@drawable/lost" />
+
+        <TextView
+            android:id="@+id/nSconfitte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Numero sconfitte:"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/sconfitte"
+            app:layout_constraintStart_toStartOf="@+id/nVittorie"
+            app:layout_constraintTop_toTopOf="@+id/sconfitte" />
+
+        <ImageView
+            android:id="@+id/ratio"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            app:layout_constraintStart_toStartOf="@+id/sconfitte"
+            app:layout_constraintTop_toBottomOf="@+id/sconfitte"
+            app:srcCompat="@drawable/ratio" />
+
+        <TextView
+            android:id="@+id/nRatio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rateo V/S:"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/ratio"
+            app:layout_constraintStart_toStartOf="@+id/nSconfitte"
+            app:layout_constraintTop_toTopOf="@+id/ratio" />
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/logoutHook"
@@ -172,6 +129,17 @@
             android:visibility="invisible"
             tools:layout_editor_absoluteX="195dp"
             tools:layout_editor_absoluteY="673dp" />
+
+        <ImageView
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintBottom_toBottomOf="@+id/nome"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/nome"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
 
         <FrameLayout
             android:id="@+id/frameLayout3"
