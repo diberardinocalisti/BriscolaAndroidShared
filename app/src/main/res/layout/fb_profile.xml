@@ -1,43 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.facebook.login.widget.ProfilePictureView
-        android:id="@+id/friendProfilePicture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:layout_marginTop="70dp" />
 
-    <TextView
-        android:id="@+id/nome"
-        android:layout_width="156dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/bordo_text_view"
-        android:gravity="center" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#131C21">
 
+        <TextView
+            android:id="@+id/nome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginLeft="15dp"
+            android:fontFamily="sans-serif"
+            android:text="Nome cognome"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/frameLayout3"
+            app:layout_constraintStart_toEndOf="@+id/frameLayout3"
+            app:layout_constraintTop_toTopOf="@+id/frameLayout3" />
 
-    <TextView
-        android:id="@+id/cognome"
-        android:layout_width="156dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:background="@drawable/bordo_text_view"
-        android:gravity="center">
+        <View
+            android:id="@+id/seperator4"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="25dp"
+            android:background="#808080"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout3" />
 
-    </TextView>
+        <View
+            android:id="@+id/seperator5"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="100dp"
+            android:background="#808080"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperator4" />
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="100dp" />
+        <View
+            android:id="@+id/seperator6"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="100dp"
+            android:background="#808080"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperator5" />
+
+        <View
+            android:id="@+id/seperator7"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginTop="100dp"
+            android:background="#808080"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperator6" />
+
+        <ImageView
+            android:id="@+id/stella4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:foregroundGravity="center_vertical"
+            app:layout_constraintBottom_toTopOf="@+id/seperator5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperator4"
+            app:srcCompat="@android:drawable/star_big_on" />
+
+        <TextView
+            android:id="@+id/n_Vittorie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Vittorie: "
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/stella4"
+            app:layout_constraintStart_toEndOf="@+id/stella4"
+            app:layout_constraintTop_toTopOf="@+id/stella4" />
+
+        <ImageView
+            android:id="@+id/stella5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:foregroundGravity="center_vertical"
+            app:layout_constraintBottom_toTopOf="@+id/seperator6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperator5"
+            app:srcCompat="@android:drawable/star_big_on" />
+
+        <TextView
+            android:id="@+id/n_Sconfitte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Sconfitte:"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/stella5"
+            app:layout_constraintStart_toEndOf="@+id/stella5"
+            app:layout_constraintTop_toTopOf="@+id/stella5" />
+
+        <ImageView
+            android:id="@+id/stella6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:foregroundGravity="center_vertical"
+            app:layout_constraintBottom_toTopOf="@+id/seperator7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperator6"
+            app:srcCompat="@android:drawable/star_big_on" />
+
+        <TextView
+            android:id="@+id/n_Pareggi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:text="Pareggi:"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/stella6"
+            app:layout_constraintStart_toEndOf="@+id/stella6"
+            app:layout_constraintTop_toTopOf="@+id/stella6" />
+
+        <TextView
+            android:id="@+id/footer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Accesso effettuato a Facebook"
+            android:textColor="#323739"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            app:layout_constraintBottom_toTopOf="@+id/seperator4"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/logoutHook"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:alpha="0.85"
+            android:background="@drawable/blue_button"
+            android:visibility="invisible"
+            tools:layout_editor_absoluteX="195dp"
+            tools:layout_editor_absoluteY="673dp" />
+
+        <FrameLayout
+            android:id="@+id/frameLayout3"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="25dp"
+            android:background="#FFFFFF"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.facebook.login.widget.ProfilePictureView
+                android:id="@+id/friendProfilePicture"
+                android:layout_width="70dp"
+                android:layout_height="70dp">
+
+                <ImageView
+                    android:id="@+id/android"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/subtracted_circle" />
+            </com.facebook.login.widget.ProfilePictureView>
+
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>

@@ -1,8 +1,10 @@
 package Login;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,18 +32,17 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!loginClass.isFacebookLoggedIn())
-        {
-            TextView i;
-            LoginButton l;
+        if(!loginClass.isFacebookLoggedIn()){
             setContentView(R.layout.login_page);
-
-            this.registerButtons();
-
             callbackManager = CallbackManager.Factory.create();
 
-            i = (TextView)findViewById(R.id.info);
-            l = (LoginButton)findViewById(R.id.login_button);
+            LoginButton l = (LoginButton) findViewById(R.id.login_button);
+
+            Button why = findViewById(R.id.button1);
+            why.setOnClickListener(v -> Utility.createDialog(this, why.getText().toString(), "Effettuando l'accesso potrai giocare in multigiocatore e sfidare i tuoi amici in ogni momento!"));
+
+            Button back = findViewById(R.id.button2);
+            back.setOnClickListener(v -> super.onBackPressed());
 
             //@TODO gestire il logout da facebook
             l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -61,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             });
         }else{
-            logIn();
+            loginPage();
         }
 
 
@@ -70,44 +71,24 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode , resultCode , data);
-
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
 
-
-
-    void loginMsg(CharSequence msg)
-    {
+    void loginMsg(CharSequence msg){
         Intent i = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(i);
         Toast.makeText(getBaseContext(),msg,Toast.LENGTH_LONG).show();
     }
 
-    void logIn(){
-
+    void loginPage(){
         setContentView(R.layout.fb_profile);
+        findViewById(R.id.logout).setOnClickListener(v -> findViewById(R.id.logoutHook).performClick());
 
-        TextView nome, cognome;
-        ProfilePictureView imgProfile;
+        TextView nome = (TextView) findViewById(R.id.nome);
+        nome.setText(loginClass.getFBNome() + " " + loginClass.getFBCognome());
 
-        nome = (TextView)findViewById(R.id.nome);
-        cognome = (TextView) findViewById(R.id.cognome);
-        imgProfile = (ProfilePictureView) findViewById(R.id.friendProfilePicture);
-
-
+        ProfilePictureView imgProfile = (ProfilePictureView) findViewById(R.id.friendProfilePicture);
         loginClass.setImgProfile(imgProfile);
-        nome.setText(loginClass.getFBNome());
-        cognome.setText(loginClass.getFBCognome());
-
     }
-
-    void registerButtons(){
-        Button why = findViewById(R.id.button1);
-        why.setOnClickListener(v -> Utility.createDialog(this, why.getText().toString(), "Effettuando l'accesso potrai giocare in multigiocatore e sfidare i tuoi amici in ogni momento!"));
-
-        Button back = findViewById(R.id.button2);
-        back.setOnClickListener(v -> super.onBackPressed());
-    }
-
 }
