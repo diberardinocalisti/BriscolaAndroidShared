@@ -10,14 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BriscolaV10">
         <activity android:name=".ActivityGame"
+            android:noHistory="true"
             android:parentActivityName = "Home.MainActivity"
-        >
-            <intent-filter>
-
-                <action android:name="android.intent.action.VIEW" />
+        ><intent-filter>
+            <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
         <activity android:name=".postPartita"
+            android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:parentActivityName = "Home.MainActivity"
             >
