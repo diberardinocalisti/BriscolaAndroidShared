@@ -37,6 +37,8 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     private String roleId, noteRoleId;
     private String host,enemy;
     public static boolean onStop = false;
+    public static String mazzoOnline = "";
+    public static boolean initialManche = false;
 
     //I primi 3 bottoni sono dell'avversario
     private Button carte[] = new Button[6];
@@ -50,6 +52,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campo_da_gioco);
 
+        final String[][] daDare = {new String[3]};
 
         for(int i = 0; i < carte.length; i++){
             String idS = "button" + (i+1);
@@ -76,6 +79,20 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             });
         }
 
+        if(role == "HOST" && !start)
+        {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    startMultiplayerGame(ActivityMultiplayerGame.this);
+                    ActivityMultiplayerGame.start = true;
+                }
+            }, 1000);
+
+            //Toast.makeText(getApplicationContext(),"Ora si dovrebbe creare il mazzo",Toast.LENGTH_LONG).show();
+        }
+
         roleId = (role == "HOST" ? "host" : "enemy");
         noteRoleId = (role == "HOST" ? "enemy" : "host");
 
@@ -96,9 +113,71 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     else if(key.equals("enemy"))
                         enemy = String.valueOf(value);
 
+                    if(key.equals("carteRimanenti"))
+                    {
+                        if(!value.equals("null"))
+                            mazzoOnline = String.valueOf(value);
+                    }
+
                 }
 
+                if(!mazzoOnline.equals("") && !initialManche)
+                {
+                    if(role.equals("NOTHOST"))
+                    {
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                daDare[0] = getInitialCards();
+                                String carteUscite = "";
 
+
+                                for(String s : daDare[0])
+                                {
+                                    carteUscite += s +";";
+                                }
+
+                                carteUscite = carteUscite.substring(0,carteUscite.length()-1);
+
+                                Toast.makeText(getApplicationContext(),carteUscite,Toast.LENGTH_LONG).show();
+
+                                //Aggiorno le carte
+                                String carteAggiornate = arrayListToString(removeCardsFromArray(carteUscite));
+
+                                FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",carteAggiornate);
+
+                                mazzoOnline = carteAggiornate;
+
+                                initialManche = true;
+                            }
+                        },1000);
+                    }else
+                    {
+                        daDare[0] = getInitialCards();
+                        String carteUscite = "";
+
+
+                        for(String s : daDare[0])
+                        {
+                            carteUscite += s +";";
+                        }
+
+                        carteUscite = carteUscite.substring(0,carteUscite.length()-1);
+
+                        Toast.makeText(getApplicationContext(),carteUscite,Toast.LENGTH_LONG).show();
+
+                        //Aggiorno le carte
+                        String carteAggiornate = arrayListToString(removeCardsFromArray(carteUscite));
+
+                        FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",carteAggiornate);
+
+                        mazzoOnline = carteAggiornate;
+
+                        initialManche = true;
+                    }
+
+                }
 
                 //L'host ha abbandonato
                 if(host.equals("null") && !enemy.equals("null"))
@@ -140,14 +219,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
 
         });
-
-        if(role == "HOST" && !start)
-        {
-            startMultiplayerGame(ActivityMultiplayerGame.this);
-            ActivityMultiplayerGame.start = true;
-            //Toast.makeText(getApplicationContext(),"Ora si dovrebbe creare il mazzo",Toast.LENGTH_LONG).show();
-        }
-
 
 
         /*String[] daDare = new String[3];

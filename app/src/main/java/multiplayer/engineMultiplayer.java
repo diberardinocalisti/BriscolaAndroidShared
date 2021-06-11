@@ -12,6 +12,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import Login.loginClass;
@@ -20,6 +21,8 @@ import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
 import multiplayer.Game.ActivityMultiplayerGame;
+
+import static multiplayer.Game.ActivityMultiplayerGame.mazzoOnline;
 
 
 public class engineMultiplayer extends AppCompatActivity {
@@ -81,7 +84,7 @@ public class engineMultiplayer extends AppCompatActivity {
    public static String[] getInitialCards(){
        String[] daDare = new String[CARTE_INIZIALI];
 
-       ValueEventListener postListener = new ValueEventListener() {
+       /*ValueEventListener postListener = new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
                // Get Post object and use the values to update the UI
@@ -102,10 +105,56 @@ public class engineMultiplayer extends AppCompatActivity {
            public void onCancelled(DatabaseError databaseError) {
            }
        };
-       FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(postListener);
+       FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(postListener);*/
+
+       String[] singole = mazzoOnline.split(";");
+       for(int i = 0; i< CARTE_INIZIALI ;i++)
+       {
+           daDare[i] = singole[i];
+       }
 
        return daDare;
 
+    }
+
+    public static ArrayList<String> stringToArray()
+    {
+        ArrayList<String> appo = new ArrayList<String>();
+
+        for( String s : mazzoOnline.split(";") )
+        {
+            appo.add(s);
+        }
+
+        return appo;
+    }
+
+
+    public static ArrayList<String> removeCardsFromArray(String carteUscite)
+    {
+        String[] carte = carteUscite.split(";");    //3_coppe | 2_coppe | 3_bastoni
+        ArrayList<String> tot = stringToArray();
+
+        for(int i=0;i<CARTE_INIZIALI;i++)
+        {
+            tot.remove(carte[i]);
+        }
+
+        return tot;
+    }
+
+    public static String arrayListToString(ArrayList<String> tot)
+    {
+        String appo = "";
+
+        for(int i=0;i<tot.size();i++)
+        {
+            appo += tot.get(i) + ";";
+        }
+
+        appo = appo.substring(0,appo.length()-1);
+
+        return appo;
     }
 
 }
