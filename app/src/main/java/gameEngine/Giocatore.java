@@ -124,7 +124,6 @@ public class Giocatore {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void pesca(){
-        System.out.println(mazzo.size());
         if(Game.mazzo.size() == 0){
             if(!lastManche){
                 lastManche = true;

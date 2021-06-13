@@ -117,6 +117,8 @@ public class Engine{
         vincitore.mancheVinta();
         pulisciPianoGioco();
 
+        Giocatore[] giocatori = getVincitorePerdente(vincitore);
+
         for(Giocatore p : giocatori)
             if(Game.mazzo.size() > 0 || !lastManche)
                 p.pesca();
@@ -134,7 +136,7 @@ public class Engine{
         Giocatore vincitore = trovaVincitore();
 
         Game.canPlay = false;
-        terminata = true;;
+        Game.terminata = true;;
 
         terminaPartita();
 
@@ -283,10 +285,8 @@ public class Engine{
 
         Carta c_vincente = first.getSeme() == last.getSeme() ? getMax(carte) : comanda;
 
-        if(c_vincente != null){
-            Carta c_perdente = first == c_vincente ? last : first;
-            c_perdente.getButton().setAlpha(0.5f);
-        }
+        Carta c_perdente = first == c_vincente ? last : first;
+        c_perdente.getButton().setAlpha(0.5f);
         
         return c_vincente.getPortatore();
     }
@@ -361,5 +361,14 @@ public class Engine{
             icona.setText(n_carte.toString());
             icona.setVisibility(View.VISIBLE);
         }
+    }
+
+    public static Giocatore[] getVincitorePerdente(Giocatore vincente){
+        Giocatore[] arr = new Giocatore[giocatori.length];
+
+        arr[0] = vincente;
+        arr[1] = vincente == giocatori[0] ? giocatori[1] : giocatori[0];
+
+        return arr;
     }
 }
