@@ -138,12 +138,13 @@ public class ActivityGame extends AppCompatActivity {
         if(ActivityMultiplayerGame.onStop)
         {
            Utility.goTo(ActivityGame.this,MainActivity.class);
+           ActivityMultiplayerGame.onStop = false;
         }
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
 
         if(multiplayer && attesa && !finishAttesa){
             FirebaseClass.deleteFieldFirebase(null, codiceStanza);

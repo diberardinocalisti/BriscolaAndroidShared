@@ -27,9 +27,12 @@ public class GameRoom {
    private int puntiHost;
    private int puntiEnemy;
 
+   private String HostPescato;
+
+
     public GameRoom(){};
 
-    public GameRoom(String gameCode, String host, String enemy, String carteRimanenti, String giocataDaHost, String giocataDaEnemy, int puntiHost, int puntiEnemy) {
+    public GameRoom(String gameCode, String host, String enemy, String carteRimanenti, String giocataDaHost, String giocataDaEnemy, int puntiHost, int puntiEnemy, String hostPescato) {
         this.gameCode = gameCode;
         this.host = host;
         this.enemy = enemy;
@@ -38,8 +41,8 @@ public class GameRoom {
         this.giocataDaEnemy = giocataDaEnemy;
         this.puntiHost = puntiHost;
         this.puntiEnemy = puntiEnemy;
+        HostPescato = hostPescato;
     }
-
 
     public String getHost() {
         return host;
@@ -65,11 +68,11 @@ public class GameRoom {
         this.carteRimanenti = carteRimanenti;
     }
 
-    public String getgiocataDaHost() {
+    public String getGiocataDaHost() {
         return giocataDaHost;
     }
 
-    public void setgiocataDaHost(String giocataDaHost) {
+    public void setGiocataDaHost(String giocataDaHost) {
         this.giocataDaHost = giocataDaHost;
     }
 
@@ -97,5 +100,11 @@ public class GameRoom {
         this.puntiEnemy = puntiEnemy;
     }
 
+    public String getHostPescato() {
+        return HostPescato;
+    }
 
+    public void setHostPescato(String hostPescato) {
+        HostPescato = hostPescato;
+    }
 }

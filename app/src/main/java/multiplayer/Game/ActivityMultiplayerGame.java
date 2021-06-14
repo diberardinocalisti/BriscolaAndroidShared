@@ -18,8 +18,8 @@ import com.example.briscolav10.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.annotations.NotNull;
-import com.google.zxing.common.StringUtils;
+
+import org.jetbrains.annotations.NotNull;
 
 import Home.MainActivity;
 import firebase.FirebaseClass;
@@ -27,6 +27,7 @@ import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Utility;
 import gameEngine.onClick;
+import okhttp3.internal.Util;
 
 import static multiplayer.engineMultiplayer.*;
 
@@ -53,147 +54,57 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campo_da_gioco);
 
+        onStop = false;
+
         final String[][] daDare = {new String[3]};
 
-        for(int i = 0; i < carte.length; i++){
-            String idS = "button" + (i+1);
-            int id = getResources().getIdentifier(idS, "id", getPackageName());
+        roleId = (role.equals("HOST") ? "host" : "enemy");
 
-            carte[i] = findViewById(id);
-
-            int finalI = i;
-            carte[i].setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.N)
-                @Override
-                public void onClick(View v) {
-                    if(finalI < 3)
-                    {
-                        //Ha premuto l'avversario";
-                        Carta premuta = Engine.getCartaFromButton((Button) v);
-                        Toast.makeText(ActivityMultiplayerGame.this,"carta --> " + premuta.getNome(),Toast.LENGTH_SHORT).show();
-                    }else
-                    {
-                        //Ho premuto io
-                    }
-
-                }
-            });
-        }
-
-        if(role == "HOST" && !start)
-        {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    startMultiplayerGame(ActivityMultiplayerGame.this);
-                    ActivityMultiplayerGame.start = true;
-                }
-            }, 1000);
-
-            //Toast.makeText(getApplicationContext(),"Ora si dovrebbe creare il mazzo",Toast.LENGTH_LONG).show();
-        }
-
-        roleId = (role == "HOST" ? "host" : "enemy");
-        noteRoleId = (role == "HOST" ? "enemy" : "host");
-
-
-        //@TODO viene prima stampato che il giocatore null si è unito alla partia
-        //Se la stanza viene eliminata
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
                 for(DataSnapshot d : dataSnapshot.getChildren())
                 {
-                    String key = d.getKey();
-                    Object value = d.getValue();
-
-                    if(key.equals("host"))
-                        host = String.valueOf(value);
-                    else if(key.equals("enemy"))
-                        enemy = String.valueOf(value);
-
-                    if(key.equals("carteRimanenti"))
-                    {
-                        if(!value.equals("null"))
-                            mazzoOnline = String.valueOf(value);
-                    }
+                    if(d.getKey().equals("host"))
+                        host = String.valueOf(d.getValue());
+                    if(d.getKey().equals("enemy"))
+                        enemy = String.valueOf(d.getValue());
 
                 }
 
-                if(!mazzoOnline.equals("") && !initialManche)
+                if(host.equals("null") && !onStop)
                 {
-                    if(role.equals("NOTHOST"))
+                    if(role.equals("HOST"))
                     {
-                        Handler handler = new Handler();
-                        handler.postDelayed(() -> {
-                            daDare[0] = getInitialCards();
-                            String carteUscite = String.join(";", daDare[0]);
-
-                            Toast.makeText(getApplicationContext(),carteUscite,Toast.LENGTH_LONG).show();
-
-                            //Aggiorno le carte
-                            String carteAggiornate = arrayListToString(removeCardsFromArray(carteUscite));
-
-                            FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",carteAggiornate);
-
-                            mazzoOnline = carteAggiornate;
-
-                            initialManche = true;
-                        },1000);
+                        Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
                     }else
                     {
-                        daDare[0] = getInitialCards();
-                        String carteUscite = String.join(";", daDare[0]);
-
-                        Toast.makeText(getApplicationContext(),carteUscite,Toast.LENGTH_LONG).show();
-
-                        //Aggiorno le carte
-                        String carteAggiornate = arrayListToString(removeCardsFromArray(carteUscite));
-
-                        FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",carteAggiornate);
-
-                        mazzoOnline = carteAggiornate;
-
-                        initialManche = true;
-                    }
-
-                }
-
-                //L'host ha abbandonato
-                if(host.equals("null") && !enemy.equals("null"))
-                {
-                    if(roleId.equals("host")){
-                        Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"L'avversario abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
-                }
 
-                if(!host.equals("null") && enemy.equals("null"))
+                    FirebaseClass.deleteFieldFirebase(null,codiceStanza);
+                }else if(enemy.equals("null") && !onStop)
                 {
-                    if(roleId.equals("enemy")){
+                    if(!role.equals("HOST"))
+                    {
                         Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
+                    }else
+                    {
+                        Toast.makeText(getApplicationContext(),"L'avversario abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
+
+                    FirebaseClass.deleteFieldFirebase(null,codiceStanza);
                 }
 
-                if(onStop)
-                    FirebaseClass.deleteFieldFirebase(null, codiceStanza);
             }
-
 
             @Override
-            public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
 
             }
-
-
         });
 
 

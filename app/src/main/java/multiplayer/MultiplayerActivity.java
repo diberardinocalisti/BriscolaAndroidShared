@@ -21,6 +21,8 @@ public class MultiplayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_multiplayer);
 
         ActivityMultiplayerGame.onStop = false;
+        ActivityMultiplayerGame.start = false;
+        ActivityMultiplayerGame.initialManche = false;
 
         for(int i = 0; i < button.length; i++){
             int index = i;

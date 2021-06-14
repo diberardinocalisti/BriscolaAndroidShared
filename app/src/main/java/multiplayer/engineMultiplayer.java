@@ -35,7 +35,7 @@ public class engineMultiplayer extends AppCompatActivity {
     {
         int len = 5;
 
-        String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String chars = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Random rnd = new Random();
         StringBuilder sb = new StringBuilder(len);
 
@@ -48,7 +48,7 @@ public class engineMultiplayer extends AppCompatActivity {
 
     public static void accediAllaStanza(Context c,String gameCode)
     {
-        GameRoom g = new GameRoom(gameCode,loginClass.getFBNome(),"null","null","null","null",-1,-1);
+        GameRoom g = new GameRoom(gameCode,loginClass.getFBNome(),"null","null","null","null",-1,-1,"no");
         FirebaseClass.addToFirebase(g);
 
         Intent i = new Intent(c, ActivityGame.class);
