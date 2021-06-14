@@ -82,8 +82,6 @@ public class engineMultiplayer extends AppCompatActivity {
    }
 
    public static String[] getInitialCards(){
-       String[] daDare = new String[CARTE_INIZIALI];
-
        /*ValueEventListener postListener = new ValueEventListener() {
            @Override
            public void onDataChange(DataSnapshot dataSnapshot) {
@@ -107,11 +105,12 @@ public class engineMultiplayer extends AppCompatActivity {
        };
        FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(postListener);*/
 
-       String[] singole = mazzoOnline.split(";");
-       for(int i = 0; i< CARTE_INIZIALI ;i++)
-       {
-           daDare[i] = singole[i];
-       }
+       String[] mazzo = mazzoOnline.split(";");
+       String[] daDare = new String[CARTE_INIZIALI];
+       System.arraycopy(mazzo, 0, daDare, 0, CARTE_INIZIALI);
+
+       for(String c : daDare)
+           System.out.println(c);
 
        return daDare;
 

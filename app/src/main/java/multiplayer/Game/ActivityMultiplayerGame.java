@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
+import com.google.zxing.common.StringUtils;
 
 import Home.MainActivity;
 import firebase.FirebaseClass;
@@ -100,6 +101,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         //@TODO viene prima stampato che il giocatore null si è unito alla partia
         //Se la stanza viene eliminata
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
@@ -126,44 +128,25 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     if(role.equals("NOTHOST"))
                     {
                         Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                daDare[0] = getInitialCards();
-                                String carteUscite = "";
+                        handler.postDelayed(() -> {
+                            daDare[0] = getInitialCards();
+                            String carteUscite = String.join(";", daDare[0]);
 
+                            Toast.makeText(getApplicationContext(),carteUscite,Toast.LENGTH_LONG).show();
 
-                                for(String s : daDare[0])
-                                {
-                                    carteUscite += s +";";
-                                }
+                            //Aggiorno le carte
+                            String carteAggiornate = arrayListToString(removeCardsFromArray(carteUscite));
 
-                                carteUscite = carteUscite.substring(0,carteUscite.length()-1);
+                            FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",carteAggiornate);
 
-                                Toast.makeText(getApplicationContext(),carteUscite,Toast.LENGTH_LONG).show();
+                            mazzoOnline = carteAggiornate;
 
-                                //Aggiorno le carte
-                                String carteAggiornate = arrayListToString(removeCardsFromArray(carteUscite));
-
-                                FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",carteAggiornate);
-
-                                mazzoOnline = carteAggiornate;
-
-                                initialManche = true;
-                            }
+                            initialManche = true;
                         },1000);
                     }else
                     {
                         daDare[0] = getInitialCards();
-                        String carteUscite = "";
-
-
-                        for(String s : daDare[0])
-                        {
-                            carteUscite += s +";";
-                        }
-
-                        carteUscite = carteUscite.substring(0,carteUscite.length()-1);
+                        String carteUscite = String.join(";", daDare[0]);
 
                         Toast.makeText(getApplicationContext(),carteUscite,Toast.LENGTH_LONG).show();
 
@@ -182,12 +165,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 //L'host ha abbandonato
                 if(host.equals("null") && !enemy.equals("null"))
                 {
-                    if(roleId.equals("host"))
-                    {
+                    if(roleId.equals("host")){
                         Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-                    }else
-                    {
+                    }else{
                         Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
@@ -195,17 +175,13 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
                 if(!host.equals("null") && enemy.equals("null"))
                 {
-                    if(roleId.equals("enemy"))
-                    {
+                    if(roleId.equals("enemy")){
                         Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-                    }else
-                    {
+                    }else{
                         Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita.\nHai vinto a tavolino",Toast.LENGTH_LONG).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
                 }
-
 
                 if(onStop)
                     FirebaseClass.deleteFieldFirebase(null, codiceStanza);
