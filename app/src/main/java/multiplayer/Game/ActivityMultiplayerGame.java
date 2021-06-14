@@ -27,6 +27,8 @@ import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Utility;
 import gameEngine.onClick;
+import multiplayer.GameRoom;
+import multiplayer.engineMultiplayer;
 import okhttp3.internal.Util;
 
 import static multiplayer.engineMultiplayer.*;
@@ -60,6 +62,11 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
         roleId = (role.equals("HOST") ? "host" : "enemy");
 
+        /*if(role.equals("HOST"))
+        {
+            engineMultiplayer.startMultiplayerGame(ActivityMultiplayerGame.this);
+        }*/
+
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
@@ -72,6 +79,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         enemy = String.valueOf(d.getValue());
 
                 }
+
 
                 if(host.equals("null") && !onStop)
                 {
@@ -107,6 +115,21 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             }
         });
 
+       FirebaseClass.getFbRefSpeicific(codiceStanza).child("carteRimanenti").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                System.out.println("Cambiato!!");
+                String c = dataSnapshot.getValue(String.class);
+                //GameRoom g = dataSnapshot.getValue(GameRoom.class);
+
+                System.out.println("C --> " + c);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         /*String[] daDare = new String[3];
         try {
