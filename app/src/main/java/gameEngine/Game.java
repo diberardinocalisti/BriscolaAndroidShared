@@ -18,9 +18,9 @@ public class Game {
     public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;
     public static final Integer[] I_CAMPO_GIOCO = new Integer[] {8,9};
 
-    protected static Giocatore[] giocatori;
-    protected static CPU CPU;
-    protected static Giocatore user;
+    public static Giocatore[] giocatori;
+    public static CPU CPU;
+    public static Giocatore user;
 
     // Tutte le carte presenti nel campo di gioco;
     protected static View[] carte;

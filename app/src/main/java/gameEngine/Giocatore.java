@@ -63,7 +63,7 @@ public class Giocatore {
         this.index = index;
         this.carte = new Carta[3];
         this.prese = new ArrayList<>();
-        this.bottoni = new Button[nCarte];
+        this.bottoni = new Button[(int) nCarte];
 
         for(int i = this.index * nCarte, j = 0; j < nCarte; j++, i++){
             this.bottoni[j] = carteBottoni[i];
@@ -71,7 +71,7 @@ public class Giocatore {
 
         String idS = "button" + (this.index + 1 + 10);
         int id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
-        this.iconaPunteggio = (Button) activity.findViewById(id);
+        this.iconaPunteggio = activity.findViewById(id);
     }
 
     public String getNome() {

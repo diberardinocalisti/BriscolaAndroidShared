@@ -25,6 +25,8 @@ import Home.MainActivity;
 import firebase.FirebaseClass;
 import gameEngine.Carta;
 import gameEngine.Engine;
+import gameEngine.Game;
+import gameEngine.Giocatore;
 import gameEngine.Utility;
 import gameEngine.onClick;
 import multiplayer.GameRoom;
@@ -34,12 +36,11 @@ import okhttp3.internal.Util;
 import static multiplayer.engineMultiplayer.*;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
-
     public static boolean start = false;
     private String onStopUser;
     private boolean stopApp = false;
     private String roleId, noteRoleId;
-    private String host,enemy;
+    private String host, enemy;
     public static boolean onStop = false;
     public static String mazzoOnline = "";
     public static boolean initialManche = false;
@@ -56,79 +57,72 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campo_da_gioco);
 
+        inizializza(this);
+
         onStop = false;
 
         final String[][] daDare = {new String[3]};
 
         roleId = (role.equals("HOST") ? "host" : "enemy");
 
-        /*if(role.equals("HOST"))
-        {
+        /*if(role.equals("HOST")){
             engineMultiplayer.startMultiplayerGame(ActivityMultiplayerGame.this);
         }*/
 
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                boolean nuovoPlayer = false;
 
-                for(DataSnapshot d : dataSnapshot.getChildren())
-                {
-                    if(d.getKey().equals("host"))
+                for(DataSnapshot d : dataSnapshot.getChildren()) {
+                    if(d.getKey().equals("host")) {
                         host = String.valueOf(d.getValue());
-                    if(d.getKey().equals("enemy"))
+                        nuovoPlayer = true;
+                    }else if(d.getKey().equals("enemy")) {
                         enemy = String.valueOf(d.getValue());
-
+                        nuovoPlayer = true;
+                    }
                 }
 
+                if(nuovoPlayer)
+                    creaGiocatori();
 
                 if(host.equals("null") && !onStop)
                 {
-                    if(role.equals("HOST"))
-                    {
+                    if(role.equals("HOST")){
                         Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                    }else
-                    {
+                    }else{
                         Toast.makeText(getApplicationContext(),"L'avversario abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
-
                     FirebaseClass.deleteFieldFirebase(null,codiceStanza);
-                }else if(enemy.equals("null") && !onStop)
+
+                }
+                else if(enemy.equals("null") && !onStop)
                 {
-                    if(!role.equals("HOST"))
-                    {
+                    if(!role.equals("HOST")){
                         Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                    }else
-                    {
+                    }else{
                         Toast.makeText(getApplicationContext(),"L'avversario abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
-
                     FirebaseClass.deleteFieldFirebase(null,codiceStanza);
+
                 }
 
             }
 
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
-
-            }
+            @Override public void onCancelled(@NonNull @NotNull DatabaseError databaseError){}
         });
 
        FirebaseClass.getFbRefSpeicific(codiceStanza).child("carteRimanenti").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                System.out.println("Cambiato!!");
                 String c = dataSnapshot.getValue(String.class);
                 //GameRoom g = dataSnapshot.getValue(GameRoom.class);
-
-                System.out.println("C --> " + c);
             }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            @Override public void onCancelled(DatabaseError databaseError){}
         });
 
         /*String[] daDare = new String[3];
@@ -139,8 +133,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         }
         for(String s: daDare)
             System.out.println("s --> " + s);*/
-
-
     }
 
 
@@ -149,8 +141,20 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        FirebaseClass.editFieldFirebase(codiceStanza,roleId,"null");
+        FirebaseClass.editFieldFirebase(codiceStanza, roleId, "null");
 
         onStop = true;
+    }
+
+    protected void creaGiocatori(){
+        String players[];
+
+        if(this.roleId.equals("host"))
+            players = new String[]{host, enemy};
+        else
+            players = new String[]{enemy, host};
+
+        for(int i = 0; i < Game.nGiocatori; i++)
+            Game.giocatori[i] = new Giocatore(players[i], i);
     }
 }

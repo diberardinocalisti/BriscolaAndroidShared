@@ -56,13 +56,17 @@ public class engineMultiplayer extends AppCompatActivity {
         c.startActivity(i);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void inizializza(AppCompatActivity c){
+        Game.initialize(c);
+    }
+
    @RequiresApi(api = Build.VERSION_CODES.N)
    public static void startMultiplayerGame(AppCompatActivity c)
    {
-       Game.initialize(c);
+       inizializza(c);
        //Devo inserire le carte rimanenti, quindi tutto il mazzo
        FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",creaMazzoFirebase());
-
    }
 
    @RequiresApi(api = Build.VERSION_CODES.N)
