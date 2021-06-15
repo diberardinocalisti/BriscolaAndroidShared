@@ -1,5 +1,7 @@
 package Home;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -38,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
         ActivityMultiplayerGame.onStop = false;
         /*
         *   Collego i bottoni del file XML agli elementi dell'array
-        * prova
-        **/
+        *   prova
+        *   */
         for(int i = 0; i < button.length; i++){
             int index = i;
 
@@ -49,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
             button[index] = findViewById(id);
             button[index].setOnClickListener(v -> new MainMenu().startGame(idS, this));
         }
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
     }
 }

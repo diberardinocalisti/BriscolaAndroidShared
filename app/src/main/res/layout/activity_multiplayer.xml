@@ -24,22 +24,20 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="184dp"
-            android:layout_height="193dp"
+            android:layout_width="190dp"
+            android:layout_height="190dp"
             app:layout_constraintBottom_toTopOf="@+id/button1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view2"
             app:srcCompat="@drawable/logo" />
 
         <Button
             android:id="@+id/button1"
             android:layout_width="150dp"
             android:layout_height="44dp"
-            android:layout_marginTop="321dp"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
-            android:layout_marginBottom="366dp"
             android:alpha="0.85"
             android:background="@drawable/yellow_button"
             android:text="Crea una stanza"
@@ -67,7 +65,7 @@
             android:alpha="0.85"
             android:background="@drawable/red_button"
             android:text="Torna indietro"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/view2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/button4" />
