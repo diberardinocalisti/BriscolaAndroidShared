@@ -30,6 +30,7 @@ import gameEngine.Giocatore;
 import gameEngine.Utility;
 import gameEngine.onClick;
 import multiplayer.GameRoom;
+import multiplayer.GiocatoreMP;
 import multiplayer.engineMultiplayer;
 import okhttp3.internal.Util;
 
@@ -84,9 +85,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     }
                 }
 
-                if(nuovoPlayer)
-                    creaGiocatori();
-
                 if(host.equals("null") && !onStop)
                 {
                     if(role.equals("HOST")){
@@ -107,7 +105,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
                     FirebaseClass.deleteFieldFirebase(null,codiceStanza);
-
+                }else{
+                    if(nuovoPlayer)
+                        creaGiocatori();
                 }
 
             }
@@ -125,7 +125,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             @Override public void onCancelled(DatabaseError databaseError){}
         });
 
-        /*String[] daDare = new String[3];
+       /*
         try {
             daDare = getInitialCards();
         } catch (InterruptedException e) {
@@ -147,7 +147,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     }
 
     protected void creaGiocatori(){
-        String players[];
+        String[] players;
 
         if(this.roleId.equals("host"))
             players = new String[]{host, enemy};
@@ -155,6 +155,8 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             players = new String[]{enemy, host};
 
         for(int i = 0; i < Game.nGiocatori; i++)
-            Game.giocatori[i] = new Giocatore(players[i], i);
+            Game.giocatori[i] = new GiocatoreMP(players[i], i);
     }
+
+
 }
