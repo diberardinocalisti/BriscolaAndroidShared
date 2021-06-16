@@ -23,7 +23,8 @@
             android:background="@drawable/sfondo"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <Button
                 android:id="@+id/button1"
@@ -160,14 +161,11 @@
                 android:id="@+id/button8"
                 android:layout_width="73dp"
                 android:layout_height="117dp"
-                android:layout_marginStart="14dp"
-                android:layout_marginLeft="14dp"
                 android:background="@drawable/vuoto"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button1"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/mazzo1"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
@@ -200,20 +198,20 @@
                 android:rotation="90"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@+id/button10"
-                app:layout_constraintStart_toStartOf="@+id/button8"
+                app:layout_constraintEnd_toEndOf="@+id/button1"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/button10"
                 app:srcCompat="@drawable/vuoto" />
 
             <ImageView
                 android:id="@+id/mazzo0"
-                android:layout_width="117dp"
+                android:layout_width="73dp"
                 android:layout_height="117dp"
-                android:layout_marginEnd="14dp"
-                android:layout_marginRight="14dp"
                 android:rotation="90"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="@+id/button9"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/button3"
                 app:layout_constraintTop_toTopOf="@+id/button9"
                 app:srcCompat="@drawable/vuoto" />
 
