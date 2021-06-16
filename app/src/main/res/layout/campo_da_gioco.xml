@@ -193,6 +193,30 @@
                 app:layout_constraintStart_toEndOf="@+id/button5"
                 app:layout_constraintTop_toBottomOf="@+id/button7" />
 
+            <ImageView
+                android:id="@+id/mazzo1"
+                android:layout_width="117dp"
+                android:layout_height="117dp"
+                android:rotation="90"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/button10"
+                app:layout_constraintStart_toStartOf="@+id/button8"
+                app:layout_constraintTop_toTopOf="@+id/button10"
+                app:srcCompat="@drawable/vuoto" />
+
+            <ImageView
+                android:id="@+id/mazzo0"
+                android:layout_width="117dp"
+                android:layout_height="117dp"
+                android:layout_marginEnd="14dp"
+                android:layout_marginRight="14dp"
+                android:rotation="90"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/button9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/button9"
+                app:srcCompat="@drawable/vuoto" />
+
             <Button
                 android:id="@+id/n_carte"
                 android:layout_width="36dp"

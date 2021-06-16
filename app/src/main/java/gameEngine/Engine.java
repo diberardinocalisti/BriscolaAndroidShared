@@ -67,7 +67,6 @@ public class Engine{
     static void reset(){
         for(Giocatore p : giocatori){
             p.svuotaMazzo();
-            p.azzeraPunteggio();
         }
     }
 

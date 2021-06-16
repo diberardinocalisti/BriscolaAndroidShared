@@ -39,9 +39,6 @@ public class Giocatore {
     // Nome del giocatore;
     protected String nome;
 
-    // Round vinti del giocatore;
-    protected Integer score = 0;
-
     // Se il giocatore è controllato dalla CPU o no;
     protected boolean CPU;
 
@@ -51,6 +48,8 @@ public class Giocatore {
 
     // Icona che mostra il punteggio del giocatore;
     protected Button iconaPunteggio;
+
+    protected View mazzo;
 
     public Giocatore(String nome, Integer index){
         this(nome, index, false);
@@ -72,14 +71,14 @@ public class Giocatore {
         String idS = "button" + (this.index + 1 + 10);
         int id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
         this.iconaPunteggio = activity.findViewById(id);
+
+        idS = "mazzo" + this.index;
+        id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
+        this.mazzo = activity.findViewById(id);
     }
 
     public String getNome() {
         return nome;
-    }
-
-    public Integer getScore() {
-        return score;
     }
 
     public boolean isCPU(){
@@ -110,15 +109,9 @@ public class Giocatore {
         this.prese.clear();
     }
 
-    public void azzeraPunteggio(){
-        this.score = 0;
-    }
-
-    public void aggiornaPunteggio(){
-        this.score++;
-    }
-
     public void aggiornaIconaCarte(){
+        int visibility = prese.size() == 0 ? View.INVISIBLE : View.VISIBLE;
+        this.mazzo.setVisibility(visibility);
         this.iconaPunteggio.setText(this.punteggioCarte.toString());
     }
 
