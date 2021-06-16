@@ -9,13 +9,14 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
-        android:screenOrientation="landscape"
-        android:configChanges="keyboardHidden|orientation|screenSize"
+
         android:theme="@style/Theme.BriscolaV10">
         <activity android:name=".ActivityGame"
             android:noHistory="true"
             android:parentActivityName = "Home.MainActivity"
-        ><intent-filter>
+            android:screenOrientation="portrait"
+
+            ><intent-filter>
             <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
@@ -23,6 +24,7 @@
             android:noHistory="true"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:parentActivityName = "Home.MainActivity"
+            android:screenOrientation="portrait"
             >
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
@@ -30,6 +32,7 @@
         </activity>
         <activity android:name="multiplayer.MultiplayerActivity"
             android:parentActivityName = "Home.MainActivity"
+            android:screenOrientation="portrait"
             >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -37,6 +40,7 @@
         </activity>
         <activity android:name="multiplayer.Game.ActivityMultiplayerGame"
             android:parentActivityName = "Home.MainActivity"
+            android:screenOrientation="portrait"
             >
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
@@ -45,14 +49,16 @@
 
         <activity android:name="Login.LoginActivity"
             android:parentActivityName = "Home.MainActivity"
+            android:screenOrientation="portrait"
             >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
-        <activity android:name="Home.MainActivity">
+        <activity android:name="Home.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

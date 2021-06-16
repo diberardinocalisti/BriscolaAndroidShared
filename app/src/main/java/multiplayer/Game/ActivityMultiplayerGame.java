@@ -1,7 +1,9 @@
 package multiplayer.Game;
 
 import android.bluetooth.BluetoothA2dp;
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -158,5 +160,13 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             Game.giocatori[i] = new GiocatoreMP(players[i], i);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
+    }
 
 }
