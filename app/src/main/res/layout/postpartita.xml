@@ -5,20 +5,23 @@
     android:id="@+id/postpartita"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pareggio">
+    android:background="@drawable/pareggio"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
 
     <TextView
         android:id="@+id/esito"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/carter_one"
+        android:paddingRight="2dp"
         android:shadowColor="#000"
         android:shadowDx="2"
-        android:shadowDy="2"
+        android:shadowDy="5"
         android:shadowRadius="1.5"
         android:text="PAREGGIO!"
         android:textColor="#fff"
-        android:textSize="34sp"
+        android:textSize="40dp"
         app:layout_constraintBottom_toTopOf="@+id/sottotitolo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,9 +34,10 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="120dp"
         android:fontFamily="@font/carter_one"
+        android:paddingRight="2dp"
         android:shadowColor="#000"
         android:shadowDx="2"
-        android:shadowDy="2"
+        android:shadowDy="5"
         android:shadowRadius="1.5"
         android:text="LE TUE MIGLIORI CARTE"
         android:textColor="#fff"
@@ -50,17 +54,16 @@
         android:id="@+id/stella1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@+id/esito"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/esito"
-        app:layout_constraintTop_toBottomOf="@+id/esito"
+        app:layout_constraintEnd_toStartOf="@+id/stella2"
+        app:layout_constraintTop_toTopOf="@+id/stella2"
         app:srcCompat="@android:drawable/star_big_on" />
 
     <ImageView
         android:id="@+id/stella2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/stella1"
+        app:layout_constraintEnd_toStartOf="@+id/view4"
+        app:layout_constraintStart_toStartOf="@+id/esito"
         app:layout_constraintTop_toBottomOf="@+id/esito"
         app:srcCompat="@android:drawable/star_big_on" />
 
@@ -69,24 +72,27 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@+id/stella2"
-        app:layout_constraintTop_toBottomOf="@+id/esito"
+        app:layout_constraintTop_toTopOf="@+id/stella2"
         app:srcCompat="@android:drawable/star_big_on" />
 
     <TextView
         android:id="@+id/nPunti"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
         android:fontFamily="@font/carter_one"
-        android:text="+0 PUNTI"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
+        android:paddingRight="2dp"
         android:shadowColor="#000"
         android:shadowDx="2"
-        android:shadowDy="2"
+        android:shadowDy="5"
         android:shadowRadius="1.5"
+        android:text="+0 PUNTI"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/stella3"
         app:layout_constraintStart_toEndOf="@+id/stella3"
-        app:layout_constraintTop_toBottomOf="@+id/esito" />
+        app:layout_constraintTop_toTopOf="@+id/stella3" />
 
     <ImageView
         android:id="@+id/carta1"
@@ -143,5 +149,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/restart" />
+
+    <View
+        android:id="@+id/view4"
+        android:layout_width="1dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
