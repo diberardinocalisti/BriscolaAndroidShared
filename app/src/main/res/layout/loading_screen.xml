@@ -55,7 +55,7 @@
             android:shadowRadius="1.5"
             android:text="Daniele Calisti e Simone Di Berardino @ I.I.S. Marconi Latina"
             android:textColor="#FFFFFF"
-            android:textSize="6.5sp"
+            android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
