@@ -56,7 +56,7 @@
             android:shadowDy="5"
             android:shadowRadius="1.5"
             android:singleLine="false"
-            android:text="© Daniele Calisti e Simone Di Berardino \nI.I.S. Marconi Latina"
+            android:text="Daniele Calisti e Simone Di Berardino \nI.I.S. Marconi Latina"
             android:textColor="#FFFFFF"
             android:textSize="9sp"
             app:layout_constraintBottom_toBottomOf="parent"
