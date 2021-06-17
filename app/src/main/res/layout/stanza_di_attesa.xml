@@ -14,7 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/vittoria">
+        android:background="@drawable/sfondo_blu">
 
         <View
             android:id="@+id/box"
@@ -79,11 +79,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:background="#00000000"
+            android:fontFamily="@font/carter_one"
             android:shadowColor="#000"
             android:shadowDx="1"
             android:shadowDy="1"
             android:shadowRadius="1.5"
-            android:fontFamily="@font/carter_one"
             android:text="SALA D'ATTESA"
             android:textAllCaps="true"
             android:textColor="#2257FF"

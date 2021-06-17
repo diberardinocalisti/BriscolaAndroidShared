@@ -59,6 +59,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.campo_da_gioco);
+        getSupportActionBar().hide();
 
         inizializza(this);
 

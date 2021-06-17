@@ -50,6 +50,7 @@ public class ActivityGame extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Bundle extras = getIntent().getExtras();
         multiplayer = extras.getBoolean("multiplayer");
 
