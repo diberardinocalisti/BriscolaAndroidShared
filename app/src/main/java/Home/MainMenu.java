@@ -56,10 +56,7 @@ public class MainMenu extends AppCompatActivity {
                 String titolo = "Uscire dal gioco";
                 String messaggio = "Sei sicuro di voler uscire dal gioco?";
 
-                Utility.confirmDenyDialog(main, titolo, messaggio, (dialog, which) -> {
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(1);
-                }, null);
+                Utility.confirmDenyDialog(main, titolo, messaggio, (dialog, which) -> android.os.Process.killProcess(android.os.Process.myPid()), null);
 
                 break;
 
