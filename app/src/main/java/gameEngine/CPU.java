@@ -100,12 +100,24 @@ public class CPU extends Giocatore {
 
         if(cartaSulTavolo.isLiscio()){
             /**
-            Se la carta più bassa che supera quella avversaria è una briscola e non è un carico
-            la si gioca solo nel caso in cui non si abbia un non carico (non briscola)
-            da poter lanciare, altrimenti si gioca il non carico;
-            */
-            if(minSupera.isBriscola() && !minSupera.isCarico()){
-                return minBriscEsc.isCarico() ? minSupera : minBriscEsc;
+            * Se si possiedono solo carte briscole che superano quella avversaria;
+            **/
+            if(minSupera.isBriscola()){
+                /** Se la carta più bassa che supera quella avversaria è una briscola e non è un carico
+                * la si gioca solo nel caso in cui non si abbia un non carico (non briscola)
+                * da poter lanciare, altrimenti si gioca il non carico;
+                **/
+                if(!minSupera.isCarico()) {
+                    return minBriscEsc.isLiscio() ? minBriscEsc : minSupera;
+                }else{
+                    /**
+                    * Se la minima (escludendo le briscole) è un carico, allora gioca la briscola solo nel caso in cui non sia un carico;
+                    * Altrimenti gioca il carico;
+                    **/
+                    if(minBriscEsc.isCarico())
+                        return !minPunti.isCarico() ? minPunti : minBriscEsc;
+                    else return minBriscEsc;
+                }
             }else if(!maxSupera.isBriscola()){
                 return maxSupera;
             }else{
@@ -113,13 +125,24 @@ public class CPU extends Giocatore {
             }
         }else{
             /**
-             * Nota: maxSupera è il risultato di un metodo a cui viene applicato il metodo "nonBriscole", ciò significa
-             * che se maxSupera è una briscola vuol dire che il mazzo è formato da sole briscole. In altre parole, nonBriscole
-             * restituisce il mazzo originale se il mazzo è formato da sole briscole, per cui se maxSupera è briscola allora
-             * il mazzo è formato da sole briscole e perciò l'avversario giocherà la più bassa tra queste; Se invece maxSupera non
-             * è una briscola, allora l'avversario giocherà quest'ultima in modo da ottenere più punti possibili con una sola presa.
-             **/
-            return maxSupera.isBriscola() ? minSupera : maxSupera;
+             * Se la carta più bassa che supera quella avversaria è un carico di briscola, allora la si gioca
+             * solo nel caso in cui a terra c'è un carico, altrimenti si gioca la carta più bassa che si ha nel mazzo;
+             */
+            if(minSupera.isCaricoBriscola()) {
+                if (cartaSulTavolo.isCarico())
+                    return minSupera;
+                else
+                    return !minPunti.isCarico() ? minPunti : minBriscEsc;
+            }else{
+                /**
+                 * Nota: maxSupera è il risultato di un metodo a cui viene applicato il metodo "nonBriscole", ciò significa
+                 * che se maxSupera è una briscola vuol dire che il mazzo è formato da sole briscole. In altre parole, nonBriscole
+                 * restituisce il mazzo originale se il mazzo è formato da sole briscole, per cui se maxSupera è briscola allora
+                 * il mazzo è formato da sole briscole e perciò l'avversario giocherà la più bassa tra queste; Se invece maxSupera non
+                 * è una briscola, allora l'avversario giocherà quest'ultima in modo da ottenere più punti possibili con una sola presa.
+                 **/
+                return maxSupera.isBriscola() ? minSupera : maxSupera;
+            }
         }
     }
 

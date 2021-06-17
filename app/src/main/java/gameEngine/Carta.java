@@ -107,6 +107,10 @@ public class Carta {
         return this.valore >= 10;
     }
 
+    public boolean isCaricoBriscola(){
+        return this.isBriscola() && this.isCarico();
+    }
+
     public boolean isLiscio(){
         return this.valore == 0;
     }
