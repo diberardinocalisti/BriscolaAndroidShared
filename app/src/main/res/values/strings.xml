@@ -4,8 +4,7 @@
     <string name="fb_login_protocol_scheme">fb603960137243421</string>
 
     <string-array name="tipoCarte">
-        <item>Romagnole</item>
-        <item>Piacentine</item>
         <item>Napoletane</item>
+        <item>Romagnole</item>
     </string-array>
 </resources>

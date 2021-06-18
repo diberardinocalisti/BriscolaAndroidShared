@@ -8,6 +8,7 @@ import android.widget.Button;
 import androidx.annotation.RequiresApi;
 
 import Home.MainMenu;
+import Home.SharedPref;
 
 import static gameEngine.Game.activity;
 
@@ -15,7 +16,6 @@ public class Carta {
     protected View b;
     protected Integer valore, numero;
     protected String seme;
-    protected boolean enabled = true;
     protected Giocatore portatore;
     protected String nomeBackground;
 
@@ -24,7 +24,7 @@ public class Carta {
         this.numero = numero;
         this.seme = seme;
         this.valore = calcolaValore(numero);
-        this.nomeBackground = seme + "_" + numero;
+        this.nomeBackground = SharedPref.getTipoCarte(activity).toLowerCase() + "_" + numero + "_" + seme;
     }
 
     public void abilita(){
@@ -124,7 +124,9 @@ public class Carta {
     }
 
     public void nascondi() {
-        if(MainMenu.carteScoperte)
+        boolean scoperte = SharedPref.getCarteScoperte(activity);
+
+        if(scoperte)
             return;
 
         nascondi(this.b);

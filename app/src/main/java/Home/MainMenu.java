@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
+import com.example.briscolav10.R;
 
 import Login.LoginActivity;
 import Login.loginClass;
@@ -21,7 +22,6 @@ import okhttp3.internal.Util;
 
 public class MainMenu extends AppCompatActivity {
     public static boolean carteScoperte;
-    public static String tipoCarte;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void startGame(String nomeB, MainActivity main){

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -21,49 +22,54 @@ import com.example.briscolav10.R;
 import static gameEngine.Game.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import Home.MainMenu;
+import Home.SharedPref;
 
 import static gameEngine.Game.giocatori;
 
 public class Settings extends AppCompatActivity {
 
-
-    private boolean checked = false;
-
     public void createSettingsMenu(Context c)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
-
-        // Set other dialog properties
         LayoutInflater inflater = (LayoutInflater) c.getSystemService( c.LAYOUT_INFLATER_SERVICE );
 
+        // VIEW;
         View tipoCarteView = inflater.inflate( R.layout.spinner_tipo_carte, null );
 
+        // SPINNER;
         Spinner tipoCarte = tipoCarteView.findViewById(R.id.spinner);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item,c.getResources().getStringArray(R.array.tipoCarte));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tipoCarte.setAdapter(adapter);
 
+        // CHECKBOX;
         CheckBox carteScoperte = tipoCarteView.findViewById(R.id.checkbox);
 
-        carteScoperte.setChecked(MainMenu.carteScoperte);
+        String selectedItem = SharedPref.getTipoCarte(c);
+        int indexList = Arrays.asList(c.getResources().getStringArray(R.array.tipoCarte)).indexOf(selectedItem);
+        tipoCarte.setSelection(indexList);
+        carteScoperte.setChecked(SharedPref.getCarteScoperte(c));
+
+        // CONFIRM;
         builder.setPositiveButton("OK", (dialog, id) -> {
             if(carteScoperte.isChecked()){
-                MainMenu.carteScoperte = true;
+                SharedPref.setCarteScoperte(c, true);
             }else{
-                MainMenu.carteScoperte = false;
+                SharedPref.setCarteScoperte(c, false);
             }
+
+            SharedPref.setTipoCarte(c, tipoCarte.getSelectedItem().toString());
         });
 
         builder.setNegativeButton("ANNULLA", null);
         builder.setView(tipoCarteView);
 
-        // Create the AlertDialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        builder.create().show();
     }
 
 }
