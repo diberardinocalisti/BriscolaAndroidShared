@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -47,6 +49,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     public static boolean onStop = false;
     public static String mazzoOnline = "";
     public static boolean initialManche = false;
+    public static GameRoom snapshot;
 
     //I primi 3 bottoni sono dell'avversario
     private Button carte[] = new Button[6];
@@ -76,66 +79,35 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
-                boolean nuovoPlayer = false;
+                snapshot = dataSnapshot.getValue(GameRoom.class);
+                String host = snapshot.getHost();
+                String enemy = snapshot.getEnemy();
 
-                for(DataSnapshot d : dataSnapshot.getChildren()) {
-                    if(d.getKey().equals("host")) {
-                        host = String.valueOf(d.getValue());
-                        nuovoPlayer = true;
-                    }else if(d.getKey().equals("enemy")) {
-                        enemy = String.valueOf(d.getValue());
-                        nuovoPlayer = true;
-                    }
-                }
-
-                if(host.equals("null") && !onStop)
+                if(host.equals("null"))
                 {
-                    if(role.equals("HOST")){
+                    if(role.equals("HOST"))
                         Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(getApplicationContext(),"L'avversario abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
                         Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
                     }
-                    FirebaseClass.deleteFieldFirebase(null,codiceStanza);
+                }
 
-                }
-                else if(enemy.equals("null") && !onStop)
-                {
-                    if(!role.equals("HOST")){
-                        Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(getApplicationContext(),"L'avversario abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
-                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-                    }
-                    FirebaseClass.deleteFieldFirebase(null,codiceStanza);
-                }else{
-                    if(nuovoPlayer)
-                        creaGiocatori();
-                }
+
+                System.out.println(snapshot);
+
+
 
             }
 
-            @Override public void onCancelled(@NonNull @NotNull DatabaseError databaseError){}
-        });
-
-       FirebaseClass.getFbRefSpeicific(codiceStanza).child("carteRimanenti").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String c = dataSnapshot.getValue(String.class);
-                //GameRoom g = dataSnapshot.getValue(GameRoom.class);
-            }
+            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
 
-            @Override public void onCancelled(DatabaseError databaseError){}
+            }
         });
 
-       /*
-        try {
-            daDare = getInitialCards();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        for(String s: daDare)
-            System.out.println("s --> " + s);*/
+
     }
 
 

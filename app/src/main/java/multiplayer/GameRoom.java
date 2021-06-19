@@ -107,4 +107,19 @@ public class GameRoom {
     public void setHostPescato(String hostPescato) {
         HostPescato = hostPescato;
     }
+
+    @Override
+    public String toString() {
+        return "GameRoom{" +
+                "gameCode='" + gameCode + '\'' +
+                ", host='" + host + '\'' +
+                ", enemy='" + enemy + '\'' +
+                ", carteRimanenti='" + carteRimanenti + '\'' +
+                ", giocataDaHost='" + giocataDaHost + '\'' +
+                ", giocataDaEnemy='" + giocataDaEnemy + '\'' +
+                ", puntiHost=" + puntiHost +
+                ", puntiEnemy=" + puntiEnemy +
+                ", HostPescato='" + HostPescato + '\'' +
+                '}';
+    }
 }
