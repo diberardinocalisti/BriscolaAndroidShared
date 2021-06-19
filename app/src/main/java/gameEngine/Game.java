@@ -1,11 +1,16 @@
 package gameEngine;
 
+import android.content.Context;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.briscolav10.R;
 
 import java.util.ArrayList;
 
@@ -36,6 +41,8 @@ public class Game {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initialize(AppCompatActivity activity){
+        Utility.ridimensionamento(activity, activity.findViewById(R.id.parent));
+
         Game.activity = activity;
 
         giocatori = new Giocatore[nGiocatori];
@@ -71,4 +78,5 @@ public class Game {
         initialize(activity);
         Engine.inizializza();
     }
+
 }

@@ -47,7 +47,7 @@ public class Giocatore {
     protected Integer index;
 
     // Icona che mostra il punteggio del giocatore;
-    protected Button iconaPunteggio;
+    //protected Button iconaPunteggio;
 
     protected View mazzo;
 
@@ -70,7 +70,7 @@ public class Giocatore {
 
         String idS = "button" + (this.index + 1 + 10);
         int id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
-        this.iconaPunteggio = activity.findViewById(id);
+        //this.iconaPunteggio = activity.findViewById(id);
 
         idS = "mazzo" + this.index;
         id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
@@ -112,7 +112,7 @@ public class Giocatore {
     public void aggiornaIconaCarte(){
         int visibility = prese.size() == 0 ? View.INVISIBLE : View.VISIBLE;
         this.mazzo.setVisibility(visibility);
-        this.iconaPunteggio.setText(this.punteggioCarte.toString());
+        //this.iconaPunteggio.setText(this.punteggioCarte.toString());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

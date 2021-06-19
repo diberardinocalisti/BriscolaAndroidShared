@@ -12,6 +12,7 @@
     tools:context="Home.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/viewGroup"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/sfondo">
@@ -26,112 +27,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0">
 
-            <Button
-                android:id="@+id/button1"
-                android:layout_width="73dp"
-                android:layout_height="117dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/vuoto"
-                app:layout_constraintBottom_toBottomOf="@+id/button2"
-                app:layout_constraintEnd_toStartOf="@+id/button2"
-                app:layout_constraintTop_toTopOf="@+id/button2" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="73dp"
-                android:layout_height="117dp"
-                android:background="@drawable/vuoto"
-                app:layout_constraintBottom_toTopOf="@+id/button9"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="73dp"
-                android:layout_height="117dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/vuoto"
-                app:layout_constraintBottom_toBottomOf="@+id/button2"
-                app:layout_constraintStart_toEndOf="@+id/button2"
-                app:layout_constraintTop_toTopOf="@+id/button2" />
-
-            <com.facebook.login.widget.ProfilePictureView
-                android:id="@+id/friendProfilePicture2"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginBottom="16dp"
-                android:padding="1sp"
-                android:paddingRight="10sp"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/button4"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <Button
-                    android:id="@+id/button12"
-                    android:layout_width="25dp"
-                    android:layout_height="29dp"
-                    android:background="@drawable/round_button"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textSize="10sp">
-
-                </Button>
-
-            </com.facebook.login.widget.ProfilePictureView>
-
-            <Button
-                android:id="@+id/button4"
-                android:layout_width="73dp"
-                android:layout_height="117dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/vuoto"
-                app:layout_constraintBottom_toBottomOf="@+id/button5"
-                app:layout_constraintEnd_toStartOf="@+id/button5"
-                app:layout_constraintTop_toTopOf="@+id/button5" />
-
-            <com.facebook.login.widget.ProfilePictureView
-                android:id="@+id/friendProfilePictureCPU"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/ic_baseline_account_circle_24"
-                android:visibility="visible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/button3"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <Button
-                    android:id="@+id/button11"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:background="@drawable/round_button"
-                    android:gravity="center"
-                    android:text="0"
-                    android:textSize="10sp">
-
-                </Button>
-
-            </com.facebook.login.widget.ProfilePictureView>
-
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="73dp"
-                android:layout_height="117dp"
-                android:background="@drawable/vuoto"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button10" />
 
             <Button
                 android:id="@+id/button6"
-                android:layout_width="73dp"
-                android:layout_height="117dp"
+                android:layout_width="190px"
+                android:layout_height="304px"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:background="@drawable/vuoto"
@@ -139,11 +39,20 @@
                 app:layout_constraintStart_toEndOf="@+id/button5"
                 app:layout_constraintTop_toTopOf="@+id/button5" />
 
+            <Button
+                android:id="@+id/button9"
+                android:layout_width="190px"
+                android:layout_height="304px"
+                android:background="@drawable/vuoto"
+                app:layout_constraintBottom_toTopOf="@+id/button8"
+                app:layout_constraintEnd_toStartOf="@+id/button2"
+                app:layout_constraintHorizontal_bias="0.555"
+                app:layout_constraintStart_toEndOf="@+id/button1" />
 
             <ImageView
                 android:id="@+id/button7"
-                android:layout_width="73dp"
-                android:layout_height="117dp"
+                android:layout_width="190px"
+                android:layout_height="304px"
                 android:layout_marginStart="42dp"
                 android:layout_marginLeft="42dp"
                 android:background="@drawable/vuoto"
@@ -159,8 +68,8 @@
 
             <ImageView
                 android:id="@+id/button8"
-                android:layout_width="73dp"
-                android:layout_height="117dp"
+                android:layout_width="190px"
+                android:layout_height="304px"
                 android:background="@drawable/vuoto"
                 android:focusable="false"
                 android:focusableInTouchMode="false"
@@ -169,48 +78,26 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/button9"
-                android:layout_width="73dp"
-                android:layout_height="117dp"
+                android:id="@+id/button1"
+                android:layout_width="190px"
+                android:layout_height="304px"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@drawable/vuoto"
-                app:layout_constraintBottom_toTopOf="@+id/button8"
+                app:layout_constraintBottom_toBottomOf="@+id/button2"
                 app:layout_constraintEnd_toStartOf="@+id/button2"
-                app:layout_constraintHorizontal_bias="0.555"
-                app:layout_constraintStart_toEndOf="@+id/button1" />
+                app:layout_constraintTop_toTopOf="@+id/button2" />
 
             <Button
-                android:id="@+id/button10"
-                android:layout_width="73dp"
-                android:layout_height="117dp"
+                android:id="@+id/button3"
+                android:layout_width="190px"
+                android:layout_height="304px"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:background="@drawable/vuoto"
-                app:layout_constraintEnd_toEndOf="@+id/button5"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/button5"
-                app:layout_constraintTop_toBottomOf="@+id/button7" />
-
-            <ImageView
-                android:id="@+id/mazzo1"
-                android:layout_width="117dp"
-                android:layout_height="117dp"
-                android:rotation="90"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/button10"
-                app:layout_constraintEnd_toEndOf="@+id/button1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/button10"
-                app:srcCompat="@drawable/vuoto" />
-
-            <ImageView
-                android:id="@+id/mazzo0"
-                android:layout_width="73dp"
-                android:layout_height="117dp"
-                android:rotation="90"
-                android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/button9"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/button3"
-                app:layout_constraintTop_toTopOf="@+id/button9"
-                app:srcCompat="@drawable/vuoto" />
+                app:layout_constraintBottom_toBottomOf="@+id/button2"
+                app:layout_constraintStart_toEndOf="@+id/button2"
+                app:layout_constraintTop_toTopOf="@+id/button2" />
 
             <Button
                 android:id="@+id/n_carte"
@@ -229,6 +116,96 @@
                 app:layout_constraintTop_toTopOf="@+id/button8">
 
             </Button>
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="190px"
+                android:layout_height="304px"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/vuoto"
+                app:layout_constraintBottom_toBottomOf="@+id/button5"
+                app:layout_constraintEnd_toStartOf="@+id/button5"
+                app:layout_constraintTop_toTopOf="@+id/button5" />
+
+            <com.facebook.login.widget.ProfilePictureView
+                android:id="@+id/friendProfilePicture2"
+                android:layout_width="125px"
+                android:layout_height="125px"
+                android:layout_marginBottom="16dp"
+                android:padding="1sp"
+                android:paddingRight="10sp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/button4"
+                app:layout_constraintStart_toStartOf="parent">
+
+            </com.facebook.login.widget.ProfilePictureView>
+
+            <Button
+                android:id="@+id/button5"
+                android:layout_width="190px"
+                android:layout_height="304px"
+                android:background="@drawable/vuoto"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button10" />
+
+            <Button
+                android:id="@+id/button10"
+                android:layout_width="190px"
+                android:layout_height="304px"
+                android:background="@drawable/vuoto"
+                app:layout_constraintEnd_toEndOf="@+id/button5"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/button5"
+                app:layout_constraintTop_toBottomOf="@+id/button7" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="190px"
+                android:layout_height="304px"
+                android:background="@drawable/vuoto"
+                app:layout_constraintBottom_toTopOf="@+id/button9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.facebook.login.widget.ProfilePictureView
+                android:id="@+id/friendProfilePictureCPU"
+                android:layout_width="125px"
+                android:layout_height="125px"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/ic_baseline_account_circle_24"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/button3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/mazzo0"
+                android:layout_width="190px"
+                android:layout_height="304px"
+                android:rotation="90"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/button9"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/button3"
+                app:layout_constraintTop_toTopOf="@+id/button9"
+                app:srcCompat="@drawable/vuoto" />
+
+            <ImageView
+                android:id="@+id/mazzo1"
+                android:layout_width="304px"
+                android:layout_height="304px"
+                android:rotation="90"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/button10"
+                app:layout_constraintEnd_toEndOf="@+id/button1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/button10"
+                app:srcCompat="@drawable/vuoto" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

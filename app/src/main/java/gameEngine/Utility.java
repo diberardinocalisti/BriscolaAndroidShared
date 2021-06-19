@@ -5,18 +5,25 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.service.autofill.Dataset;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
+
+import org.w3c.dom.Text;
 
 import Login.loginClass;
 import firebase.FirebaseClass;
@@ -132,5 +139,30 @@ public class Utility {
     {
         Intent i = new Intent(c,cl);
         c.startActivity(i);
+    }
+
+    // Ridimensiona i componenti in base alla dimensione dello schermo, NOTA: da utilizzare ogni qual volta si cambia la content view;
+    public static void ridimensionamento(AppCompatActivity activity, ViewGroup v){
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        final double baseHeight = 1920;
+        double height = displayMetrics.heightPixels;
+
+        for (int i = 0; i < v.getChildCount(); i++) {
+            View vAtI = v.getChildAt(i);
+
+            int curHeight = vAtI.getLayoutParams().height;
+            int curWidth = vAtI.getLayoutParams().width;
+            double rapporto = height/baseHeight;
+
+            vAtI.getLayoutParams().height = (int) (curHeight * rapporto);
+            vAtI.getLayoutParams().width = (int) (curWidth * rapporto);
+
+            //if(vAtI instanceof TextView && !(vAtI instanceof Button))
+                //((TextView) vAtI).setTextSize((float) (((TextView) vAtI).getTextSize() / rapporto));
+
+            vAtI.requestLayout();
+        }
     }
 }

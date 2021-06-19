@@ -27,48 +27,17 @@ import gameEngine.Utility;
 
 
 public class LoginActivity extends AppCompatActivity {
-
     private CallbackManager callbackManager;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if(!loginClass.isFacebookLoggedIn()){
-            setContentView(R.layout.login_page);
-            callbackManager = CallbackManager.Factory.create();
-
-            LoginButton l = (LoginButton) findViewById(R.id.login_button);
-
-            Button why = findViewById(R.id.button1);
-            why.setOnClickListener(v -> Utility.createDialog(this, why.getText().toString(), "Effettuando l'accesso potrai giocare in multigiocatore e sfidare i tuoi amici in ogni momento!"));
-
-            Button back = findViewById(R.id.button2);
-            back.setOnClickListener(v -> super.onBackPressed());
-
-            //@TODO gestire il logout da facebook
-            l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-                @Override
-                public void onSuccess(LoginResult loginResult) {
-                    loginMsg("Login effettuato con successo!");
-                }
-
-                @Override
-                public void onCancel() {
-                    loginMsg("Ops... qualcosa è andato storto!");
-                }
-
-                @Override
-                public void onError(FacebookException e) {
-                    loginMsg("Ops... qualcosa è andato storto!");
-                }
-            });
-        }else{
             loginPage();
+        }else{
+            accountPage();
         }
-
 
     }
 
@@ -78,15 +47,49 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    void loginPage(){
+        setContentView(R.layout.login_page);
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
+
+        callbackManager = CallbackManager.Factory.create();
+
+        LoginButton l = (LoginButton) findViewById(R.id.login_button);
+
+        Button why = findViewById(R.id.button1);
+        why.setOnClickListener(v -> Utility.createDialog(this, why.getText().toString(), "Effettuando l'accesso potrai giocare in multigiocatore e sfidare i tuoi amici in ogni momento!"));
+
+        Button back = findViewById(R.id.button2);
+        back.setOnClickListener(v -> super.onBackPressed());
+
+        //@TODO gestire il logout da facebook
+        l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                loginMsg("Login effettuato con successo!");
+            }
+
+            @Override
+            public void onCancel() {
+                loginMsg("Ops... qualcosa è andato storto!");
+            }
+
+            @Override
+            public void onError(FacebookException e) {
+                loginMsg("Ops... qualcosa è andato storto!");
+            }
+        });
+    }
 
     void loginMsg(CharSequence msg){
-        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(i);
         Toast.makeText(getBaseContext(),msg,Toast.LENGTH_LONG).show();
     }
 
-    void loginPage(){
+    void accountPage(){
         setContentView(R.layout.fb_profile);
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
+
         findViewById(R.id.logout).setOnClickListener(v -> findViewById(R.id.logoutHook).performClick());
 
         TextView nome = findViewById(R.id.nome);

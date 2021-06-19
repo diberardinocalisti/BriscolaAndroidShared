@@ -28,6 +28,8 @@ public class postPartita extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postpartita);
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
+
         Bundle extras = getIntent().getExtras();
 
         View postpartita = findViewById(R.id.postpartita);

@@ -20,7 +20,7 @@
             android:layout_marginLeft="25dp"
             android:fontFamily="sans-serif"
             android:text="Nome cognome"
-            android:textSize="20sp"
+            android:textSize="50px"
             app:layout_constraintBottom_toBottomOf="@+id/frameLayout3"
             app:layout_constraintStart_toEndOf="@+id/frameLayout3"
             app:layout_constraintTop_toTopOf="@+id/frameLayout3"
@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             android:text="Accesso effettuato a Facebook"
+            android:textSize="30px"
             android:textColor="#323739"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -60,8 +61,8 @@
 
         <ImageView
             android:id="@+id/vittorie"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="125px"
+            android:layout_height="125px"
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="25dp"
@@ -76,7 +77,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:text="Numero vittorie:"
-            android:textSize="20sp"
+            android:textSize="50px"
             app:layout_constraintBottom_toBottomOf="@+id/vittorie"
             app:layout_constraintStart_toEndOf="@+id/vittorie"
             app:layout_constraintTop_toTopOf="@+id/vittorie"
@@ -84,8 +85,8 @@
 
         <ImageView
             android:id="@+id/sconfitte"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="125px"
+            android:layout_height="125px"
             android:layout_marginTop="50dp"
             app:layout_constraintStart_toStartOf="@+id/vittorie"
             app:layout_constraintTop_toBottomOf="@+id/vittorie"
@@ -96,15 +97,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Numero sconfitte:"
-            android:textSize="20sp"
+            android:textSize="50px"
             app:layout_constraintBottom_toBottomOf="@+id/sconfitte"
             app:layout_constraintStart_toStartOf="@+id/nVittorie"
             app:layout_constraintTop_toTopOf="@+id/sconfitte" />
 
         <ImageView
             android:id="@+id/ratio"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="125px"
+            android:layout_height="125px"
             android:layout_marginTop="50dp"
             app:layout_constraintStart_toStartOf="@+id/sconfitte"
             app:layout_constraintTop_toBottomOf="@+id/sconfitte"
@@ -115,7 +116,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rateo V/S:"
-            android:textSize="20sp"
+            android:textSize="50px"
             app:layout_constraintBottom_toBottomOf="@+id/ratio"
             app:layout_constraintStart_toStartOf="@+id/nSconfitte"
             app:layout_constraintTop_toTopOf="@+id/ratio" />
@@ -159,13 +160,13 @@
 
             <com.facebook.login.widget.ProfilePictureView
                 android:id="@+id/friendProfilePicture"
-                android:layout_width="70dp"
-                android:layout_height="70dp">
+                android:layout_width="180px"
+                android:layout_height="180px">
 
                 <ImageView
                     android:id="@+id/android"
-                    android:layout_width="70dp"
-                    android:layout_height="70dp"
+                    android:layout_width="180px"
+                    android:layout_height="180px"
                     android:contentDescription="@null"
                     android:src="@drawable/subtracted_circle" />
             </com.facebook.login.widget.ProfilePictureView>

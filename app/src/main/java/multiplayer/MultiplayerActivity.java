@@ -23,6 +23,8 @@ public class MultiplayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multiplayer);
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
+
         getSupportActionBar().hide();
 
         ActivityMultiplayerGame.onStop = false;

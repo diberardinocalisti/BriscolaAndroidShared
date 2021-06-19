@@ -15,6 +15,7 @@ import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 
 import Login.LoginActivity;
+import gameEngine.Utility;
 import multiplayer.MultiplayerActivity;
 
 
@@ -27,6 +28,7 @@ public class LoadingScreen extends AppCompatActivity {
         getSupportActionBar().hide();
 
         setContentView(R.layout.loading_screen);
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         new Handler().postDelayed(() -> {
             LoadingScreen.this.startActivity(new Intent(this, MainActivity.class));

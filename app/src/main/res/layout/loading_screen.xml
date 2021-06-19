@@ -10,6 +10,7 @@
     tools:context="Home.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/sfondo_blu">
@@ -17,8 +18,8 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="600px"
+            android:layout_height="600px"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
@@ -38,7 +39,7 @@
             android:shadowRadius="1.5"
             android:text="Caricamento..."
             android:textColor="#FFFFFF"
-            android:textSize="14sp"
+            android:textSize="50px"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/imageView1"
             app:layout_constraintStart_toStartOf="@+id/imageView1"
@@ -46,7 +47,7 @@
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="260dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/alfa_slab_one"
             android:gravity="center"
@@ -58,7 +59,7 @@
             android:singleLine="false"
             android:text="Daniele Calisti e Simone Di Berardino \nI.I.S. Marconi Latina"
             android:textColor="#FFFFFF"
-            android:textSize="9sp"
+            android:textSize="30px"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -58,6 +61,7 @@ public class ActivityGame extends AppCompatActivity {
         if(!multiplayer)
         {
             setContentView(R.layout.campo_da_gioco);
+
             multiplayer = false;
             attesa = false;
 
@@ -70,22 +74,21 @@ public class ActivityGame extends AppCompatActivity {
             Game.startGame(this);
         }else
         {
-            if(ActivityMultiplayerGame.onStop)
-            {
-                Utility.goTo(ActivityGame.this,MainActivity.class);
+            if(ActivityMultiplayerGame.onStop){
+                Utility.goTo(ActivityGame.this, MainActivity.class);
                 ActivityMultiplayerGame.onStop = false;
             }
+
             setContentView(R.layout.stanza_di_attesa);
+            Utility.ridimensionamento(this, findViewById(R.id.parent));
+
             attesa = true;
 
             ((TextView) findViewById(R.id.codice)).setText("Codice: " + codiceStanza);
-
             ((TextView) findViewById(R.id.nome1)).setText(getFBNome());
 
             Button chiudi = (Button) findViewById(R.id.chiudisala);
-
             loginClass.setImgProfile((ProfilePictureView) findViewById(R.id.friendProfilePicture1));
-
 
             FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
                 @Override

@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
+import com.example.briscolav10.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -22,6 +23,7 @@ import firebase.FirebaseClass;
 import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
+import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
 
 import static multiplayer.Game.ActivityMultiplayerGame.mazzoOnline;
@@ -33,7 +35,8 @@ public class engineMultiplayer extends AppCompatActivity {
     public static String role;
     public static final String DELIMITER = ";";
     private static final int CARTE_INIZIALI = 3;
-    public static void creaStanza(Context c)
+
+    public static void creaStanza(AppCompatActivity c)
     {
         int len = 5;
 
@@ -48,7 +51,7 @@ public class engineMultiplayer extends AppCompatActivity {
         accediAllaStanza(c, sb.toString());
     }
 
-    public static void accediAllaStanza(Context c,String gameCode)
+    public static void accediAllaStanza(AppCompatActivity c,String gameCode)
     {
         GameRoom g = new GameRoom(gameCode,loginClass.getFBNome(),"null","null","null","null",-1,-1,"no");
         FirebaseClass.addToFirebase(g);
@@ -56,6 +59,7 @@ public class engineMultiplayer extends AppCompatActivity {
         Intent i = new Intent(c, ActivityGame.class);
         i.putExtra("multiplayer",true);
         c.startActivity(i);
+        c.finish();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

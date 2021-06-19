@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.example.briscolav10.R;
 
 import Login.loginClass;
+import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
 import multiplayer.MultiplayerActivity;
 
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         rank = findViewById(R.id.rank);
 
