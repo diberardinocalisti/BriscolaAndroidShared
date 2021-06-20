@@ -50,6 +50,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     public static String mazzoOnline = "";
     public static boolean initialManche = false;
     public static GameRoom snapshot;
+    public static boolean distribuisci = false;
 
     //I primi 3 bottoni sono dell'avversario
     private Button carte[] = new Button[6];
@@ -70,6 +71,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         inizializza(this);
 
         onStop = false;
+        distribuisci = false;
 
         final String[][] daDare = {new String[3]};
 
@@ -80,14 +82,17 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         }*/
 
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot.getValue(GameRoom.class);
 
                 if(!onStop)
                 {
+                    String carteRimanenti = snapshot.getCarteRimanenti();
                     String host = snapshot.getHost();
                     String enemy = snapshot.getEnemy();
+                    String pescato = snapshot.getHostPescato();
 
                     if(host.equals("null") && !enemy.equals("null"))
                     {
@@ -113,7 +118,47 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
                         onStop = true;
                     }
+
+                    if(!distribuisci)
+                    {
+                        mazzoOnline = engineMultiplayer.creaMazzoFirebase();
+                        FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",mazzoOnline);
+                        snapshot.setCarteRimanenti(mazzoOnline);
+                        carteRimanenti = snapshot.getCarteRimanenti();
+
+                        //System.out.println("Distribuisco");
+                        if(!carteRimanenti.equals("null"))
+                        {
+                            Toast.makeText(getApplicationContext(),"Distribuisco le carte...",Toast.LENGTH_SHORT).show();
+                            if(role.equals("HOST"))
+                            {
+                                //pesco subito
+                                String pescate = mazzoOnline.split(";")[0] + ";" + mazzoOnline.split(";")[1] + ";" + mazzoOnline.split(";")[2];
+
+                                Toast.makeText(getApplicationContext(),pescate,Toast.LENGTH_LONG).show();
+
+                                FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",arrayListToString(removeCardsFromArray(pescate)));
+                            }else
+                            {
+                                Handler handler = new Handler();
+                                handler.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        String pescate = mazzoOnline.split(";")[0] + ";" + mazzoOnline.split(";")[1] + ";" + mazzoOnline.split(";")[2];
+
+                                        Toast.makeText(getApplicationContext(),pescate,Toast.LENGTH_LONG).show();
+
+                                        FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",arrayListToString(removeCardsFromArray(pescate)));
+                                    }
+                                },1750);
+                            }
+                        }
+
+                        distribuisci = true;
+                    }
+
                 }
+
 
                 System.out.println(snapshot);
 

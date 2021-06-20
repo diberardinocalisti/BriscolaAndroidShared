@@ -107,7 +107,7 @@ public class ActivityGame extends AppCompatActivity {
                                 finishAttesa = true;
                                 Intent i = new Intent(ActivityGame.this,ActivityMultiplayerGame.class);
                                 ActivityGame.this.startActivity(i);
-                                Toast.makeText(getBaseContext(),value + " si è unito alla partita!",Toast.LENGTH_LONG).show();
+                                Toast.makeText(getBaseContext(),value + " si è unito alla partita!",Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
