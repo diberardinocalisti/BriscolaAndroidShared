@@ -83,24 +83,42 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot.getValue(GameRoom.class);
-                String host = snapshot.getHost();
-                String enemy = snapshot.getEnemy();
 
-                if(host.equals("null"))
+                if(!onStop)
                 {
-                    if(role.equals("HOST"))
-                        Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                    else
+                    String host = snapshot.getHost();
+                    String enemy = snapshot.getEnemy();
+
+                    if(host.equals("null") && !enemy.equals("null"))
                     {
-                        Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
-                        Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                        if(role.equals("HOST"))
+                            Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
+                            Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                        }
+                        onStop = true;
+                    }
+
+                    if(enemy.equals("null") && !host.equals("null"))
+                    {
+                        if(!role.equals("HOST"))
+                            Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
+                            Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+                        }
+
+                        onStop = true;
                     }
                 }
 
-
                 System.out.println(snapshot);
 
-
+                if(onStop)
+                    FirebaseClass.deleteFieldFirebase(null,codiceStanza);
 
             }
 

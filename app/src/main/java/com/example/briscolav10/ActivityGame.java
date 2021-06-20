@@ -157,6 +157,7 @@ public class ActivityGame extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"La sessione è stata interrotta!\nCrea una nuova stanza per giocare di nuovo.",Toast.LENGTH_LONG).show();
         }
 
+
     }
 
     @Override
