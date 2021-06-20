@@ -126,6 +126,10 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         snapshot.setCarteRimanenti(mazzoOnline);
                         carteRimanenti = snapshot.getCarteRimanenti();
 
+                        /*TODO: Direi di servirsi del metodo pesca di classe GiocatoreMP per pescare le 3 carte iniziali, in questo metodo
+                            invece ciclerei CARTE_INIZIALI volte invocando appunto il metodo pesca di classe GiocatoreMP
+                            (ancora da ridefinire per il multiplayer), in questo modo evitiamo ripetizioni e ci semplifichiamo il lavoro;
+                        */
                         //System.out.println("Distribuisco");
                         if(!carteRimanenti.equals("null"))
                         {
