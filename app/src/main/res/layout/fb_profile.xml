@@ -8,6 +8,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#ffffff">
@@ -20,7 +21,7 @@
             android:layout_marginLeft="25dp"
             android:fontFamily="sans-serif"
             android:text="Nome cognome"
-            android:textSize="50px"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/frameLayout3"
             app:layout_constraintStart_toEndOf="@+id/frameLayout3"
             app:layout_constraintTop_toTopOf="@+id/frameLayout3"
@@ -53,8 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
             android:text="Accesso effettuato a Facebook"
-            android:textSize="30px"
             android:textColor="#323739"
+            android:textSize="30px"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -77,7 +78,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginLeft="20dp"
             android:text="Numero vittorie:"
-            android:textSize="50px"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/vittorie"
             app:layout_constraintStart_toEndOf="@+id/vittorie"
             app:layout_constraintTop_toTopOf="@+id/vittorie"
@@ -97,7 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Numero sconfitte:"
-            android:textSize="50px"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/sconfitte"
             app:layout_constraintStart_toStartOf="@+id/nVittorie"
             app:layout_constraintTop_toTopOf="@+id/sconfitte" />
@@ -116,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Rateo V/S:"
-            android:textSize="50px"
+            android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/ratio"
             app:layout_constraintStart_toStartOf="@+id/nSconfitte"
             app:layout_constraintTop_toTopOf="@+id/ratio" />

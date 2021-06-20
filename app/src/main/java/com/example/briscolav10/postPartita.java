@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import Home.MainActivity;
 import gameEngine.Carta;
@@ -25,6 +26,7 @@ import static gameEngine.Game.activity;
 
 public class postPartita extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.postpartita);
@@ -32,7 +34,7 @@ public class postPartita extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        View postpartita = findViewById(R.id.postpartita);
+        View postpartita = findViewById(R.id.parent);
         TextView esito = findViewById(R.id.esito);
         TextView punti = findViewById(R.id.nPunti);
         Button restart = findViewById(R.id.restart);
@@ -50,7 +52,13 @@ public class postPartita extends AppCompatActivity {
 
         // Aggiorna lo sfondo in base all'esito della partita (blu/rosso/grigio);
         int resID = activity.getResources().getIdentifier(stato, "drawable", activity.getPackageName());
-        postpartita.setBackground(activity.getResources().getDrawable(resID));
+
+        final int sdk = android.os.Build.VERSION.SDK_INT;
+        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
+            postpartita.setBackgroundDrawable(ContextCompat.getDrawable(activity, resID) );
+        } else {
+            postpartita.setBackground(ContextCompat.getDrawable(activity, resID));
+        }
 
         // Scrive lo stato della partita (vittoria/sconfitta/pareggio);
         esito.setText(stato.toUpperCase() + "!");

@@ -57,7 +57,7 @@ public class Engine{
         Carta.nascondi(carte[I_MAZZO]);
 
         for(String seme : semi)
-            for(Integer i = 1; i <= 10; i++)
+            for(Integer i = 1; i <= 2; i++)
                 mazzo.add(new Carta(i, seme));
 
         Collections.shuffle(mazzo);

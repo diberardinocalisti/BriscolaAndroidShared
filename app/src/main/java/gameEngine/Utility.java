@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.service.autofill.Dataset;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,11 +157,19 @@ public class Utility {
             int curWidth = vAtI.getLayoutParams().width;
             double rapporto = height/baseHeight;
 
-            vAtI.getLayoutParams().height = (int) (curHeight * rapporto);
-            vAtI.getLayoutParams().width = (int) (curWidth * rapporto);
+            if(curHeight > ViewGroup.LayoutParams.MATCH_PARENT)
+                vAtI.getLayoutParams().height = (int) (curHeight * rapporto);
 
-            //if(vAtI instanceof TextView && !(vAtI instanceof Button))
-                //((TextView) vAtI).setTextSize((float) (((TextView) vAtI).getTextSize() / rapporto));
+            if(curWidth > ViewGroup.LayoutParams.MATCH_PARENT)
+                vAtI.getLayoutParams().width = (int) (curWidth * rapporto);
+
+            if(vAtI instanceof TextView){
+                int curSize = (int) ((TextView) vAtI).getTextSize();
+                int newSize = (int) (curSize * rapporto);
+
+                ((TextView) vAtI).setTextSize(TypedValue.COMPLEX_UNIT_PX, newSize);
+            }
+
 
             vAtI.requestLayout();
         }
