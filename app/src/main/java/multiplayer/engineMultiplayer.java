@@ -17,6 +17,7 @@ import com.google.zxing.common.StringUtils;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.Stack;
 
 import Login.loginClass;
 import firebase.FirebaseClass;
@@ -63,12 +64,13 @@ public class engineMultiplayer extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void inizializza(AppCompatActivity c){
+    public static void inizializza(ActivityMultiplayerGame c){
         Game.initialize(c);
+        creaGiocatori(c);
     }
 
    @RequiresApi(api = Build.VERSION_CODES.O)
-   public static void startMultiplayerGame(AppCompatActivity c)
+   public static void startMultiplayerGame(ActivityMultiplayerGame c)
    {
        inizializza(c);
        //Devo inserire le carte rimanenti, quindi tutto il mazzo
@@ -86,43 +88,25 @@ public class engineMultiplayer extends AppCompatActivity {
         return mazzoFb.substring(0, mazzoFb.length()-1);
    }
 
-   public static String[] getInitialCards(){
-        /*TODO: Direi di servirsi del metodo pesca di classe GiocatoreMP per pescare le 3 carte iniziali, nel metodo
-           getInitialCards ciclerei CARTE_INIZIALI volte invocando appunto il metodo pesca di classe GiocatoreMP
-           ancora da ridefinire per il multiplayer), in questo modo evitiamo ripetizioni e ci semplifichiamo il lavoro;
-        */
-       /*ValueEventListener postListener = new ValueEventListener() {
-           @Override
-           public void onDataChange(DataSnapshot dataSnapshot) {
-               // Get Post object and use the values to update the UI
-               System.out.println("Changed!!!");
-               GameRoom g = dataSnapshot.getValue(GameRoom.class);
+    public static void creaGiocatori(ActivityMultiplayerGame c){
+        String[] players;
 
-               String rimanenti = g.getCarteRimanenti();
-               String[] singole = rimanenti.split(DELIMITER);
+        if(c.roleId.equals("host"))
+            players = new String[]{c.enemy, c.host};
+        else
+            players = new String[]{c.host, c.enemy};
 
-               for(int i = 0; i< CARTE_INIZIALI ;i++)
-               {
-                   daDare[i] = singole[i];
-               }
+        for(int i = 0; i < Game.nGiocatori; i++)
+            Game.giocatori[i] = new GiocatoreMP(players[i], i);
 
-           }
-
-           @Override
-           public void onCancelled(DatabaseError databaseError) {
-           }
-       };
-       FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(postListener);*/
-
-       String[] mazzo = mazzoOnline.split(DELIMITER);
-       String[] daDare = new String[CARTE_INIZIALI];
-
-       System.arraycopy(mazzo, 0, daDare, 0, CARTE_INIZIALI);
-
-       return daDare;
+        Game.user = Game.giocatori[1];
     }
 
-    public static ArrayList<String> stringToArray()
+    public static void aggiornaNCarte(Integer n_Carte){
+
+    }
+
+    public static ArrayList<String> stringMazzoToArray()
     {
         ArrayList<String> mazzoArrlst = new ArrayList<>();
         String[] mazzoArr = mazzoOnline.split(DELIMITER);
@@ -141,16 +125,27 @@ public class engineMultiplayer extends AppCompatActivity {
          */
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static ArrayList<Carta> stringToArrayCarta(){
+        String[] mazzoStringa = stringMazzoToArray().toArray(new String[0]);
+        ArrayList<Carta> mazzoCarta = new ArrayList<>();
 
-    public static ArrayList<String> removeCardsFromArray(String carteUscite)
-    {
-        String[] carte = carteUscite.split(DELIMITER);    //3_coppe | 2_coppe | 3_bastoni
-        ArrayList<String> tot = stringToArray();
+        for(String c : mazzoStringa){
+            mazzoCarta.add(Engine.getCartaFromName(c));
+        }
 
-        for(int i = 0; i < CARTE_INIZIALI; i++)
-            tot.remove(carte[i]);
+        return mazzoCarta;
+    }
 
-        return tot;
+
+    public static void removeCardFromMazzo(String carta){
+        mazzoOnline = mazzoOnline.replace(carta, "");
+
+        if(mazzoOnline.startsWith(DELIMITER))
+            mazzoOnline = mazzoOnline.substring(1);
+
+        if(mazzoOnline.endsWith(DELIMITER))
+            mazzoOnline.substring(0, mazzoOnline.length() - 1);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

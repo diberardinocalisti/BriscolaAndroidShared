@@ -110,6 +110,7 @@ public class Giocatore {
     }
 
     public void aggiornaIconaCarte(){
+        System.out.println("Prese " + prese.size());
         int visibility = prese.size() == 0 ? View.INVISIBLE : View.VISIBLE;
         this.mazzo.setVisibility(visibility);
         //this.iconaPunteggio.setText(this.punteggioCarte.toString());

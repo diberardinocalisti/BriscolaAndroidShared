@@ -172,6 +172,10 @@ public class Utility {
 
 
             vAtI.requestLayout();
+
+            if(vAtI instanceof ViewGroup){
+                ridimensionamento(activity, (ViewGroup) vAtI);
+            }
         }
     }
 }

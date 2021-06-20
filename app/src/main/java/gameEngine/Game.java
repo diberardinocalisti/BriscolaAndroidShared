@@ -28,16 +28,16 @@ public class Game {
     public static Giocatore user;
 
     // Tutte le carte presenti nel campo di gioco;
-    protected static View[] carte;
+    public static View[] carte;
 
     // Tutte le carte dei giocatori (quelle che possono essere giocate);
-    protected static Button[] carteBottoni;
+    public static Button[] carteBottoni;
 
     public static ArrayList<Carta> mazzo;
-    protected static Carta[] mazzoIniziale;
+    public static Carta[] mazzoIniziale;
 
-    protected static Giocatore giocante, ultimoVincitore;
-    protected static boolean canPlay, lastManche, terminata;
+    public static Giocatore giocante, ultimoVincitore;
+    public static boolean canPlay, lastManche, terminata;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initialize(AppCompatActivity activity){
@@ -71,6 +71,8 @@ public class Game {
                 carteBottoni[i] = (Button) carte[i];
             }
         }
+
+        Engine.pulisciTavolo();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

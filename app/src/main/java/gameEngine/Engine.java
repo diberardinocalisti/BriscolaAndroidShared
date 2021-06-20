@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import multiplayer.Game.ActivityMultiplayerGame;
+
 import static gameEngine.Game.*;
 import static Login.loginClass.*;
 
@@ -62,6 +64,25 @@ public class Engine{
 
         Collections.shuffle(mazzo);
         mazzoIniziale = mazzo.toArray(new Carta[0]);
+    }
+
+    public static void creaMazzo(String carte){
+        final String delCarte = ";";
+        final String delTipo = "_";
+
+        String[] carteSplit = carte.split(delCarte);
+
+        for(String c : carteSplit){
+            String[] strTok = c.split(delTipo);
+
+            int i = Integer.parseInt(strTok[1]);
+            String seme = strTok[2];
+
+            mazzo.add(new Carta(i, seme));
+        }
+
+        mazzoIniziale = mazzo.toArray(new Carta[0]);
+
     }
 
     static void reset(){
@@ -229,6 +250,7 @@ public class Engine{
             if(carta.getNome().equals(nome))
                 return carta;
         }
+
         return null;
     }
 
@@ -351,13 +373,16 @@ public class Engine{
     }
 
     public static void aggiornaNCarte(){
-        Integer n_carte = Game.mazzo.size() + 1;
+        aggiornaNCarte(Game.mazzo.size() + 1);
+    }
+
+    public static void aggiornaNCarte(Integer n_Carte){
         TextView icona = activity.findViewById(R.id.n_carte);
 
-        if(n_carte - 1 == 0) {
+        if(n_Carte - 1 == 0) {
             icona.setVisibility(View.INVISIBLE);
         }else{
-            icona.setText(n_carte.toString());
+            icona.setText(n_Carte.toString());
             icona.setVisibility(View.VISIBLE);
         }
     }

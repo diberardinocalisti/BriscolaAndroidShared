@@ -42,10 +42,10 @@ import static multiplayer.engineMultiplayer.*;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
     public static boolean start = false;
-    private String onStopUser;
-    private boolean stopApp = false;
-    private String roleId, noteRoleId;
-    private String host, enemy;
+    public String onStopUser;
+    public boolean stopApp = false;
+    public String roleId, noteRoleId;
+    public String host, enemy;
     public static boolean onStop = false;
     public static String mazzoOnline = "";
     public static boolean initialManche = false;
@@ -66,14 +66,8 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         setContentView(R.layout.campo_da_gioco);
         getSupportActionBar().hide();
 
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
-
-        inizializza(this);
-
         onStop = false;
         distribuisci = false;
-
-        final String[][] daDare = {new String[3]};
 
         roleId = (role.equals("HOST") ? "host" : "enemy");
 
@@ -81,90 +75,22 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             engineMultiplayer.startMultiplayerGame(ActivityMultiplayerGame.this);
         }*/
 
+        inizializza(this);
+
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot.getValue(GameRoom.class);
 
-                if(!onStop)
-                {
-                    String carteRimanenti = snapshot.getCarteRimanenti();
-                    String host = snapshot.getHost();
-                    String enemy = snapshot.getEnemy();
-                    String pescato = snapshot.getHostPescato();
-
-                    if(host.equals("null") && !enemy.equals("null"))
-                    {
-                        if(role.equals("HOST"))
-                            Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
-                            Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-                        }
-                        onStop = true;
-                    }
-
-                    if(enemy.equals("null") && !host.equals("null"))
-                    {
-                        if(!role.equals("HOST"))
-                            Toast.makeText(getApplicationContext(),"Hai abbandonato la partita!",Toast.LENGTH_SHORT).show();
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
-                            Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-                        }
-
-                        onStop = true;
-                    }
+                if(!onStop){
+                    checkIfSomeoneLeft();
 
                     if(!distribuisci)
-                    {
-                        mazzoOnline = engineMultiplayer.creaMazzoFirebase();
-                        FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",mazzoOnline);
-                        snapshot.setCarteRimanenti(mazzoOnline);
-                        carteRimanenti = snapshot.getCarteRimanenti();
+                        distribuisciCarte();
 
-                        /*TODO: Direi di servirsi del metodo pesca di classe GiocatoreMP per pescare le 3 carte iniziali, in questo metodo
-                            invece ciclerei CARTE_INIZIALI volte invocando appunto il metodo pesca di classe GiocatoreMP
-                            (ancora da ridefinire per il multiplayer), in questo modo evitiamo ripetizioni e ci semplifichiamo il lavoro;
-                        */
-                        //System.out.println("Distribuisco");
-                        if(!carteRimanenti.equals("null"))
-                        {
-                            Toast.makeText(getApplicationContext(),"Distribuisco le carte...",Toast.LENGTH_SHORT).show();
-                            if(role.equals("HOST"))
-                            {
-                                //pesco subito
-                                String pescate = mazzoOnline.split(";")[0] + ";" + mazzoOnline.split(";")[1] + ";" + mazzoOnline.split(";")[2];
-
-                                Toast.makeText(getApplicationContext(),pescate,Toast.LENGTH_LONG).show();
-
-                                FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",arrayListToString(removeCardsFromArray(pescate)));
-                            }else
-                            {
-                                Handler handler = new Handler();
-                                handler.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        String pescate = mazzoOnline.split(";")[0] + ";" + mazzoOnline.split(";")[1] + ";" + mazzoOnline.split(";")[2];
-
-                                        Toast.makeText(getApplicationContext(),pescate,Toast.LENGTH_LONG).show();
-
-                                        FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",arrayListToString(removeCardsFromArray(pescate)));
-                                    }
-                                },1750);
-                            }
-                        }
-
-                        distribuisci = true;
-                    }
-
+                    aggiornaNCarte();
                 }
-
-
-                System.out.println(snapshot);
 
                 if(onStop)
                     FirebaseClass.deleteFieldFirebase(null,codiceStanza);
@@ -180,7 +106,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
     }
 
-
     //Un utente è uscito dal campo da gioco
     @Override
     protected void onStop() {
@@ -191,17 +116,69 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         onStop = true;
     }
 
-    protected void creaGiocatori(){
-        String[] players;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    protected void distribuisciCarte(){
+        if(role.equals("HOST")){
+            mazzoOnline = engineMultiplayer.creaMazzoFirebase();
+            snapshot.setCarteRimanenti(mazzoOnline);
 
-        if(this.roleId.equals("host"))
-            players = new String[]{host, enemy};
-        else
-            players = new String[]{enemy, host};
+            FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",mazzoOnline);
 
-        for(int i = 0; i < Game.nGiocatori; i++)
-            Game.giocatori[i] = new GiocatoreMP(players[i], i);
+            Game.user.svuotaMazzo();
+
+            for(int i = 0; i < Game.nCarte; i++) {
+                Game.user.pesca();
+            }
+        }else{
+            new Handler().postDelayed(() -> {
+                mazzoOnline = snapshot.getCarteRimanenti();
+                Engine.creaMazzo(mazzoOnline);
+
+                Game.user.svuotaMazzo();
+
+                for(int i = 0; i < Game.nCarte; i++)
+                    Game.user.pesca();
+            }, 1750);
+        }
+
+        distribuisci = true;
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    protected void aggiornaNCarte(){
+        String carteDisponibili = snapshot.getCarteRimanenti();
+        String[] strTok = carteDisponibili.split(DELIMITER);
+
+        Engine.aggiornaNCarte(strTok.length);
+    }
+
+    protected void checkIfSomeoneLeft(){
+        String host = snapshot.getHost();
+        String enemy = snapshot.getEnemy();
+
+        if(host.equals("null") && !enemy.equals("null"))
+        {
+            if(role.equals("HOST")) {
+                Toast.makeText(getApplicationContext(), "Hai abbandonato la partita!", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
+                Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+            }
+            onStop = true;
+        }
+
+        if(enemy.equals("null") && !host.equals("null")) {
+            if (!role.equals("HOST")){
+                Toast.makeText(getApplicationContext(), "Hai abbandonato la partita!", Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
+                Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
+            }
+
+            onStop = true;
+        }
+    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
