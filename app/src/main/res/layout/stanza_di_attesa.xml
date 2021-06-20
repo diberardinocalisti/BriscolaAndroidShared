@@ -110,6 +110,8 @@
                 android:layout_height="1dp"
                 android:background="#4773FF"
                 app:layout_constraintBottom_toTopOf="@+id/helper4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/helper1" />
 
             <View
