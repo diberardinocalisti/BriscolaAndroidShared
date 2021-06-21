@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 
 import androidx.annotation.RequiresApi;
@@ -24,8 +25,9 @@ public class LoadingScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        getSupportActionBar().hide();
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.loading_screen);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
@@ -33,6 +35,6 @@ public class LoadingScreen extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             LoadingScreen.this.startActivity(new Intent(this, MainActivity.class));
             this.finish();
-       }, 1750);
+       }, 2000);
     }
 }

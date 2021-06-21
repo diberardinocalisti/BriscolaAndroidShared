@@ -153,14 +153,14 @@ public class Engine{
     }
 
     static void termina(){
-        Giocatore vincitore = trovaVincitore();
-
         Game.canPlay = false;
         Game.terminata = true;;
 
         terminaPartita();
 
-        /*if(vincitore != null){
+        /*Giocatore vincitore = trovaVincitore();
+
+        if(vincitore != null){
             vincitore.aggiornaPunteggio();
 
             if(vincitore.getScore() == Game.scoreLimit){
@@ -275,7 +275,7 @@ public class Engine{
             if(isLibero(Game.carte[i]))
                 continue;
 
-            if(c.getNome() != current.getNome())
+            if(!c.getNome().equals(current.getNome()))
                 return c;
         }
 

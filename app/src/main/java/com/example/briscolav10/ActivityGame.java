@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.facebook.login.widget.ProfilePictureView;
 import com.google.firebase.database.DataSnapshot;
@@ -40,10 +42,7 @@ import static Login.loginClass.setImgProfile;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class ActivityGame extends AppCompatActivity {
-    private final int STANZA_ATTESA_ID = 1300113;
-
     ProfilePictureView imgP;
-    ActivityGame a;
 
     public static boolean multiplayer = false;
     public static boolean attesa = false;
@@ -54,12 +53,14 @@ public class ActivityGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         Bundle extras = getIntent().getExtras();
         multiplayer = extras.getBoolean("multiplayer");
 
         //Se l'utente ha scelto modalità singlePlayer
-        if(!multiplayer)
-        {
+        if(!multiplayer){
             setContentView(R.layout.campo_da_gioco);
 
             multiplayer = false;
@@ -67,13 +68,11 @@ public class ActivityGame extends AppCompatActivity {
 
             imgP = findViewById(R.id.friendProfilePicture2);
 
-            if(isFacebookLoggedIn()){
+            if(isFacebookLoggedIn())
                 setImgProfile(imgP);
-            }
 
             Game.startGame(this);
-        }else
-        {
+        }else{
             if(ActivityMultiplayerGame.onStop){
                 Utility.goTo(ActivityGame.this, MainActivity.class);
                 ActivityMultiplayerGame.onStop = false;
@@ -87,8 +86,8 @@ public class ActivityGame extends AppCompatActivity {
             ((TextView) findViewById(R.id.codice)).setText("Codice: " + codiceStanza);
             ((TextView) findViewById(R.id.nome1)).setText(getFBNome());
 
-            Button chiudi = (Button) findViewById(R.id.chiudisala);
-            loginClass.setImgProfile((ProfilePictureView) findViewById(R.id.friendProfilePicture1));
+            Button chiudi = findViewById(R.id.chiudisala);
+            loginClass.setImgProfile(findViewById(R.id.friendProfilePicture1));
 
             FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
                 @Override
@@ -132,7 +131,7 @@ public class ActivityGame extends AppCompatActivity {
                     Utility.goTo(ActivityGame.this, MainActivity.class);
                 };
 
-                Utility.confirmDenyDialog(ActivityGame.this,"Chiusura sessione","Sicuro di voler abbandonare la sessione?",action,null);
+                Utility.confirmDenyDialog(ActivityGame.this,"Chiusura sessione","Sicuro di voler abbandonare la sessione?", action, null);
 
             });
         }
@@ -156,8 +155,6 @@ public class ActivityGame extends AppCompatActivity {
             FirebaseClass.deleteFieldFirebase(null, codiceStanza);
             Toast.makeText(getApplicationContext(),"La sessione è stata interrotta!\nCrea una nuova stanza per giocare di nuovo.",Toast.LENGTH_LONG).show();
         }
-
-
     }
 
     @Override

@@ -2,10 +2,15 @@ package Login;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,8 +18,11 @@ import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.briscolav10.R;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -26,12 +34,16 @@ import Home.MainActivity;
 import gameEngine.Utility;
 
 
+
 public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         if(!loginClass.isFacebookLoggedIn()){
             loginPage();
@@ -53,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
 
-        LoginButton l = (LoginButton) findViewById(R.id.login_button);
+        LoginButton l = findViewById(R.id.login_button);
 
         Button why = findViewById(R.id.button1);
         why.setOnClickListener(v -> Utility.createDialog(this, why.getText().toString(), "Effettuando l'accesso potrai giocare in multigiocatore e sfidare i tuoi amici in ogni momento!"));
@@ -61,11 +73,14 @@ public class LoginActivity extends AppCompatActivity {
         Button back = findViewById(R.id.button2);
         back.setOnClickListener(v -> super.onBackPressed());
 
+        final LoginActivity curActivity = this;
+
         //@TODO gestire il logout da facebook
         l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                loginMsg("Login effettuato con successo!");
+                // TODO: indirizzare l'utente alla pagina del profilo una volta effettuato l'accesso;
+                Utility.goTo(curActivity, MainActivity.class);
             }
 
             @Override
@@ -80,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
     void loginMsg(CharSequence msg){
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(i);
@@ -90,10 +106,26 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.fb_profile);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
-        findViewById(R.id.logout).setOnClickListener(v -> findViewById(R.id.logoutHook).performClick());
-
         TextView nome = findViewById(R.id.nome);
         nome.setText(loginClass.getFBNome() + " " + loginClass.getFBCognome());
+
+        TextView nVittorie = findViewById(R.id.vittorieValore);
+        TextView nSconfitte = findViewById(R.id.sconfitteValore);
+        TextView nRateo = findViewById(R.id.rateoValore);
+
+        TextView accountId = findViewById(R.id.idValore);
+        accountId.setText(loginClass.getFBUserId());
+
+        Button modificaProfilo = findViewById(R.id.editB);
+        modificaProfilo.setOnClickListener(v -> {
+            final String editProfileTut = "https://www.facebook.com/profile.php";
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(editProfileTut));
+            startActivity(browserIntent);
+        });
+
+        View.OnClickListener doLogout = (v) -> findViewById(R.id.logoutHook).performClick();
+        findViewById(R.id.logout).setOnClickListener(doLogout);
+        findViewById(R.id.logoutB).setOnClickListener(doLogout);
 
         ProfilePictureView imgProfile = findViewById(R.id.friendProfilePicture);
         loginClass.setImgProfile(imgProfile);
