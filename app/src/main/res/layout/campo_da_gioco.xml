@@ -77,6 +77,13 @@
                 app:layout_constraintStart_toStartOf="@+id/mazzo1"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <View
+                android:id="@+id/view3"
+                android:layout_width="1dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="0dp" />
+
             <Button
                 android:id="@+id/button1"
                 android:layout_width="190px"
@@ -129,15 +136,16 @@
                 app:layout_constraintTop_toTopOf="@+id/button5" />
 
             <com.facebook.login.widget.ProfilePictureView
-                android:id="@+id/friendProfilePicture2"
+                android:id="@+id/friendProfilePictureUser"
                 android:layout_width="125px"
                 android:layout_height="125px"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="15dp"
                 android:padding="1sp"
                 android:paddingRight="10sp"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/button4"
+                app:layout_constraintHorizontal_bias="0.564"
                 app:layout_constraintStart_toStartOf="parent">
 
             </com.facebook.login.widget.ProfilePictureView>
@@ -173,10 +181,10 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.facebook.login.widget.ProfilePictureView
-                android:id="@+id/friendProfilePictureCPU"
+                android:id="@+id/friendProfilePictureEnemy"
                 android:layout_width="125px"
                 android:layout_height="125px"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="15dp"
                 android:src="@drawable/ic_baseline_account_circle_24"
                 android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -206,6 +214,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/button10"
                 app:srcCompat="@drawable/vuoto" />
+
+            <ImageButton
+                android:id="@+id/settings"
+                android:layout_width="125px"
+                android:layout_height="125px"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/round_button"
+                android:src="@drawable/ic_baseline_settings_24"
+                app:layout_constraintEnd_toStartOf="@+id/button1"
+                app:layout_constraintHorizontal_bias="0.564"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints">
+
+            </ImageButton>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

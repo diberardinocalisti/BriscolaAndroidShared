@@ -1,5 +1,6 @@
 package gameEngine;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import Home.SharedPref;
 import multiplayer.Game.ActivityMultiplayerGame;
 
 import static gameEngine.Game.*;
@@ -384,6 +386,27 @@ public class Engine{
         }else{
             icona.setText(n_Carte.toString());
             icona.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public static void aggiornaTipoCarte(String tipoCarte){
+        tipoCarte = tipoCarte.toLowerCase();
+        SharedPref.setTipoCarte(tipoCarte);
+        Game.tipoCarte = tipoCarte;
+
+        if(Game.terminata)
+            return;
+
+        for(Carta c : mazzoIniziale)
+            c.aggiornaTipo();
+
+        for(Carta c : mazzo)
+            c.aggiornaTipo();
+
+        for(View c : carte) {
+            Carta carta = getCartaFromButton(c);
+            if(carta != null)
+                carta.aggiornaTipo();
         }
     }
 

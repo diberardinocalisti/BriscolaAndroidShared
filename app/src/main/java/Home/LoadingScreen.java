@@ -28,6 +28,7 @@ public class LoadingScreen extends AppCompatActivity {
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
 
         setContentView(R.layout.loading_screen);
         Utility.ridimensionamento(this, findViewById(R.id.parent));

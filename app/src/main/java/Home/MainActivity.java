@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatDelegate;
 import com.example.briscolav10.R;
 
 import Login.loginClass;
+import gameEngine.Game;
+import gameEngine.Settings;
 import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
 import multiplayer.MultiplayerActivity;
@@ -59,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
             button[index] = findViewById(id);
             button[index].setOnClickListener(v -> new MainMenu().startGame(idS, this));
         }
+
+        Game.terminata = true;
+        SharedPref.setContext(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)

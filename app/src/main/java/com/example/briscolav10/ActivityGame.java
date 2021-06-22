@@ -66,7 +66,7 @@ public class ActivityGame extends AppCompatActivity {
             multiplayer = false;
             attesa = false;
 
-            imgP = findViewById(R.id.friendProfilePicture2);
+            imgP = findViewById(R.id.friendProfilePictureUser);
 
             if(isFacebookLoggedIn())
                 setImgProfile(imgP);

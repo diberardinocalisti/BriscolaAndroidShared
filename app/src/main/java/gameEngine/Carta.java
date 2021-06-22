@@ -7,6 +7,8 @@ import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.briscolav10.R;
+
 import Home.MainMenu;
 import Home.SharedPref;
 
@@ -18,13 +20,16 @@ public class Carta {
     protected String seme;
     protected Giocatore portatore;
     protected String nomeBackground;
+    protected String tipo;
+    protected boolean coperta;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Carta(Integer numero, String seme){
         this.numero = numero;
         this.seme = seme;
         this.valore = calcolaValore(numero);
-        this.nomeBackground = SharedPref.getTipoCarte(activity).toLowerCase() + "_" + numero + "_" + seme;
+        this.tipo = Game.tipoCarte;
+        this.nomeBackground = this.tipo + "_" + this.numero + "_" + this.seme;
     }
 
     public void abilita(){
@@ -120,30 +125,62 @@ public class Carta {
     }
 
     public void mostra(){
-        this.b.setBackground(this.getImage());
+        this.coperta = false;
+
+        if(this.b != null)
+            this.b.setBackground(this.getImage());
+    }
+
+    public void aggiornaTipo(){
+        if(!this.tipo.equals(Game.tipoCarte)){
+            this.tipo = Game.tipoCarte;
+            this.nomeBackground = this.tipo + "_" + this.numero + "_" + this.seme;
+
+            if(!this.isCoperta())
+                this.mostra();
+        }
     }
 
     public void nascondi() {
-        boolean scoperte = SharedPref.getCarteScoperte(activity);
+        boolean scoperte = SharedPref.getCarteScoperte();
 
-        if(scoperte)
-            return;
+        if(!scoperte && this.b != null) {
+            this.coperta = true;
+            nascondi(this.b);
+        }
+    }
 
-        nascondi(this.b);
+    public boolean isCoperta(){
+        return this.coperta;
     }
 
     public static void nascondi(View b){
-        int resID = activity.getResources().getIdentifier("vuoto", "drawable", activity.getPackageName());
-        Drawable image = activity.getResources().getDrawable(resID);
-        b.setBackground(image);
+        b.setBackground(getVuoto());
     }
 
     public Drawable getImage(){
-        int resID = activity.getResources().getIdentifier(this.getNome(), "drawable", activity.getPackageName());
-        return activity.getResources().getDrawable(resID);
+        try{
+            int resID = getImage(0);
+            return activity.getResources().getDrawable(resID);
+        }catch(Exception e){
+            return getVuoto();
+        }
     }
 
     public int getImage(int type){
-        return activity.getResources().getIdentifier(this.getNome(), "drawable", activity.getPackageName());
+        try{
+            return activity.getResources().getIdentifier(this.getNome(), "drawable", activity.getPackageName());
+        }catch(Exception e){
+            return getVuoto(0);
+        }
+    }
+
+    public static Drawable getVuoto(){
+        int resID = getVuoto(0);
+        return activity.getResources().getDrawable(resID);
+    }
+
+    public static int getVuoto(int type){
+        return activity.getResources().getIdentifier("vuoto", "drawable", activity.getPackageName());
     }
 }

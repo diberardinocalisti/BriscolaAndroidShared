@@ -14,10 +14,13 @@ import com.example.briscolav10.R;
 
 import java.util.ArrayList;
 
+import Home.SharedPref;
+
 public class Game {
     public static AppCompatActivity activity;
     public static final Integer nGiocatori = 2, nCarte = 3, maxPunti = 120, scoreLimit = 3;
     public static final String[] semi = {"bastoni", "denara", "spade", "coppe"};
+    public static String tipoCarte;
     public static Carta briscola;
 
     public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;
@@ -59,6 +62,7 @@ public class Game {
         carte = new View[10];
         carteBottoni = new Button[nCarte * 2];
         mazzoIniziale = new Carta[40];
+        tipoCarte = SharedPref.getTipoCarte().toLowerCase();
 
         for(int i = 0; i < carte.length; i++){
             String idS = "button" + (i+1);
@@ -71,6 +75,8 @@ public class Game {
                 carteBottoni[i] = (Button) carte[i];
             }
         }
+
+        activity.findViewById(R.id.settings).setOnClickListener((v) -> new Settings().createSettingsMenu(activity));
 
         Engine.pulisciTavolo();
     }
