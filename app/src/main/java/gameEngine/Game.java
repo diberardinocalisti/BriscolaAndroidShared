@@ -76,8 +76,6 @@ public class Game {
             }
         }
 
-        activity.findViewById(R.id.settings).setOnClickListener((v) -> new Settings().createSettingsMenu(activity));
-
         Engine.pulisciTavolo();
     }
 

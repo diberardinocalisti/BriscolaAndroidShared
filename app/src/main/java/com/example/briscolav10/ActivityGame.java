@@ -7,6 +7,8 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -171,5 +173,33 @@ public class ActivityGame extends AppCompatActivity {
         final Configuration override = new Configuration(newBase.getResources().getConfiguration());
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.settings, menu);
+        return true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch(id){
+            case R.id.impostazioni:
+                new Settings().createSettingsMenu(this);
+                return true;
+
+            case R.id.leavegame:
+                Utility.confirmDenyDialog(this, "Abbandonare la partita",
+                        "Sei sicuro di voler abbandonare la partita?",
+                        (dialog, which) -> Utility.goTo(Game.activity, MainActivity.class),
+                        null);
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -215,21 +215,6 @@
                 app:layout_constraintTop_toTopOf="@+id/button10"
                 app:srcCompat="@drawable/vuoto" />
 
-            <ImageButton
-                android:id="@+id/settings"
-                android:layout_width="125px"
-                android:layout_height="125px"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/round_button"
-                android:src="@drawable/ic_baseline_settings_24"
-                app:layout_constraintEnd_toStartOf="@+id/button1"
-                app:layout_constraintHorizontal_bias="0.564"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints">
-
-            </ImageButton>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
