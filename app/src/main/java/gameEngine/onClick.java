@@ -35,20 +35,30 @@ public class onClick implements View.OnClickListener {
 
         Game.canPlay = false;
 
-        muoviCarta(bottone, destButton, false);
+        Object event = new Object();
 
-        new Handler().postDelayed(() -> {
-            Game.canPlay = true;
+        muoviCarta(bottone, destButton, false, true, event);
 
-            giocante.lancia(carta);
-            final Giocatore vincente = doLogic(carta, getOtherCarta(carta));
+        new Thread(() -> {
+            try {
+                synchronized (event){
+                    event.wait();
+                    activity.runOnUiThread(() -> {
+                        Game.canPlay = true;
 
-            if(vincente == null) {
-                prossimoTurno(getOtherPlayer(giocante));
-            }else{
-                new Handler().postDelayed(() -> terminaManche(vincente), 1750);
+                        giocante.lancia(carta);
+                        final Giocatore vincente = doLogic(carta, getOtherCarta(carta));
+
+                        if(vincente == null) {
+                            prossimoTurno(getOtherPlayer(giocante));
+                        }else{
+                            new Handler().postDelayed(() -> terminaManche(vincente), 1750);
+                        }
+                    });
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        }, animationDuration);
-
+        }).start();
     }
 }

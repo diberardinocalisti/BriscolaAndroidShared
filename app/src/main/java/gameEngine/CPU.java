@@ -15,6 +15,7 @@ public class CPU extends Giocatore {
         Game.CPU = this;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void prendi(Integer indice, Carta daAggiungere){
         super.prendi(indice, daAggiungere);
         this.carte[indice].nascondi();

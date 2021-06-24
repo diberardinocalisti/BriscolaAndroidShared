@@ -69,9 +69,8 @@ public class Giocatore {
         this.prese = new ArrayList<>();
         this.bottoni = new Button[(int) nCarte];
 
-        for(int i = this.index * nCarte, j = 0; j < nCarte; j++, i++){
+        for(int i = this.index * nCarte, j = 0; j < nCarte; j++, i++)
             this.bottoni[j] = carteBottoni[i];
-        }
 
         String idS = "button" + (this.index + 1 + 10);
         int id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
@@ -141,20 +140,34 @@ public class Giocatore {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void mancheVinta() {
+    public void mancheVinta(Runnable callback) {
+        Object event = new Object();
+
+        new Thread(() -> {
+            try {
+                synchronized (event){
+                    event.wait();
+                    activity.runOnUiThread(() -> {
+                        Giocatore.this.aggiornaIconaCarte();
+                        ultimoVincitore = Giocatore.this;
+                        callback.run();
+                    });
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
+
         for(Integer i : I_CAMPO_GIOCO){
             if(Game.carte[i] != null){
-                muoviCarta(Game.carte[i], this.mazzo, true);
+                muoviCarta(Game.carte[i], this.mazzo, true, true, event);
                 Carta c = getCartaFromButton(Game.carte[i]);
                 c.setButton(null);
                 prese.add(c);
                 punteggioCarte += c.getValore();
             }
         }
-
-        this.aggiornaIconaCarte();
-
-        ultimoVincitore = this;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

@@ -1,17 +1,23 @@
 package gameEngine;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.AdapterViewAnimator;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -23,6 +29,7 @@ import com.facebook.login.Login;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.concurrent.Delayed;
 
 import Home.SharedPref;
@@ -92,7 +99,6 @@ public class Engine{
         }
 
         mazzoIniziale = mazzo.toArray(new Carta[0]);
-
     }
 
     static void reset(){
@@ -144,25 +150,26 @@ public class Engine{
     static void terminaManche(Giocatore vincitore) {
         Game.canPlay = false;
 
-        vincitore.mancheVinta();
+        vincitore.mancheVinta(new Runnable() {
+            @Override
+            public void run() {
+                pulisciPianoGioco();
 
-        new Handler().postDelayed(() -> {
-            pulisciPianoGioco();
+                Giocatore[] giocatori = getVincitorePerdente(vincitore);
 
-            Giocatore[] giocatori = getVincitorePerdente(vincitore);
+                for(Giocatore p : giocatori)
+                    if(Game.mazzo.size() > 0 || !lastManche)
+                        p.pesca();
 
-            for(Giocatore p : giocatori)
-                if(Game.mazzo.size() > 0 || !lastManche)
-                    p.pesca();
+                Game.canPlay = true;
 
-            Game.canPlay = true;
-
-            if(isTerminata()){
-                termina();
-            }else{
-                prossimoTurno(vincitore);
+                if(isTerminata()){
+                    termina();
+                }else{
+                    prossimoTurno(vincitore);
+                }
             }
-        }, (long) (animationDuration * 1.5));
+        });
 
     }
 
@@ -220,9 +227,8 @@ public class Engine{
     }
 
     static void pulisciPianoGioco(){
-        for(Integer i : I_CAMPO_GIOCO){
+        for(Integer i : I_CAMPO_GIOCO)
             carte[i].setBackground(null);
-        }
     }
 
     static void pulisciPianoLaterale(){
@@ -313,13 +319,11 @@ public class Engine{
         Carta[] carte = {first, last};
         Carta comanda = first;
 
-        for(Carta carta : carte){
+        for(Carta carta : carte)
             if(carta.isBriscola())
                 comanda = carta;
-        }
 
         Carta c_vincente = first.getSeme().equals(last.getSeme()) ? getMax(carte) : comanda;
-        
         return c_vincente.getPortatore();
     }
 
@@ -428,7 +432,9 @@ public class Engine{
         return arr;
     }
 
-    public static void muoviCarta(View startView, View destView, boolean fade){
+    public static void muoviCarta(View startView, View destView, boolean fade, boolean flip, Object event){
+        final int accelMultip = 2;
+
         final float diffX = destView.getX() - startView.getX();
         final float diffY = destView.getY() - startView.getY();
 
@@ -438,12 +444,24 @@ public class Engine{
         animation.setDuration(animationDuration);
 
         animation.setFillAfter(false);
-        animation.setInterpolator(new AccelerateInterpolator(2));
+        animation.setInterpolator(new AccelerateInterpolator(accelMultip));
         s.addAnimation(animation);
+
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override public void onAnimationStart(Animation animation){}
+            @Override public void onAnimationRepeat(Animation animation){}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                synchronized (event){
+                    event.notifyAll();
+                }
+            }
+        });
 
         if(fade){
             Animation fadeAnim = new AlphaAnimation(1f, 0f);
-            fadeAnim.setInterpolator(new AccelerateInterpolator(1));
+            fadeAnim.setInterpolator(new AccelerateInterpolator(accelMultip));
             fadeAnim.setDuration(animationDuration);
             fadeAnim.setFillAfter(false);
 
@@ -451,5 +469,37 @@ public class Engine{
         }
 
         startView.startAnimation(s);
+
+        if(!flip)
+            return;
+
+        Carta viewToCarta = getCartaFromButton(startView);
+
+        assert viewToCarta != null;
+        if(!viewToCarta.isCoperta())
+            return;
+
+        final ObjectAnimator oa1 = ObjectAnimator.ofFloat(startView, "scaleX", 1f, 0f).setDuration(animationDuration);
+        final ObjectAnimator oa2 = ObjectAnimator.ofFloat(startView, "scaleX", 0f, 1f).setDuration(animationDuration);
+        oa2.setInterpolator(new AccelerateDecelerateInterpolator());
+
+        oa1.addListener(new AnimatorListenerAdapter() {
+            @Override public void onAnimationEnd(Animator animation, boolean isReverse) {
+                super.onAnimationEnd(animation);
+                startView.setBackground(destView.getBackground());
+                oa2.start();
+            }
+        });
+
+        oa1.start();
+
+        oa2.addListener(new AnimatorListenerAdapter() {
+            @Override public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                synchronized (event){
+                    event.notifyAll();
+                }
+            }
+        });
     }
 }
