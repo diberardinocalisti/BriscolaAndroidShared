@@ -18,7 +18,8 @@ import Home.SharedPref;
 
 public class Game {
     public static AppCompatActivity activity;
-    public static final Integer nGiocatori = 2, nCarte = 3, maxPunti = 120, scoreLimit = 3;
+    public static final Integer animationDuration = 350;
+    public static final Integer nGiocatori = 2, nCarte = 3, maxPunti = 120;
     public static final String[] semi = {"bastoni", "denara", "spade", "coppe"};
     public static String tipoCarte;
     public static Carta briscola;

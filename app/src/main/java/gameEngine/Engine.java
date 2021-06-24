@@ -4,7 +4,14 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -16,6 +23,7 @@ import com.facebook.login.Login;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.concurrent.Delayed;
 
 import Home.SharedPref;
 import multiplayer.Game.ActivityMultiplayerGame;
@@ -137,21 +145,25 @@ public class Engine{
         Game.canPlay = false;
 
         vincitore.mancheVinta();
-        pulisciPianoGioco();
 
-        Giocatore[] giocatori = getVincitorePerdente(vincitore);
+        new Handler().postDelayed(() -> {
+            pulisciPianoGioco();
 
-        for(Giocatore p : giocatori)
-            if(Game.mazzo.size() > 0 || !lastManche)
-                p.pesca();
+            Giocatore[] giocatori = getVincitorePerdente(vincitore);
 
-        Game.canPlay = true;
+            for(Giocatore p : giocatori)
+                if(Game.mazzo.size() > 0 || !lastManche)
+                    p.pesca();
 
-        if(isTerminata()){
-            termina();
-        }else{
-            prossimoTurno(vincitore);
-        }
+            Game.canPlay = true;
+
+            if(isTerminata()){
+                termina();
+            }else{
+                prossimoTurno(vincitore);
+            }
+        }, (long) (animationDuration * 1.5));
+
     }
 
     static void termina(){
@@ -306,10 +318,7 @@ public class Engine{
                 comanda = carta;
         }
 
-        Carta c_vincente = first.getSeme() == last.getSeme() ? getMax(carte) : comanda;
-
-        Carta c_perdente = first == c_vincente ? last : first;
-        c_perdente.getButton().setAlpha(0.5f);
+        Carta c_vincente = first.getSeme().equals(last.getSeme()) ? getMax(carte) : comanda;
         
         return c_vincente.getPortatore();
     }
@@ -417,5 +426,30 @@ public class Engine{
         arr[1] = vincente == giocatori[0] ? giocatori[1] : giocatori[0];
 
         return arr;
+    }
+
+    public static void muoviCarta(View startView, View destView, boolean fade){
+        final float diffX = destView.getX() - startView.getX();
+        final float diffY = destView.getY() - startView.getY();
+
+        AnimationSet s = new AnimationSet(false);
+
+        final Animation animation = new TranslateAnimation(0, diffX,0, diffY);
+        animation.setDuration(animationDuration);
+
+        animation.setFillAfter(false);
+        animation.setInterpolator(new AccelerateInterpolator(2));
+        s.addAnimation(animation);
+
+        if(fade){
+            Animation fadeAnim = new AlphaAnimation(1f, 0f);
+            fadeAnim.setInterpolator(new AccelerateInterpolator(1));
+            fadeAnim.setDuration(animationDuration);
+            fadeAnim.setFillAfter(false);
+
+            s.addAnimation(fadeAnim);
+        }
+
+        startView.startAnimation(s);
     }
 }

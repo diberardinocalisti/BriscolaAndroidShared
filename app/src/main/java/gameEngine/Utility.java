@@ -65,6 +65,7 @@ public class Utility {
         AlertDialog alert = builder.create();
         alert.show();
     }
+
     public static void createInputDialogMultiplayer(Context c)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
@@ -74,7 +75,7 @@ public class Utility {
 
         View tipoCarteView = inflater.inflate( R.layout.input_codice_stanza, null );
 
-        EditText input = (EditText)  tipoCarteView.findViewById(R.id.inputCodice);
+        EditText input = tipoCarteView.findViewById(R.id.inputCodice);
 
 
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -171,7 +172,6 @@ public class Utility {
 
                 ((TextView) vAtI).setTextSize(TypedValue.COMPLEX_UNIT_PX, newSize);
             }
-
 
             vAtI.requestLayout();
 

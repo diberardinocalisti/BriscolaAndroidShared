@@ -34,7 +34,7 @@ public class LoadingScreen extends AppCompatActivity {
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         new Handler().postDelayed(() -> {
-            LoadingScreen.this.startActivity(new Intent(this, MainActivity.class));
+            this.startActivity(new Intent(this, MainActivity.class));
             this.finish();
        }, 2000);
     }

@@ -1,7 +1,10 @@
 package gameEngine;
 
 import android.os.Build;
+import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -17,9 +20,11 @@ import java.util.Collections;
 
 import static gameEngine.Engine.getCartaFromButton;
 import static gameEngine.Engine.isLibero;
+import static gameEngine.Engine.muoviCarta;
 import static gameEngine.Engine.pulisciPianoLaterale;
 import static gameEngine.Game.I_CAMPO_GIOCO;
 import static gameEngine.Game.activity;
+import static gameEngine.Game.animationDuration;
 import static gameEngine.Game.briscola;
 import static gameEngine.Game.carteBottoni;
 import static gameEngine.Game.lastManche;
@@ -139,6 +144,7 @@ public class Giocatore {
     public void mancheVinta() {
         for(Integer i : I_CAMPO_GIOCO){
             if(Game.carte[i] != null){
+                muoviCarta(Game.carte[i], this.mazzo, true);
                 Carta c = getCartaFromButton(Game.carte[i]);
                 c.setButton(null);
                 prese.add(c);

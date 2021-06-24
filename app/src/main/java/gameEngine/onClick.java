@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Handler;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import androidx.annotation.RequiresApi;
 
@@ -17,8 +19,8 @@ public class onClick implements View.OnClickListener {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onClick(View v) {
-        Button bottone = (Button) v;
-        Carta carta = Engine.getCartaFromButton(bottone);
+        final Button bottone = (Button) v;
+        final Carta carta = Engine.getCartaFromButton(bottone);
 
         if(carta == null)
             return;
@@ -29,14 +31,24 @@ public class onClick implements View.OnClickListener {
         if(!Game.canPlay || terminata)
             return;
 
-        giocante.lancia(carta);
-        final Giocatore vincente = doLogic(carta, getOtherCarta(carta));
+        final View destButton = carte[carta.getPortatore().index + I_CAMPO_GIOCO[0]];
 
-        if(vincente == null) {
-            prossimoTurno(getOtherPlayer(giocante));
-        }else{
-            canPlay = false;
-            new Handler().postDelayed(() -> terminaManche(vincente), 1750);
-        }
+        Game.canPlay = false;
+
+        muoviCarta(bottone, destButton, false);
+
+        new Handler().postDelayed(() -> {
+            Game.canPlay = true;
+
+            giocante.lancia(carta);
+            final Giocatore vincente = doLogic(carta, getOtherCarta(carta));
+
+            if(vincente == null) {
+                prossimoTurno(getOtherPlayer(giocante));
+            }else{
+                new Handler().postDelayed(() -> terminaManche(vincente), 1750);
+            }
+        }, animationDuration);
+
     }
 }
