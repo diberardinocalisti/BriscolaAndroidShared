@@ -168,7 +168,7 @@ public class Engine{
 
     static void termina(){
         Game.canPlay = false;
-        Game.terminata = true;;
+        Game.terminata = true;
 
         terminaPartita();
 
