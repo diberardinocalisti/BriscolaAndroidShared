@@ -1,5 +1,6 @@
 package com.example.briscolav10;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -62,83 +63,93 @@ public class ActivityGame extends AppCompatActivity {
         multiplayer = extras.getBoolean("multiplayer");
 
         //Se l'utente ha scelto modalità singlePlayer
-        if(!multiplayer){
-            setContentView(R.layout.campo_da_gioco);
-
-            multiplayer = false;
-            attesa = false;
-
-            imgP = findViewById(R.id.friendProfilePictureUser);
-
-            if(isFacebookLoggedIn())
-                setImgProfile(imgP);
-
-            Game.startGame(this);
-        }else{
-            if(ActivityMultiplayerGame.onStop){
-                Utility.goTo(ActivityGame.this, MainActivity.class);
-                ActivityMultiplayerGame.onStop = false;
-            }
-
-            setContentView(R.layout.stanza_di_attesa);
-            Utility.ridimensionamento(this, findViewById(R.id.parent));
-
-            attesa = true;
-
-            ((TextView) findViewById(R.id.codice)).setText("Codice: " + codiceStanza);
-            ((TextView) findViewById(R.id.nome1)).setText(getFBNome());
-
-            Button chiudi = findViewById(R.id.chiudisala);
-            loginClass.setImgProfile(findViewById(R.id.friendProfilePicture1));
-
-            FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
-
-                    for(DataSnapshot d : dataSnapshot.getChildren())
-                    {
-                        String key = d.getKey();
-                        Object value = d.getValue();
-
-                        if(key.equals("enemy"))
-                        {
-                            //è entrato l'avverrsario nella stanza
-                            if(!value.equals("null")  && !ActivityMultiplayerGame.onStop && !ActivityMultiplayerGame.start)
-                            {
-                                finishAttesa = true;
-                                Intent i = new Intent(ActivityGame.this,ActivityMultiplayerGame.class);
-                                ActivityGame.this.startActivity(i);
-                                Toast.makeText(getBaseContext(),value + " si è unito alla partita!",Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError databaseError) {
-                    System.out.println("ERROREEEE");
-                }
-
-
-            });
-
-            chiudi.setOnClickListener(v -> {
-
-                DialogInterface.OnClickListener action = (dialog, which) -> {
-
-                    //Elimino la stanza dal db
-                    FirebaseClass.deleteFieldFirebase(null,codiceStanza);
-
-                    //Lo riporto nella homepage
-                    Utility.goTo(ActivityGame.this, MainActivity.class);
-                };
-
-                Utility.confirmDenyDialog(ActivityGame.this,"Chiusura sessione","Sicuro di voler abbandonare la sessione?", action, null);
-
-            });
+        if (multiplayer) {
+            startMultiPlayer();
+        } else {
+            startSinglePlayer();
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    protected void startSinglePlayer(){
+        setContentView(R.layout.campo_da_gioco);
+
+        multiplayer = false;
+        attesa = false;
+
+        imgP = findViewById(R.id.friendProfilePictureUser);
+
+        if(isFacebookLoggedIn())
+            setImgProfile(imgP);
+
+        Game.startGame(this);
+    }
+
+    @SuppressLint("SetTextI18n")
+    protected void startMultiPlayer(){
+        if(ActivityMultiplayerGame.onStop){
+            Utility.goTo(ActivityGame.this, MainActivity.class);
+            ActivityMultiplayerGame.onStop = false;
+        }
+
+        setContentView(R.layout.stanza_di_attesa);
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
+
+        attesa = true;
+
+        ((TextView) findViewById(R.id.codice)).setText(this.getString(R.string.code) + codiceStanza);
+        ((TextView) findViewById(R.id.stato)).setText(this.getString(R.string.state) + this.getString(R.string.waiting));
+        ((TextView) findViewById(R.id.nome1)).setText(getFBNome());
+
+        Button chiudi = findViewById(R.id.chiudisala);
+        loginClass.setImgProfile(findViewById(R.id.friendProfilePicture1));
+
+        FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot d : dataSnapshot.getChildren())
+                {
+                    String key = d.getKey();
+                    Object value = d.getValue();
+
+                    if(key.equals("enemy"))
+                    {
+                        //è entrato l'avverrsario nella stanza
+                        if(!value.equals("null")  && !ActivityMultiplayerGame.onStop && !ActivityMultiplayerGame.start)
+                        {
+                            finishAttesa = true;
+                            Intent i = new Intent(ActivityGame.this,ActivityMultiplayerGame.class);
+                            ActivityGame.this.startActivity(i);
+                            Toast.makeText(getBaseContext(),value + " si è unito alla partita!",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError databaseError) {
+                System.out.println("ERROREEEE");
+            }
+
+
+        });
+
+        chiudi.setOnClickListener(v -> {
+
+            DialogInterface.OnClickListener action = (dialog, which) -> {
+
+                //Elimino la stanza dal db
+                FirebaseClass.deleteFieldFirebase(null,codiceStanza);
+
+                //Lo riporto nella homepage
+                Utility.goTo(ActivityGame.this, MainActivity.class);
+            };
+
+            Utility.confirmDenyDialog(ActivityGame.this,"Chiusura sessione","Sicuro di voler abbandonare la sessione?", action, null);
+
+        });
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -155,15 +166,13 @@ public class ActivityGame extends AppCompatActivity {
 
         if(multiplayer && attesa && !finishAttesa){
             FirebaseClass.deleteFieldFirebase(null, codiceStanza);
-            Toast.makeText(getApplicationContext(),"La sessione è stata interrotta!\nCrea una nuova stanza per giocare di nuovo.",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), this.getString(R.string.sessionclosed), Toast.LENGTH_LONG).show();
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        //Toast.makeText(getApplicationContext(),"ON DESTROY",Toast.LENGTH_LONG).show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -193,8 +202,8 @@ public class ActivityGame extends AppCompatActivity {
                 return true;
 
             case R.id.leavegame:
-                Utility.confirmDenyDialog(this, "Abbandonare la partita",
-                        "Sei sicuro di voler abbandonare la partita?",
+                Utility.confirmDenyDialog(this, this.getString(R.string.leavegame),
+                        this.getString(R.string.confirmleavegame),
                         (dialog, which) -> Utility.goTo(Game.activity, MainActivity.class),
                         null);
                 return true;

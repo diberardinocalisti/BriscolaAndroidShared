@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
+import com.facebook.login.Login;
 
 import Login.LoginActivity;
 import Login.loginClass;
@@ -23,7 +24,7 @@ import okhttp3.internal.Util;
 public class MainMenu extends AppCompatActivity {
     public static boolean carteScoperte;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void startGame(String nomeB, MainActivity main){
         switch(nomeB){
             // Singleplayer;
@@ -39,22 +40,22 @@ public class MainMenu extends AppCompatActivity {
                     Intent i = new Intent(main, MultiplayerActivity.class);
                     main.startActivity(i);
                 }else{
-                    Toast.makeText(main,"Accedi premendo il bottone \"Il mio profilo\" per iniziare a giocare con i tuoi amici!",Toast.LENGTH_LONG).show();
+                    Intent i = new Intent(main, LoginActivity.class);
+                    main.startActivity(i);
                 }
                 break;
 
             // Come si gioca?
             case "button4":
-                String title = "Introduzione a Briscola";
-                String msg = "Per giocare a Briscola si utilizza un mazzo di 40 carte diviso in 4 semi, ciascuno di 10 carte.\nNel mazzo vi sono un totale di 120 punti, pertanto vincerà il round chi ne realizza almeno 61. \nSe i punti sono 60 il round è considerato pari.\n\nDi seguito i punteggi:\nAsso: 11 punti\nTre: 10 punti\nRe: 4 punti\nCavallo: 3 punti\nFante: 2 punti\n\nBUON DIVERTIMENTO!";
-
-                Utility.createDialog(main, title, msg);
+                String title = main.getString(R.string.intro);
+                String msg = main.getString(R.string.howtoplay);
+                Utility.confirmDialog(main, title, msg, null, null);
                 break;
 
             // Uscire dal gioco;
             case "button3":
-                String titolo = "Uscire dal gioco";
-                String messaggio = "Sei sicuro di voler uscire dal gioco?";
+                String titolo = main.getString(R.string.closegame);
+                String messaggio = main.getString(R.string.confirmleave);
 
                 Utility.confirmDenyDialog(main, titolo, messaggio, (dialog, which) -> android.os.Process.killProcess(android.os.Process.myPid()), null);
 

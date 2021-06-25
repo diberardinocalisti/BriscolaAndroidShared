@@ -49,7 +49,7 @@ public class Utility {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         builder.setTitle(title);
         builder.setMessage(message);
-        builder.setPositiveButton("Ok", action);
+        builder.setPositiveButton(c.getString(R.string.ok), action);
         builder.setOnCancelListener(onCancel);
         AlertDialog alert = builder.create();
         alert.show();
@@ -59,8 +59,8 @@ public class Utility {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
         builder.setTitle(title);
         builder.setMessage(message);
-        builder.setPositiveButton("Ok", action);
-        builder.setNegativeButton("Annulla", null);
+        builder.setPositiveButton(c.getString(R.string.ok), action);
+        builder.setNegativeButton(c.getString(R.string.cancel), null);
         builder.setOnCancelListener(onCancel);
         AlertDialog alert = builder.create();
         alert.show();

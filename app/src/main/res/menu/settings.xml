@@ -5,11 +5,11 @@
     <item
         android:id="@+id/impostazioni"
         android:orderInCategory="100"
-        android:title="Impostazioni"/>
+        android:title="@string/settings"/>
 
     <item
         android:id="@+id/leavegame"
         android:orderInCategory="100"
-        android:title="Abbandona partita"/>
+        android:title="@string/leavegame"/>
 
 </menu>

@@ -48,15 +48,22 @@ public class postPartita extends AppCompatActivity {
         int punteggio = extras.getInt("punteggio");
         String daMostrare[] = extras.getStringArray("carte");
 
-        String stato;
-        if(punteggio < Game.maxPunti/2)
-            stato = "sconfitta";
-        else if(punteggio == Game.maxPunti/2)
-            stato = "pareggio";
-        else stato = "vittoria";
+        String background, stato;
+        if(punteggio < Game.maxPunti/2) {
+            background = "sconfitta";
+            stato = this.getResources().getString(R.string.lost);
+        }
+        else if(punteggio == Game.maxPunti/2) {
+            background = "pareggio";
+            stato = this.getResources().getString(R.string.tie);
+        }
+        else{
+            background = "vittoria";
+            stato = this.getResources().getString(R.string.win);
+        }
 
         // Aggiorna lo sfondo in base all'esito della partita (blu/rosso/grigio);
-        int resID = activity.getResources().getIdentifier(stato, "drawable", activity.getPackageName());
+        int resID = activity.getResources().getIdentifier(background, "drawable", activity.getPackageName());
 
         final int sdk = android.os.Build.VERSION.SDK_INT;
         if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
@@ -66,10 +73,10 @@ public class postPartita extends AppCompatActivity {
         }
 
         // Scrive lo stato della partita (vittoria/sconfitta/pareggio);
-        esito.setText(stato.toUpperCase() + "!");
+        esito.setText(stato);
 
         // Scrive i punti ottenuti;
-        punti.setText(("+" + punteggio + " punti").toUpperCase());
+        punti.setText("+" + punteggio);
 
         for(int i = 0; i < daMostrare.length; i++){
             Carta carta = Engine.getCartaFromName(daMostrare[i]);

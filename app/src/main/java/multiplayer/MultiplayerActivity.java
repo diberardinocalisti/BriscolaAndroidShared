@@ -57,7 +57,7 @@ public class MultiplayerActivity extends AppCompatActivity {
                         MultiplayerActivity.super.onBackPressed();
                         break;
                     case 4:
-                        Utility.createDialog(MultiplayerActivity.this,"Come sfidare i tuoi amici","Giocare con i tuoi amici non è mai stato così semplice!\nCrea una tua stanza privata e fornisci al tuo amico il codice che ti viene mostrato oppure entra in una stanza utilizzando il codice che ti ha fornito il tuo amico!");
+                        Utility.createDialog(MultiplayerActivity.this, button[index].getText().toString(),"Giocare con i tuoi amici non è mai stato così semplice!\nCrea una tua stanza privata e fornisci al tuo amico il codice che ti viene mostrato oppure entra in una stanza utilizzando il codice che ti ha fornito il tuo amico!");
                         break;
                 }
             });
