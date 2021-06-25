@@ -9,7 +9,7 @@
     </string-array>
     <string name="singleplayer">Singleplayer</string>
     <string name="multiplayer">Multiplayer</string>
-    <string name="myprofile">My profile</string>
+    <string name="myprofile">My account</string>
     <string name="briscola">Briscola</string>
     <string name="createroom">Create room</string>
     <string name="joingame">Join room</string>
@@ -47,11 +47,17 @@
 </string>
     <string name="cancel">Cancel</string>
     <string name="ok">Ok</string>
-    <string name="howtoplaymptut">It\'s so easy! Create your own lobby and wait until your friend joins your match using your code!</string>
+    <string name="howtoplaymptut">Playing with a friend is so easy! Create your own lobby and wait until your friend joins your match using your code or vice-versa!</string>
     <string name="waiting">Waiting</string>
     <string name="trovato">Found</string>
     <string name="sessionclosed">Session closed! Create a new lobby to start playing again.</string>
     <string name="leavegame">Leave game</string>
     <string name="confirmleavegame">Are you sure you want to leave the match?</string>
     <string name="typecard">Type of cards</string>
+    <string name="youleft">You left the game!</string>
+    <string name="enemyleft">Your opponent left the game!</string>
+    <string name="unknownerror">Oops! Something went wrong!</string>
+    <string name="whylogintext">If you link your Facebook account to your game you\'ll grant the access to the multiplayer mode and you\'ll be able to play with your friends at any time!</string>
+    <string name="roomnotexisting">Room does not exist!</string>
+    <string name="roomfull">Room is currently full!</string>
 </resources>

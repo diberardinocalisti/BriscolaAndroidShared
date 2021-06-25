@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         LoginButton l = findViewById(R.id.login_button);
 
         Button why = findViewById(R.id.button1);
-        why.setOnClickListener(v -> Utility.createDialog(this, why.getText().toString(), "Effettuando l'accesso potrai giocare in multigiocatore e sfidare i tuoi amici in ogni momento!"));
+        why.setOnClickListener(v -> Utility.createDialog(this, why.getText().toString(), this.getString(R.string.whylogintext)));
 
         Button back = findViewById(R.id.button2);
         back.setOnClickListener(v -> super.onBackPressed());
@@ -85,12 +85,12 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancel() {
-                loginMsg("Ops... qualcosa è andato storto!");
+                loginMsg(LoginActivity.this.getString(R.string.unknownerror));
             }
 
             @Override
             public void onError(FacebookException e) {
-                loginMsg("Ops... qualcosa è andato storto!");
+                loginMsg(LoginActivity.this.getString(R.string.unknownerror));
             }
         });
     }

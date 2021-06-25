@@ -121,7 +121,7 @@ public class ActivityGame extends AppCompatActivity {
                             finishAttesa = true;
                             Intent i = new Intent(ActivityGame.this,ActivityMultiplayerGame.class);
                             ActivityGame.this.startActivity(i);
-                            Toast.makeText(getBaseContext(),value + " si è unito alla partita!",Toast.LENGTH_SHORT).show();
+                            System.out.println(value + " si è unito alla partita!");
                         }
                     }
                 }
@@ -146,7 +146,7 @@ public class ActivityGame extends AppCompatActivity {
                 Utility.goTo(ActivityGame.this, MainActivity.class);
             };
 
-            Utility.confirmDenyDialog(ActivityGame.this,"Chiusura sessione","Sicuro di voler abbandonare la sessione?", action, null);
+            Utility.confirmDenyDialog(ActivityGame.this, this.getString(R.string.leavegame), this.getString(R.string.confirmleavegame), action, null);
 
         });
     }

@@ -49,7 +49,7 @@ public class MainMenu extends AppCompatActivity {
             case "button4":
                 String title = main.getString(R.string.intro);
                 String msg = main.getString(R.string.howtoplay);
-                Utility.confirmDialog(main, title, msg, null, null);
+                Utility.createDialog(main, title, msg);
                 break;
 
             // Uscire dal gioco;

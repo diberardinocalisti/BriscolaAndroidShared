@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     View button[] = new View[6];
     ImageButton rank;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +48,7 @@ public class MainActivity extends AppCompatActivity {
             rank.setVisibility(View.INVISIBLE);
 
         ActivityMultiplayerGame.onStop = false;
-        /*
-        *   Collego i bottoni del file XML agli elementi dell'array
-        *   prova
-        *   */
+
         for(int i = 0; i < button.length; i++){
             int index = i;
 

@@ -111,7 +111,7 @@ public class Engine{
         for(int i = 0; i < giocatori.length; i++){
             boolean CPU = i == 0;
             if(!CPU){
-                String username = "Ospite";
+                String username = "Guest";
 
                 if(isFacebookLoggedIn())
                     username = getFBNome();
@@ -178,20 +178,6 @@ public class Engine{
         Game.terminata = true;
 
         terminaPartita();
-
-        /*Giocatore vincitore = trovaVincitore();
-
-        if(vincitore != null){
-            vincitore.aggiornaPunteggio();
-
-            if(vincitore.getScore() == Game.scoreLimit){
-                terminaPartita();
-            }else{
-                terminaRound(vincitore);
-            }
-        }else{
-            terminaRound(null);
-        }*/
     }
 
     static void terminaPartita(){
@@ -201,12 +187,6 @@ public class Engine{
         i.putExtra("carte", user.mostraMazzo());
 
         activity.startActivity(i);
-    }
-
-    static void terminaRound(Giocatore vincitore){
-        String titolo = vincitore == null ? "Pareggio!" : vincitore.getNome() + " ha vinto il round! (" + vincitore.getPunteggioCarte() + ")";
-        String sottotitolo = "Premi OK per un altro round!";
-        Utility.confirmDialog(activity, titolo, sottotitolo, (dialog, which) -> iniziaRound(), dialog -> iniziaRound());
     }
 
     static Giocatore trovaVincitore(){

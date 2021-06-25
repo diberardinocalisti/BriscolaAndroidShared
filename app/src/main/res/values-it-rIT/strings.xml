@@ -40,11 +40,17 @@
     <string name="howtoplay">"REGOLE DEL GIOCO:\nOgni giocatore riceve 3 carte, la briscola viene poi estratta dal mazzo e posta visibile sotto le carte rimanenti. A turno ogni giocatore gioca una carta. Parte il giocatore di fronte al mazziere, poi è il giocatore che ha effettuato l'ultima presa che inizia per primo. Quando entrambi i giocatori hanno giocato la propria carta, si assegna la presa. Le carte giocate vengono assegnate a chi ha giocato la carta dal valore più alto del primo seme giocato. Se uno dei giocatori ha giocato una briscola, la presa viene effettuata da chi ha giocato la briscola più alta. Quando tutti i giocatori hanno giocato la propria carta, assegnata la presa, allora si procede a pescare una carta dal mazzo. Pesca per primo chi ha effettuato la presa. Quando tutte le carte sono state pescate, allora si giocano le carte rimaste in mano al giocatore fino a quando tutte le carte sono state giocate. A questo punto si procede al conteggio delle carte prese.\n\nPUNTEGGI CARTE:\nAsso: 11 punti;\nTre: 10 punti;\nRe: 4 punti;\nCavallo: 3 punti;\nFante: 2 punti.";</string>
     <string name="cancel">Annulla</string>
     <string name="ok">Ok</string>
-    <string name="howtoplaymptut">Giocare con i tuoi amici non è mai stato così semplice!\nCrea una tua stanza privata e fornisci al tuo amico il codice che ti viene mostrato oppure entra in una stanza utilizzando il codice che ti ha fornito il tuo amico!</string>
+    <string name="howtoplaymptut">Giocare con i tuoi amici non è mai stato così semplice!\\nCrea una tua stanza privata e fornisci al tuo amico il codice che ti viene mostrato o viceversa!</string>
     <string name="trovato">Trovato</string>
     <string name="waiting">Attesa</string>
     <string name="sessionclosed">La sessione è stata interrotta!\nCrea una nuova stanza per giocare di nuovo.</string>
     <string name="leavegame">Abbandona partita</string>
     <string name="confirmleavegame">Sei sicuro di voler abbandonare la partita?</string>
     <string name="typecard">Tipo di carte</string>
+    <string name="youleft">Hai abbandonato la partita!</string>
+    <string name="enemyleft">Il tuo avversario ha abbandonato la partita!</string>
+    <string name="unknownerror">Oops! Qualcosa è andato storto!</string>
+    <string name="whylogintext">Se collegherai il tuo account Facebook al gioco sbloccherai l\'accesso al multigiocatore e avrai la possibilità di sfidare i tuoi amici in ogni momento!</string>
+    <string name="roomnotexisting">La stanza non esiste!</string>
+    <string name="roomfull">La stanza è al momento piena!</string>
 </resources>

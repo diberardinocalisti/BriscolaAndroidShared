@@ -240,7 +240,7 @@
             android:layout_height="120px"
             android:alpha="0.85"
             android:background="@drawable/red_button"
-            android:text="Chiudi sala"
+            android:text="@string/leavegame"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

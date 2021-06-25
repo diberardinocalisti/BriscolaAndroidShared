@@ -64,7 +64,7 @@ public class Settings extends AppCompatActivity {
         carteScoperte.setChecked(SharedPref.getCarteScoperte());
 
         // CONFIRM;
-        builder.setPositiveButton("OK", (dialog, id) -> {
+        builder.setPositiveButton(this.getString(R.string.ok), (dialog, id) -> {
             if(carteScoperte.isChecked()){
                 SharedPref.setCarteScoperte(true);
                 if(Game.CPU != null)
@@ -79,7 +79,7 @@ public class Settings extends AppCompatActivity {
             Engine.aggiornaTipoCarte(tipoCarte.getSelectedItem().toString());
         });
 
-        builder.setNegativeButton("ANNULLA", null);
+        builder.setNegativeButton(this.getString(R.string.cancel), null);
         builder.setView(tipoCarteView);
 
         builder.create().show();

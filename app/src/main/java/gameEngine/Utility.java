@@ -37,12 +37,8 @@ import multiplayer.engineMultiplayer;
 public class Utility {
 
 
-    public static void createDialog(Context c, String title,String msg){
-        AlertDialog.Builder builder=new AlertDialog.Builder(c);
-        builder.setTitle(title);
-        builder.setCancelable(true);
-        builder.setMessage(msg);
-        builder.show();
+    public static void createDialog(Context c, String title, String msg){
+        confirmDialog(c, title, msg, null, null);
     }
 
     public static void confirmDialog(Context c, String title, String message, DialogInterface.OnClickListener action, DialogInterface.OnCancelListener onCancel){
@@ -50,7 +46,6 @@ public class Utility {
         builder.setTitle(title);
         builder.setMessage(message);
         builder.setPositiveButton(c.getString(R.string.ok), action);
-        builder.setOnCancelListener(onCancel);
         AlertDialog alert = builder.create();
         alert.show();
     }
@@ -70,68 +65,59 @@ public class Utility {
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
 
-        // Set other dialog properties
         LayoutInflater inflater = (LayoutInflater) c.getSystemService( c.LAYOUT_INFLATER_SERVICE );
-
         View tipoCarteView = inflater.inflate( R.layout.input_codice_stanza, null );
-
         EditText input = tipoCarteView.findViewById(R.id.inputCodice);
 
+        builder.setPositiveButton(c.getString(R.string.ok), (dialog, which) -> FirebaseClass.getFbRefSpeicific(input.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        FirebaseClass.getFbRefSpeicific(input.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                String host = "null";
+                String enemy = "null";
 
-                                String host = "null";
-                                String enemy = "null";
+                if(dataSnapshot.exists())
+                {
+                    for(DataSnapshot d : dataSnapshot.getChildren())
+                    {
+                        String key = d.getKey();
+                        Object value = d.getValue();
 
-                                if(dataSnapshot.exists())
-                                {
-                                    for(DataSnapshot d : dataSnapshot.getChildren())
-                                    {
-                                        String key = d.getKey();
-                                        Object value = d.getValue();
+                        if(key.equals("host"))
+                            host = String.valueOf(value);
+                        if(key.equals("enemy"))
+                            enemy = String.valueOf(value);
 
-                                        if(key.equals("host"))
-                                            host = String.valueOf(value);
-                                        if(key.equals("enemy"))
-                                            enemy = String.valueOf(value);
-
-                                    }
-
-                                    if(!host.equals("null") && !enemy.equals("null"))
-                                    {
-                                        Toast.makeText(c.getApplicationContext(), "La stanza è al momento piena!",Toast.LENGTH_LONG).show();
-                                    }else
-                                    {
-                                        engineMultiplayer.codiceStanza = input.getText().toString();
-                                        engineMultiplayer.role = "NOTHOST";
-                                        FirebaseClass.editFieldFirebase(input.getText().toString(),"enemy", loginClass.getFBNome());
-                                        goTo(c, ActivityMultiplayerGame.class);
-                                    }
-
-                                }
-                                else
-                                {
-                                    Toast.makeText(c,"Errore! La stanza non esiste.",Toast.LENGTH_LONG).show();
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
-
-                            }
-
-                        });
                     }
+
+                    if(!host.equals("null") && !enemy.equals("null"))
+                    {
+                        Toast.makeText(c.getApplicationContext(), c.getText(R.string.roomfull), Toast.LENGTH_LONG).show();
+                    }else
+                    {
+                        engineMultiplayer.codiceStanza = input.getText().toString();
+                        engineMultiplayer.role = "NOTHOST";
+                        FirebaseClass.editFieldFirebase(input.getText().toString(),"enemy", loginClass.getFBNome());
+                        goTo(c, ActivityMultiplayerGame.class);
+                    }
+
                 }
+                else
+                {
+                    Toast.makeText(c, c.getText(R.string.roomnotexisting), Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
+
+            }
+
+        })
         );
 
-        builder.setNegativeButton("ANNULLA", null);
+        builder.setNegativeButton(c.getString(R.string.cancel), null);
         builder.setView(tipoCarteView);
 
         // Create the AlertDialog

@@ -164,9 +164,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         if(host.equals("null") && !enemy.equals("null"))
         {
             if(role.equals("HOST")) {
-                Toast.makeText(getApplicationContext(), "Hai abbandonato la partita!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), this.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),this.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
                 Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
             }
             onStop = true;
@@ -174,9 +174,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
         if(enemy.equals("null") && !host.equals("null")) {
             if (!role.equals("HOST")){
-                Toast.makeText(getApplicationContext(), "Hai abbandonato la partita!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), this.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
             }else{
-                Toast.makeText(getApplicationContext(),"Il tuo avversario ha abbandonato la partita!\nHai vinto a tavolino!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), this.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
                 Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
             }
 

@@ -35,7 +35,6 @@ public class engineMultiplayer extends AppCompatActivity {
     public static String codiceStanza;
     public static String role;
     public static final String DELIMITER = ";";
-    private static final int CARTE_INIZIALI = 3;
 
     public static void creaStanza(AppCompatActivity c)
     {
