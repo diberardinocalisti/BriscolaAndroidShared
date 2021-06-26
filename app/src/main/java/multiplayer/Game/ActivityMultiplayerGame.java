@@ -49,6 +49,7 @@ import static gameEngine.Game.I_CAMPO_GIOCO;
 import static gameEngine.Game.activity;
 import static gameEngine.Game.carte;
 import static gameEngine.Game.giocante;
+import static gameEngine.Game.giocatori;
 import static multiplayer.engineMultiplayer.*;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
@@ -116,11 +117,14 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
                         Game.canPlay = (roleId.equals(snapshot.getTurno()));
 
+                        giocante = Game.canPlay ? giocatori[0] : Game.user;
 
                         if(!roleId.equals(t))
                         {
                             Object event = new Object();
                             Engine.muoviCarta(c.getButton(),Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]],false,true,event);
+
+                            System.out.println(c.getPortatore().index + " " +  I_CAMPO_GIOCO[0] + " indici");
 
                             new Thread(() -> {
                                 try {
@@ -143,6 +147,8 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                                     e.printStackTrace();
                                 }
                             }).start();
+                        }else{
+
                         }
 
                         /*if(Game.canPlay)

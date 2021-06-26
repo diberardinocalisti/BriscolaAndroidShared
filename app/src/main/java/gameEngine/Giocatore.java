@@ -179,6 +179,7 @@ public class Giocatore {
         carta.disabilita();
         carta.setButton(Game.carte[indice]);
         carta.abilita();
+
         this.rimuovi(carta);
     }
 
