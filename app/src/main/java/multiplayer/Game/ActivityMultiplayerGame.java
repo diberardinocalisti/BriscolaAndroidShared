@@ -174,8 +174,12 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             b.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(!Game.canPlay)
+                        return;
+
                     Carta c = Engine.getCartaFromButton(b);
                     Toast.makeText(getApplicationContext(),"Carta --> " + c.getNome(), Toast.LENGTH_SHORT).show();
+
                 }
             });
         }
