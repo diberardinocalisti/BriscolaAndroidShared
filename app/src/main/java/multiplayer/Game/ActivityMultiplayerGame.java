@@ -43,6 +43,7 @@ import okhttp3.internal.Util;
 import static gameEngine.Engine.doLogic;
 import static gameEngine.Engine.getOtherCarta;
 import static gameEngine.Engine.getOtherPlayer;
+import static gameEngine.Engine.muoviCarta;
 import static gameEngine.Engine.prossimoTurno;
 import static gameEngine.Engine.terminaManche;
 import static gameEngine.Game.I_CAMPO_GIOCO;
@@ -148,7 +149,33 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                                 }
                             }).start();
                         }else{
+                            int indice = Integer.parseInt(nome.split("#")[1]);
+                            View daMuovere = Game.carteBottoni[indice];
 
+                            Object event = new Object();
+                            muoviCarta(daMuovere, Game.carte[I_CAMPO_GIOCO[0]], false, true, event);
+
+                            new Thread(() -> {
+                                try {
+                                    synchronized (event){
+                                        event.wait();
+                                        activity.runOnUiThread(() -> {
+                                            Game.canPlay = true;
+
+                                            giocante.lancia(c);
+                                            final Giocatore vincente = doLogic(c, getOtherCarta(c));
+
+                                            if(vincente == null) {
+                                                prossimoTurno(getOtherPlayer(giocante));
+                                            }else{
+                                                new Handler().postDelayed(() -> terminaManche(vincente), 1750);
+                                            }
+                                        });
+                                    }
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }).start();
                         }
 
                         /*if(Game.canPlay)
