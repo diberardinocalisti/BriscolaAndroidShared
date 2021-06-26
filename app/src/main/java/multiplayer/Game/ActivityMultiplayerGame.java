@@ -109,22 +109,17 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     else
                     {
                         String t = snapshot.getTurno();
-
                         String app = (t.equals("enemy") ? snapshot.getGiocataDaHost() : snapshot.getGiocataDaEnemy());
 
-                        if(app == null)
+                        if(app.equals("null"))
                             return;
 
                         String nome = app.split("#")[0];
                         int indice = Integer.parseInt(app.split("#")[1]);
 
-                        if(nome.equals("null"))
-                            return;
-
                         Carta c = Engine.getCartaFromName(nome);
 
                         Game.canPlay = (roleId.equals(snapshot.getTurno()));
-
                         giocante = Game.canPlay ? giocatori[0] : Game.user;
 
                         if(!roleId.equals(t))
