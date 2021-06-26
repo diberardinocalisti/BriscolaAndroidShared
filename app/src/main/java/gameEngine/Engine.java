@@ -247,6 +247,9 @@ public class Engine{
             if(carta == null)
                 continue;
 
+            System.out.println("Dimensione " + mazzoIniziale.length);
+            System.out.println("DAL MAZZO " + carta.getNome());
+
             if(carta.getNome().equals(nome))
                 return carta;
         }

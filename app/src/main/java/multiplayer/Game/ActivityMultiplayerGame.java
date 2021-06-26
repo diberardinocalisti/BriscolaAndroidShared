@@ -51,6 +51,9 @@ import static gameEngine.Game.activity;
 import static gameEngine.Game.carte;
 import static gameEngine.Game.giocante;
 import static gameEngine.Game.giocatori;
+import static gameEngine.Game.mazzo;
+import static gameEngine.Game.mazzoIniziale;
+import static gameEngine.Game.semi;
 import static multiplayer.engineMultiplayer.*;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
@@ -121,6 +124,8 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
                         Game.canPlay = (roleId.equals(snapshot.getTurno()));
                         giocante = Game.canPlay ? giocatori[0] : Game.user;
+
+                        System.out.println("Carta >> " + nome);
 
                         if(!roleId.equals(t))
                         {
@@ -240,15 +245,14 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 Game.user.pesca();
             }
         }else{
-            new Handler().postDelayed(() -> {
-                mazzoOnline = snapshot.getCarteRimanenti();
-                Engine.creaMazzo(mazzoOnline);
+            mazzoOnline = snapshot.getCarteRimanenti();
+            Engine.creaMazzo(mazzoOnline);
+            creaMazzoIniziale();
 
-                Game.user.svuotaMazzo();
+            Game.user.svuotaMazzo();
 
-                for(int i = 0; i < Game.nCarte; i++)
-                    Game.user.pesca();
-            }, 1750);
+            for(int i = 0; i < Game.nCarte; i++)
+                Game.user.pesca();
         }
 
         distribuisci = true;
@@ -287,6 +291,17 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         String[] strTok = carteDisponibili.split(DELIMITER);
 
         Engine.aggiornaNCarte(strTok.length);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    protected void creaMazzoIniziale(){
+        mazzoIniziale = new Carta[Game.dimensioneMazzo];
+
+        for(int j = 0; j < Game.dimensioneMazzo; j++){
+            for(String seme : semi)
+                for(Integer i = 1; i <= 10; i++)
+                    mazzoIniziale[j] = new Carta(i, seme);
+        }
     }
 
     protected void checkIfSomeoneLeft(){
