@@ -122,15 +122,15 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                             Object event = new Object();
                             Engine.muoviCarta(c.getButton(),Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]],false,true,event);
 
-                            /*new Thread(() -> {
+                            new Thread(() -> {
                                 try {
                                     synchronized (event){
                                         event.wait();
                                         activity.runOnUiThread(() -> {
                                             Game.canPlay = true;
 
-                                            giocante.lancia(carta);
-                                            final Giocatore vincente = doLogic(carta, getOtherCarta(carta));
+                                            giocante.lancia(c);
+                                            final Giocatore vincente = doLogic(c, getOtherCarta(c));
 
                                             if(vincente == null) {
                                                 prossimoTurno(getOtherPlayer(giocante));
@@ -142,7 +142,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
-                            }).start();*/
+                            }).start();
                         }
 
                         /*if(Game.canPlay)
