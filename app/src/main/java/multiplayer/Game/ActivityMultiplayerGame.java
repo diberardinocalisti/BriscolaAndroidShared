@@ -116,10 +116,11 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
                         Game.canPlay = (roleId.equals(snapshot.getTurno()));
 
+
                         if(!roleId.equals(t))
                         {
                             Object event = new Object();
-                            Engine.muoviCarta(c.getButton(),carte[c.getPortatore().index + I_CAMPO_GIOCO[0]],false,true,event);
+                            Engine.muoviCarta(c.getButton(),Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]],false,true,event);
 
                             /*new Thread(() -> {
                                 try {
