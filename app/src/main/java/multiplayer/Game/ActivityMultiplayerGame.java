@@ -117,9 +117,10 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     aggiornaNCarte();
                 }
 
-                if(onStop)
-                    FirebaseClass.deleteFieldFirebase(null,codiceStanza);
-
+                if(onStop) {
+                    FirebaseClass.deleteFieldFirebase(null, codiceStanza);
+                    ActivityMultiplayerGame.this.finish();
+                }
             }
 
             @Override

@@ -241,5 +241,13 @@ public class Giocatore {
         return null;
     }
 
+    public int getIndexFromCarta(Carta cartaDaTrovare){
+        for(int i = 0; i < this.bottoni.length; i++)
+            if(this.bottoni[i].getId() == cartaDaTrovare.getButton().getId())
+                return i;
+
+        return -1;
+    }
+
     public void toccaA(){}
 }
