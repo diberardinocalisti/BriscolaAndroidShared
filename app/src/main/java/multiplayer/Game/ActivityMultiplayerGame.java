@@ -27,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 import Home.MainActivity;
 import firebase.FirebaseClass;
 import gameEngine.Carta;
@@ -245,42 +247,41 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 Game.user.pesca();
             }
         }else{
-            mazzoOnline = snapshot.getCarteRimanenti();
-            Engine.creaMazzo(mazzoOnline);
-            creaMazzoIniziale();
+            new Handler().postDelayed(() -> {
+                mazzoOnline = snapshot.getCarteRimanenti();
+                Engine.creaMazzo(mazzoOnline);
+                this.creaMazzoIniziale();
 
-            Game.user.svuotaMazzo();
+                Game.user.svuotaMazzo();
 
-            for(int i = 0; i < Game.nCarte; i++)
-                Game.user.pesca();
+                for(int i = 0; i < Game.nCarte; i++)
+                    Game.user.pesca();
+            }, 1750);
         }
 
         distribuisci = true;
 
         for(Button b : Game.user.bottoni)
         {
-            b.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(!Game.canPlay)
-                        return;
+            b.setOnClickListener(v -> {
+                if(!Game.canPlay)
+                    return;
 
-                    Carta c = Engine.getCartaFromButton(b);
-                    int index = Game.user.getIndexFromCarta(c);
-                    //Toast.makeText(getApplicationContext(),"Carta --> " + c.getNome(), Toast.LENGTH_SHORT).show();
-                    if(role.equals("HOST"))
-                    {
-                        //Modifico giocataDaHost
-                        FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",c.getNome()+"#"+index);
-                        FirebaseClass.editFieldFirebase(codiceStanza,"turno","enemy");
-                    }else
-                    {
-                        //Modifico giocataDaEnemy
-                        FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy",c.getNome()+"#"+index);
-                        FirebaseClass.editFieldFirebase(codiceStanza,"turno","host");
-                    }
-
+                Carta c = Engine.getCartaFromButton(b);
+                int index = Game.user.getIndexFromCarta(c);
+                //Toast.makeText(getApplicationContext(),"Carta --> " + c.getNome(), Toast.LENGTH_SHORT).show();
+                if(role.equals("HOST"))
+                {
+                    //Modifico giocataDaHost
+                    FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",c.getNome()+"#"+index);
+                    FirebaseClass.editFieldFirebase(codiceStanza,"turno","enemy");
+                }else
+                {
+                    //Modifico giocataDaEnemy
+                    FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy",c.getNome()+"#"+index);
+                    FirebaseClass.editFieldFirebase(codiceStanza,"turno","host");
                 }
+
             });
         }
     }
@@ -295,13 +296,14 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void creaMazzoIniziale(){
+        ArrayList<Carta> mazzoApp = new ArrayList<>();
         mazzoIniziale = new Carta[Game.dimensioneMazzo];
 
-        for(int j = 0; j < Game.dimensioneMazzo; j++){
-            for(String seme : semi)
-                for(Integer i = 1; i <= 10; i++)
-                    mazzoIniziale[j] = new Carta(i, seme);
-        }
+        for(String seme : semi)
+            for(Integer i = 1; i <= 10; i++)
+                mazzoApp.add(new Carta(i, seme));
+
+        mazzoIniziale = mazzoApp.toArray(new Carta[0]);
     }
 
     protected void checkIfSomeoneLeft(){
