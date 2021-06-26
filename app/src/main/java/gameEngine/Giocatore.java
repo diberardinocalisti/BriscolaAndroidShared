@@ -33,35 +33,35 @@ import static gameEngine.Game.nCarte;
 import static gameEngine.Game.ultimoVincitore;
 
 public class Giocatore {
-    protected Button[] bottoni;
+    public Button[] bottoni;
 
     // Array contenente le carte che il giocatore ha in mano;
-    protected Carta[] carte;
+    public Carta[] carte;
 
     // ArrayList contenente le carte prese;
-    protected ArrayList<Carta> prese;
+    public ArrayList<Carta> prese;
 
     // Nome del giocatore;
-    protected String nome;
+    public String nome;
 
     // Se il giocatore è controllato dalla CPU o no;
-    protected boolean CPU;
+    public boolean CPU;
 
-    protected Integer punteggioCarte = 0;
+    public Integer punteggioCarte = 0;
 
-    protected Integer index;
+    public Integer index;
 
     // Icona che mostra il punteggio del giocatore;
-    //protected Button iconaPunteggio;
+    //public Button iconaPunteggio;
 
-    protected View mazzo;
+    public View mazzo;
 
     public Giocatore(String nome, Integer index){
         this(nome, index, false);
         Game.user = this;
     }
 
-    protected Giocatore(String nome, Integer index, boolean CPU){
+    public Giocatore(String nome, Integer index, boolean CPU){
         this.nome = nome;
         this.CPU = CPU;
         this.index = index;

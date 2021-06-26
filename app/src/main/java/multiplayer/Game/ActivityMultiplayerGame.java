@@ -54,6 +54,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     public static GameRoom snapshot;
     public static boolean distribuisci = false;
 
+
     //I primi 3 bottoni sono dell'avversario
     private Button carte[] = new Button[6];
 
@@ -93,6 +94,26 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
                     if(!distribuisci)
                         distribuisciCarte();
+                    else
+                    {
+                        if(roleId.equals(snapshot.getTurno()))
+                        {
+                            //Le carte sono sbloccate
+                            Game.canPlay = true;
+                        }else
+                        {
+                            //Le carte sono bloccate
+                            Game.canPlay = false;
+                        }
+
+                        //Gestisco l'onClick
+
+                        //Modifico il campo nel db
+                        //Porto la carta al centro sul mio dispositivo
+                        //Porto la carta al centro sull'altro telefono
+
+                    }
+
 
                     aggiornaNCarte();
                 }
@@ -147,6 +168,17 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         }
 
         distribuisci = true;
+
+        for(Button b : Game.user.bottoni)
+        {
+            b.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Carta c = Engine.getCartaFromButton(b);
+                    Toast.makeText(getApplicationContext(),"Carta --> " + c.getNome(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
