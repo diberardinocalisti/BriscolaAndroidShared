@@ -53,7 +53,7 @@ public class engineMultiplayer extends AppCompatActivity {
 
     public static void accediAllaStanza(AppCompatActivity c,String gameCode)
     {
-        GameRoom g = new GameRoom(gameCode,loginClass.getFBNome(),"null","null","null","null",-1,-1,"no");
+        GameRoom g = new GameRoom(gameCode,loginClass.getFBNome(),"null","null","null","null",-1,-1,"host");
         FirebaseClass.addToFirebase(g);
 
         Intent i = new Intent(c, ActivityGame.class);
