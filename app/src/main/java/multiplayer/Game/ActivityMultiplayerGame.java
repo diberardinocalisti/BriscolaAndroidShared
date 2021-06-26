@@ -96,15 +96,14 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         distribuisciCarte();
                     else
                     {
-                        if(roleId.equals(snapshot.getTurno()))
-                        {
-                            //Le carte sono sbloccate
-                            Game.canPlay = true;
-                        }else
-                        {
-                            //Le carte sono bloccate
-                            Game.canPlay = false;
-                        }
+                        String t = snapshot.getTurno();
+                        String nome = (t.equals("enemy") ? snapshot.getGiocataDaHost() : snapshot.getGiocataDaEnemy());
+
+                        Carta c = Engine.getCartaFromName(nome);
+
+                        Game.canPlay = (roleId.equals(snapshot.getTurno()));
+
+
 
                         //Gestisco l'onClick
 
@@ -178,7 +177,16 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         return;
 
                     Carta c = Engine.getCartaFromButton(b);
-                    Toast.makeText(getApplicationContext(),"Carta --> " + c.getNome(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getApplicationContext(),"Carta --> " + c.getNome(), Toast.LENGTH_SHORT).show();
+                    if(role.equals("HOST"))
+                    {
+                        //Modifico giocataDaHost
+                        FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",c.getNome());
+                        FirebaseClass.editFieldFirebase(codiceStanza,"turno","enemy");
+                    }else
+                    {
+                        //Modifico giocataDaEnemy
+                    }
 
                 }
             });
