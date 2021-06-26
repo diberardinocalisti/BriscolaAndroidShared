@@ -125,7 +125,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         if(!roleId.equals(t))
                         {
                             Object event = new Object();
-                            Engine.muoviCarta(c.getButton(),Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]],false,true,event);
+                            Engine.muoviCarta(c.getButton(), Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]], c,false,true,event);
 
                             System.out.println(c.getPortatore().index + " " +  I_CAMPO_GIOCO[0] + " indici");
 
@@ -154,7 +154,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                             View daMuovere = Game.carteBottoni[indice];
 
                             Object event = new Object();
-                            muoviCarta(daMuovere, Game.carte[I_CAMPO_GIOCO[0]], false, true, event);
+                            muoviCarta(daMuovere, Game.carte[I_CAMPO_GIOCO[0]], c,false, true, event);
 
                             new Thread(() -> {
                                 try {

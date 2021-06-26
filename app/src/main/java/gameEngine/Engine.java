@@ -413,6 +413,10 @@ public class Engine{
     }
 
     public static void muoviCarta(View startView, View destView, boolean fade, boolean flip, Object event){
+        muoviCarta(startView, destView, null, fade, flip, event);
+    }
+
+    public static void muoviCarta(View startView, View destView, Carta objectCarta, boolean fade, boolean flip, Object event){
         final int accelMultip = 2;
 
         final float diffX = destView.getX() - startView.getX();
@@ -453,10 +457,11 @@ public class Engine{
         if(!flip)
             return;
 
-        Carta viewToCarta = getCartaFromButton(startView);
+        if(objectCarta == null)
+            objectCarta = getCartaFromButton(startView);
 
-        assert viewToCarta != null;
-        if(!viewToCarta.isCoperta())
+        assert objectCarta != null;
+        if(!objectCarta.isCoperta())
             return;
 
         final ObjectAnimator oa1 = ObjectAnimator.ofFloat(startView, "scaleX", 1f, 0f).setDuration(animationDuration);
