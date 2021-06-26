@@ -109,7 +109,10 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     else
                     {
                         String t = snapshot.getTurno();
-                        String nome = (t.equals("enemy") ? snapshot.getGiocataDaHost().split("#")[0] : snapshot.getGiocataDaEnemy().split("#")[0]);
+
+                        String app = (t.equals("enemy") ? snapshot.getGiocataDaHost() : snapshot.getGiocataDaEnemy());
+                        String nome = app.split("#")[0];
+                        int indice = Integer.parseInt(app.split("#")[1]);
 
                         if(nome.equals("null"))
                             return;
@@ -149,7 +152,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                                 }
                             }).start();
                         }else{
-                            int indice = Integer.parseInt(nome.split("#")[1]);
                             View daMuovere = Game.carteBottoni[indice];
 
                             Object event = new Object();
