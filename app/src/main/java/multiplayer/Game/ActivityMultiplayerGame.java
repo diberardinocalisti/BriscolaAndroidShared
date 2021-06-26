@@ -234,15 +234,18 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         return;
 
                     Carta c = Engine.getCartaFromButton(b);
+                    int index = Game.user.getIndexFromCarta(c);
                     //Toast.makeText(getApplicationContext(),"Carta --> " + c.getNome(), Toast.LENGTH_SHORT).show();
                     if(role.equals("HOST"))
                     {
                         //Modifico giocataDaHost
-                        FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",c.getNome());
+                        FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",c.getNome()+"#"+index);
                         FirebaseClass.editFieldFirebase(codiceStanza,"turno","enemy");
                     }else
                     {
                         //Modifico giocataDaEnemy
+                        FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy",c.getNome()+"#"+index);
+                        FirebaseClass.editFieldFirebase(codiceStanza,"turno","host");
                     }
 
                 }
