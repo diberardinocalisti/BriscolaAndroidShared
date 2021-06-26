@@ -108,7 +108,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     else
                     {
                         String t = snapshot.getTurno();
-                        String nome = (t.equals("enemy") ? snapshot.getGiocataDaHost() : snapshot.getGiocataDaEnemy());
+                        String nome = (t.equals("enemy") ? snapshot.getGiocataDaHost().split("#")[0] : snapshot.getGiocataDaEnemy().split("#")[0]);
 
                         if(nome.equals("null"))
                             return;
