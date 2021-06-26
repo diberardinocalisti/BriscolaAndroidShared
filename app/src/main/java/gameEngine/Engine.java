@@ -139,7 +139,7 @@ public class Engine{
         }
     }
 
-    static void prossimoTurno(Giocatore p){
+    public static void prossimoTurno(Giocatore p){
         if(p == null)
             p = getRandomPlayer();
 
@@ -147,7 +147,7 @@ public class Engine{
         p.toccaA();
     }
 
-    static void terminaManche(Giocatore vincitore) {
+    public static void terminaManche(Giocatore vincitore) {
         Game.canPlay = false;
 
         vincitore.mancheVinta(new Runnable() {
@@ -220,7 +220,7 @@ public class Engine{
         return giocatori[(int) (Math.random() * giocatori.length)];
     }
 
-    static Giocatore getOtherPlayer(Giocatore current){
+    public static Giocatore getOtherPlayer(Giocatore current){
         for(Giocatore p : giocatori)
             if(p != current)
                 return p;
@@ -265,7 +265,7 @@ public class Engine{
         return carte.toArray(carte.toArray(new Carta[0]));
     }
 
-    static Carta getOtherCarta(Carta current){
+    public static Carta getOtherCarta(Carta current){
         for(Integer i : I_CAMPO_GIOCO) {
             Carta c = getCartaFromButton(carte[i]);
 
@@ -292,7 +292,7 @@ public class Engine{
         return b.getBackground() == null;
     }
 
-    static Giocatore doLogic(Carta last, Carta first) {
+    public static Giocatore doLogic(Carta last, Carta first) {
         if(last != null && first == null)
             return null;
 

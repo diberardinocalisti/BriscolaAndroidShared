@@ -40,6 +40,15 @@ import multiplayer.GiocatoreMP;
 import multiplayer.engineMultiplayer;
 import okhttp3.internal.Util;
 
+import static gameEngine.Engine.doLogic;
+import static gameEngine.Engine.getOtherCarta;
+import static gameEngine.Engine.getOtherPlayer;
+import static gameEngine.Engine.prossimoTurno;
+import static gameEngine.Engine.terminaManche;
+import static gameEngine.Game.I_CAMPO_GIOCO;
+import static gameEngine.Game.activity;
+import static gameEngine.Game.carte;
+import static gameEngine.Game.giocante;
 import static multiplayer.engineMultiplayer.*;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
@@ -65,6 +74,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -102,6 +112,42 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         Carta c = Engine.getCartaFromName(nome);
 
                         Game.canPlay = (roleId.equals(snapshot.getTurno()));
+
+                        if(!roleId.equals(t))
+                        {
+                            Object event = new Object();
+                            Engine.muoviCarta(c.getButton(),carte[c.getPortatore().index + I_CAMPO_GIOCO[0]],false,true,event);
+
+                            /*new Thread(() -> {
+                                try {
+                                    synchronized (event){
+                                        event.wait();
+                                        activity.runOnUiThread(() -> {
+                                            Game.canPlay = true;
+
+                                            giocante.lancia(carta);
+                                            final Giocatore vincente = doLogic(carta, getOtherCarta(carta));
+
+                                            if(vincente == null) {
+                                                prossimoTurno(getOtherPlayer(giocante));
+                                            }else{
+                                                new Handler().postDelayed(() -> terminaManche(vincente), 1750);
+                                            }
+                                        });
+                                    }
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }).start();*/
+                        }
+
+                        /*if(Game.canPlay)
+                        {
+                            Integer indexCarta = Game.user.getIndexFromCarta(c);
+                        }else
+                        {
+
+                        }*/
 
 
 
