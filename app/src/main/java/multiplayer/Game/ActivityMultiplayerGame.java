@@ -27,8 +27,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
 import Home.MainActivity;
 import firebase.FirebaseClass;
 import gameEngine.Carta;
@@ -125,6 +123,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         Carta c = Engine.getCartaFromName(nome);
 
                         Game.canPlay = (roleId.equals(snapshot.getTurno()));
+
+                        setButton();
+
                         giocante = Game.canPlay ? giocatori[0] : Game.user;
 
                         System.out.println("Carta >> " + nome);
@@ -247,19 +248,15 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 Game.user.pesca();
             }
         }else{
-            new Handler().postDelayed(() -> {
-                mazzoOnline = snapshot.getCarteRimanenti();
-                Engine.creaMazzo(mazzoOnline);
-                this.creaMazzoIniziale();
+            mazzoOnline = snapshot.getCarteRimanenti();
+            Engine.creaMazzo(mazzoOnline);
+            creaMazzoIniziale();
 
-                Game.user.svuotaMazzo();
+            Game.user.svuotaMazzo();
 
-                for(int i = 0; i < Game.nCarte; i++)
-                    Game.user.pesca();
-            }, 1750);
+            for(int i = 0; i < Game.nCarte; i++)
+                Game.user.pesca();
         }
-
-        distribuisci = true;
 
         for(Button b : Game.user.bottoni)
         {
@@ -284,6 +281,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
             });
         }
+
+        distribuisci = true;
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -296,14 +296,13 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void creaMazzoIniziale(){
-        ArrayList<Carta> mazzoApp = new ArrayList<>();
         mazzoIniziale = new Carta[Game.dimensioneMazzo];
 
-        for(String seme : semi)
-            for(Integer i = 1; i <= 10; i++)
-                mazzoApp.add(new Carta(i, seme));
-
-        mazzoIniziale = mazzoApp.toArray(new Carta[0]);
+        for(int j = 0; j < Game.dimensioneMazzo; j++){
+            for(String seme : semi)
+                for(Integer i = 1; i <= 10; i++)
+                    mazzoIniziale[j] = new Carta(i, seme);
+        }
     }
 
     protected void checkIfSomeoneLeft(){
@@ -341,6 +340,12 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         final Configuration override = new Configuration(newBase.getResources().getConfiguration());
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
+    }
+
+    protected void setButton()
+    {
+        for(Button b : Game.user.bottoni)
+            b.setClickable(Game.canPlay);
     }
 
 }

@@ -90,6 +90,7 @@ public class Engine{
         String[] carteSplit = carte.split(delCarte);
 
         for(String c : carteSplit){
+
             String[] strTok = c.split(delTipo);
 
             int i = Integer.parseInt(strTok[1]);
