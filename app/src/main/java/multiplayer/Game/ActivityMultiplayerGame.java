@@ -27,6 +27,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+
 import Home.MainActivity;
 import firebase.FirebaseClass;
 import gameEngine.Carta;
@@ -135,8 +137,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                             Object event = new Object();
                             Engine.muoviCarta(c.getButton(), Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]], c,false,true,event);
 
-                            System.out.println(c.getPortatore().index + " " +  I_CAMPO_GIOCO[0] + " indici");
-
                             new Thread(() -> {
                                 try {
                                     synchronized (event){
@@ -144,6 +144,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                                         activity.runOnUiThread(() -> {
                                             Game.canPlay = true;
 
+                                            System.out.println(c.getNome() + " nome carta");
                                             giocante.lancia(c);
                                             final Giocatore vincente = doLogic(c, getOtherCarta(c));
 
@@ -160,9 +161,10 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                             }).start();
                         }else{
                             View daMuovere = Game.carteBottoni[indice];
+                            c.setButton(daMuovere);
 
                             Object event = new Object();
-                            muoviCarta(daMuovere, Game.carte[I_CAMPO_GIOCO[0]], c,false, true, event);
+                            muoviCarta(c.getButton(), Game.carte[I_CAMPO_GIOCO[0]], c,false, true, event);
 
                             new Thread(() -> {
                                 try {
@@ -170,6 +172,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                                         event.wait();
                                         activity.runOnUiThread(() -> {
                                             Game.canPlay = true;
+                                            System.out.println(c.getNome() + " nome guest");
 
                                             giocante.lancia(c);
                                             final Giocatore vincente = doLogic(c, getOtherCarta(c));
@@ -248,14 +251,16 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 Game.user.pesca();
             }
         }else{
-            mazzoOnline = snapshot.getCarteRimanenti();
-            Engine.creaMazzo(mazzoOnline);
-            creaMazzoIniziale();
+            new Handler().postDelayed(() -> {
+                mazzoOnline = snapshot.getCarteRimanenti();
+                Engine.creaMazzo(mazzoOnline);
+                creaMazzoIniziale();
 
-            Game.user.svuotaMazzo();
+                Game.user.svuotaMazzo();
 
-            for(int i = 0; i < Game.nCarte; i++)
-                Game.user.pesca();
+                for(int i = 0; i < Game.nCarte; i++)
+                    Game.user.pesca();
+            }, 1750);
         }
 
         for(Button b : Game.user.bottoni)
@@ -297,12 +302,13 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void creaMazzoIniziale(){
         mazzoIniziale = new Carta[Game.dimensioneMazzo];
+        ArrayList<Carta> mazzoApp = new ArrayList<>();
 
-        for(int j = 0; j < Game.dimensioneMazzo; j++){
-            for(String seme : semi)
-                for(Integer i = 1; i <= 10; i++)
-                    mazzoIniziale[j] = new Carta(i, seme);
-        }
+        for(String seme : semi)
+            for(Integer i = 1; i <= 10; i++)
+                mazzoApp.add(new Carta(i, seme));
+
+        mazzoIniziale = mazzoApp.toArray(new Carta[0]);
     }
 
     protected void checkIfSomeoneLeft(){

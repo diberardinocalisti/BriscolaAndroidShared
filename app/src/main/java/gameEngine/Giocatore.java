@@ -173,6 +173,8 @@ public class Giocatore {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void lancia(Carta carta){
         int indice = this.index + I_CAMPO_GIOCO[0];
+        System.out.println("Indice " + indice);
+
         if(!isLibero(Game.carte[indice]))
             return;
 

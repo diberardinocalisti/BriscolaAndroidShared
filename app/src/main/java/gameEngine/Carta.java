@@ -93,10 +93,10 @@ public class Carta {
     }
 
     public boolean supera(Carta daSuperare){
-        if(this.getSeme() == daSuperare.getSeme()){
+        if(this.getSeme().equals(daSuperare.getSeme())){
             if(this.getValore() > daSuperare.getValore()){
                 return true;
-            }else if(this.getValore() == daSuperare.getValore()){
+            }else if(this.getValore().equals(daSuperare.getValore())){
                 return this.getNumero() > daSuperare.getNumero();
             }
         }else return this.isBriscola();
@@ -105,7 +105,7 @@ public class Carta {
     }
 
     public boolean isBriscola(){
-        return this.getSeme() == Game.briscola.getSeme();
+        return this.getSeme().equals(Game.briscola.getSeme());
     }
 
     public boolean isCarico(){
