@@ -69,7 +69,7 @@ public class Utility {
         View tipoCarteView = inflater.inflate( R.layout.input_codice_stanza, null );
         EditText input = tipoCarteView.findViewById(R.id.inputCodice);
 
-        builder.setPositiveButton(c.getString(R.string.ok), (dialog, which) -> FirebaseClass.getFbRefSpeicific(input.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+        builder.setPositiveButton(c.getString(R.string.ok), (dialog, which) -> FirebaseClass.getFbRefSpeicific(input.getText().toString().toUpperCase()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
 

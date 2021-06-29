@@ -125,6 +125,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         Carta c = Engine.getCartaFromName(nome);
 
                         Game.canPlay = (roleId.equals(snapshot.getTurno()));
+
+                        setButton();
+
                         giocante = Game.canPlay ? giocatori[0] : Game.user;
 
                         System.out.println("Carta >> " + nome);
@@ -134,8 +137,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                             Object event = new Object();
                             Engine.muoviCarta(c.getButton(), Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]], c,false,true,event);
 
-                            System.out.println(c.getPortatore().index + " " +  I_CAMPO_GIOCO[0] + " indici");
-
                             new Thread(() -> {
                                 try {
                                     synchronized (event){
@@ -143,6 +144,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                                         activity.runOnUiThread(() -> {
                                             Game.canPlay = true;
 
+                                            System.out.println(c.getNome() + " nome carta");
                                             giocante.lancia(c);
                                             final Giocatore vincente = doLogic(c, getOtherCarta(c));
 
@@ -159,9 +161,10 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                             }).start();
                         }else{
                             View daMuovere = Game.carteBottoni[indice];
+                            c.setButton(daMuovere);
 
                             Object event = new Object();
-                            muoviCarta(daMuovere, Game.carte[I_CAMPO_GIOCO[0]], c,false, true, event);
+                            muoviCarta(c.getButton(), Game.carte[I_CAMPO_GIOCO[0]], c,false, true, event);
 
                             new Thread(() -> {
                                 try {
@@ -169,6 +172,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                                         event.wait();
                                         activity.runOnUiThread(() -> {
                                             Game.canPlay = true;
+                                            System.out.println(c.getNome() + " nome guest");
 
                                             giocante.lancia(c);
                                             final Giocatore vincente = doLogic(c, getOtherCarta(c));
@@ -250,7 +254,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             new Handler().postDelayed(() -> {
                 mazzoOnline = snapshot.getCarteRimanenti();
                 Engine.creaMazzo(mazzoOnline);
-                this.creaMazzoIniziale();
+                creaMazzoIniziale();
 
                 Game.user.svuotaMazzo();
 
@@ -258,8 +262,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     Game.user.pesca();
             }, 1750);
         }
-
-        distribuisci = true;
 
         for(Button b : Game.user.bottoni)
         {
@@ -284,6 +286,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
             });
         }
+
+        distribuisci = true;
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -296,8 +301,8 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void creaMazzoIniziale(){
-        ArrayList<Carta> mazzoApp = new ArrayList<>();
         mazzoIniziale = new Carta[Game.dimensioneMazzo];
+        ArrayList<Carta> mazzoApp = new ArrayList<>();
 
         for(String seme : semi)
             for(Integer i = 1; i <= 10; i++)
@@ -341,6 +346,12 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         final Configuration override = new Configuration(newBase.getResources().getConfiguration());
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
+    }
+
+    protected void setButton()
+    {
+        for(Button b : Game.user.bottoni)
+            b.setClickable(Game.canPlay);
     }
 
 }
