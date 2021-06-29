@@ -53,7 +53,7 @@ public class CPU extends Giocatore {
         // ARRAY CONTENENTE LE CARTE DEL MAZZO CHE SUPERANO QUELLA AVVERSARIA;
         Carta[] superano = getSuperano(sulTavolo);
 
-        // ARRAY CONTENENTE LE CARTE DEL MAZZO CHE SUPERANO QUELLA AVVERSARIA;
+        // ARRAY CONTENENTE LE CARTE DEL MAZZO CHE NON SUPERANO QUELLA AVVERSARIA;
         Carta[] nonSuperano = getNonSuperano(sulTavolo);
 
         // LA CARTA CON PUNTEGGIO PIU' BASSO;
