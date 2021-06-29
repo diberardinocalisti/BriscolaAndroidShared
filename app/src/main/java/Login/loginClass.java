@@ -18,10 +18,7 @@ public class loginClass {
 
     public static String getFBUserId()
     {
-        AccessToken accessToken = AccessToken.getCurrentAccessToken();
-        String userId = accessToken.getUserId();
-
-        return userId;
+        return AccessToken.getCurrentAccessToken().getUserId();
     }
 
     public static void setImgProfile(ProfilePictureView img)
@@ -31,14 +28,12 @@ public class loginClass {
 
     public static String getFBCognome()
     {
-        Profile p = Profile.getCurrentProfile();
-        return p.getLastName();
+        return Profile.getCurrentProfile().getLastName();
     }
 
     public static String getFBNome()
     {
-        Profile p = Profile.getCurrentProfile();
-        return p.getFirstName();
+        return Profile.getCurrentProfile().getFirstName();
     }
 
 }
