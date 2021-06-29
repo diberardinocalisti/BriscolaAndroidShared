@@ -1,12 +1,14 @@
 package gameEngine;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -35,6 +37,7 @@ import static gameEngine.Game.giocatori;
 
 public class Settings extends AppCompatActivity {
 
+    @SuppressLint("ResourceType")
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void createSettingsMenu(Context c)
     {

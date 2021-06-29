@@ -65,7 +65,7 @@ public class Engine{
     }
 
     static void inizia(){
-        Game.canPlay = true;
+        canPlay = true;
         terminata = false;
     }
 
@@ -134,7 +134,7 @@ public class Engine{
         for(Giocatore p : giocatori){
             p.svuotaMazzo();
 
-            while(p.n_carte() < Game.nCarte)
+            while(p.n_carte() < nCarte)
                 p.pesca();
         }
     }
@@ -148,34 +148,31 @@ public class Engine{
     }
 
     public static void terminaManche(Giocatore vincitore) {
-        Game.canPlay = false;
+        canPlay = false;
 
-        vincitore.mancheVinta(new Runnable() {
-            @Override
-            public void run() {
-                pulisciPianoGioco();
+        vincitore.mancheVinta(() -> {
+            pulisciPianoGioco();
 
-                Giocatore[] giocatori = getVincitorePerdente(vincitore);
+            Giocatore[] giocatori = getVincitorePerdente(vincitore);
 
-                for(Giocatore p : giocatori)
-                    if(Game.mazzo.size() > 0 || !lastManche)
-                        p.pesca();
+            for(Giocatore p : giocatori)
+                if(mazzo.size() > 0 || !lastManche)
+                    p.pesca();
 
-                Game.canPlay = true;
+            canPlay = true;
 
-                if(isTerminata()){
-                    termina();
-                }else{
-                    prossimoTurno(vincitore);
-                }
+            if(isTerminata()){
+                termina();
+            }else{
+                prossimoTurno(vincitore);
             }
         });
 
     }
 
     static void termina(){
-        Game.canPlay = false;
-        Game.terminata = true;
+        canPlay = false;
+        terminata = true;
 
         terminaPartita();
     }
@@ -212,8 +209,8 @@ public class Engine{
     }
 
     static void pulisciPianoLaterale(){
-        Game.carte[I_BRISCOLA].setBackground(null);
-        Game.carte[I_MAZZO].setBackground(null);
+        carte[I_BRISCOLA].setBackground(null);
+        carte[I_MAZZO].setBackground(null);
     }
 
     static Giocatore getRandomPlayer(){
@@ -247,9 +244,6 @@ public class Engine{
             if(carta == null)
                 continue;
 
-            System.out.println("Dimensione " + mazzoIniziale.length);
-            System.out.println("DAL MAZZO " + carta.getNome());
-
             if(carta.getNome().equals(nome))
                 return carta;
         }
@@ -275,7 +269,7 @@ public class Engine{
             if(c == null)
                 continue;
 
-            if(isLibero(Game.carte[i]))
+            if(isLibero(carte[i]))
                 continue;
 
             if(!c.getNome().equals(current.getNome()))
@@ -359,10 +353,10 @@ public class Engine{
     }
 
     public static Carta[] getCarteGiocate(){
-        ArrayList<Carta> carteGiocate = new ArrayList();
+        ArrayList<Carta> carteGiocate = new ArrayList<>();
 
         for(Integer i : I_CAMPO_GIOCO){
-            Carta c = getCartaFromButton(Game.carte[i]);
+            Carta c = getCartaFromButton(carte[i]);
             if(c != null)
                 carteGiocate.add(c);
         }
@@ -371,7 +365,7 @@ public class Engine{
     }
 
     public static void aggiornaNCarte(){
-        aggiornaNCarte(Game.mazzo.size() + 1);
+        aggiornaNCarte(mazzo.size() + 1);
     }
 
     public static void aggiornaNCarte(Integer n_Carte){
@@ -388,9 +382,9 @@ public class Engine{
     public static void aggiornaTipoCarte(String tipoCarte){
         tipoCarte = tipoCarte.toLowerCase();
         SharedPref.setTipoCarte(tipoCarte);
-        Game.tipoCarte = tipoCarte;
+        tipoCarte = tipoCarte;
 
-        if(Game.terminata)
+        if(terminata)
             return;
 
         for(Carta c : mazzoIniziale)

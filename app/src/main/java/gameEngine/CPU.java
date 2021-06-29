@@ -53,6 +53,9 @@ public class CPU extends Giocatore {
         // ARRAY CONTENENTE LE CARTE DEL MAZZO CHE SUPERANO QUELLA AVVERSARIA;
         Carta[] superano = getSuperano(sulTavolo);
 
+        // ARRAY CONTENENTE LE CARTE DEL MAZZO CHE SUPERANO QUELLA AVVERSARIA;
+        Carta[] nonSuperano = getNonSuperano(sulTavolo);
+
         // LA CARTA CON PUNTEGGIO PIU' BASSO;
         Carta minPunti = Engine.getMin(mieCarte);
 
@@ -84,6 +87,8 @@ public class CPU extends Giocatore {
         // LA CARTA PIU' ALTA DEL MAZZO (TRA QUELLE CHE SUPERANO LA CARTA AVVERSARIA), ESCLUDENDO LE BRISCOLE SE PRESENTI;
         Carta maxSupera = Engine.getMax(nonBriscole(superano));
 
+        Carta minNonSupera = Engine.getMin(nonSuperano);
+
         // LA CARTA PIU' ALTA DEL MAZZO, SENZA ESCLUDERE LE BRISCOLE;
         Carta maxSuperaBrisc = Engine.getMax(superano);
 
@@ -98,6 +103,14 @@ public class CPU extends Giocatore {
             if(sommaCarte + this.punteggioCarte > Game.maxPunti / 2)
                 return maxSuperaBrisc;
         }
+
+        /**
+         * Se la briscola è un carico e siamo all'ultima manche, il bot tirerà la carta più bassa che ha nel mazzo
+         * tale che non superi quella avversaria (in modo da assicurarsi la presa della briscola)
+         */
+        if(Game.mazzo.size() == 2 && Game.briscola.isCarico())
+            if(!getMin(nonSuperano).supera(cartaSulTavolo))
+                return minNonSupera;
 
         if(cartaSulTavolo.isLiscio()){
             /**
@@ -191,6 +204,7 @@ public class CPU extends Giocatore {
 
         return getSuperano(daSuperare[0]);
     }
+
     public Carta[] getSuperano(Carta daSuperare){
         return getSuperano(daSuperare, this.carte);
     }
@@ -205,5 +219,28 @@ public class CPU extends Giocatore {
                     maggiori.add(carta);
 
         return maggiori.toArray(new Carta[0]);
+    }
+
+    public Carta[] getNonSuperano(Carta[] daSuperare){
+        if(daSuperare.length == 0)
+            return new Carta[]{};
+
+        return getNonSuperano(daSuperare[0]);
+    }
+
+    public Carta[] getNonSuperano(Carta daSuperare){
+        return getNonSuperano(daSuperare, this.carte);
+    }
+
+    // METODO CHE RESTITUISCE UN ARRAY DI "CARTA" CONTENENTE LE CARTE CHE SONO PIU' ALTE DELLA CARTA PASSATA;
+    public static Carta[] getNonSuperano(Carta daSuperare, Carta[] mazzo){
+        ArrayList<Carta> minori = new ArrayList<>();
+
+        for(Carta carta : mazzo)
+            if(carta != null)
+                if(!carta.supera(daSuperare))
+                    minori.add(carta);
+
+        return minori.toArray(new Carta[0]);
     }
 }

@@ -53,7 +53,7 @@
     <string name="sessionclosed">Session closed! Create a new lobby to start playing again.</string>
     <string name="leavegame">Leave game</string>
     <string name="confirmleavegame">Are you sure you want to leave the match?</string>
-    <string name="typecard">Type of cards</string>
+    <string name="typecard">Cards</string>
     <string name="youleft">You left the game!</string>
     <string name="enemyleft">Your opponent left the game!</string>
     <string name="unknownerror">Oops! Something went wrong!</string>

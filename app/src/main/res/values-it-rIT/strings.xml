@@ -46,7 +46,7 @@
     <string name="sessionclosed">La sessione è stata interrotta!\nCrea una nuova stanza per giocare di nuovo.</string>
     <string name="leavegame">Abbandona partita</string>
     <string name="confirmleavegame">Sei sicuro di voler abbandonare la partita?</string>
-    <string name="typecard">Tipo di carte</string>
+    <string name="typecard">Carte</string>
     <string name="youleft">Hai abbandonato la partita!</string>
     <string name="enemyleft">Il tuo avversario ha abbandonato la partita!</string>
     <string name="unknownerror">Oops! Qualcosa è andato storto!</string>
