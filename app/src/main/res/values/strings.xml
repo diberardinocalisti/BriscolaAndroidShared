@@ -16,7 +16,7 @@
     <string name="howtoplaymp">How to play with a friend</string>
     <string name="goback">Go back</string>
     <string name="edit">Edit</string>
-    <string name="logout">Logout</string>
+    <string name="logout">Succesfully logout!</string>
     <string name="totwin">Matches won:</string>
     <string name="totlose">Matches lost:</string>
     <string name="tottie">Matches tied:</string>

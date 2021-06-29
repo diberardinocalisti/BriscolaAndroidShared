@@ -94,6 +94,10 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
         roleId = (role.equals("HOST") ? "host" : "enemy");
 
+        Game.canPlay = roleId.equals("host");
+
+        /*Toast.makeText(getApplicationContext(),"canPlAY --> " + Game.canPlay,Toast.LENGTH_SHORT).show();*/
+
         /*if(role.equals("HOST")){
             engineMultiplayer.startMultiplayerGame(ActivityMultiplayerGame.this);
         }*/
@@ -126,7 +130,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
                         Game.canPlay = (roleId.equals(snapshot.getTurno()));
 
-                        setButton();
+                        //setButton(Game.canPlay);
 
                         giocante = Game.canPlay ? giocatori[0] : Game.user;
 
@@ -161,6 +165,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                             }).start();
                         }else{
                             View daMuovere = Game.carteBottoni[indice];
+
+                            assert c != null;
+
                             c.setButton(daMuovere);
 
                             Object event = new Object();
@@ -265,9 +272,10 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
         for(Button b : Game.user.bottoni)
         {
+            if(!Game.canPlay)
+                return;
+
             b.setOnClickListener(v -> {
-                if(!Game.canPlay)
-                    return;
 
                 Carta c = Engine.getCartaFromButton(b);
                 int index = Game.user.getIndexFromCarta(c);
@@ -348,10 +356,5 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         applyOverrideConfiguration(override);
     }
 
-    protected void setButton()
-    {
-        for(Button b : Game.user.bottoni)
-            b.setClickable(Game.canPlay);
-    }
 
 }

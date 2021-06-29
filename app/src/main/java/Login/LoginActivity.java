@@ -124,6 +124,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         View.OnClickListener doLogout = (v) -> findViewById(R.id.logoutHook).performClick();
+
         findViewById(R.id.logout).setOnClickListener(doLogout);
         findViewById(R.id.logoutB).setOnClickListener(doLogout);
 
