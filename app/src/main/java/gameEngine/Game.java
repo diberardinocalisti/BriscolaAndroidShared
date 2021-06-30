@@ -18,7 +18,7 @@ import Home.SharedPref;
 
 public class Game {
     public static AppCompatActivity activity;
-    public static final Integer animationDuration = 250;
+    public static final Integer animationDuration = 250, intermezzo = 750;
     public static final Integer nGiocatori = 2, nCarte = 3, maxPunti = 120, dimensioneMazzo = 40;
     public static final String[] semi = {"bastoni", "denara", "spade", "coppe"};
     public static String tipoCarte;

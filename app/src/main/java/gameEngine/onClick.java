@@ -25,8 +25,6 @@ public class onClick implements View.OnClickListener {
         if(carta == null)
             return;
 
-        System.out.println(giocante);
-
         if(carta.getPortatore() != giocante)
             return;
 
@@ -54,7 +52,7 @@ public class onClick implements View.OnClickListener {
                         if(vincente == null) {
                             prossimoTurno(getOtherPlayer(giocante));
                         }else{
-                            new Handler().postDelayed(() -> terminaManche(vincente), 1750);
+                            new Handler().postDelayed(() -> terminaManche(vincente), intermezzo);
                         }
                     });
                 }
