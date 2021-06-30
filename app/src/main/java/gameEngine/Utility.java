@@ -12,6 +12,11 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,6 +38,9 @@ import firebase.FirebaseClass;
 import multiplayer.Game.ActivityMultiplayerGame;
 import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
+
+import static gameEngine.Game.activity;
+import static gameEngine.Game.animationDuration;
 
 public class Utility {
 
@@ -165,5 +173,67 @@ public class Utility {
                 ridimensionamento(activity, (ViewGroup) vAtI);
             }
         }
+    }
+
+    public static void textAnimation(String msg, TextView view){
+        final long animSpeed = animationDuration * 2;
+        final float accelMultip = 2;
+        final float diffY = 200;
+
+        view.setText(msg);
+
+        AnimationSet upAnim = new AnimationSet(false);
+        AnimationSet downAnim = new AnimationSet(false);
+
+        Animation fadeIn = new AlphaAnimation(0f, 1f);
+        fadeIn.setInterpolator(new AccelerateInterpolator(accelMultip));
+        fadeIn.setDuration(animSpeed);
+        fadeIn.setFillAfter(false);
+
+        Animation fadeOut = new AlphaAnimation(1f, 0f);
+        fadeOut.setInterpolator(new AccelerateInterpolator(accelMultip));
+        fadeOut.setDuration(animSpeed);
+        fadeOut.setFillAfter(false);
+
+        final Animation down = new TranslateAnimation(0, 0, 0, -diffY);
+        down.setDuration(animSpeed);
+        down.setFillAfter(false);
+        down.setInterpolator(new AccelerateInterpolator(accelMultip));
+        down.setAnimationListener(new Animation.AnimationListener() {
+            @Override public void onAnimationStart(Animation animation){}
+            @Override public void onAnimationRepeat(Animation animation){}
+            @Override public void onAnimationEnd(Animation animation) {
+                view.setText("");
+            }
+        });
+
+        final Animation up = new TranslateAnimation(0, 0, diffY, 0);
+        up.setDuration(animSpeed);
+        up.setFillAfter(true);
+        up.setInterpolator(new AccelerateInterpolator(accelMultip));
+        up.setAnimationListener(new Animation.AnimationListener() {
+            @Override public void onAnimationStart(Animation animation){}
+            @Override public void onAnimationRepeat(Animation animation){}
+            @Override public void onAnimationEnd(Animation animation) {
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(animSpeed * 2);
+                        System.out.println("ended");
+                        activity.runOnUiThread(() -> view.startAnimation(downAnim));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+
+            }
+        });
+
+        upAnim.addAnimation(up);
+        upAnim.addAnimation(fadeIn);
+
+        downAnim.addAnimation(down);
+        downAnim.addAnimation(fadeOut);
+
+        view.startAnimation(upAnim);
     }
 }

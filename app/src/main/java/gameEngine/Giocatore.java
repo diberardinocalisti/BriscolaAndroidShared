@@ -27,6 +27,7 @@ import static gameEngine.Game.activity;
 import static gameEngine.Game.animationDuration;
 import static gameEngine.Game.briscola;
 import static gameEngine.Game.carteBottoni;
+import static gameEngine.Game.giocante;
 import static gameEngine.Game.lastManche;
 import static gameEngine.Game.mazzo;
 import static gameEngine.Game.nCarte;
@@ -159,6 +160,8 @@ public class Giocatore {
 
         }).start();
 
+        int somma = 0;
+
         for(Integer i : I_CAMPO_GIOCO){
             if(Game.carte[i] != null){
                 muoviCarta(Game.carte[i], this.mazzo, true, true, event);
@@ -166,14 +169,26 @@ public class Giocatore {
                 c.setButton(null);
                 prese.add(c);
                 punteggioCarte += c.getValore();
+                somma += c.getValore();
             }
         }
+
+        String points = "+" + somma + " " + activity.getString(R.string.points) + "!";
+        String tocca;
+
+        if(Game.user == this){
+            tocca = activity.getString(R.string.tuoturno).replace("%user", this.getNome());
+        }else{
+            tocca = activity.getString(R.string.turno).replace("%user", this.getNome());
+        }
+
+        String msg = points + "\n" + tocca;
+        Utility.textAnimation(msg, activity.findViewById(R.id.avviso));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void lancia(Carta carta){
         int indice = this.index + I_CAMPO_GIOCO[0];
-        System.out.println("Indice " + indice);
 
         if(!isLibero(Game.carte[indice]))
             return;
@@ -252,5 +267,7 @@ public class Giocatore {
         return -1;
     }
 
-    public void toccaA(){}
+    public void toccaA(){
+        giocante = this;
+    }
 }

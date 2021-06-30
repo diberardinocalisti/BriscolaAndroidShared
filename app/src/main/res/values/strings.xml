@@ -30,6 +30,8 @@
     <string name="lost">Match lost!</string>
     <string name="tie">Match tied!</string>
     <string name="points">Points</string>
+    <string name="guest">Guest</string>
+    <string name="cpu">CPU</string>
     <string name="bestcards">Your best cards</string>
     <string name="playagain">Play again</string>
     <string name="backtomenu">Go back to menu</string>
@@ -60,4 +62,7 @@
     <string name="whylogintext">If you link your Facebook account to your game you\'ll grant the access to the multiplayer mode and you\'ll be able to play with your friends at any time!</string>
     <string name="roomnotexisting">Room does not exist!</string>
     <string name="roomfull">Room is currently full!</string>
+    <string name="tuoturno">It\'s your turn!</string>
+    <string name="turno">It\'s %user\'s turn!</string>
+
 </resources>

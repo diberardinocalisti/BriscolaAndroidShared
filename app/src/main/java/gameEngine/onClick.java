@@ -25,6 +25,8 @@ public class onClick implements View.OnClickListener {
         if(carta == null)
             return;
 
+        System.out.println(giocante);
+
         if(carta.getPortatore() != giocante)
             return;
 

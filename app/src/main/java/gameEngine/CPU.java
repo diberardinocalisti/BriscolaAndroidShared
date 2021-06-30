@@ -38,6 +38,8 @@ public class CPU extends Giocatore {
     public void toccaA(){
         Game.canPlay = false;
 
+        super.toccaA();
+
         // Piccolo delay tra una giocata e l'altra (Range: 1000ms - 2000ms)
         new Handler().postDelayed(() -> scegli().getButton().performClick(), (long) (Math.random() * 1000) + 1000);
     }

@@ -1,6 +1,5 @@
 package multiplayer;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
@@ -13,15 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-import com.google.zxing.common.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-import java.util.Stack;
 
 import Home.MainActivity;
 import Login.loginClass;
@@ -151,7 +145,7 @@ public class engineMultiplayer extends AppCompatActivity {
 
         // @Todo: Gestire i turni;
         if(!roleId.equals(turno)){
-            Engine.muoviCarta(c.getButton(), Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]], c,false,true,event);
+            Engine.muoviCarta(c.getButton(), Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]], c,false,true, event);
             giocaCarta(c, event);
         }else{
             View daMuovere = Game.carteBottoni[indice];
