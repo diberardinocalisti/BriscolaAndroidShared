@@ -60,22 +60,13 @@ import static multiplayer.engineMultiplayer.*;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
     public static boolean start = false;
-    public String onStopUser;
-    public boolean stopApp = false;
-    public String roleId, noteRoleId;
-    public String host, enemy;
+    public static String roleId;
+    public static String host, enemy;
     public static boolean onStop = false;
     public static String mazzoOnline = "";
     public static boolean initialManche = false;
     public static GameRoom snapshot;
     public static boolean distribuisci = false;
-
-
-    //I primi 3 bottoni sono dell'avversario
-    private Button carte[] = new Button[6];
-
-
-    //button9 carta dell'avversario button10 mia carta
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -113,110 +104,14 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 if(!onStop){
                     checkIfSomeoneLeft();
 
-                    if(!distribuisci)
-                        distribuisciCarte();
-                    else
-                    {
-                        String t = snapshot.getTurno();
-                        String app = (t.equals("enemy") ? snapshot.getGiocataDaHost() : snapshot.getGiocataDaEnemy());
-
-                        if(app.equals("null"))
-                            return;
-
-                        String nome = app.split("#")[0];
-                        int indice = Integer.parseInt(app.split("#")[1]);
-
-                        Carta c = Engine.getCartaFromName(nome);
-
-                        Game.canPlay = (roleId.equals(snapshot.getTurno()));
-
-                        //setButton(Game.canPlay);
-
-                        giocante = Game.canPlay ? giocatori[0] : Game.user;
-
-                        System.out.println("Carta >> " + nome);
-
-                        if(!roleId.equals(t))
-                        {
-                            Object event = new Object();
-                            Engine.muoviCarta(c.getButton(), Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]], c,false,true,event);
-
-                            new Thread(() -> {
-                                try {
-                                    synchronized (event){
-                                        event.wait();
-                                        activity.runOnUiThread(() -> {
-                                            Game.canPlay = true;
-
-                                            System.out.println(c.getNome() + " nome carta");
-                                            giocante.lancia(c);
-                                            final Giocatore vincente = doLogic(c, getOtherCarta(c));
-
-                                            if(vincente == null) {
-                                                prossimoTurno(getOtherPlayer(giocante));
-                                            }else{
-                                                new Handler().postDelayed(() -> terminaManche(vincente), 1750);
-                                            }
-                                        });
-                                    }
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }).start();
-                        }else{
-                            View daMuovere = Game.carteBottoni[indice];
-
-                            assert c != null;
-
-                            c.setButton(daMuovere);
-
-                            Object event = new Object();
-                            muoviCarta(c.getButton(), Game.carte[I_CAMPO_GIOCO[0]], c,false, true, event);
-
-                            new Thread(() -> {
-                                try {
-                                    synchronized (event){
-                                        event.wait();
-                                        activity.runOnUiThread(() -> {
-                                            Game.canPlay = true;
-                                            System.out.println(c.getNome() + " nome guest");
-
-                                            giocante.lancia(c);
-                                            final Giocatore vincente = doLogic(c, getOtherCarta(c));
-
-                                            if(vincente == null) {
-                                                prossimoTurno(getOtherPlayer(giocante));
-                                            }else{
-                                                new Handler().postDelayed(() -> terminaManche(vincente), 1750);
-                                            }
-                                        });
-                                    }
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }).start();
-                        }
-
-                        /*if(Game.canPlay)
-                        {
-                            Integer indexCarta = Game.user.getIndexFromCarta(c);
-                        }else
-                        {
-
-                        }*/
-
-
-
-                        //Gestisco l'onClick
-
-                        //Modifico il campo nel db
-                        //Porto la carta al centro sul mio dispositivo
-                        //Porto la carta al centro sull'altro telefono
-
+                    if(!distribuisci) {
+                        engineMultiplayer.distribuisciCarte();
+                        engineMultiplayer.onClick();
+                    }else{
+                        engineMultiplayer.cartaGiocata();
                     }
 
-
-                    aggiornaNCarte();
+                    engineMultiplayer.aggiornaNCarte();
                 }
 
                 if(onStop) {
@@ -225,10 +120,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 }
             }
 
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
-
-            }
+            @Override public void onCancelled(@NonNull @NotNull DatabaseError databaseError){}
         });
 
 
@@ -238,112 +130,8 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
         FirebaseClass.editFieldFirebase(codiceStanza, roleId, "null");
-
         onStop = true;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    protected void distribuisciCarte(){
-        if(role.equals("HOST")){
-            mazzoOnline = engineMultiplayer.creaMazzoFirebase();
-            snapshot.setCarteRimanenti(mazzoOnline);
-
-            FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",mazzoOnline);
-
-            Game.user.svuotaMazzo();
-
-            for(int i = 0; i < Game.nCarte; i++) {
-                Game.user.pesca();
-            }
-        }else{
-            new Handler().postDelayed(() -> {
-                mazzoOnline = snapshot.getCarteRimanenti();
-                Engine.creaMazzo(mazzoOnline);
-                creaMazzoIniziale();
-
-                Game.user.svuotaMazzo();
-
-                for(int i = 0; i < Game.nCarte; i++)
-                    Game.user.pesca();
-            }, 1750);
-        }
-
-        for(Button b : Game.user.bottoni)
-        {
-            if(!Game.canPlay)
-                return;
-
-            b.setOnClickListener(v -> {
-
-                Carta c = Engine.getCartaFromButton(b);
-                int index = Game.user.getIndexFromCarta(c);
-                //Toast.makeText(getApplicationContext(),"Carta --> " + c.getNome(), Toast.LENGTH_SHORT).show();
-                if(role.equals("HOST"))
-                {
-                    //Modifico giocataDaHost
-                    FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",c.getNome()+"#"+index);
-                    FirebaseClass.editFieldFirebase(codiceStanza,"turno","enemy");
-                }else
-                {
-                    //Modifico giocataDaEnemy
-                    FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy",c.getNome()+"#"+index);
-                    FirebaseClass.editFieldFirebase(codiceStanza,"turno","host");
-                }
-
-            });
-        }
-
-        distribuisci = true;
-
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    protected void aggiornaNCarte(){
-        String carteDisponibili = snapshot.getCarteRimanenti();
-        String[] strTok = carteDisponibili.split(DELIMITER);
-
-        Engine.aggiornaNCarte(strTok.length);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    protected void creaMazzoIniziale(){
-        mazzoIniziale = new Carta[Game.dimensioneMazzo];
-        ArrayList<Carta> mazzoApp = new ArrayList<>();
-
-        for(String seme : semi)
-            for(Integer i = 1; i <= 10; i++)
-                mazzoApp.add(new Carta(i, seme));
-
-        mazzoIniziale = mazzoApp.toArray(new Carta[0]);
-    }
-
-    protected void checkIfSomeoneLeft(){
-        String host = snapshot.getHost();
-        String enemy = snapshot.getEnemy();
-
-        if(host.equals("null") && !enemy.equals("null"))
-        {
-            if(role.equals("HOST")) {
-                Toast.makeText(getApplicationContext(), this.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(getApplicationContext(),this.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
-                Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-            }
-            onStop = true;
-        }
-
-        if(enemy.equals("null") && !host.equals("null")) {
-            if (!role.equals("HOST")){
-                Toast.makeText(getApplicationContext(), this.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(getApplicationContext(), this.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
-                Utility.goTo(ActivityMultiplayerGame.this,MainActivity.class);
-            }
-
-            onStop = true;
-        }
     }
 
 
@@ -355,6 +143,4 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
     }
-
-
 }
