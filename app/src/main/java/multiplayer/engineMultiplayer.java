@@ -134,8 +134,9 @@ public class engineMultiplayer extends AppCompatActivity {
         if(app.equals("null"))
             return;
 
-        String nome = app.split("#")[0];
-        int indice = Integer.parseInt(app.split("#")[1]);
+        final String separator = "#";
+        String nome = app.split(separator)[0];
+        int indice = Integer.parseInt(app.split(separator)[1]);
 
         Carta c = Engine.getCartaFromName(nome);
 
@@ -176,9 +177,9 @@ public class engineMultiplayer extends AppCompatActivity {
                         final Giocatore vincente = doLogic(c, getOtherCarta(c));
 
                         if(vincente == null) {
-                            // Todo: ridefinire il metodo prossimoTurno per il multiplayer;
                             prossimoTurno(getOtherPlayer(giocante));
                         }else{
+                            // Todo: ridefinire il metodo terminaManche per il multiplayer;
                             new Handler().postDelayed(() -> terminaManche(vincente), 1750);
                         }
                     });
