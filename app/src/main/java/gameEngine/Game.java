@@ -23,12 +23,14 @@ import static gameEngine.Game.activity;
 
 public class Game {
     public static AppCompatActivity activity;
-    public static final Integer animationDuration = 200, intermezzo = 750, intermezzoCPU = 1500;
+    public static final Integer viewAnimDuration = 350, accelMultip = 2;
+    public static final Integer intermezzo = 750;
+    public static final Integer intermezzoCPU = 1500;
     public static final Integer nGiocatori = 2, nCarte = 3, maxPunti = 120, dimensioneMazzo = 40;
     public static final String[] semi = {"bastoni", "denara", "spade", "coppe"};
     public static String tipoCarte;
     public static Carta briscola;
-        public static TextView centerText;
+    public static TextView centerText;
 
     public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;
     public static final Integer[] I_CAMPO_GIOCO = new Integer[] {8,9};

@@ -28,15 +28,6 @@
             app:layout_constraintVertical_bias="1.0">
 
 
-            <Button
-                android:id="@+id/button9"
-                android:layout_width="192px"
-                android:layout_height="307px"
-                android:background="@drawable/vuoto"
-                app:layout_constraintBottom_toBottomOf="@+id/avviso"
-                app:layout_constraintStart_toEndOf="@+id/view5"
-                app:layout_constraintTop_toTopOf="@+id/avviso" />
-
             <ImageView
                 android:id="@+id/button7"
                 android:layout_width="192px"
@@ -158,6 +149,24 @@
                 app:layout_constraintTop_toTopOf="@+id/button5" />
 
             <Button
+                android:id="@+id/button2"
+                android:layout_width="192px"
+                android:layout_height="307px"
+                android:background="@drawable/vuoto"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mazzo0" />
+
+            <Button
+                android:id="@+id/button9"
+                android:layout_width="192px"
+                android:layout_height="307px"
+                android:background="@drawable/vuoto"
+                app:layout_constraintBottom_toBottomOf="@+id/avviso"
+                app:layout_constraintStart_toEndOf="@+id/view5"
+                app:layout_constraintTop_toTopOf="@+id/avviso" />
+
+            <Button
                 android:id="@+id/button10"
                 android:layout_width="192px"
                 android:layout_height="307px"
@@ -167,15 +176,6 @@
                 app:layout_constraintBottom_toBottomOf="@+id/button9"
                 app:layout_constraintStart_toEndOf="@+id/button9"
                 app:layout_constraintTop_toTopOf="@+id/button9" />
-
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="192px"
-                android:layout_height="307px"
-                android:background="@drawable/vuoto"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/mazzo0" />
 
             <com.facebook.login.widget.ProfilePictureView
                 android:id="@+id/friendProfilePictureEnemy"

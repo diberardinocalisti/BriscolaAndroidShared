@@ -40,11 +40,9 @@ import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
 
 import static gameEngine.Game.activity;
-import static gameEngine.Game.animationDuration;
+import static gameEngine.Game.viewAnimDuration;
 
 public class Utility {
-
-
     public static void createDialog(Context c, String title, String msg){
         confirmDialog(c, title, msg, null, null);
     }
@@ -69,18 +67,16 @@ public class Utility {
         alert.show();
     }
 
-    public static void createInputDialogMultiplayer(Context c)
-    {
+    public static void createInputDialogMultiplayer(Context c){
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
 
-        LayoutInflater inflater = (LayoutInflater) c.getSystemService( c.LAYOUT_INFLATER_SERVICE );
+        LayoutInflater inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View tipoCarteView = inflater.inflate( R.layout.input_codice_stanza, null );
         EditText input = tipoCarteView.findViewById(R.id.inputCodice);
 
         builder.setPositiveButton(c.getString(R.string.ok), (dialog, which) -> FirebaseClass.getFbRefSpeicific(input.getText().toString().toUpperCase()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
-
                 String host = "null";
                 String enemy = "null";
 
@@ -98,20 +94,15 @@ public class Utility {
 
                     }
 
-                    if(!host.equals("null") && !enemy.equals("null"))
-                    {
+                    if(!host.equals("null") && !enemy.equals("null")){
                         Toast.makeText(c.getApplicationContext(), c.getText(R.string.roomfull), Toast.LENGTH_LONG).show();
-                    }else
-                    {
+                    }else{
                         engineMultiplayer.codiceStanza = input.getText().toString();
                         engineMultiplayer.role = "NOTHOST";
                         FirebaseClass.editFieldFirebase(input.getText().toString(),"enemy", loginClass.getFBNome());
                         goTo(c, ActivityMultiplayerGame.class);
                     }
-
-                }
-                else
-                {
+                }else{
                     Toast.makeText(c, c.getText(R.string.roomnotexisting), Toast.LENGTH_LONG).show();
                 }
 
@@ -176,7 +167,7 @@ public class Utility {
     }
 
     public static void textAnimation(String msg, TextView view, Runnable callback){
-        final long animSpeed = animationDuration * 2;
+        final long animSpeed = viewAnimDuration;
         final float accelMultip = 2;
         final float diffY = 200;
 

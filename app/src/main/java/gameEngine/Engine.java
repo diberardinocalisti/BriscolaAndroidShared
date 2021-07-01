@@ -419,19 +419,42 @@ public class Engine{
     }
 
     public static void muoviCarta(View startView, View destView, Carta objectCarta, boolean fade, boolean flip, boolean reverseFlip, Object event){
-        final int accelMultip = 2;
+        AnimationSet animationSet = new AnimationSet(false);
 
+        moveAnim(startView, destView, animationSet, event);
+
+        if(fade)
+            fadeAnim(animationSet);
+
+        startView.startAnimation(animationSet);
+
+        if(flip || reverseFlip){
+            if(objectCarta == null)
+                objectCarta = getCartaFromButton(startView);
+
+            assert objectCarta != null;
+            if(!objectCarta.isCoperta() && !reverseFlip)
+                return;
+
+            Drawable background = destView.getBackground();
+
+            if(background == null && reverseFlip)
+                background = Carta.getVuoto();
+
+            flipAnim(startView, background, event);
+        }
+    }
+
+    public static void moveAnim(View startView, View destView, AnimationSet animationSet, Object event){
         final float diffX = destView.getX() - startView.getX();
         final float diffY = destView.getY() - startView.getY();
 
-        AnimationSet s = new AnimationSet(false);
-
         final Animation animation = new TranslateAnimation(0, diffX,0, diffY);
-        animation.setDuration(animationDuration);
+        animation.setDuration(viewAnimDuration);
 
         animation.setFillAfter(false);
         animation.setInterpolator(new AccelerateInterpolator(accelMultip));
-        s.addAnimation(animation);
+        animationSet.addAnimation(animation);
 
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override public void onAnimationStart(Animation animation){}
@@ -444,51 +467,38 @@ public class Engine{
                 }
             }
         });
+    }
 
-        if(fade){
-            Animation fadeAnim = new AlphaAnimation(1f, 0f);
-            fadeAnim.setInterpolator(new AccelerateInterpolator(accelMultip));
-            fadeAnim.setDuration(animationDuration);
-            fadeAnim.setFillAfter(false);
+    public static void fadeAnim(AnimationSet animationSet){
+        Animation fadeAnim = new AlphaAnimation(1f, 0f);
+        fadeAnim.setInterpolator(new AccelerateInterpolator(accelMultip));
+        fadeAnim.setDuration(viewAnimDuration);
+        fadeAnim.setFillAfter(false);
 
-            s.addAnimation(fadeAnim);
-        }
+        animationSet.addAnimation(fadeAnim);
+    }
 
-        startView.startAnimation(s);
+    public static void flipAnim(View startView, Drawable destBackground, Object event){
+        final ObjectAnimator oa1 = ObjectAnimator.ofFloat(startView, "scaleX", 1f, 0f).setDuration(viewAnimDuration/2);
+        final ObjectAnimator oa2 = ObjectAnimator.ofFloat(startView, "scaleX", 0f, 1f).setDuration(viewAnimDuration/2);
 
-        if(flip || reverseFlip){
-            if(objectCarta == null)
-                objectCarta = getCartaFromButton(startView);
+        oa1.addListener(new AnimatorListenerAdapter() {
+            @Override public void onAnimationEnd(Animator animation, boolean isReverse) {
+                super.onAnimationEnd(animation);
+                startView.setBackground(destBackground);
+                oa2.start();
+            }
+        });
 
-            assert objectCarta != null;
-            if(!objectCarta.isCoperta() && !reverseFlip)
-                return;
+        oa1.start();
 
-            if(destView.getBackground() == null && reverseFlip)
-                destView.setBackground(Carta.getVuoto());
-
-            final ObjectAnimator oa1 = ObjectAnimator.ofFloat(startView, "scaleX", 1f, 0f).setDuration(animationDuration);
-            final ObjectAnimator oa2 = ObjectAnimator.ofFloat(startView, "scaleX", 0f, 1f).setDuration(animationDuration);
-            oa2.setInterpolator(new AccelerateDecelerateInterpolator());
-
-            oa1.addListener(new AnimatorListenerAdapter() {
-                @Override public void onAnimationEnd(Animator animation, boolean isReverse) {
-                    super.onAnimationEnd(animation);
-                    startView.setBackground(destView.getBackground());
-                    oa2.start();
+        oa2.addListener(new AnimatorListenerAdapter() {
+            @Override public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                synchronized (event){
+                    event.notifyAll();
                 }
-            });
-
-            oa1.start();
-
-            oa2.addListener(new AnimatorListenerAdapter() {
-                @Override public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                    synchronized (event){
-                        event.notifyAll();
-                    }
-                }
-            });
-        }
+            }
+        });
     }
 }
