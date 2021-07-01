@@ -495,7 +495,7 @@ public class Engine{
         oa2.addListener(new AnimatorListenerAdapter() {
             @Override public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
-                synchronized (event){
+                synchronized(event){
                     event.notifyAll();
                 }
             }
