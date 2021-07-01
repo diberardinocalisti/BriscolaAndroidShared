@@ -83,6 +83,7 @@ public class Game {
             if(i < nCarte * nGiocatori){
                 carte[i].setOnClickListener(new onClick());
                 carteBottoni[i] = (Button) carte[i];
+                carteBottoni[i].setVisibility(View.INVISIBLE);
             }
         }
 
@@ -90,7 +91,7 @@ public class Game {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void startGame(AppCompatActivity activity){
+    public static void startGame(AppCompatActivity activity) throws InterruptedException {
         initialize(activity);
         Engine.inizializza();
     }

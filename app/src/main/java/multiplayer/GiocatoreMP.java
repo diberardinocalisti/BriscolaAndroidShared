@@ -26,26 +26,17 @@ public class GiocatoreMP extends Giocatore {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void pesca(){
+    public void pesca() {
         String carteDisponibili = mazzoOnline;
         String[] strTok = carteDisponibili.split(DELIMITER);
 
         String cartaPescata = strTok[0];
-
-        System.out.println("Pescata: " + cartaPescata);
 
         removeCardFromMazzo(cartaPescata);
 
         FirebaseClass.editFieldFirebase(codiceStanza, "carteRimanenti", mazzoOnline);
         snapshot.setCarteRimanenti(mazzoOnline);
 
-        this.prendi(cartaPescata);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void prendi(String carta){
-        Carta c = getCartaFromName(carta);
-
-        super.prendi(c);
+        super.pesca(getCartaFromName(cartaPescata));
     }
 }

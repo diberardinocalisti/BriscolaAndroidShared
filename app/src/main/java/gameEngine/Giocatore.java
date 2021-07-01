@@ -40,6 +40,8 @@ public class Giocatore {
 
     public Integer index;
 
+    public View prendi;
+
     // Icona che mostra il punteggio del giocatore;
     //public Button iconaPunteggio;
 
@@ -68,6 +70,10 @@ public class Giocatore {
         idS = "mazzo" + this.index;
         id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
         this.mazzo = activity.findViewById(id);
+
+        idS = "prendi" + this.index;
+        id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
+        this.prendi = activity.findViewById(id);
     }
 
     public String getNome() {
@@ -87,9 +93,8 @@ public class Giocatore {
         Collections.reverse(carte);
         ArrayList<String> mostrate = new ArrayList<>();
 
-        for(int i = 0; i < daMostrare && i < carte.size(); i++){
+        for(int i = 0; i < daMostrare && i < carte.size(); i++)
             mostrate.add(carte.get(i).getNome());
-        }
 
         return mostrate.toArray(new String[0]);
     }
@@ -119,13 +124,14 @@ public class Giocatore {
         }else{
             this.pesca(Game.mazzo.get(0));
         }
+
+        if(Game.mazzo.size() <= 1)
+            this.prendi.setVisibility(View.INVISIBLE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void pesca(Carta carta) {
-        int index = this.prendi(carta);
-        Game.mazzo.remove(this.carte[index]);
-        Engine.aggiornaNCarte();
+        this.prendi(carta);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -219,24 +225,43 @@ public class Giocatore {
     public int prendi(Carta daAggiungere){
         for(int i = 0; i < carte.length; i++) {
             if (this.carte[i] == null) {
-                prendi(i, daAggiungere);
+                prendi(i, daAggiungere, null);
                 return i;
             } else if (this.carte[i].getButton() == null) {
-                prendi(i, daAggiungere);
+                prendi(i, daAggiungere, null);
                 return i;
             } else if (isLibero(this.carte[i].getButton())) {
-                prendi(i, daAggiungere);
+                prendi(i, daAggiungere, null);
                 return i;
             }
         }
         return -1;
     }
 
-    public void prendi(Integer indice, Carta daAggiungere){
-        this.carte[indice] = daAggiungere;
-        this.carte[indice].setPortatore(this);
-        this.carte[indice].setButton(this.bottoni[indice]);
-        this.carte[indice].abilita();
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void prendi(Integer indice, Carta daAggiungere, Runnable callback){
+        Object event = new Object();
+
+        muoviCarta(this.prendi, this.bottoni[indice], daAggiungere, false, true, true, event);
+
+        Giocatore.this.carte[indice] = daAggiungere;
+        Giocatore.this.carte[indice].setPortatore(Giocatore.this);
+        Giocatore.this.carte[indice].setButton(Giocatore.this.bottoni[indice]);
+        Game.mazzo.remove(Giocatore.this.carte[indice]);
+        Engine.aggiornaNCarte();
+
+        new Thread(() -> {
+            synchronized (event){
+                try {
+                    event.wait();
+                    activity.runOnUiThread(() -> Giocatore.this.carte[indice].abilita());
+                    if(callback != null)
+                        callback.run();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public Carta getAvailableCarta(){

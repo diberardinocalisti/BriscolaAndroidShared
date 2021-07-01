@@ -66,12 +66,16 @@ public class ActivityGame extends AppCompatActivity {
         if (multiplayer) {
             startMultiPlayer();
         } else {
-            startSinglePlayer();
+            try {
+                startSinglePlayer();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    protected void startSinglePlayer(){
+    protected void startSinglePlayer() throws InterruptedException {
         setContentView(R.layout.campo_da_gioco);
 
         multiplayer = false;

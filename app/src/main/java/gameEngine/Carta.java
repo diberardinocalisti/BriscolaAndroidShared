@@ -35,11 +35,13 @@ public class Carta {
     public void abilita(){
         this.mostra();
         this.b.setEnabled(true);
+        this.b.setVisibility(View.VISIBLE);
     }
 
     public void disabilita(){
         this.b.setBackground(null);
         this.b.setEnabled(false);
+        this.b.setVisibility(View.INVISIBLE);
     }
 
     public boolean isEnabled(){

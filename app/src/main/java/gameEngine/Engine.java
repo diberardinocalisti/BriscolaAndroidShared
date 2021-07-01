@@ -40,28 +40,23 @@ import static Login.loginClass.*;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
-    public static void inizializza() {
+    public static void inizializza() throws InterruptedException {
         creaGiocatori();
         iniziaPartita();
     }
 
-    public static void iniziaPartita() {
+    public static void iniziaPartita() throws InterruptedException {
         reset();
         iniziaRound();
     }
 
-    static void iniziaRound() {
-        Giocatore toccaA = trovaVincitore();
-
-        if(toccaA == null)
-            toccaA = getRandomPlayer();
-
+    static void iniziaRound() throws InterruptedException {
         inizia();
         pulisciTavolo();
         creaMazzo();
         estraiBriscola();
-        distribuisciCarte();
-        prossimoTurno(toccaA);
+
+        distribuisciCarte(() -> prossimoTurno(getRandomPlayer()));
     }
 
     static void inizia(){
@@ -76,11 +71,13 @@ public class Engine{
         Carta.nascondi(carte[I_MAZZO]);
 
         for(String seme : semi)
-            for(Integer i = 1; i <= 10; i++)
+            for(int i = 1; i <= 10; i++)
                 mazzo.add(new Carta(i, seme));
 
         Collections.shuffle(mazzo);
         mazzoIniziale = mazzo.toArray(new Carta[0]);
+
+        aggiornaNCarte(mazzoIniziale.length);
     }
 
     public static void creaMazzo(String carte){
@@ -131,13 +128,40 @@ public class Engine{
         briscola.mostra();
     }
 
-    static void distribuisciCarte(){
-        for(Giocatore p : giocatori){
-            p.svuotaMazzo();
+    static void distribuisciCarte(Runnable callback) throws InterruptedException {
+        Object event = new Object();
 
-            while(p.n_carte() < nCarte)
-                p.pesca();
-        }
+        new Thread(() -> {
+            for(Giocatore p : giocatori){
+                p.svuotaMazzo();
+
+                while(p.n_carte() < nCarte) {
+                    try {
+                        Thread.sleep((long) (intermezzo/1.5));
+                        activity.runOnUiThread(p::pesca);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            synchronized (event){
+                event.notifyAll();
+            }
+        }).start();
+
+        new Thread(() -> {
+            synchronized (event){
+                try {
+                    event.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                activity.runOnUiThread(callback);
+
+            }
+        }).start();
+
+
     }
 
     public static void prossimoTurno(Giocatore p){

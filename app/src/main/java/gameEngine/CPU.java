@@ -17,9 +17,13 @@ public class CPU extends Giocatore {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void prendi(Integer indice, Carta daAggiungere){
-        super.prendi(indice, daAggiungere);
-        this.carte[indice].nascondi();
+    public void prendi(Integer indice, Carta daAggiungere, Runnable callback){
+        super.prendi(indice, daAggiungere, () -> activity.runOnUiThread(() -> {
+            if(callback != null)
+                callback.run();
+
+            CPU.this.carte[indice].nascondi();
+        }));
     }
 
     public void scopriCarte(){
