@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
+import com.example.briscolav10.ProvaLoginFirebase;
 import com.example.briscolav10.R;
 import com.facebook.login.Login;
 
@@ -40,7 +41,7 @@ public class MainMenu extends AppCompatActivity {
                     Intent i = new Intent(main, MultiplayerActivity.class);
                     main.startActivity(i);
                 }else{
-                    Intent i = new Intent(main, LoginActivity.class);
+                    Intent i = new Intent(main, ProvaLoginFirebase.class);
                     main.startActivity(i);
                 }
                 break;
@@ -63,7 +64,7 @@ public class MainMenu extends AppCompatActivity {
 
             // Il mio profilo;
             case "button2":
-                Intent in = new Intent(main, LoginActivity.class);
+                Intent in = new Intent(main, ProvaLoginFirebase.class);
                 main.startActivity(in);
                 break;
 
