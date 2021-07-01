@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi;
 import java.util.ArrayList;
 
 import static gameEngine.Engine.*;
+import static gameEngine.Game.*;
 
 public class CPU extends Giocatore {
     protected CPU(String nome, Integer index) {
@@ -41,7 +42,7 @@ public class CPU extends Giocatore {
         super.toccaA();
 
         // Piccolo delay tra una giocata e l'altra (Range: 1000ms - 2000ms)
-        new Handler().postDelayed(() -> scegli().getButton().performClick(), (long) (Math.random() * 1000) + 1000);
+        new Handler().postDelayed(() -> scegli().getButton().performClick(), intermezzoCPU);
     }
 
     // METODO CHE RESTITUISCE LA MIGLIOR CARTA DA GIOCARE;

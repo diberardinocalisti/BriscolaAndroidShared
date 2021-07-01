@@ -18,20 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import static gameEngine.Engine.getCartaFromButton;
-import static gameEngine.Engine.isLibero;
-import static gameEngine.Engine.muoviCarta;
-import static gameEngine.Engine.pulisciPianoLaterale;
-import static gameEngine.Game.I_CAMPO_GIOCO;
-import static gameEngine.Game.activity;
-import static gameEngine.Game.animationDuration;
-import static gameEngine.Game.briscola;
-import static gameEngine.Game.carteBottoni;
-import static gameEngine.Game.giocante;
-import static gameEngine.Game.lastManche;
-import static gameEngine.Game.mazzo;
-import static gameEngine.Game.nCarte;
-import static gameEngine.Game.ultimoVincitore;
+import static gameEngine.Engine.*;
+import static gameEngine.Game.*;
 
 public class Giocatore {
     public Button[] bottoni;
@@ -148,6 +136,7 @@ public class Giocatore {
             try {
                 synchronized (event){
                     event.wait();
+
                     activity.runOnUiThread(() -> {
                         Giocatore.this.aggiornaIconaCarte();
                         ultimoVincitore = Giocatore.this;
@@ -160,30 +149,30 @@ public class Giocatore {
 
         }).start();
 
-        int somma = 0;
+        int valoreCarte = 0;
 
         for(Integer i : I_CAMPO_GIOCO){
             if(Game.carte[i] != null){
-                muoviCarta(Game.carte[i], this.mazzo, true, true, event);
+                muoviCarta(Game.carte[i], this.mazzo, true, true, true, event);
                 Carta c = getCartaFromButton(Game.carte[i]);
                 c.setButton(null);
                 prese.add(c);
                 punteggioCarte += c.getValore();
-                somma += c.getValore();
+                valoreCarte += c.getValore();
             }
         }
 
-        String points = "+" + somma + " " + activity.getString(R.string.points) + "!";
-        String tocca;
+        this.msgMancheVinta(valoreCarte);
+    }
 
-        if(Game.user == this){
-            tocca = activity.getString(R.string.tuoturno).replace("%user", this.getNome());
-        }else{
-            tocca = activity.getString(R.string.turno).replace("%user", this.getNome());
-        }
+    public void msgMancheVinta(int valoreCarte){
+        String points = "+" + valoreCarte + " " + activity.getString(R.string.points) + "!";
+
+        int stringId = Game.user == this ? R.string.tuoturno : R.string.turno;
+        String tocca = activity.getString(stringId).replace("%user", this.getNome());;
 
         String msg = points + "\n" + tocca;
-        Utility.textAnimation(msg, activity.findViewById(R.id.avviso));
+        Utility.textAnimation(msg, centerText, Engine::clearCenterText);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

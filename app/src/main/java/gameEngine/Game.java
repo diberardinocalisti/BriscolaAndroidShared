@@ -5,24 +5,30 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
 import Home.SharedPref;
 
+import static gameEngine.Game.activity;
+
 public class Game {
     public static AppCompatActivity activity;
-    public static final Integer animationDuration = 250, intermezzo = 750;
+    public static final Integer animationDuration = 200, intermezzo = 750, intermezzoCPU = 1500;
     public static final Integer nGiocatori = 2, nCarte = 3, maxPunti = 120, dimensioneMazzo = 40;
     public static final String[] semi = {"bastoni", "denara", "spade", "coppe"};
     public static String tipoCarte;
     public static Carta briscola;
+        public static TextView centerText;
 
     public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;
     public static final Integer[] I_CAMPO_GIOCO = new Integer[] {8,9};
@@ -64,6 +70,7 @@ public class Game {
         carteBottoni = new Button[nCarte * 2];
         mazzoIniziale = new Carta[40];
         tipoCarte = SharedPref.getTipoCarte().toLowerCase();
+        centerText = activity.findViewById(R.id.avviso);
 
         for(int i = 0; i < carte.length; i++){
             String idS = "button" + (i+1);
@@ -77,6 +84,7 @@ public class Game {
             }
         }
 
+        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Engine.pulisciTavolo();
     }
 

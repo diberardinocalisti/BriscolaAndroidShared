@@ -410,11 +410,15 @@ public class Engine{
         return arr;
     }
 
-    public static void muoviCarta(View startView, View destView, boolean fade, boolean flip, Object event){
-        muoviCarta(startView, destView, null, fade, flip, event);
+    public static void clearCenterText(){
+        centerText.setText("");
     }
 
-    public static void muoviCarta(View startView, View destView, Carta objectCarta, boolean fade, boolean flip, Object event){
+    public static void muoviCarta(View startView, View destView, boolean fade, boolean flip, boolean reverseFlip, Object event){
+        muoviCarta(startView, destView, null, fade, flip, reverseFlip, event);
+    }
+
+    public static void muoviCarta(View startView, View destView, Carta objectCarta, boolean fade, boolean flip, boolean reverseFlip, Object event){
         final int accelMultip = 2;
 
         final float diffX = destView.getX() - startView.getX();
@@ -452,37 +456,39 @@ public class Engine{
 
         startView.startAnimation(s);
 
-        if(!flip)
-            return;
+        if(flip || reverseFlip){
+            if(objectCarta == null)
+                objectCarta = getCartaFromButton(startView);
 
-        if(objectCarta == null)
-            objectCarta = getCartaFromButton(startView);
+            assert objectCarta != null;
+            if(!objectCarta.isCoperta() && !reverseFlip)
+                return;
 
-        assert objectCarta != null;
-        if(!objectCarta.isCoperta())
-            return;
+            if(destView.getBackground() == null && reverseFlip)
+                destView.setBackground(Carta.getVuoto());
 
-        final ObjectAnimator oa1 = ObjectAnimator.ofFloat(startView, "scaleX", 1f, 0f).setDuration(animationDuration);
-        final ObjectAnimator oa2 = ObjectAnimator.ofFloat(startView, "scaleX", 0f, 1f).setDuration(animationDuration);
-        oa2.setInterpolator(new AccelerateDecelerateInterpolator());
+            final ObjectAnimator oa1 = ObjectAnimator.ofFloat(startView, "scaleX", 1f, 0f).setDuration(animationDuration);
+            final ObjectAnimator oa2 = ObjectAnimator.ofFloat(startView, "scaleX", 0f, 1f).setDuration(animationDuration);
+            oa2.setInterpolator(new AccelerateDecelerateInterpolator());
 
-        oa1.addListener(new AnimatorListenerAdapter() {
-            @Override public void onAnimationEnd(Animator animation, boolean isReverse) {
-                super.onAnimationEnd(animation);
-                startView.setBackground(destView.getBackground());
-                oa2.start();
-            }
-        });
-
-        oa1.start();
-
-        oa2.addListener(new AnimatorListenerAdapter() {
-            @Override public void onAnimationEnd(Animator animation) {
-                super.onAnimationEnd(animation);
-                synchronized (event){
-                    event.notifyAll();
+            oa1.addListener(new AnimatorListenerAdapter() {
+                @Override public void onAnimationEnd(Animator animation, boolean isReverse) {
+                    super.onAnimationEnd(animation);
+                    startView.setBackground(destView.getBackground());
+                    oa2.start();
                 }
-            }
-        });
+            });
+
+            oa1.start();
+
+            oa2.addListener(new AnimatorListenerAdapter() {
+                @Override public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    synchronized (event){
+                        event.notifyAll();
+                    }
+                }
+            });
+        }
     }
 }

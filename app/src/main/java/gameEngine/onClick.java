@@ -31,13 +31,13 @@ public class onClick implements View.OnClickListener {
         if(!Game.canPlay || terminata)
             return;
 
-        final View destButton = carte[carta.getPortatore().index + I_CAMPO_GIOCO[0]];
-
         Game.canPlay = false;
 
         Object event = new Object();
 
-        muoviCarta(bottone, destButton, false, true, event);
+        final View destButton = carte[carta.getPortatore().index + I_CAMPO_GIOCO[0]];
+
+        muoviCarta(bottone, destButton, false, true, false, event);
 
         new Thread(() -> {
             try {

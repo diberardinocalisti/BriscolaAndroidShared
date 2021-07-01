@@ -145,7 +145,7 @@ public class engineMultiplayer extends AppCompatActivity {
 
         // @Todo: Gestire i turni;
         if(!roleId.equals(turno)){
-            Engine.muoviCarta(c.getButton(), Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]], c,false,true, event);
+            Engine.muoviCarta(c.getButton(), Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]], c,false, false, true, event);
             giocaCarta(c, event);
         }else{
             View daMuovere = Game.carteBottoni[indice];
@@ -153,7 +153,7 @@ public class engineMultiplayer extends AppCompatActivity {
             assert c != null;
             c.setButton(daMuovere);
 
-            muoviCarta(c.getButton(), Game.carte[I_CAMPO_GIOCO[0]], c,false, true, event);
+            muoviCarta(c.getButton(), Game.carte[I_CAMPO_GIOCO[0]], c,false, true, false, event);
             giocaCarta(c, event);
         }
     }

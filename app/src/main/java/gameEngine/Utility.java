@@ -175,7 +175,7 @@ public class Utility {
         }
     }
 
-    public static void textAnimation(String msg, TextView view){
+    public static void textAnimation(String msg, TextView view, Runnable callback){
         final long animSpeed = animationDuration * 2;
         final float accelMultip = 2;
         final float diffY = 200;
@@ -203,7 +203,7 @@ public class Utility {
             @Override public void onAnimationStart(Animation animation){}
             @Override public void onAnimationRepeat(Animation animation){}
             @Override public void onAnimationEnd(Animation animation) {
-                view.setText("");
+                callback.run();
             }
         });
 
@@ -218,7 +218,6 @@ public class Utility {
                 new Thread(() -> {
                     try {
                         Thread.sleep(animSpeed * 2);
-                        System.out.println("ended");
                         activity.runOnUiThread(() -> view.startAnimation(downAnim));
                     } catch (InterruptedException e) {
                         e.printStackTrace();
