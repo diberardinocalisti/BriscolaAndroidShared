@@ -86,7 +86,6 @@ public class Game {
             }
         }
 
-        activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Engine.pulisciTavolo();
     }
 
@@ -95,5 +94,4 @@ public class Game {
         initialize(activity);
         Engine.inizializza();
     }
-
 }

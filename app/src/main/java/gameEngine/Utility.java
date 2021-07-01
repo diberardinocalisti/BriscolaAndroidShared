@@ -82,8 +82,7 @@ public class Utility {
 
                 if(dataSnapshot.exists())
                 {
-                    for(DataSnapshot d : dataSnapshot.getChildren())
-                    {
+                    for(DataSnapshot d : dataSnapshot.getChildren()){
                         String key = d.getKey();
                         Object value = d.getValue();
 
@@ -91,7 +90,6 @@ public class Utility {
                             host = String.valueOf(value);
                         if(key.equals("enemy"))
                             enemy = String.valueOf(value);
-
                     }
 
                     if(!host.equals("null") && !enemy.equals("null")){
