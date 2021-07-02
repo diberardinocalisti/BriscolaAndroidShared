@@ -44,6 +44,9 @@ public class onClick implements View.OnClickListener {
                 synchronized (event){
                     event.wait();
                     activity.runOnUiThread(() -> {
+                        if(giocante == null)
+                            return;
+
                         Game.canPlay = true;
 
                         giocante.lancia(carta);
