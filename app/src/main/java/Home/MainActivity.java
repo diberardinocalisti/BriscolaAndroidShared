@@ -1,16 +1,21 @@
 package Home;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -23,21 +28,24 @@ import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
 import multiplayer.MultiplayerActivity;
 
+import static gameEngine.Game.activity;
+
 public class MainActivity extends AppCompatActivity {
-    View button[] = new View[6];
+    View[] button = new View[5];
     ImageButton rank;
 
+    @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
 
+        Utility.enableTopBar(this);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         rank = findViewById(R.id.rank);

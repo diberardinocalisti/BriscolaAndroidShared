@@ -121,20 +121,20 @@
         android:layout_height="364px"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
+        android:background="@drawable/vuoto"
         app:layout_constraintBottom_toBottomOf="@+id/carta2"
         app:layout_constraintEnd_toStartOf="@+id/carta2"
-        app:layout_constraintTop_toTopOf="@+id/carta2"
-        app:srcCompat="@drawable/vuoto" />
+        app:layout_constraintTop_toTopOf="@+id/carta2" />
 
     <ImageView
         android:id="@+id/carta2"
         android:layout_width="228px"
         android:layout_height="364px"
         android:layout_marginTop="10dp"
+        android:background="@drawable/vuoto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sottotitolo"
-        app:srcCompat="@drawable/vuoto" />
+        app:layout_constraintTop_toBottomOf="@+id/sottotitolo" />
 
     <ImageView
         android:id="@+id/carta3"
@@ -142,10 +142,10 @@
         android:layout_height="364px"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
+        android:background="@drawable/vuoto"
         app:layout_constraintBottom_toBottomOf="@+id/carta2"
         app:layout_constraintStart_toEndOf="@+id/carta2"
-        app:layout_constraintTop_toTopOf="@+id/carta2"
-        app:srcCompat="@drawable/vuoto" />
+        app:layout_constraintTop_toTopOf="@+id/carta2" />
 
     <Button
         android:id="@+id/restart"

@@ -31,7 +31,7 @@ public class postPartita extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.postpartita);
@@ -85,7 +85,15 @@ public class postPartita extends AppCompatActivity {
             int id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
             ImageView bottone = findViewById(id);
 
-            bottone.setImageResource(carta.getImage(0));
+            bottone.setBackground(Carta.getVuoto());
+            new Thread(() -> {
+                try {
+                    Thread.sleep(Game.viewAnimDuration);
+                    activity.runOnUiThread(() -> Engine.flipAnim(bottone, carta.getImage(), false, null));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }).start();
         }
 
         restart.setOnClickListener(v -> {

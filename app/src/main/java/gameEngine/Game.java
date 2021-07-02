@@ -53,6 +53,7 @@ public class Game {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initialize(AppCompatActivity activity){
+        Utility.enableTopBar(activity);
         Utility.ridimensionamento(activity, activity.findViewById(R.id.parent));
 
         Game.activity = activity;
@@ -91,7 +92,7 @@ public class Game {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void startGame(AppCompatActivity activity) throws InterruptedException {
+    public static void startGame(AppCompatActivity activity) {
         initialize(activity);
         Engine.inizializza();
     }

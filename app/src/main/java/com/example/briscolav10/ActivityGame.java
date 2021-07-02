@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -56,7 +57,7 @@ public class ActivityGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         Bundle extras = getIntent().getExtras();
@@ -191,7 +192,7 @@ public class ActivityGame extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.settings, menu);
+        //getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
 
@@ -199,7 +200,7 @@ public class ActivityGame extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
+/*
         switch(id){
             case R.id.impostazioni:
                 new Settings().createSettingsMenu(this);
@@ -212,7 +213,7 @@ public class ActivityGame extends AppCompatActivity {
                         null);
                 return true;
         }
-
+*/
         return super.onOptionsItemSelected(item);
     }
 }

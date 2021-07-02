@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.service.autofill.Dataset;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -23,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.R;
@@ -43,6 +46,22 @@ import static gameEngine.Game.activity;
 import static gameEngine.Game.viewAnimDuration;
 
 public class Utility {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void enableTopBar(AppCompatActivity c){
+        int resId = c.getResources().getIdentifier("topbar", "drawable", c.getPackageName());
+        c.getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        c.getSupportActionBar().setBackgroundDrawable(c.getResources().getDrawable(resId));
+        c.getSupportActionBar().setCustomView(R.layout.actionbar);
+
+        String idS = "lefticon";
+        int id = c.getResources().getIdentifier(idS, "id", c.getPackageName());
+        c.findViewById(id).setOnClickListener(v -> c.onBackPressed());
+
+        idS = "righticon";
+        id = c.getResources().getIdentifier(idS, "id", c.getPackageName());
+        c.findViewById(id).setOnClickListener(v -> new Settings().createSettingsMenu(c));
+    }
+
     public static void createDialog(Context c, String title, String msg){
         confirmDialog(c, title, msg, null, null);
     }

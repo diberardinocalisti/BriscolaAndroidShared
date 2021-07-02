@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
@@ -22,16 +23,17 @@ public class MultiplayerActivity extends AppCompatActivity {
 
     Button button[] = new Button[4];
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.activity_multiplayer);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
 
-        getSupportActionBar().hide();
+        Utility.enableTopBar(this);
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         ActivityMultiplayerGame.onStop = false;
         ActivityMultiplayerGame.start = false;

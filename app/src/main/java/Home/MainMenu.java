@@ -23,8 +23,6 @@ import okhttp3.internal.Util;
 
 
 public class MainMenu extends AppCompatActivity {
-    public static boolean carteScoperte;
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void startGame(String nomeB, MainActivity main){
         switch(nomeB){
@@ -67,10 +65,6 @@ public class MainMenu extends AppCompatActivity {
                 Intent in = new Intent(main, ProvaLoginFirebase.class);
                 main.startActivity(in);
                 break;
-
-            case "button6":
-                new Settings().createSettingsMenu(main);
-            break;
         }
     }
 }

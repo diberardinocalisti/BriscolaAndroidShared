@@ -32,7 +32,7 @@ import static gameEngine.Game.*;
 import static multiplayer.Game.ActivityMultiplayerGame.*;
 
 
-public class engineMultiplayer extends AppCompatActivity {
+public class engineMultiplayer {
 
     public static String codiceStanza;
     public static String role;

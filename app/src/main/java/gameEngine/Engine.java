@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
+import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 import com.facebook.login.Login;
 
@@ -40,17 +41,17 @@ import static Login.loginClass.*;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
-    public static void inizializza() throws InterruptedException {
+    public static void inizializza() {
         creaGiocatori();
         iniziaPartita();
     }
 
-    public static void iniziaPartita() throws InterruptedException {
+    public static void iniziaPartita() {
         reset();
         iniziaRound();
     }
 
-    static void iniziaRound() throws InterruptedException {
+    static void iniziaRound() {
         inizia();
         pulisciTavolo();
         creaMazzo();
@@ -71,7 +72,7 @@ public class Engine{
         Carta.nascondi(carte[I_MAZZO]);
 
         for(String seme : semi)
-            for(int i = 1; i <= 10; i++)
+            for(int i = 1; i <= dimensioneMazzo/semi.length; i++)
                 mazzo.add(new Carta(i, seme));
 
         Collections.shuffle(mazzo);
@@ -128,7 +129,7 @@ public class Engine{
         briscola.mostra();
     }
 
-    static void distribuisciCarte(Runnable callback) throws InterruptedException {
+    static void distribuisciCarte(Runnable callback) {
         Object event = new Object();
 
         new Thread(() -> {
@@ -137,7 +138,7 @@ public class Engine{
 
                 while(p.n_carte() < nCarte) {
                     try {
-                        Thread.sleep((long) (intermezzo/1.5));
+                        Thread.sleep(intermezzo/2);
                         activity.runOnUiThread(p::pesca);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -407,7 +408,7 @@ public class Engine{
     public static void aggiornaTipoCarte(String tipoCarte){
         tipoCarte = tipoCarte.toLowerCase();
         SharedPref.setTipoCarte(tipoCarte);
-        tipoCarte = tipoCarte;
+        Game.tipoCarte = tipoCarte;
 
         if(terminata)
             return;
@@ -445,31 +446,35 @@ public class Engine{
     public static void muoviCarta(View startView, View destView, Carta objectCarta, boolean fade, boolean flip, boolean reverseFlip, Object event){
         AnimationSet animationSet = new AnimationSet(false);
 
-        moveAnim(startView, destView, animationSet, event);
+        animationSet.addAnimation(moveAnim(startView, destView, event));
 
         if(fade)
-            fadeAnim(animationSet);
+            animationSet.addAnimation(fadeAnim());
 
         startView.startAnimation(animationSet);
 
         if(flip || reverseFlip){
-            if(objectCarta == null)
-                objectCarta = getCartaFromButton(startView);
+            Drawable background = null;
 
-            assert objectCarta != null;
+            if(objectCarta == null) {
+                objectCarta = getCartaFromButton(startView);
+                background = destView.getBackground();
+            }else{
+                if(objectCarta.getPortatore() == Game.user || (SharedPref.getCarteScoperte() && !ActivityGame.multiplayer))
+                    background = objectCarta.getImage();
+            }
+
             if(!objectCarta.isCoperta() && !reverseFlip)
                 return;
-
-            Drawable background = destView.getBackground();
 
             if(background == null && reverseFlip)
                 background = Carta.getVuoto();
 
-            flipAnim(startView, background, event);
+            flipAnim(startView, background, true, event);
         }
     }
 
-    public static void moveAnim(View startView, View destView, AnimationSet animationSet, Object event){
+    public static Animation moveAnim(View startView, View destView, Object event){
         final float diffX = destView.getX() - startView.getX();
         final float diffY = destView.getY() - startView.getY();
 
@@ -478,7 +483,6 @@ public class Engine{
 
         animation.setFillAfter(false);
         animation.setInterpolator(new AccelerateInterpolator(accelMultip));
-        animationSet.addAnimation(animation);
 
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override public void onAnimationStart(Animation animation){}
@@ -491,18 +495,20 @@ public class Engine{
                 }
             }
         });
+
+        return animation;
     }
 
-    public static void fadeAnim(AnimationSet animationSet){
+    public static Animation fadeAnim(){
         Animation fadeAnim = new AlphaAnimation(1f, 0f);
         fadeAnim.setInterpolator(new AccelerateInterpolator(accelMultip));
         fadeAnim.setDuration(viewAnimDuration);
         fadeAnim.setFillAfter(false);
 
-        animationSet.addAnimation(fadeAnim);
+        return fadeAnim;
     }
 
-    public static void flipAnim(View startView, Drawable destBackground, Object event){
+    public static void flipAnim(View startView, Drawable destBackground, boolean reset, Object event){
         final ObjectAnimator oa1 = ObjectAnimator.ofFloat(startView, "scaleX", 1f, 0f).setDuration(viewAnimDuration/2);
         final ObjectAnimator oa2 = ObjectAnimator.ofFloat(startView, "scaleX", 0f, 1f).setDuration(viewAnimDuration/2);
 
@@ -519,7 +525,14 @@ public class Engine{
         oa2.addListener(new AnimatorListenerAdapter() {
             @Override public void onAnimationEnd(Animator animation) {
                 super.onAnimationEnd(animation);
+
+                if(event == null)
+                    return;
+
                 synchronized(event){
+                    if(reset)
+                        startView.setBackground(Carta.getVuoto());
+
                     event.notifyAll();
                 }
             }

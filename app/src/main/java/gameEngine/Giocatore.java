@@ -185,6 +185,9 @@ public class Giocatore {
     public void lancia(Carta carta){
         int indice = this.index + I_CAMPO_GIOCO[0];
 
+        if(carta == null)
+            return;
+
         if(!isLibero(Game.carte[indice]))
             return;
 
@@ -242,13 +245,13 @@ public class Giocatore {
     public void prendi(Integer indice, Carta daAggiungere, Runnable callback){
         Object event = new Object();
 
-        muoviCarta(this.prendi, this.bottoni[indice], daAggiungere, false, true, true, event);
-
         Giocatore.this.carte[indice] = daAggiungere;
         Giocatore.this.carte[indice].setPortatore(Giocatore.this);
         Giocatore.this.carte[indice].setButton(Giocatore.this.bottoni[indice]);
         Game.mazzo.remove(Giocatore.this.carte[indice]);
         Engine.aggiornaNCarte();
+
+        muoviCarta(this.prendi, this.bottoni[indice], daAggiungere, false, true, true, event);
 
         new Thread(() -> {
             synchronized (event){
