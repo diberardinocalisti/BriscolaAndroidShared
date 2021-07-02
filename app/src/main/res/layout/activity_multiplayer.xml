@@ -10,10 +10,10 @@
     tools:context="Home.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/parent"
+        android:id="@+id/campogioco"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/sfondo_blu">
+        android:background="@drawable/background">
 
         <View
             android:id="@+id/view2"

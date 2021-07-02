@@ -1,13 +1,14 @@
 package com.example.briscolav10;
 
-import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
@@ -43,10 +44,13 @@ public class ProvaLoginFirebase extends AppCompatActivity {
     );
     // [END auth_fui_create_launcher]
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prova_login_firebase);
+        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
+        Utility.enableTopBar(this);
         createSignInIntent();
     }
 

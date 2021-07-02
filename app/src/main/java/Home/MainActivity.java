@@ -3,32 +3,22 @@ package Home;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.briscolav10.R;
 
 import Login.loginClass;
 import gameEngine.Game;
-import gameEngine.Settings;
 import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
-import multiplayer.MultiplayerActivity;
-
-import static gameEngine.Game.activity;
 
 public class MainActivity extends AppCompatActivity {
     View[] button = new View[5];
@@ -46,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Utility.enableTopBar(this);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
+        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
 
         rank = findViewById(R.id.rank);
 

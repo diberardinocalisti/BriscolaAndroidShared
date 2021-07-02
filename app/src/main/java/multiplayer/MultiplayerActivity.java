@@ -4,15 +4,12 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.briscolav10.R;
 
@@ -33,7 +30,7 @@ public class MultiplayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_multiplayer);
 
         Utility.enableTopBar(this);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
+        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
 
         ActivityMultiplayerGame.onStop = false;
         ActivityMultiplayerGame.start = false;

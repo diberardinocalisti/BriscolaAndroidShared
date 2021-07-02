@@ -7,22 +7,17 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.facebook.login.widget.ProfilePictureView;
 import com.google.firebase.database.DataSnapshot;
@@ -34,11 +29,8 @@ import Home.MainActivity;
 import Login.loginClass;
 import firebase.FirebaseClass;
 import gameEngine.Game;
-import gameEngine.Settings;
 import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
-import multiplayer.MultiplayerActivity;
-import okhttp3.internal.Util;
 
 import static Login.loginClass.getFBNome;
 import static Login.loginClass.isFacebookLoggedIn;
@@ -98,7 +90,7 @@ public class ActivityGame extends AppCompatActivity {
         }
 
         setContentView(R.layout.stanza_di_attesa);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
+        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
 
         attesa = true;
 

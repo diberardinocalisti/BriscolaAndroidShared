@@ -11,13 +11,12 @@
         android:supportsRtl="true"
 
         android:theme="@style/Theme.BriscolaV10">
+
         <activity android:name=".ActivityGame"
             android:noHistory="true"
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
-
-
             ><intent-filter>
             <action android:name="android.intent.action.VIEW" />
             </intent-filter>

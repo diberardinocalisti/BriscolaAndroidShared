@@ -1,11 +1,7 @@
 package gameEngine;
 
-import android.content.Context;
 import android.os.Build;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -13,13 +9,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.R;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
 import Home.SharedPref;
-
-import static gameEngine.Game.activity;
 
 public class Game {
     public static AppCompatActivity activity;
@@ -54,15 +47,12 @@ public class Game {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initialize(AppCompatActivity activity){
         Utility.enableTopBar(activity);
-        Utility.ridimensionamento(activity, activity.findViewById(R.id.parent));
+        Utility.ridimensionamento(activity, activity.findViewById(R.id.campogioco));
 
         Game.activity = activity;
 
         giocatori = new Giocatore[nGiocatori];
         mazzo = new ArrayList<>();
-        canPlay = true;
-        lastManche = false;
-        terminata = false;
         giocante = null;
         ultimoVincitore = null;
         CPU = null;

@@ -1,29 +1,22 @@
 package Login;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.briscolav10.R;
-import com.facebook.AccessToken;
-import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -63,7 +56,7 @@ public class LoginActivity extends AppCompatActivity {
 
     void loginPage(){
         setContentView(R.layout.login_page);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
+        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -106,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
 
     void accountPage(){
         setContentView(R.layout.fb_profile);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
+        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
 
         TextView nome = findViewById(R.id.nome);
         nome.setText(loginClass.getFBNome() + " " + loginClass.getFBCognome());

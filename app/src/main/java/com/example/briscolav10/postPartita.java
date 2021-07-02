@@ -3,7 +3,6 @@ package com.example.briscolav10;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import Home.MainActivity;
@@ -35,11 +33,11 @@ public class postPartita extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.postpartita);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
+        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
 
         Bundle extras = getIntent().getExtras();
 
-        View postpartita = findViewById(R.id.parent);
+        View postpartita = findViewById(R.id.campogioco);
         TextView esito = findViewById(R.id.esito);
         TextView punti = findViewById(R.id.nPunti);
         Button restart = findViewById(R.id.restart);

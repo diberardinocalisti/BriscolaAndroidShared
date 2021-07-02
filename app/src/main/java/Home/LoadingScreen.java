@@ -1,24 +1,16 @@
 package Home;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageButton;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
-import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 
-import Login.LoginActivity;
 import gameEngine.Utility;
-import multiplayer.MultiplayerActivity;
 
 
 public class LoadingScreen extends AppCompatActivity {
@@ -32,7 +24,7 @@ public class LoadingScreen extends AppCompatActivity {
         getSupportActionBar().hide();
 
         setContentView(R.layout.loading_screen);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
+        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
 
         new Handler().postDelayed(() -> {
             this.startActivity(new Intent(this, MainActivity.class));

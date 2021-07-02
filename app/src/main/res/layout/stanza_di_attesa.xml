@@ -12,10 +12,10 @@
     tools:context="Home.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/parent"
+        android:id="@+id/campogioco"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/sfondo_blu">
+        android:background="@drawable/background">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -90,7 +90,7 @@
                 android:id="@+id/helper6"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="#4773FF"
+                android:background="#5EE426"
                 app:layout_constraintBottom_toTopOf="@+id/helper"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/titolo" />
@@ -108,7 +108,7 @@
                 android:id="@+id/helper7"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="#4773FF"
+                android:background="#5EE426"
                 app:layout_constraintBottom_toTopOf="@+id/helper4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +126,7 @@
                 android:id="@+id/helper2"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                android:background="#4773FF"
+                android:background="#5EE426"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -154,7 +154,7 @@
                 android:shadowRadius="1.5"
                 android:text="@string/waitroom"
                 android:textAllCaps="true"
-                android:textColor="#4773FF"
+                android:textColor="#5EE426"
                 android:textSize="26sp"
                 app:layout_constraintBottom_toBottomOf="@+id/helper3"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -195,7 +195,7 @@
                 android:shadowRadius="1.5"
                 android:text="@string/code"
                 android:textAllCaps="true"
-                android:textColor="#4773FF"
+                android:textColor="#5EE426"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -214,7 +214,7 @@
                 android:shadowRadius="1.5"
                 android:text="@string/state"
                 android:textAllCaps="true"
-                android:textColor="#4773FF"
+                android:textColor="#5EE426"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toTopOf="@+id/helper2"
                 app:layout_constraintEnd_toEndOf="parent"

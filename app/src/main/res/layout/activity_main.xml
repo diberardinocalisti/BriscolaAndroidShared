@@ -10,10 +10,10 @@
     tools:context="Home.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/parent"
+        android:id="@+id/campogioco"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/sfondo_blu">
+        android:background="@drawable/background">
 
 
         <ImageView
@@ -26,19 +26,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view"
             app:srcCompat="@drawable/logo" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="30dp"
-            android:text="todo: rivedere menu principale, non sta bene con la nuova toolbar"
-            android:textColor="#FFFFFF"
-            android:textSize="8sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button3" />
 
         <Button
             android:id="@+id/button1"
