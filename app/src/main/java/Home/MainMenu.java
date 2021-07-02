@@ -22,7 +22,7 @@ import multiplayer.MultiplayerActivity;
 import okhttp3.internal.Util;
 
 
-public class MainMenu extends AppCompatActivity {
+public class MainMenu {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void startGame(String nomeB, MainActivity main){
         switch(nomeB){
@@ -53,11 +53,7 @@ public class MainMenu extends AppCompatActivity {
 
             // Uscire dal gioco;
             case "button3":
-                String titolo = main.getString(R.string.closegame);
-                String messaggio = main.getString(R.string.confirmleave);
-
-                Utility.confirmDenyDialog(main, titolo, messaggio, (dialog, which) -> android.os.Process.killProcess(android.os.Process.myPid()), null);
-
+                main.onBackPressed();
                 break;
 
             // Il mio profilo;

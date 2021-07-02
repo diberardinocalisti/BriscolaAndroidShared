@@ -13,12 +13,15 @@ import android.widget.ImageButton;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 
 import Login.loginClass;
 import gameEngine.Game;
 import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
+
+import static gameEngine.Utility.oneLineDialog;
 
 public class MainActivity extends AppCompatActivity {
     View[] button = new View[5];
@@ -68,5 +71,10 @@ public class MainActivity extends AppCompatActivity {
         final Configuration override = new Configuration(newBase.getResources().getConfiguration());
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Utility.oneLineDialog(this, this.getString(R.string.confirmleave), MainActivity.super::onBackPressed);
     }
 }

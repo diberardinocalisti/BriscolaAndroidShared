@@ -185,7 +185,7 @@ public class ActivityGame extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        oneLineDialog(this, this.getString(R.string.confirmleavegame), ActivityGame.super::onBackPressed);
+        Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), ActivityGame.super::onBackPressed);
     }
 
     @Override
