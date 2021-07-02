@@ -62,6 +62,10 @@ public class Utility {
         c.findViewById(id).setOnClickListener(v -> new Settings().createSettingsMenu(c));
     }
 
+    public static void oneLineDialog(Context c, String title, Runnable callback){
+        new UI.CDialog((Activity) c, title, callback).show();
+    }
+
     public static void createDialog(Context c, String title, String msg){
         confirmDialog(c, title, msg, null, null);
     }

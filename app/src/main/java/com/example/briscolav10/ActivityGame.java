@@ -27,6 +27,7 @@ import com.google.firebase.database.annotations.NotNull;
 
 import Home.MainActivity;
 import Login.loginClass;
+import UI.CDialog;
 import firebase.FirebaseClass;
 import gameEngine.Game;
 import gameEngine.Utility;
@@ -35,6 +36,7 @@ import multiplayer.Game.ActivityMultiplayerGame;
 import static Login.loginClass.getFBNome;
 import static Login.loginClass.isFacebookLoggedIn;
 import static Login.loginClass.setImgProfile;
+import static gameEngine.Utility.oneLineDialog;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class ActivityGame extends AppCompatActivity {
@@ -182,9 +184,12 @@ public class ActivityGame extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        oneLineDialog(this, this.getString(R.string.confirmleavegame), ActivityGame.super::onBackPressed);
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.settings, menu);
         return true;
     }
 

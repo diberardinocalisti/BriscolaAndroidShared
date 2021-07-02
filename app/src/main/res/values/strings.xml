@@ -43,7 +43,7 @@
     <string name="code">"Code: "</string>
     <string name="closeroom">Close room</string>
     <string name="closegame">Close game</string>
-    <string name="confirmleave">Do you really want to close your game?</string>
+    <string name="confirmleave">Closing game</string>
     <string name="intro">Introduction to the game</string>
     <string name="howtoplay">RULES OF THE GAME:\nA deck of Italian cards consists of forty cards, divided into four suits: coins (Denari in Italian), swords (Spade), cups (Coppe) and clubs (Bastoni). The values on the cards range numerically from one through seven, plus three face cards in each suit: Knave (Fante in Italian), Knight (Cavallo in Italian), and King (Re in Italian). A Knave is a lone human figure standing. The Knight is a human figure riding a horse. The King is a human figure wearing a crown. (Played with a French deck, Queens take the place of Knights.) To determine the face value of any numeric card, simply count the number of suit icons on the card. The ace card of coins is usually a type of bird with circle in the middle. Each player receives 3 cards, the trump is then removed from the deck and placed visible under the remaining cards. Each player takes turns playing a card. A random player starts, then the player who took the last trick goes first. When both players have played their cards, the trick is awarded. The played cards are assigned to whoever played the highest value card of the first suit played. If one of the players has played a trump, the trick is taken by the one who has played the highest trump. When all the players have played their card, assigned the trick, then we proceed to draw a card from the deck. The player who made the catch draws first. When all the cards have been drawn, the cards remaining in the player\'s hand are played until all the cards have been played. At this point, the number of cards taken is counted.\n\nCARD VALUES:\nAce: 11 points;\nThree: 10 points;\nKing: 4 points;\nHorse: 3 points;\nJack: 2 points.
 </string>
@@ -54,7 +54,7 @@
     <string name="trovato">Found</string>
     <string name="sessionclosed">Session closed! Create a new lobby to start playing again.</string>
     <string name="leavegame">Leave game</string>
-    <string name="confirmleavegame">Are you sure you want to leave the match?</string>
+    <string name="confirmleavegame">Leaving the game</string>
     <string name="typecard">Cards</string>
     <string name="youleft">You left the game!</string>
     <string name="enemyleft">Your opponent left the game!</string>

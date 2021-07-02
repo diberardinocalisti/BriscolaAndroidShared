@@ -5,6 +5,8 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,7 @@ import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 
 import static gameEngine.Game.*;
-
+import static UI.CDialog.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +34,7 @@ import java.util.stream.Collectors;
 
 import Home.MainMenu;
 import Home.SharedPref;
+import UI.CDialog;
 
 import static gameEngine.Game.giocatori;
 
@@ -78,7 +81,7 @@ public class Settings extends AppCompatActivity {
                     Game.CPU.copriCarte();
             }
 
-            /* TODO: Nella modalità multiplayer, ricordarsi di bloccare l'ozione "carte scoperte"; */
+            // TODO: Nella modalità multiplayer, ricordarsi di bloccare l'ozione "carte scoperte";
             Engine.aggiornaTipoCarte(tipoCarte.getSelectedItem().toString());
         });
 
