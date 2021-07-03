@@ -1,5 +1,6 @@
 package com.example.briscolav10;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import Home.MainActivity;
@@ -21,9 +23,11 @@ import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
 import gameEngine.Utility;
+
 import static gameEngine.Game.activity;
 
 public class postPartita extends AppCompatActivity {
+    @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +35,10 @@ public class postPartita extends AppCompatActivity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
 
         setContentView(R.layout.postpartita);
+
         Utility.ridimensionamento(this, findViewById(R.id.campogioco));
 
         Bundle extras = getIntent().getExtras();
@@ -44,7 +50,7 @@ public class postPartita extends AppCompatActivity {
         Button exit = findViewById(R.id.exit);
 
         int punteggio = extras.getInt("punteggio");
-        String daMostrare[] = extras.getStringArray("carte");
+        String[] daMostrare = extras.getStringArray("carte");
 
         String background, stato;
         if(punteggio < Game.maxPunti/2) {

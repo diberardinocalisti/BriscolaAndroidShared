@@ -55,6 +55,7 @@ public class onClick implements View.OnClickListener {
                         if(vincente == null) {
                             prossimoTurno(getOtherPlayer(giocante));
                         }else{
+                            giocante = null;
                             new Handler().postDelayed(() -> terminaManche(vincente), intermezzo);
                         }
                     });

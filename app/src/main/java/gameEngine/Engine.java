@@ -3,41 +3,32 @@ package gameEngine;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
-import android.widget.AdapterViewAnimator;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
 import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
-import com.facebook.login.Login;
+import com.example.briscolav10.postPartita;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Objects;
-import java.util.concurrent.Delayed;
 
 import Home.SharedPref;
-import multiplayer.Game.ActivityMultiplayerGame;
 
-import static gameEngine.Game.*;
 import static Login.loginClass.*;
+import static gameEngine.Game.*;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
@@ -161,22 +152,17 @@ public class Engine{
 
             }
         }).start();
-
-
     }
 
     public static void prossimoTurno(Giocatore p){
         if(p == null)
             p = getRandomPlayer();
 
-        giocante = p;
         p.toccaA();
     }
 
     public static void terminaManche(Giocatore vincitore) {
-        canPlay = false;
-
-        vincitore.mancheVinta(() -> {
+        vincitore.mancheVinta(() -> new Handler().postDelayed(() -> {
             pulisciPianoGioco();
 
             Giocatore[] giocatori = getVincitorePerdente(vincitore);
@@ -185,15 +171,8 @@ public class Engine{
                 if(mazzo.size() > 0 || !lastManche)
                     p.pesca();
 
-            canPlay = true;
-
-            if(isTerminata()){
-                termina();
-            }else{
-                prossimoTurno(vincitore);
-            }
-        });
-
+            if(isTerminata()) termina(); else prossimoTurno(vincitore);
+        }, intermezzoManche));
     }
 
     static void termina(){
@@ -204,7 +183,7 @@ public class Engine{
     }
 
     static void terminaPartita(){
-        Intent i = new Intent(activity,com.example.briscolav10.postPartita.class);
+        Intent i = new Intent(activity, postPartita.class);
 
         i.putExtra("punteggio", user.getPunteggioCarte());
         i.putExtra("carte", user.mostraMazzo());
@@ -492,6 +471,7 @@ public class Engine{
             public void onAnimationEnd(Animation animation) {
                 synchronized (event){
                     event.notifyAll();
+                    startView.setVisibility(View.INVISIBLE);
                 }
             }
         });

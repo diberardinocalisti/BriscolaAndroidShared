@@ -23,7 +23,6 @@
         </activity>
         <activity android:name=".postPartita"
             android:noHistory="true"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"

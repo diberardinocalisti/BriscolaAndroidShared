@@ -19,6 +19,7 @@ public class Game {
     public static final Integer viewAnimDuration = 350, accelMultip = 2;
     public static final Integer intermezzo = 750;
     public static final Integer intermezzoCPU = 750;
+    public static final Integer intermezzoManche = 100;
     public static final Integer nGiocatori = 2, nCarte = 3, maxPunti = 120, dimensioneMazzo = 40;
     public static final String[] semi = {"bastoni", "denara", "spade", "coppe"};
     public static String tipoCarte;
