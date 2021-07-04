@@ -125,16 +125,18 @@ public class Engine{
 
         new Thread(() -> {
             for(Giocatore p : giocatori){
-                p.svuotaMazzo();
+                activity.runOnUiThread(() -> {
+                    p.svuotaMazzo();
 
-                while(p.n_carte() < nCarte) {
-                    try {
-                        Thread.sleep(intermezzo/2);
-                        activity.runOnUiThread(p::pesca);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                    while(p.n_carte() < nCarte) {
+                        try {
+                            Thread.sleep(intermezzo/2);
+                            p.pesca();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
+                });
             }
             synchronized (event){
                 event.notifyAll();
@@ -148,8 +150,8 @@ public class Engine{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                activity.runOnUiThread(callback);
-
+                if(callback != null)
+                    activity.runOnUiThread(callback);
             }
         }).start();
     }

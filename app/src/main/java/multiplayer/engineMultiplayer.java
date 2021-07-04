@@ -112,11 +112,20 @@ public class engineMultiplayer {
         for(int i = 0; i < Game.nGiocatori; i++)
             Game.giocatori[i] = new GiocatoreMP(players[i], i);
 
-        Game.user = roleId.equals("host") ? giocatori[0] : giocatori[1];
-        Game.opp = Game.user == giocatori[0] ? giocatori[1] : giocatori[0];
+        Game.user = giocatori[1];
+        Game.opp = giocatori[0];
 
-        host = giocatori[0];
-        enemy = giocatori[1];
+        if(role.equals("HOST")) {
+            host = Game.user;
+            enemy = Game.opp;
+        }else{
+            host = Game.opp;
+            enemy = Game.user;
+        }
+
+        System.out.println("host " + host.getNome());
+        System.out.println("enemy" + enemy.getNome());
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -193,17 +202,12 @@ public class engineMultiplayer {
 
             FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti", mazzoOnline);
 
-            Game.user.svuotaMazzo();
-
-            for(int i = 0; i < Game.nCarte; i++)
-                Game.user.pesca();
+            gameEngine.Engine.distribuisciCarte(null);
         }else{
             new Handler().postDelayed(() -> {
                 mazzoOnline = snapshot.getCarteRimanenti();
                 Engine.creaMazzo(mazzoOnline);
                 creaMazzoIniziale();
-
-                Game.user.svuotaMazzo();
 
                 gameEngine.Engine.distribuisciCarte(null);
             }, 1750);
