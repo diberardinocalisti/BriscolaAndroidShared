@@ -156,7 +156,8 @@ public class engineMultiplayer {
         if(!roleId.equals(turno)){
             Engine.muoviCarta(c.getButton(), Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[0]], c,false, false, true, event);
             giocaCarta(c, event);
-        }else{
+        }
+        /*else{
             View daMuovere = Game.carteBottoni[indice];
 
             assert c != null;
@@ -164,7 +165,7 @@ public class engineMultiplayer {
 
             muoviCarta(c.getButton(), Game.carte[I_CAMPO_GIOCO[0]], c,false, true, false, event);
             giocaCarta(c, event);
-        }
+        }*/
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
