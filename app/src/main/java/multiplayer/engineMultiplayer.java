@@ -115,6 +115,7 @@ public class engineMultiplayer {
         Game.user = giocatori[1];
         Game.opp = giocatori[0];
 
+
         if(role.equals("HOST")) {
             host = Game.user;
             enemy = Game.opp;
@@ -211,7 +212,6 @@ public class engineMultiplayer {
             new Handler().postDelayed(() -> {
                 mazzoOnline = snapshot.getCarteRimanenti();
                 Engine.creaMazzo(mazzoOnline);
-                creaMazzoIniziale();
 
                 gameEngine.Engine.distribuisciCarte(null, app);
             }, 1000);
@@ -241,18 +241,22 @@ public class engineMultiplayer {
                 if(!Game.canPlay)
                     return;
 
-                Carta c = Engine.getCartaFromButton(v);
-                int index = Game.user.getIndexFromCarta(c);
+                final Button bottone = (Button) v;
+                final Carta carta = Engine.getCartaFromButton(bottone);
+
+                System.out.println(carta.getNome());
+
+                int index = Game.user.getIndexFromCarta(carta);
 
                 Game.canPlay = false;
 
                 if(role.equals("HOST")){
                     //Modifico giocataDaHost
-                    FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",c.getNome()+"#"+index);
+                    FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",carta.getNome()+"#"+index);
                     FirebaseClass.editFieldFirebase(codiceStanza,"turno","enemy");
                 }else{
                     //Modifico giocataDaEnemy
-                    FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy",c.getNome()+"#"+index);
+                    FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy",carta.getNome()+"#"+index);
                     FirebaseClass.editFieldFirebase(codiceStanza,"turno","host");
                 }
             });
