@@ -39,7 +39,7 @@ public class MainMenu {
                     Intent i = new Intent(main, MultiplayerActivity.class);
                     main.startActivity(i);
                 }else{
-                    Intent i = new Intent(main, ProvaLoginFirebase.class);
+                    Intent i = new Intent(main, LoginActivity.class);
                     main.startActivity(i);
                 }
                 break;
@@ -58,7 +58,7 @@ public class MainMenu {
 
             // Il mio profilo;
             case "button2":
-                Intent in = new Intent(main, ProvaLoginFirebase.class);
+                Intent in = new Intent(main, LoginActivity.class);
                 main.startActivity(in);
                 break;
         }
