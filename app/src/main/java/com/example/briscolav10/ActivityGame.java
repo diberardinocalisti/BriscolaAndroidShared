@@ -79,7 +79,7 @@ public class ActivityGame extends AppCompatActivity {
     protected void startSinglePlayer() throws InterruptedException {
         setContentView(R.layout.campo_da_gioco);
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+        /*MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
@@ -87,7 +87,7 @@ public class ActivityGame extends AppCompatActivity {
 
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(adRequest);*/
 
         multiplayer = false;
         attesa = false;

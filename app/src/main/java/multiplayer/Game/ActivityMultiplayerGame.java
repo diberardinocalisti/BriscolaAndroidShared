@@ -84,7 +84,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
         setContentView(R.layout.campo_da_gioco);
 
-        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+        /*MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {
             }
@@ -92,7 +92,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
         mAdView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        mAdView.loadAd(adRequest);*/
 
         getSupportActionBar().hide();
 
