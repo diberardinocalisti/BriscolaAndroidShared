@@ -19,6 +19,11 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -67,6 +72,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     public static boolean initialManche = false;
     public static GameRoom snapshot;
     public static boolean distribuisci = false;
+    private AdView mAdView;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -77,6 +83,17 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         setContentView(R.layout.campo_da_gioco);
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
         getSupportActionBar().hide();
 
         onStop = false;

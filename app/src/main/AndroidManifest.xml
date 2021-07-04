@@ -2,6 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.briscolav10">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <!-- If your app targets Android 9 or lower, you can declare
+         ACCESS_COARSE_LOCATION instead. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="false"
@@ -20,8 +29,7 @@
             ><intent-filter>
             <action android:name="android.intent.action.VIEW" />
             </intent-filter>
-        </activity>
-        <activity android:name=".postPartita"
+        </activity>        <activity android:name=".postPartita"
             android:noHistory="true"
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
@@ -110,9 +118,12 @@
             </intent-filter>
         </activity>
 
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3432724503217594~8170298474"/>
+
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET"/>
 
 
 

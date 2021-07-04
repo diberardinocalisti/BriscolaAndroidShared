@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +19,7 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.firebase.ui.auth.util.ExtraConstants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 import Home.MainActivity;
+import firebase.FirebaseClass;
 import gameEngine.Utility;
 
 public class ProvaLoginFirebase extends AppCompatActivity {
@@ -38,6 +41,7 @@ public class ProvaLoginFirebase extends AppCompatActivity {
             new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
                 @Override
                 public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
+                    System.out.println("Lanciato!!");
                     onSignInResult(result);
                 }
             }
@@ -72,11 +76,15 @@ public class ProvaLoginFirebase extends AppCompatActivity {
     }
 
     // [START auth_fui_result]
+
+
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
+
         IdpResponse response = result.getIdpResponse();
+        System.out.println("Dentro SIgnin --> " + result.getResultCode());
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            FirebaseUser user = FirebaseAuth.getInstance(FirebaseApp.getInstance("https://briscola-472a8-default-rtdb.firebaseio.com/")).getCurrentUser();
             Toast.makeText(getApplicationContext(),"Login!",Toast.LENGTH_SHORT).show();
             Utility.goTo(ProvaLoginFirebase.this, MainActivity.class);
             // ...

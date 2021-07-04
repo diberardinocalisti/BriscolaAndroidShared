@@ -20,6 +20,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.login.widget.ProfilePictureView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -41,6 +46,7 @@ import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class ActivityGame extends AppCompatActivity {
     ProfilePictureView imgP;
+    private AdView mAdView;
 
     public static boolean multiplayer = false;
     public static boolean attesa = false;
@@ -72,6 +78,16 @@ public class ActivityGame extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void startSinglePlayer() throws InterruptedException {
         setContentView(R.layout.campo_da_gioco);
+
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         multiplayer = false;
         attesa = false;
