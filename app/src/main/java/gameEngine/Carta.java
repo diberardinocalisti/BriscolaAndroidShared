@@ -39,6 +39,7 @@ public class Carta {
     }
 
     public void disabilita(){
+        this.setPortatore(null);
         this.b.setBackground(null);
         this.b.setEnabled(false);
         this.b.setVisibility(View.INVISIBLE);
