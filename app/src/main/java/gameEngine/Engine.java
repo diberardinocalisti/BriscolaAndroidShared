@@ -120,11 +120,15 @@ public class Engine{
         briscola.mostra();
     }
 
-    public static void distribuisciCarte(Runnable callback) {
+    public static void distribuisciCarte(Runnable callback){
+        distribuisciCarte(callback, giocatori);
+    }
+
+    public static void distribuisciCarte(Runnable callback, Giocatore[] players) {
         Object event = new Object();
 
         new Thread(() -> {
-            for(Giocatore p : giocatori){
+            for(Giocatore p : players){
                 activity.runOnUiThread(() -> {
                     p.svuotaMazzo();
 

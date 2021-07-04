@@ -196,21 +196,25 @@ public class engineMultiplayer {
     public static void distribuisciCarte(){
         giocante = null;
 
+        Giocatore[] app = new Giocatore[nGiocatori];
+        app[0] = host;
+        app[1] = enemy;
+
         if(role.equals("HOST")){
             mazzoOnline = engineMultiplayer.creaMazzoFirebase();
             snapshot.setCarteRimanenti(mazzoOnline);
 
             FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti", mazzoOnline);
 
-            gameEngine.Engine.distribuisciCarte(null);
+            gameEngine.Engine.distribuisciCarte(null, app);
         }else{
             new Handler().postDelayed(() -> {
                 mazzoOnline = snapshot.getCarteRimanenti();
                 Engine.creaMazzo(mazzoOnline);
                 creaMazzoIniziale();
 
-                gameEngine.Engine.distribuisciCarte(null);
-            }, 1750);
+                gameEngine.Engine.distribuisciCarte(null, app);
+            }, 1000);
         }
 
         distribuisci = true;
