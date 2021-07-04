@@ -33,10 +33,10 @@ import static multiplayer.Game.ActivityMultiplayerGame.*;
 
 
 public class engineMultiplayer {
-
     public static String codiceStanza;
     public static String role;
     public static final String DELIMITER = ";";
+    public static Giocatore host, enemy;
 
     public static void creaStanza(AppCompatActivity c){
         int len = 5;
@@ -107,17 +107,16 @@ public class engineMultiplayer {
    }
 
     public static void creaGiocatori(){
-        String[] players;
-
-        if(roleId.equals("host"))
-            players = new String[]{enemy, host};
-        else
-            players = new String[]{host, enemy};
+        String[] players = new String[]{ActivityMultiplayerGame.host, ActivityMultiplayerGame.enemy};
 
         for(int i = 0; i < Game.nGiocatori; i++)
             Game.giocatori[i] = new GiocatoreMP(players[i], i);
 
-        Game.user = Game.giocatori[1];
+        Game.user = roleId.equals("host") ? giocatori[0] : giocatori[1];
+        Game.opp = Game.user == giocatori[0] ? giocatori[1] : giocatori[0];
+
+        host = giocatori[0];
+        enemy = giocatori[1];
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -139,7 +138,7 @@ public class engineMultiplayer {
 
         //setButton(Game.canPlay);
 
-        giocante = Game.canPlay ? giocatori[0] : Game.user;
+        giocante = Game.canPlay ? Game.user : Game.opp;
 
         Object event = new Object();
 
@@ -186,11 +185,13 @@ public class engineMultiplayer {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void distribuisciCarte(){
+        giocante = null;
+
         if(role.equals("HOST")){
             mazzoOnline = engineMultiplayer.creaMazzoFirebase();
             snapshot.setCarteRimanenti(mazzoOnline);
 
-            FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti",mazzoOnline);
+            FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti", mazzoOnline);
 
             Game.user.svuotaMazzo();
 
@@ -204,8 +205,7 @@ public class engineMultiplayer {
 
                 Game.user.svuotaMazzo();
 
-                for(int i = 0; i < Game.nCarte; i++)
-                    Game.user.pesca();
+                gameEngine.Engine.distribuisciCarte(null);
             }, 1750);
         }
 

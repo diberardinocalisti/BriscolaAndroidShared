@@ -24,7 +24,7 @@ public class GiocatoreMP extends Giocatore {
         super(player, i);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    /*@RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void pesca() {
         String carteDisponibili = mazzoOnline;
@@ -34,9 +34,9 @@ public class GiocatoreMP extends Giocatore {
 
         removeCardFromMazzo(cartaPescata);
 
-        FirebaseClass.editFieldFirebase(codiceStanza, "carteRimanenti", mazzoOnline);
-        snapshot.setCarteRimanenti(mazzoOnline);
+        //FirebaseClass.editFieldFirebase(codiceStanza, "carteRimanenti", mazzoOnline);
+        // snapshot.setCarteRimanenti(mazzoOnline);
 
         super.pesca(getCartaFromName(cartaPescata));
-    }
+    }*/
 }

@@ -120,7 +120,7 @@ public class Engine{
         briscola.mostra();
     }
 
-    static void distribuisciCarte(Runnable callback) {
+    public static void distribuisciCarte(Runnable callback) {
         Object event = new Object();
 
         new Thread(() -> {

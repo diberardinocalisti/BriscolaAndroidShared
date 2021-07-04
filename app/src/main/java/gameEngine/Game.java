@@ -31,7 +31,7 @@ public class Game {
 
     public static Giocatore[] giocatori;
     public static CPU CPU;
-    public static Giocatore user;
+    public static Giocatore user, opp;
 
     // Tutte le carte presenti nel campo di gioco;
     public static View[] carte;
