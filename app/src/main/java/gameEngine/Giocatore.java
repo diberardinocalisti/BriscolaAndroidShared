@@ -185,6 +185,8 @@ public class Giocatore {
     public void lancia(Carta carta){
         int indice = this.index + I_CAMPO_GIOCO[0];
 
+        System.out.println(this.index);
+
         if(carta == null)
             return;
 

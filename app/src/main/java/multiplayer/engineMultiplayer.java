@@ -175,11 +175,11 @@ public class engineMultiplayer {
                     activity.runOnUiThread(() -> {
                         Game.canPlay = true;
 
-                        giocante.lancia(c);
+                        c.getPortatore().lancia(c);
                         final Giocatore vincente = doLogic(c, getOtherCarta(c));
 
                         if(vincente == null) {
-                            prossimoTurno(getOtherPlayer(giocante));
+                            prossimoTurno(getOtherPlayer(c.getPortatore()));
                         }else{
                             // Todo: ridefinire il metodo terminaManche per il multiplayer;
                             new Handler().postDelayed(() -> terminaManche(vincente), 1750);
