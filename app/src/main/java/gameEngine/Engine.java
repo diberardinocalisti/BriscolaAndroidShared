@@ -128,19 +128,18 @@ public class Engine{
         Object event = new Object();
 
         new Thread(() -> {
-            for(Giocatore p : players){
-                activity.runOnUiThread(() -> {
-                    p.svuotaMazzo();
 
-                    while(p.n_carte() < nCarte) {
-                        try {
-                            Thread.sleep(intermezzo/2);
-                            p.pesca();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+            for(Giocatore p : players){
+                activity.runOnUiThread(p::svuotaMazzo);
+
+                while(p.n_carte() < nCarte) {
+                    try {
+                        Thread.sleep(intermezzo/2);
+                        activity.runOnUiThread(p::pesca);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                });
+                }
             }
             synchronized (event){
                 event.notifyAll();
@@ -154,8 +153,8 @@ public class Engine{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(callback != null)
-                    activity.runOnUiThread(callback);
+                activity.runOnUiThread(callback);
+
             }
         }).start();
     }
