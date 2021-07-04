@@ -148,7 +148,7 @@ public class engineMultiplayer {
         //setButton(Game.canPlay);
 
         giocante = Game.canPlay ? Game.user : Game.opp;
-
+        System.out.println(giocante.getNome() + " giocante");
         Object event = new Object();
 
         // @Todo: Gestire i turni;

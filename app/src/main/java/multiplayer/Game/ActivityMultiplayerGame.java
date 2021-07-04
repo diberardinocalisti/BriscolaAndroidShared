@@ -66,7 +66,7 @@ import static multiplayer.engineMultiplayer.*;
 public class ActivityMultiplayerGame extends AppCompatActivity {
     public static boolean start = false;
     public static String roleId;
-    public static String host, enemy;
+    public static String host = "host", enemy = "enemy";
     public static boolean onStop = false;
     public static String mazzoOnline = "";
     public static boolean initialManche = false;
