@@ -48,7 +48,8 @@ public class Engine{
         creaMazzo();
         estraiBriscola();
 
-        distribuisciCarte(() -> prossimoTurno(getRandomPlayer()));
+        Giocatore[] randomTurno = getRandomOrdine();
+        distribuisciCarte(() -> prossimoTurno(randomTurno[0]), randomTurno);
     }
 
     static void inizia(){
@@ -221,6 +222,13 @@ public class Engine{
     static void pulisciPianoLaterale(){
         carte[I_BRISCOLA].setBackground(null);
         carte[I_MAZZO].setBackground(null);
+    }
+
+    static Giocatore[] getRandomOrdine(){
+        Giocatore[] ordine = new Giocatore[nGiocatori];
+        ordine[0] = getRandomPlayer();
+        ordine[1] = ordine[0] == giocatori[0] ? giocatori[1] : giocatori[0];
+        return ordine;
     }
 
     static Giocatore getRandomPlayer(){
