@@ -138,8 +138,10 @@ public class Carta {
     public void mostra(){
         this.coperta = false;
 
-        if(this.b != null)
+        if(this.b != null) {
             this.b.setBackground(this.getImage());
+            this.b.setVisibility(View.VISIBLE);
+        }
     }
 
     public void aggiornaTipo(){
@@ -171,6 +173,7 @@ public class Carta {
 
     public static void nascondi(View b){
         b.setBackground(getVuoto());
+        b.setVisibility(View.VISIBLE);
     }
 
     public Drawable getImage(){

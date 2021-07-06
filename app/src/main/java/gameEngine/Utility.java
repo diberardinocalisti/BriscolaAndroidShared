@@ -43,6 +43,7 @@ import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
 
 import static gameEngine.Game.activity;
+import static gameEngine.Game.textAnimDuration;
 import static gameEngine.Game.viewAnimDuration;
 
 public class Utility {
@@ -188,7 +189,7 @@ public class Utility {
     }
 
     public static void textAnimation(String msg, TextView view, Runnable callback){
-        final long animSpeed = viewAnimDuration;
+        final long animSpeed = textAnimDuration;
         final float accelMultip = 2;
         final float diffY = 200;
 

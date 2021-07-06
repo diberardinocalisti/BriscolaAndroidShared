@@ -16,6 +16,8 @@ import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
@@ -58,13 +60,13 @@ public class Engine{
     }
 
     public static void creaMazzo() {
-        lastManche = false;
+        lastManche = 0;
         mazzo.clear();
 
         Carta.nascondi(carte[I_MAZZO]);
 
         for(String seme : semi)
-            for(int i = 1; i <= dimensioneMazzo/semi.length; i++)
+            for(int i = 1; i < dimensioneMazzo/semi.length; i++)
                 mazzo.add(new Carta(i, seme));
 
         Collections.shuffle(mazzo);
@@ -117,19 +119,15 @@ public class Engine{
     static void estraiBriscola(){
         briscola = mazzo.get(0);
         mazzo.remove(briscola);
+        mazzo.add(briscola);
         briscola.setButton(carte[I_BRISCOLA]);
         briscola.mostra();
-    }
-
-    public static void distribuisciCarte(Runnable callback){
-        distribuisciCarte(callback, giocatori);
     }
 
     public static void distribuisciCarte(Runnable callback, Giocatore[] players) {
         Object event = new Object();
 
         new Thread(() -> {
-
             for(Giocatore p : players){
                 activity.runOnUiThread(p::svuotaMazzo);
 
@@ -155,7 +153,6 @@ public class Engine{
                     e.printStackTrace();
                 }
                 activity.runOnUiThread(callback);
-
             }
         }).start();
     }
@@ -174,11 +171,23 @@ public class Engine{
             Giocatore[] giocatori = getVincitorePerdente(vincitore);
 
             for(Giocatore p : giocatori)
-                if(mazzo.size() > 0 || !lastManche)
+                if(mazzo.size() > 0 || lastManche == 0)
                     p.pesca();
 
             if(isTerminata()) termina(); else prossimoTurno(vincitore);
         }, intermezzoManche));
+    }
+
+    public static void lastManche(){
+        pulisciPianoLaterale();
+        centerText = activity.findViewById(R.id.avvisocentro);
+        lastManche = 1;
+
+        int stringId = Game.user == ultimoVincitore ? R.string.tuoturno : R.string.turno;
+        String tocca = activity.getString(stringId).replace("%user", ultimoVincitore.getNome());;
+
+        String msg = activity.getString(R.string.lastmanche) + "\n" + tocca;
+        Utility.textAnimation(msg, centerText, () -> clearText(centerText));
     }
 
     static void termina(){
@@ -215,7 +224,7 @@ public class Engine{
     }
 
     static void pulisciPianoGioco(){
-        for(Integer i : I_CAMPO_GIOCO)
+        for(Integer i : I_CAMPO_GIOCO[lastManche])
             carte[i].setBackground(null);
     }
 
@@ -281,7 +290,7 @@ public class Engine{
     }
 
     public static Carta getOtherCarta(Carta current){
-        for(Integer i : I_CAMPO_GIOCO) {
+        for(Integer i : I_CAMPO_GIOCO[lastManche]) {
             Carta c = getCartaFromButton(carte[i]);
 
             if(c == null)
@@ -303,8 +312,12 @@ public class Engine{
         return getCarteGiocatori().length == 0;
     }
 
+    static boolean isPenultimaManche(){
+        return Game.mazzo.size() == nGiocatori;
+    }
+
     static boolean isLibero(View b){
-        return b.getBackground() == null;
+        return b.getBackground() == null || b.getVisibility() == View.INVISIBLE;
     }
 
     public static Giocatore doLogic(Carta last, Carta first) {
@@ -373,7 +386,7 @@ public class Engine{
     public static Carta[] getCarteGiocate(){
         ArrayList<Carta> carteGiocate = new ArrayList<>();
 
-        for(Integer i : I_CAMPO_GIOCO){
+        for(Integer i : I_CAMPO_GIOCO[lastManche]){
             Carta c = getCartaFromButton(carte[i]);
             if(c != null)
                 carteGiocate.add(c);
@@ -383,13 +396,13 @@ public class Engine{
     }
 
     public static void aggiornaNCarte(){
-        aggiornaNCarte(mazzo.size() + 1);
+        aggiornaNCarte(mazzo.size());
     }
 
     public static void aggiornaNCarte(Integer n_Carte){
         TextView icona = activity.findViewById(R.id.n_carte);
 
-        if(n_Carte - 1 == 0) {
+        if(n_Carte== 0) {
             icona.setVisibility(View.INVISIBLE);
         }else{
             icona.setText(n_Carte.toString());
@@ -427,8 +440,8 @@ public class Engine{
         return arr;
     }
 
-    public static void clearCenterText(){
-        centerText.setText("");
+    public static void clearText(TextView textView){
+        textView.setText("");
     }
 
     public static void muoviCarta(View startView, View destView, boolean fade, boolean flip, boolean reverseFlip, Object event){

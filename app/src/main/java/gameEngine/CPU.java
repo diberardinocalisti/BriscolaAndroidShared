@@ -11,6 +11,8 @@ import static gameEngine.Engine.*;
 import static gameEngine.Game.*;
 
 public class CPU extends Giocatore {
+    public double delayGiocata = intermezzoCPU;
+
     protected CPU(String nome, Integer index) {
         super(nome, index, true);
         Game.CPU = this;
@@ -45,8 +47,11 @@ public class CPU extends Giocatore {
 
         super.toccaA();
 
+        // Raddoppia il delay della giocata se si sta giocando l'ultima manche per dar tempo al messaggio di svanire;
+        delayGiocata = getCarteGiocatori().length == nGiocatori * nCarte && lastManche == 1 ? delayGiocata * 1.5 : intermezzoCPU;
+
         // Piccolo delay tra una giocata e l'altra (Range: 1000ms - 2000ms)
-        new Handler().postDelayed(() -> scegli().getButton().performClick(), intermezzoCPU);
+        new Handler().postDelayed(() -> scegli().getButton().performClick(), (long) delayGiocata);
     }
 
     // METODO CHE RESTITUISCE LA MIGLIOR CARTA DA GIOCARE;

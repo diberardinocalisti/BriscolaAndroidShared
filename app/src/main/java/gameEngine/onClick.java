@@ -35,9 +35,10 @@ public class onClick implements View.OnClickListener {
 
         Object event = new Object();
 
-        final View destButton = carte[carta.getPortatore().index + I_CAMPO_GIOCO[0]];
+        final View destButton = carte[carta.getPortatore().index + I_CAMPO_GIOCO[lastManche][0]];
 
         muoviCarta(bottone, destButton, false, true, false, event);
+        clearText(centerText);
 
         new Thread(() -> {
             try {

@@ -115,18 +115,10 @@ public class Giocatore {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void pesca(){
-        if(Game.mazzo.size() == 0){
-            if(!lastManche){
-                lastManche = true;
-                pulisciPianoLaterale();
-                this.pesca(briscola);
-            }
-        }else{
-            this.pesca(Game.mazzo.get(0));
-        }
+        this.pesca(Game.mazzo.get(0));
 
-        if(Game.mazzo.size() <= 1)
-            this.prendi.setVisibility(View.INVISIBLE);
+        if(lastManche == 1)
+            Engine.lastManche();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -157,7 +149,7 @@ public class Giocatore {
 
         int valoreCarte = 0;
 
-        for(Integer i : I_CAMPO_GIOCO){
+        for(Integer i : I_CAMPO_GIOCO[lastManche]){
             if(Game.carte[i] != null){
                 muoviCarta(Game.carte[i], this.mazzo, true, true, true, event);
                 Carta c = getCartaFromButton(Game.carte[i]);
@@ -171,21 +163,27 @@ public class Giocatore {
         this.msgMancheVinta(valoreCarte);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void msgMancheVinta(int valoreCarte){
+        if(isTerminata())
+            return;
+
         String points = "+" + valoreCarte + " " + activity.getString(R.string.points) + "!";
 
         int stringId = Game.user == this ? R.string.tuoturno : R.string.turno;
         String tocca = activity.getString(stringId).replace("%user", this.getNome());;
 
         String msg = points + "\n" + tocca;
-        Utility.textAnimation(msg, centerText, Engine::clearCenterText);
+
+        // Se i giocatori stanno per pescare le proprie ultime carte non visualizzerà il messaggio dei punti
+        // ma visualizzerà invece il messaggio "ULTIMA MANCHE"
+        if(!isPenultimaManche())
+            Utility.textAnimation(msg, centerText, () -> clearText(centerText));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void lancia(Carta carta){
-        int indice = this.index + I_CAMPO_GIOCO[0];
-
-        System.out.println(this.index);
+        int indice = this.index + I_CAMPO_GIOCO[lastManche][0];
 
         if(carta == null)
             return;
@@ -235,10 +233,11 @@ public class Giocatore {
             } else if (this.carte[i].getButton() == null) {
                 prendi(i, daAggiungere, null);
                 return i;
-            } else if (isLibero(this.carte[i].getButton())) {
+            }
+            /*else if (isLibero(this.carte[i].getButton())) {
                 prendi(i, daAggiungere, null);
                 return i;
-            }
+            }*/
         }
         return -1;
     }

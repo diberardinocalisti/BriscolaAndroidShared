@@ -16,9 +16,9 @@ import Home.SharedPref;
 
 public class Game {
     public static AppCompatActivity activity;
-    public static final Integer viewAnimDuration = 350, accelMultip = 2;
+    public static final Integer viewAnimDuration = 350, accelMultip = 2, textAnimDuration = 250;
     public static final Integer intermezzo = 750;
-    public static final Integer intermezzoCPU = 750;
+    public static final Integer intermezzoCPU = 650;
     public static final Integer intermezzoManche = 100;
     public static final Integer nGiocatori = 2, nCarte = 3, maxPunti = 120, dimensioneMazzo = 40;
     public static final String[] semi = {"bastoni", "denara", "spade", "coppe"};
@@ -27,7 +27,10 @@ public class Game {
     public static TextView centerText;
 
     public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;
-    public static final Integer[] I_CAMPO_GIOCO = new Integer[] {8,9};
+    public static final int[][] I_CAMPO_GIOCO = new int[][]{
+            {8,9},
+            {10,11}
+    };
 
     public static Giocatore[] giocatori;
     public static CPU CPU;
@@ -43,7 +46,8 @@ public class Game {
     public static Carta[] mazzoIniziale;
 
     public static Giocatore giocante, ultimoVincitore;
-    public static boolean canPlay, lastManche, terminata = true;
+    public static boolean canPlay, terminata = true;
+    public static short lastManche = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initialize(AppCompatActivity activity){
@@ -58,9 +62,9 @@ public class Game {
         ultimoVincitore = null;
         CPU = null;
         canPlay = true;
-        lastManche = false;
+        lastManche = 0;
         terminata = false;
-        carte = new View[10];
+        carte = new View[12];
         carteBottoni = new Button[nCarte * 2];
         mazzoIniziale = new Carta[40];
         tipoCarte = SharedPref.getTipoCarte().toLowerCase();
@@ -71,11 +75,11 @@ public class Game {
             int id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
 
             carte[i] = activity.findViewById(id);
+            carte[i].setVisibility(View.INVISIBLE);
 
             if(i < nCarte * nGiocatori){
                 carte[i].setOnClickListener(new onClick());
                 carteBottoni[i] = (Button) carte[i];
-                carteBottoni[i].setVisibility(View.INVISIBLE);
             }
         }
 

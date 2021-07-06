@@ -210,6 +210,30 @@
                         app:layout_constraintStart_toEndOf="@+id/button9"
                         app:layout_constraintTop_toTopOf="@+id/button9" />
 
+                    <Button
+                        android:id="@+id/button12"
+                        android:layout_width="192px"
+                        android:layout_height="307px"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/vuoto"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/button9"
+                        app:layout_constraintStart_toEndOf="@+id/view5"
+                        app:layout_constraintTop_toTopOf="@+id/button9" />
+
+                    <Button
+                        android:id="@+id/button11"
+                        android:layout_width="192px"
+                        android:layout_height="307px"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/vuoto"
+                        android:visibility="invisible"
+                        app:layout_constraintBottom_toBottomOf="@+id/button9"
+                        app:layout_constraintEnd_toStartOf="@+id/view5"
+                        app:layout_constraintTop_toTopOf="@+id/button9" />
+
                     <com.facebook.login.widget.ProfilePictureView
                         android:id="@+id/friendProfilePictureEnemy"
                         android:layout_width="125px"
@@ -272,6 +296,24 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/button7"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/avvisocentro"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/alfa_slab_one"
+                        android:gravity="center"
+                        android:shadowColor="#000"
+                        android:shadowDx="2"
+                        android:shadowDy="5"
+                        android:shadowRadius="1.5"
+                        android:textAllCaps="true"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18.5sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/button3"
+                        app:layout_constraintStart_toStartOf="@+id/button1"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
