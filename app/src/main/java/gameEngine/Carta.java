@@ -32,6 +32,15 @@ public class Carta {
         this.nomeBackground = this.tipo + "_" + this.numero + "_" + this.seme;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Carta(Integer numero, String seme, String tipo){
+        this.numero = numero;
+        this.seme = seme;
+        this.valore = calcolaValore(numero);
+        this.tipo = tipo.toLowerCase();
+        this.nomeBackground = this.tipo + "_" + this.numero + "_" + this.seme;
+    }
+
     public void abilita(){
         this.mostra();
         this.b.setEnabled(true);
@@ -141,6 +150,10 @@ public class Carta {
             if(!this.isCoperta())
                 this.mostra();
         }
+    }
+
+    public String getTipo(){
+        return this.tipo;
     }
 
     public void nascondi() {

@@ -59,5 +59,10 @@
     <string name="roomfull">La stanza è al momento piena!</string>
     <string name="tuoturno">è il tuo turno!</string>
     <string name="turno">è il turno di %user!</string>
+    <string name="init">Configurazione</string>
+    <string name="choosecard">Scegli il tuo tipo di carte preferito</string>
+    <string name="welcome">Benvenuto!</string>
+    <string name="randomcard">Tipo carte casuale</string>
+    <string name="notsure">Oppure lascia che lo decida io</string>
 
 </resources>

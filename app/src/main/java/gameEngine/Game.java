@@ -43,7 +43,7 @@ public class Game {
     public static Carta[] mazzoIniziale;
 
     public static Giocatore giocante, ultimoVincitore;
-    public static boolean canPlay, lastManche, terminata;
+    public static boolean canPlay, lastManche, terminata = true;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initialize(AppCompatActivity activity){

@@ -17,7 +17,7 @@ public class SharedPref {
     private static final String CARTE_SCOP_ID = "CARTE_SCOPERTE";
     private static final String TIPO_CARTE_ID = "TIPO_CARTE";
 
-    private static final String CARTE_DEFAULT = "napoletane";
+    private static final String CARTE_DEFAULT = "null";
     private static final boolean SCOPERTE_DEFAULT = false;
 
     public static boolean getCarteScoperte(){

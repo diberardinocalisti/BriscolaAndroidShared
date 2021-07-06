@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="0.99"
+    android:background="@drawable/background"
+    android:orientation="vertical"
+    tools:context="Home.MainActivity">
+
+    <Button
+        android:id="@+id/random"
+        android:layout_width="450px"
+        android:layout_height="120px"
+        android:layout_marginTop="20dp"
+        android:alpha="0.85"
+        android:background="@drawable/yellow_button"
+        android:text="@string/randomcard"
+        android:textSize="12.5sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sottotitolo2" />
+
+    <TextView
+        android:id="@+id/esito"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/carter_one"
+        android:paddingRight="2dp"
+        android:shadowColor="#000"
+        android:shadowDx="2"
+        android:shadowDy="5"
+        android:shadowRadius="1.5"
+        android:text="@string/init"
+        android:textAllCaps="true"
+        android:textColor="#fff"
+        android:textSize="29sp"
+        app:layout_constraintBottom_toTopOf="@+id/sottotitolo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/sottotitolo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/carter_one"
+        android:gravity="center"
+        android:paddingRight="2dp"
+        android:shadowColor="#000"
+        android:shadowDx="2"
+        android:shadowDy="5"
+        android:shadowRadius="1.5"
+        android:text="@string/choosecard"
+        android:textAllCaps="true"
+        android:textColor="#fff"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.509"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.319"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/sottotitolo2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/carter_one"
+        android:gravity="center"
+        android:paddingRight="2dp"
+        android:shadowColor="#000"
+        android:shadowDx="2"
+        android:shadowDy="5"
+        android:shadowRadius="1.5"
+        android:text="@string/notsure"
+        android:textAllCaps="true"
+        android:textColor="#fff"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gallery"
+        app:layout_constraintVertical_bias="0.331"
+        tools:ignore="MissingConstraints" />
+
+    <LinearLayout
+        android:id="@+id/gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sottotitolo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

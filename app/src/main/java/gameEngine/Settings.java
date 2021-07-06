@@ -65,6 +65,7 @@ public class Settings extends AppCompatActivity {
         opzioniTipo = opzioniTipo.stream().map(String::toLowerCase).collect(Collectors.toList());
 
         int indexList = opzioniTipo.indexOf(selectedItem);
+        indexList = indexList == -1 ? 0 : indexList;
         tipoCarte.setSelection(indexList);
 
         carteScoperte.setChecked(SharedPref.getCarteScoperte());

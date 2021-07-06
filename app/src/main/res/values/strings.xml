@@ -64,5 +64,10 @@
     <string name="roomfull">Room is currently full!</string>
     <string name="tuoturno">It\'s your turn!</string>
     <string name="turno">It\'s %user\'s turn!</string>
+    <string name="init">Configuration</string>
+    <string name="choosecard">Choose your favorite type of cards</string>
+    <string name="welcome">Welcome!</string>
+    <string name="randomcard">Random card type</string>
+    <string name="notsure">Or select a random one</string>
 
 </resources>
