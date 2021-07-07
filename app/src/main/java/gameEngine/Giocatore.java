@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import static gameEngine.Engine.*;
+import static gameEngine.Engine.isLastManche;
 import static gameEngine.Game.*;
 
 public class Giocatore {
@@ -56,7 +57,7 @@ public class Giocatore {
         this.nome = nome;
         this.CPU = CPU;
         this.index = index;
-        this.carte = new Carta[3];
+        this.carte = new Carta[nCarte];
         this.prese = new ArrayList<>();
         this.bottoni = new Button[(int) nCarte];
 
@@ -86,7 +87,7 @@ public class Giocatore {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public String[] mostraMazzo() {
-        final int daMostrare = 3;
+        final int daMostrare = nCarte;
 
         ArrayList<Carta> carte = prese;
         Collections.sort(carte, Engine.ordinaCarte);
@@ -115,9 +116,10 @@ public class Giocatore {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void pesca(){
-        this.pesca(Game.mazzo.get(0));
+        if(!isLastManche())
+            this.pesca(Game.mazzo.get(0));
 
-        if(lastManche == 1)
+        if(isLastManche() && lastManche == 0)
             Engine.lastManche();
     }
 
@@ -165,20 +167,25 @@ public class Giocatore {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void msgMancheVinta(int valoreCarte){
-        if(isTerminata())
+        // Se i giocatori stanno per pescare le proprie ultime carte non visualizzerà il messaggio dei punti
+        // ma visualizzerà invece il messaggio "ULTIMA MANCHE"
+        if(isPenultimaManche())
             return;
 
         String points = "+" + valoreCarte + " " + activity.getString(R.string.points) + "!";
 
-        int stringId = Game.user == this ? R.string.tuoturno : R.string.turno;
-        String tocca = activity.getString(stringId).replace("%user", this.getNome());;
+        String titolo = new String();
 
-        String msg = points + "\n" + tocca;
+        if(!isTerminata()){
+            int stringId = Game.user == this ? R.string.tuoturno : R.string.turno;
+            titolo = activity.getString(stringId).replace("%user", this.getNome());;
+        }else{
+            titolo = activity.getString(R.string.matchended);
+        }
 
-        // Se i giocatori stanno per pescare le proprie ultime carte non visualizzerà il messaggio dei punti
-        // ma visualizzerà invece il messaggio "ULTIMA MANCHE"
-        if(!isPenultimaManche())
-            Utility.textAnimation(msg, centerText, () -> clearText(centerText));
+        String msg = points + "\n" + titolo;
+
+        Utility.textAnimation(msg, centerText, () -> clearText(centerText));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

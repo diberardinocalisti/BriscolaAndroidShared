@@ -70,5 +70,6 @@
     <string name="randomcard">Random card type</string>
     <string name="notsure">Or select a random one</string>
     <string name="lastmanche">Last manche!</string>
+    <string name="matchended">Match ended!</string>
 
 </resources>

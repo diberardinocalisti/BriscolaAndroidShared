@@ -231,6 +231,10 @@ public class Engine{
     static void pulisciPianoLaterale(){
         carte[I_BRISCOLA].setBackground(null);
         carte[I_MAZZO].setBackground(null);
+
+        for(Giocatore p : giocatori)
+            if(p != null)
+                p.prendi.setBackground(null);
     }
 
     static Giocatore[] getRandomOrdine(){
@@ -310,6 +314,10 @@ public class Engine{
 
     static boolean isTerminata(){
         return getCarteGiocatori().length == 0;
+    }
+
+    static boolean isLastManche(){
+        return Game.mazzo.size() == 0;
     }
 
     static boolean isPenultimaManche(){

@@ -302,6 +302,10 @@
                         android:id="@+id/avvisocentro"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="40dp"
+                        android:layout_marginLeft="40dp"
+                        android:layout_marginEnd="40dp"
+                        android:layout_marginRight="40dp"
                         android:fontFamily="@font/alfa_slab_one"
                         android:gravity="center"
                         android:shadowColor="#000"
@@ -312,8 +316,8 @@
                         android:textColor="#FFFFFF"
                         android:textSize="18.5sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/button3"
-                        app:layout_constraintStart_toStartOf="@+id/button1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>

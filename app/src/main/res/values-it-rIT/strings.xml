@@ -65,5 +65,6 @@
     <string name="randomcard">Tipo carte casuale</string>
     <string name="notsure">Oppure lascia che lo decida io</string>
     <string name="lastmanche">Ultima manche!</string>
+    <string name="matchended">Partita terminata!</string>
 
 </resources>
