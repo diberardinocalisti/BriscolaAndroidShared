@@ -53,7 +53,7 @@ public class ProvaLoginFirebase extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.prova_login_firebase);
-        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
         Utility.enableTopBar(this);
         createSignInIntent();
     }

@@ -38,8 +38,7 @@ public class postPartita extends AppCompatActivity {
         getSupportActionBar().hide();
 
         setContentView(R.layout.postpartita);
-
-        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         Bundle extras = getIntent().getExtras();
 

@@ -32,6 +32,7 @@ import gameEngine.Utility;
 public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
 
     void loginPage(){
         setContentView(R.layout.login_page);
-        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         callbackManager = CallbackManager.Factory.create();
 
@@ -99,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
 
     void accountPage(){
         setContentView(R.layout.fb_profile);
-        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         TextView nome = findViewById(R.id.nome);
         nome.setText(loginClass.getFBNome() + " " + loginClass.getFBCognome());

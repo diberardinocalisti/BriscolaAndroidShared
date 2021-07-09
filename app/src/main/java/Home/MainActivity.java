@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Utility.enableTopBar(this);
-        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         rank = findViewById(R.id.rank);
 

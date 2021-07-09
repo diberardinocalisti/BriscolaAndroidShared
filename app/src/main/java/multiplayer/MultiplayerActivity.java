@@ -30,7 +30,7 @@ public class MultiplayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_multiplayer);
 
         Utility.enableTopBar(this);
-        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         ActivityMultiplayerGame.onStop = false;
         ActivityMultiplayerGame.start = false;

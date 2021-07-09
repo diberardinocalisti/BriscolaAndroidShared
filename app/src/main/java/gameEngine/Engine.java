@@ -66,13 +66,13 @@ public class Engine{
         Carta.nascondi(carte[I_MAZZO]);
 
         for(String seme : semi)
-            for(int i = 1; i < dimensioneMazzo/semi.length; i++)
+            for(int i = 1; i <= dimensioneMazzo/semi.length; i++)
                 mazzo.add(new Carta(i, seme));
 
         Collections.shuffle(mazzo);
         mazzoIniziale = mazzo.toArray(new Carta[0]);
 
-        aggiornaNCarte(mazzoIniziale.length);
+        aggiornaNCarte(mazzo.size());
     }
 
     public static void creaMazzo(String carte){

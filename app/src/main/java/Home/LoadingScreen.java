@@ -29,13 +29,13 @@ public class LoadingScreen extends AppCompatActivity {
         getSupportActionBar().hide();
 
         setContentView(R.layout.loading_screen);
-        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         new Handler().postDelayed(() -> {
-            if(SharedPref.getTipoCarte().equals("null"))
+            //if(SharedPref.getTipoCarte().equals("null"))
                 this.startActivity(new Intent(this, Initconfig.class));
-            else
-                this.startActivity(new Intent(this, MainActivity.class));
+            //else
+            //this.startActivity(new Intent(this, MainActivity.class));
 
             this.finish();
        }, 2000);

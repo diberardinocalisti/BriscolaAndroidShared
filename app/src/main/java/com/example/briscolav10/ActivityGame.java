@@ -100,6 +100,7 @@ public class ActivityGame extends AppCompatActivity {
         Game.startGame(this);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     protected void startMultiPlayer(){
         if(ActivityMultiplayerGame.onStop){
@@ -108,7 +109,8 @@ public class ActivityGame extends AppCompatActivity {
         }
 
         setContentView(R.layout.stanza_di_attesa);
-        Utility.ridimensionamento(this, findViewById(R.id.campogioco));
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
+        Utility.enableTopBar(this);
 
         attesa = true;
 

@@ -34,9 +34,6 @@ public class Initconfig extends AppCompatActivity {
 
         setContentView(R.layout.choicecard);
 
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
-        Utility.enableTopBar(this);
-
         LinearLayout gallery = this.findViewById(R.id.gallery);
         LayoutInflater inflater = LayoutInflater.from(this);
 
@@ -67,5 +64,9 @@ public class Initconfig extends AppCompatActivity {
             SharedPref.setTipoCarte(randomTipo);
             this.startActivity(new Intent(this, MainActivity.class));
         });
+
+        Utility.enableTopBar(this);
+        Utility.ridimensionamento(this, findViewById(R.id.actionbar));
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
     }
 }
