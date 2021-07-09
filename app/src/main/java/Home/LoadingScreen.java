@@ -20,6 +20,8 @@ public class LoadingScreen extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        final int durataCaricamento = 2000;
+
         super.onCreate(savedInstanceState);
 
         SharedPref.setContext(this);
@@ -38,6 +40,6 @@ public class LoadingScreen extends AppCompatActivity {
                 this.startActivity(new Intent(this, MainActivity.class));
 
             this.finish();
-       }, 2000);
+       }, durataCaricamento);
     }
 }
