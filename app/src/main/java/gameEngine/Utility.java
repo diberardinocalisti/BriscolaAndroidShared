@@ -146,9 +146,13 @@ public class Utility {
         dialog.show();
     }
 
-    public static void goTo(Context c, Class cl)
-    {
+    public static void goTo(Context c, Class cl){
+        goTo((AppCompatActivity) c, cl);
+    }
+
+    public static void goTo(AppCompatActivity c, Class cl){
         Intent i = new Intent(c,cl);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         c.startActivity(i);
     }
 

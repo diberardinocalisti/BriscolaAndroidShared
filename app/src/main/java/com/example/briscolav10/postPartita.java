@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 
 import Home.MainActivity;
@@ -25,6 +24,8 @@ import gameEngine.Game;
 import gameEngine.Utility;
 
 import static gameEngine.Game.activity;
+import static gameEngine.Game.maxPunti;
+import static gameEngine.Game.nGiocatori;
 
 public class postPartita extends AppCompatActivity {
     @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
@@ -42,7 +43,7 @@ public class postPartita extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
 
-        View postpartita = findViewById(R.id.campogioco);
+        View postpartita = findViewById(R.id.parent);
         TextView esito = findViewById(R.id.esito);
         TextView punti = findViewById(R.id.nPunti);
         Button restart = findViewById(R.id.restart);
@@ -52,15 +53,13 @@ public class postPartita extends AppCompatActivity {
         String[] daMostrare = extras.getStringArray("carte");
 
         String background, stato;
-        if(punteggio < Game.maxPunti/2) {
+        if(punteggio < maxPunti/nGiocatori) {
             background = "sconfitta";
             stato = this.getResources().getString(R.string.lost);
-        }
-        else if(punteggio == Game.maxPunti/2) {
+        }else if(punteggio == maxPunti/nGiocatori) {
             background = "pareggio";
             stato = this.getResources().getString(R.string.tie);
-        }
-        else{
+        }else{
             background = "vittoria";
             stato = this.getResources().getString(R.string.win);
         }
@@ -71,7 +70,7 @@ public class postPartita extends AppCompatActivity {
         final int sdk = android.os.Build.VERSION.SDK_INT;
         if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
             postpartita.setBackgroundDrawable(ContextCompat.getDrawable(activity, resID) );
-        } else {
+        }else{
             postpartita.setBackground(ContextCompat.getDrawable(activity, resID));
         }
 
