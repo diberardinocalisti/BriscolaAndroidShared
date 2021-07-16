@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -25,8 +24,6 @@ import Login.loginClass;
 import gameEngine.Game;
 import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
-
-import static gameEngine.Utility.oneLineDialog;
 
 public class MainActivity extends AppCompatActivity {
     View[] button = new View[5];

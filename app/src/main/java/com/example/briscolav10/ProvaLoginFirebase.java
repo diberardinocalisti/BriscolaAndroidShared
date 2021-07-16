@@ -8,7 +8,6 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,7 +28,6 @@ import java.util.Collections;
 import java.util.List;
 
 import Home.MainActivity;
-import firebase.FirebaseClass;
 import gameEngine.Utility;
 
 public class ProvaLoginFirebase extends AppCompatActivity {

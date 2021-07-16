@@ -1,24 +1,35 @@
 package multiplayer;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.NotNull;
 
+import Login.loginClass;
+import firebase.FirebaseClass;
 import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
 
 public class MultiplayerActivity extends AppCompatActivity {
-
-    Button button[] = new Button[4];
+    Button[] button = new Button[4];
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +61,7 @@ public class MultiplayerActivity extends AppCompatActivity {
                         engineMultiplayer.role = "HOST";
                         break;
                     case 2:
-                        Utility.createInputDialogMultiplayer(MultiplayerActivity.this);
+                        createInputDialog();
                         break;
                     case 3:
                         MultiplayerActivity.super.onBackPressed();
@@ -73,11 +84,58 @@ public class MultiplayerActivity extends AppCompatActivity {
         applyOverrideConfiguration(override);
     }
 
-    /*@Override
-    protected void onStop() {
-        super.onStop();
+    public void createInputDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        Toast.makeText(getApplicationContext(),"CHIUSA",Toast.LENGTH_LONG).show();
-    }*/
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View tipoCarteView = inflater.inflate( R.layout.input_codice_stanza, null );
+        EditText input = tipoCarteView.findViewById(R.id.inputCodice);
 
+        builder.setPositiveButton(this.getString(R.string.ok), (dialog, which) -> FirebaseClass.getFbRefSpeicific(input.getText().toString().toUpperCase()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                        String host = "null";
+                        String enemy = "null";
+
+                        if(dataSnapshot.exists())
+                        {
+                            for(DataSnapshot d : dataSnapshot.getChildren()){
+                                String key = d.getKey();
+                                Object value = d.getValue();
+
+                                if(key.equals("host"))
+                                    host = String.valueOf(value);
+                                if(key.equals("enemy"))
+                                    enemy = String.valueOf(value);
+                            }
+
+                            if(!host.equals("null") && !enemy.equals("null")){
+                                Toast.makeText(MultiplayerActivity.this.getApplicationContext(), MultiplayerActivity.this.getText(R.string.roomfull), Toast.LENGTH_LONG).show();
+                            }else{
+                                engineMultiplayer.codiceStanza = input.getText().toString();
+                                engineMultiplayer.role = "NOTHOST";
+                                FirebaseClass.editFieldFirebase(input.getText().toString(),"enemy", loginClass.getFBNome());
+                                Utility.goTo(MultiplayerActivity.this, ActivityMultiplayerGame.class);
+                            }
+                        }else{
+                            Toast.makeText(MultiplayerActivity.this, MultiplayerActivity.this.getText(R.string.roomnotexisting), Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
+
+                    }
+
+                })
+        );
+
+        builder.setNegativeButton(this.getString(R.string.cancel), null);
+        builder.setView(tipoCarteView);
+
+        // Create the AlertDialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }

@@ -32,7 +32,6 @@ import com.google.firebase.database.annotations.NotNull;
 
 import Home.MainActivity;
 import Login.loginClass;
-import UI.CDialog;
 import firebase.FirebaseClass;
 import gameEngine.Game;
 import gameEngine.Utility;
@@ -41,7 +40,6 @@ import multiplayer.Game.ActivityMultiplayerGame;
 import static Login.loginClass.getFBNome;
 import static Login.loginClass.isFacebookLoggedIn;
 import static Login.loginClass.setImgProfile;
-import static gameEngine.Utility.oneLineDialog;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class ActivityGame extends AppCompatActivity {
@@ -148,25 +146,19 @@ public class ActivityGame extends AppCompatActivity {
             public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError databaseError) {
                 System.out.println("ERROREEEE");
             }
-
-
         });
 
         chiudi.setOnClickListener(v -> {
-
-            DialogInterface.OnClickListener action = (dialog, which) -> {
-
+            Utility.oneLineDialog(ActivityGame.this, this.getString(R.string.leavegame), () -> {
                 //Elimino la stanza dal db
                 FirebaseClass.deleteFieldFirebase(null,codiceStanza);
 
                 //Lo riporto nella homepage
                 Utility.goTo(ActivityGame.this, MainActivity.class);
-            };
-
-            Utility.confirmDenyDialog(ActivityGame.this, this.getString(R.string.leavegame), this.getString(R.string.confirmleavegame), action, null);
-
+            });
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();

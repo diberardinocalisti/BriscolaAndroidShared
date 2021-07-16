@@ -1,13 +1,15 @@
 package gameEngine;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.os.Build;
-import android.service.autofill.Dataset;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -20,6 +22,8 @@ import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,17 +38,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 
-import org.w3c.dom.Text;
-
 import Login.loginClass;
 import firebase.FirebaseClass;
 import multiplayer.Game.ActivityMultiplayerGame;
-import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
 
 import static gameEngine.Game.activity;
 import static gameEngine.Game.textAnimDuration;
-import static gameEngine.Game.viewAnimDuration;
 
 public class Utility {
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -67,28 +67,25 @@ public class Utility {
         new UI.CDialog((Activity) c, title, callback).show();
     }
 
-    public static void createDialog(Context c, String title, String msg){
-        confirmDialog(c, title, msg, null, null);
-    }
+    public static void createDialog(AppCompatActivity c, String title, String msg){
+        Dialog dialog = new Dialog(c);
 
-    public static void confirmDialog(Context c, String title, String message, DialogInterface.OnClickListener action, DialogInterface.OnCancelListener onCancel){
-        AlertDialog.Builder builder = new AlertDialog.Builder(c);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton(c.getString(R.string.ok), action);
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+        dialog.setContentView(R.layout.text_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-    public static void confirmDenyDialog(Context c, String title, String message, DialogInterface.OnClickListener action, DialogInterface.OnCancelListener onCancel){
-        AlertDialog.Builder builder = new AlertDialog.Builder(c);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton(c.getString(R.string.ok), action);
-        builder.setNegativeButton(c.getString(R.string.cancel), null);
-        builder.setOnCancelListener(onCancel);
-        AlertDialog alert = builder.create();
-        alert.show();
+        TextView dialogTitle = dialog.findViewById(R.id.titleDialog);
+        TextView dialogText = dialog.findViewById(R.id.textDialog);
+
+        dialogTitle.setText(title);
+        dialogText.setText(msg);
+
+        Button dialogOk = dialog.findViewById(R.id.okDialog);
+        dialogOk.setOnClickListener(v -> dialog.dismiss());
+
+        ImageView dialogClose = dialog.findViewById(R.id.closeDialog);
+        dialogClose.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
     }
 
     public static void createInputDialogMultiplayer(Context c){
