@@ -25,6 +25,7 @@ import com.google.firebase.database.annotations.NotNull;
 
 import Login.loginClass;
 import firebase.FirebaseClass;
+import gameEngine.RunnablePar;
 import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
 
@@ -85,57 +86,46 @@ public class MultiplayerActivity extends AppCompatActivity {
     }
 
     public void createInputDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        Utility.inputDialog(this, this.getString(R.string.insertcode), (Object par) -> {
+            String input = ((String) par).toUpperCase();
 
-        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View tipoCarteView = inflater.inflate( R.layout.input_codice_stanza, null );
-        EditText input = tipoCarteView.findViewById(R.id.inputCodice);
+            FirebaseClass.getFbRefSpeicific(input).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                    String host = "null";
+                    String enemy = "null";
 
-        builder.setPositiveButton(this.getString(R.string.ok), (dialog, which) -> FirebaseClass.getFbRefSpeicific(input.getText().toString().toUpperCase()).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
-                        String host = "null";
-                        String enemy = "null";
+                    if(dataSnapshot.exists()){
+                        for(DataSnapshot d : dataSnapshot.getChildren()){
+                            String key = d.getKey();
+                            Object value = d.getValue();
 
-                        if(dataSnapshot.exists())
-                        {
-                            for(DataSnapshot d : dataSnapshot.getChildren()){
-                                String key = d.getKey();
-                                Object value = d.getValue();
-
-                                if(key.equals("host"))
-                                    host = String.valueOf(value);
-                                if(key.equals("enemy"))
-                                    enemy = String.valueOf(value);
-                            }
-
-                            if(!host.equals("null") && !enemy.equals("null")){
-                                Toast.makeText(MultiplayerActivity.this.getApplicationContext(), MultiplayerActivity.this.getText(R.string.roomfull), Toast.LENGTH_LONG).show();
-                            }else{
-                                engineMultiplayer.codiceStanza = input.getText().toString();
-                                engineMultiplayer.role = "NOTHOST";
-                                FirebaseClass.editFieldFirebase(input.getText().toString(),"enemy", loginClass.getFBNome());
-                                Utility.goTo(MultiplayerActivity.this, ActivityMultiplayerGame.class);
-                            }
-                        }else{
-                            Toast.makeText(MultiplayerActivity.this, MultiplayerActivity.this.getText(R.string.roomnotexisting), Toast.LENGTH_LONG).show();
+                            if(key.equals("host"))
+                                host = String.valueOf(value);
+                            if(key.equals("enemy"))
+                                enemy = String.valueOf(value);
                         }
 
+                        if(!host.equals("null") && !enemy.equals("null")){
+                            Toast.makeText(MultiplayerActivity.this.getApplicationContext(), MultiplayerActivity.this.getText(R.string.roomfull), Toast.LENGTH_LONG).show();
+                        }else{
+                            engineMultiplayer.codiceStanza = input;
+                            engineMultiplayer.role = "NOTHOST";
+                            FirebaseClass.editFieldFirebase(input,"enemy", loginClass.getFBNome());
+                            Utility.goTo(MultiplayerActivity.this, ActivityMultiplayerGame.class);
+                        }
+                    }else{
+                        Toast.makeText(MultiplayerActivity.this, MultiplayerActivity.this.getText(R.string.roomnotexisting), Toast.LENGTH_LONG).show();
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
+                }
 
-                    }
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
 
-                })
-        );
+                }
 
-        builder.setNegativeButton(this.getString(R.string.cancel), null);
-        builder.setView(tipoCarteView);
-
-        // Create the AlertDialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
+            });
+        });
     }
 }

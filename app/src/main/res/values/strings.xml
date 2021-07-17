@@ -71,5 +71,7 @@
     <string name="notsure">Or select a random one</string>
     <string name="lastmanche">Last manche!</string>
     <string name="matchended">Match ended!</string>
+    <string name="confirm">Confirm</string>
+    <string name="inserttext">Insert here...</string>
 
 </resources>

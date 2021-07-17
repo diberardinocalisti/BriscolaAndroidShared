@@ -202,25 +202,4 @@ public class ActivityGame extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-/*
-        switch(id){
-            case R.id.impostazioni:
-                new Settings().createSettingsMenu(this);
-                return true;
-
-            case R.id.leavegame:
-                Utility.confirmDenyDialog(this, this.getString(R.string.leavegame),
-                        this.getString(R.string.confirmleavegame),
-                        (dialog, which) -> Utility.goTo(Game.activity, MainActivity.class),
-                        null);
-                return true;
-        }
-*/
-        return super.onOptionsItemSelected(item);
-    }
 }

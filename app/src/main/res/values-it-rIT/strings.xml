@@ -18,7 +18,7 @@
     <string name="tottie">Partite pareggiate:</string>
     <string name="rateo">Rateo V/S:</string>
     <string name="accountid">ID Account:</string>
-    <string name="insertcode">Inserisci il codice della stanza</string>
+    <string name="insertcode">Inserisci il codice</string>
     <string name="loading">Caricamento...</string>
     <string name="credits">Creato da Daniele Calisti e Di Berardino Simone</string>
     <string name="whylogin">Perché accedere?</string>
@@ -66,5 +66,7 @@
     <string name="notsure">Oppure lascia che lo decida io</string>
     <string name="lastmanche">Ultima manche!</string>
     <string name="matchended">Partita terminata!</string>
+    <string name="confirm">Conferma</string>
+    <string name="inserttext">Inserisci qui...</string>
 
 </resources>

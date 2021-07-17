@@ -63,6 +63,31 @@ public class Utility {
         c.findViewById(id).setOnClickListener(v -> new Settings().createSettingsMenu(c));
     }
 
+    public static void inputDialog(Context c, String title, RunnablePar callback){
+        Dialog dialog = new Dialog(c);
+
+        dialog.setContentView(R.layout.input_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextView dialogTitle = dialog.findViewById(R.id.titleDialog);
+        dialogTitle.setText(title);
+
+        TextView dialogInput = dialog.findViewById(R.id.inputDialog);
+
+        Runnable action = () -> {
+            callback.run(dialogInput.getText().toString());
+            dialog.dismiss();
+        };
+
+        Button dialogOk = dialog.findViewById(R.id.okDialog);
+        dialogOk.setOnClickListener(v -> action.run());
+
+        ImageView dialogClose = dialog.findViewById(R.id.closeDialog);
+        dialogClose.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
     public static void oneLineDialog(Context c, String title, Runnable callback){
         new UI.CDialog((Activity) c, title, callback).show();
     }
@@ -86,65 +111,6 @@ public class Utility {
         dialogClose.setOnClickListener(v -> dialog.dismiss());
 
         dialog.show();
-    }
-
-    public static void createInputDialogMultiplayer(Context c){
-        AlertDialog.Builder builder = new AlertDialog.Builder(c);
-
-        LayoutInflater inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View tipoCarteView = inflater.inflate( R.layout.input_codice_stanza, null );
-        EditText input = tipoCarteView.findViewById(R.id.inputCodice);
-
-        builder.setPositiveButton(c.getString(R.string.ok), (dialog, which) -> FirebaseClass.getFbRefSpeicific(input.getText().toString().toUpperCase()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
-                String host = "null";
-                String enemy = "null";
-
-                if(dataSnapshot.exists())
-                {
-                    for(DataSnapshot d : dataSnapshot.getChildren()){
-                        String key = d.getKey();
-                        Object value = d.getValue();
-
-                        if(key.equals("host"))
-                            host = String.valueOf(value);
-                        if(key.equals("enemy"))
-                            enemy = String.valueOf(value);
-                    }
-
-                    if(!host.equals("null") && !enemy.equals("null")){
-                        Toast.makeText(c.getApplicationContext(), c.getText(R.string.roomfull), Toast.LENGTH_LONG).show();
-                    }else{
-                        engineMultiplayer.codiceStanza = input.getText().toString();
-                        engineMultiplayer.role = "NOTHOST";
-                        FirebaseClass.editFieldFirebase(input.getText().toString(),"enemy", loginClass.getFBNome());
-                        goTo(c, ActivityMultiplayerGame.class);
-                    }
-                }else{
-                    Toast.makeText(c, c.getText(R.string.roomnotexisting), Toast.LENGTH_LONG).show();
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
-
-            }
-
-        })
-        );
-
-        builder.setNegativeButton(c.getString(R.string.cancel), null);
-        builder.setView(tipoCarteView);
-
-        // Create the AlertDialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-    }
-
-    public static void goTo(Context c, Class cl){
-        goTo((AppCompatActivity) c, cl);
     }
 
     public static void goTo(AppCompatActivity c, Class cl){
