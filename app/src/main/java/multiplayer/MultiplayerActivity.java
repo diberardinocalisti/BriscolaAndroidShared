@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -111,6 +112,7 @@ public class MultiplayerActivity extends AppCompatActivity {
                         }else{
                             engineMultiplayer.codiceStanza = input;
                             engineMultiplayer.role = "NOTHOST";
+                            ActivityGame.multiplayer = true;
                             FirebaseClass.editFieldFirebase(input,"enemy", loginClass.getFBNome());
                             Utility.goTo(MultiplayerActivity.this, ActivityMultiplayerGame.class);
                         }

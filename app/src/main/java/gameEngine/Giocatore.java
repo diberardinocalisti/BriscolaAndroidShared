@@ -265,7 +265,14 @@ public class Giocatore {
             synchronized (event){
                 try {
                     event.wait();
-                    activity.runOnUiThread(() -> Giocatore.this.carte[indice].abilita());
+                    activity.runOnUiThread(() -> {
+                        Giocatore.this.carte[indice].abilita();
+
+                        if(Game.user == this)
+                            Giocatore.this.carte[indice].mostra();
+                        else
+                            Giocatore.this.carte[indice].nascondi();
+                    });
                     if(callback != null)
                         callback.run();
                 } catch (InterruptedException e) {

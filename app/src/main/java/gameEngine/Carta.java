@@ -43,12 +43,13 @@ public class Carta {
     }
 
     public void abilita(){
+        this.mostra();
         this.b.setEnabled(true);
         this.b.setVisibility(View.VISIBLE);
 
         boolean scoperte = SharedPref.getCarteScoperte();
 
-        if(ActivityGame.multiplayer) {
+        /*if(ActivityGame.multiplayer) {
             if (Game.user == this.portatore)
                 this.mostra();
             else
@@ -62,7 +63,7 @@ public class Carta {
             } else {
                 this.mostra();
             }
-        }
+        }*/
     }
 
     public void disabilita(){
