@@ -212,6 +212,7 @@ public class engineMultiplayer {
         distribuisci = true;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initEnemy(){
         Giocatore[] app = new Giocatore[nGiocatori];
         app[0] = host;
@@ -252,8 +253,6 @@ public class engineMultiplayer {
 
                 final Button bottone = (Button) v;
                 final Carta carta = Engine.getCartaFromButton(bottone);
-
-                System.out.println(carta.getNome());
 
                 int index = Game.user.getIndexFromCarta(carta);
 

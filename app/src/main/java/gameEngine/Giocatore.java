@@ -126,7 +126,6 @@ public class Giocatore {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void pesca(Carta carta) {
         this.prendi(carta);
-        carta.nascondi();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
