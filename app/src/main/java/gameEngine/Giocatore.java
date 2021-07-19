@@ -126,9 +126,7 @@ public class Giocatore {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void pesca(Carta carta) {
         this.prendi(carta);
-
-        if(Game.user != this)
-            carta.nascondi();
+        carta.nascondi();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

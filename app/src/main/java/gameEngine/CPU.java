@@ -7,6 +7,8 @@ import androidx.annotation.RequiresApi;
 
 import java.util.ArrayList;
 
+import Home.SharedPref;
+
 import static gameEngine.Engine.*;
 import static gameEngine.Game.*;
 
@@ -24,7 +26,10 @@ public class CPU extends Giocatore {
             if(callback != null)
                 callback.run();
 
-            CPU.this.carte[indice].nascondi();
+            boolean scoperte = SharedPref.getCarteScoperte();
+
+            if(!scoperte)
+                CPU.this.carte[indice].nascondi();
         }));
     }
 

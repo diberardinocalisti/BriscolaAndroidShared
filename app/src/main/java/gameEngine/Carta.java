@@ -159,9 +159,7 @@ public class Carta {
     }
 
     public void nascondi() {
-        boolean scoperte = SharedPref.getCarteScoperte();
-
-        if(!scoperte && this.b != null && this.portatore.isCPU()) {
+        if(this.b != null && Game.user != this.portatore) {
             this.coperta = true;
             nascondi(this.b);
         }
