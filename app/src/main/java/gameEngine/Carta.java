@@ -7,7 +7,6 @@ import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 
 import Home.MainMenu;
@@ -46,24 +45,6 @@ public class Carta {
         this.mostra();
         this.b.setEnabled(true);
         this.b.setVisibility(View.VISIBLE);
-
-        boolean scoperte = SharedPref.getCarteScoperte();
-
-        /*if(ActivityGame.multiplayer) {
-            if (Game.user == this.portatore)
-                this.mostra();
-            else
-                this.nascondi();
-        }else {
-            if (Game.CPU == this.portatore) {
-                if (scoperte)
-                    this.mostra();
-                else
-                    this.nascondi();
-            } else {
-                this.mostra();
-            }
-        }*/
     }
 
     public void disabilita(){
