@@ -63,6 +63,7 @@ public class Utility{
         c.findViewById(id).setOnClickListener(v -> new Settings().createSettingsMenu(c));
     }
 
+    // Input dialog;
     public static void inputDialog(Context c, String title, RunnablePar callback){
         Dialog dialog = new Dialog(c);
 
