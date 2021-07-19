@@ -161,7 +161,7 @@ public class Carta {
     public void nascondi() {
         boolean scoperte = SharedPref.getCarteScoperte();
 
-        if(!scoperte && this.b != null) {
+        if(!scoperte && this.b != null && this.portatore.isCPU()) {
             this.coperta = true;
             nascondi(this.b);
         }
