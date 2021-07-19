@@ -121,8 +121,12 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 if(!onStop){
                     checkIfSomeoneLeft();
 
-                    if(!distribuisci) {
-                        engineMultiplayer.distribuisciCarte();
+                    if(!distribuisci){
+                        if(roleId.equals("host"))
+                            initHost();
+                        else if(!snapshot.getCarteRimanenti().equals("null"))
+                            initEnemy();
+
                         engineMultiplayer.onClick();
                     }else{
                         engineMultiplayer.cartaGiocata();

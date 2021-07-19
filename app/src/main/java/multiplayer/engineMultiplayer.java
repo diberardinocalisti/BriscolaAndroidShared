@@ -196,29 +196,35 @@ public class engineMultiplayer {
         }).start();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void distribuisciCarte(){
-        giocante = null;
-
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void initHost(){
         Giocatore[] app = new Giocatore[nGiocatori];
         app[0] = host;
         app[1] = enemy;
 
-        if(role.equals("HOST")){
-            mazzoOnline = engineMultiplayer.creaMazzoFirebase();
-            snapshot.setCarteRimanenti(mazzoOnline);
+        mazzoOnline = engineMultiplayer.creaMazzoFirebase();
+        snapshot.setCarteRimanenti(mazzoOnline);
 
-            FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti", mazzoOnline);
+        FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti", mazzoOnline);
 
-            gameEngine.Engine.distribuisciCarte(null, app);
-        }else{
-            new Handler().postDelayed(() -> {
-                mazzoOnline = snapshot.getCarteRimanenti();
-                Engine.creaMazzo(mazzoOnline);
+        gameEngine.Engine.distribuisciCarte(null, app);
 
-                gameEngine.Engine.distribuisciCarte(null, app);
-            }, 1000);
-        }
+        distribuisci = true;
+    }
+
+    public static void initEnemy(){
+        Giocatore[] app = new Giocatore[nGiocatori];
+        app[0] = host;
+        app[1] = enemy;
+
+        mazzoOnline = snapshot.getCarteRimanenti();
+
+        if(mazzoOnline.equals("null"))
+            return;
+
+        Engine.creaMazzo(mazzoOnline);
+
+        gameEngine.Engine.distribuisciCarte(null, app);
 
         distribuisci = true;
     }

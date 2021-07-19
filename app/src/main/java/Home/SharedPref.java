@@ -30,7 +30,6 @@ public class SharedPref {
         return sharedPreferences.getString(TIPO_CARTE_ID, CARTE_DEFAULT);
     }
 
-
     public static void setCarteScoperte(boolean flag){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
