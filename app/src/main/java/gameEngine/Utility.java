@@ -46,7 +46,7 @@ import multiplayer.engineMultiplayer;
 import static gameEngine.Game.activity;
 import static gameEngine.Game.textAnimDuration;
 
-public class Utility {
+public class Utility{
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void enableTopBar(AppCompatActivity c){
         int resId = c.getResources().getIdentifier("topbar", "drawable", c.getPackageName());
