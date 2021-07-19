@@ -157,15 +157,14 @@ public class engineMultiplayer {
 
         // @Todo: Gestire i turni;
         if(!roleId.equals(turno)){
-            Engine.muoviCarta(c.getPortatore().bottoni[indice], Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[lastManche][0]], c,false, false, true, event);
+            Engine.muoviCarta(c.getButton(), Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[lastManche][0]], c,false, false, true, event);
             giocaCarta(c, event);
         }else{
-            View daMuovere = Game.carteBottoni[indice];
+            View daMuovere = c.getPortatore().bottoni[indice];
 
-            assert c != null;
             c.setButton(daMuovere);
 
-            muoviCarta(c.getPortatore().bottoni[indice], Game.carte[I_CAMPO_GIOCO[lastManche][0]], c,false, true, false, event);
+            muoviCarta(c.getButton(), Game.carte[I_CAMPO_GIOCO[lastManche][0]], c,false, true, false, event);
             giocaCarta(c, event);
         }
     }
