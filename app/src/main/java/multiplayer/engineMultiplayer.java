@@ -160,7 +160,7 @@ public class engineMultiplayer {
             Engine.muoviCarta(c.getButton(), Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[lastManche][0]], c,false, false, true, event);
             giocaCarta(c, event);
         }else{
-            View daMuovere = c.getPortatore().bottoni[indice];
+            View daMuovere = Game.carteBottoni[indice];
 
             c.setButton(daMuovere);
 
