@@ -268,10 +268,12 @@ public class Giocatore {
                     activity.runOnUiThread(() -> {
                         Giocatore.this.carte[indice].abilita();
 
-                        if(Game.user == this)
-                            Giocatore.this.carte[indice].mostra();
-                        else
-                            Giocatore.this.carte[indice].nascondi();
+                        if(Game.CPU != this){
+                            if(Game.user == this)
+                                Giocatore.this.carte[indice].mostra();
+                            else
+                                Giocatore.this.carte[indice].nascondi();
+                        }
                     });
                     if(callback != null)
                         callback.run();
