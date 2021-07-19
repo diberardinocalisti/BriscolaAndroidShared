@@ -179,7 +179,6 @@ public class Carta {
             int resID = getImage(0);
             return activity.getResources().getDrawable(resID);
         }catch(Exception e){
-            System.out.println("Errore a " + this.getNome());
             return getVuoto();
         }
     }
