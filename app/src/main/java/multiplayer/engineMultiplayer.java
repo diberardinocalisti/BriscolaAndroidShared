@@ -14,7 +14,6 @@ import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 import Home.MainActivity;
@@ -115,20 +114,22 @@ public class engineMultiplayer {
         Game.user = giocatori[1];
         Game.opp = giocatori[0];
 
-
         if(role.equals("HOST")) {
             host = Game.user;
             enemy = Game.opp;
+
+            ((GiocatoreMP) Game.user).setRuolo("host");
+            ((GiocatoreMP) Game.opp).setRuolo("enemy");
         }else{
             host = Game.opp;
             enemy = Game.user;
+
+            ((GiocatoreMP) Game.user).setRuolo("enemy");
+            ((GiocatoreMP) Game.opp).setRuolo("host");
         }
-
-        System.out.println("host " + host.getNome());
-        System.out.println("enemy" + enemy.getNome());
-
     }
 
+    // @Todo: da gestire i turni (comincia sempre l'host)
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void cartaGiocata(){
         String turno = snapshot.getTurno();
@@ -143,30 +144,24 @@ public class engineMultiplayer {
 
         Carta c = Engine.getCartaFromName(nome);
 
-        // Todo: il controllo del turno va fatto nell'onClick
         Game.canPlay = (roleId.equals(turno));
-
-        //setButton(Game.canPlay);
-
         giocante = Game.canPlay ? Game.user : Game.opp;
-        System.out.println(giocante.getNome() + " giocante");
+
         Object event = new Object();
 
         if(c.getPortatore() == null)
             return;
 
         // @Todo: Gestire i turni;
-        if(!roleId.equals(turno)){
-            Engine.muoviCarta(c.getButton(), Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[lastManche][0]], c,false, false, true, event);
-            giocaCarta(c, event);
-        }else{
-            View daMuovere = Game.carteBottoni[indice];
+        View daMuovere = c.getPortatore().bottoni[indice];
 
-            c.setButton(daMuovere);
+        if(!daMuovere.isEnabled())
+            return;
 
-            muoviCarta(c.getButton(), Game.carte[I_CAMPO_GIOCO[lastManche][0]], c,false, true, false, event);
-            giocaCarta(c, event);
-        }
+        c.setButton(daMuovere);
+
+        muoviCarta(daMuovere, Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[lastManche][0]], c,false, true, false, event);
+        giocaCarta(c, event);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -179,13 +174,14 @@ public class engineMultiplayer {
                         Game.canPlay = true;
 
                         c.getPortatore().lancia(c);
+
                         final Giocatore vincente = doLogic(c, getOtherCarta(c));
 
                         if(vincente == null) {
-                            prossimoTurno(getOtherPlayer(c.getPortatore()));
+                            prossimoTurno((GiocatoreMP) getOtherPlayer(c.getPortatore()));
                         }else{
                             // Todo: ridefinire il metodo terminaManche per il multiplayer;
-                            new Handler().postDelayed(() -> terminaManche(vincente), 1750);
+                            new Handler().postDelayed(() -> terminaManche((GiocatoreMP) vincente), intermezzo);
                         }
                     });
                 }
@@ -195,7 +191,7 @@ public class engineMultiplayer {
         }).start();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void initHost(){
         Giocatore[] app = new Giocatore[nGiocatori];
         app[0] = host;
@@ -206,6 +202,7 @@ public class engineMultiplayer {
 
         FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti", mazzoOnline);
 
+        Engine.estraiBriscola();
         gameEngine.Engine.distribuisciCarte(null, app);
 
         distribuisci = true;
@@ -219,10 +216,8 @@ public class engineMultiplayer {
 
         mazzoOnline = snapshot.getCarteRimanenti();
 
-        if(mazzoOnline.equals("null"))
-            return;
-
         Engine.creaMazzo(mazzoOnline);
+        Engine.estraiBriscola();
 
         gameEngine.Engine.distribuisciCarte(null, app);
 
@@ -230,17 +225,25 @@ public class engineMultiplayer {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void creaMazzoIniziale(){
-        mazzoIniziale = new Carta[Game.dimensioneMazzo];
-        ArrayList<Carta> mazzoApp = new ArrayList<>();
+    public static void prossimoTurno(GiocatoreMP p){
+        if(p == null)
+            return;
 
-        for(String seme : semi)
-            for(Integer i = 1; i <= 10; i++)
-                mazzoApp.add(new Carta(i, seme));
-
-        mazzoIniziale = mazzoApp.toArray(new Carta[0]);
+        engineMultiplayer.setTurno(p.getRuolo());
+        Engine.prossimoTurno(p);
     }
-    
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void terminaManche(GiocatoreMP vincitore){
+        FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost", "null");
+        FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy", "null");
+
+        snapshot.setGiocataDaHost("null");
+        snapshot.setGiocataDaEnemy("null");
+
+        Engine.terminaManche(vincitore);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void onClick(){
         for(Button b : Game.user.bottoni){
@@ -258,13 +261,17 @@ public class engineMultiplayer {
                 Game.canPlay = false;
 
                 if(role.equals("HOST")){
-                    //Modifico giocataDaHost
                     FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",carta.getNome()+"#"+index);
-                    FirebaseClass.editFieldFirebase(codiceStanza,"turno","enemy");
+
+                    // DA RIVEDERE!! Bisogna gestire i turni in base a chi vince la manche, e non sempre in base a chi ha tirato per ultimo.
+                    if(getCarteGiocate().length < nGiocatori)
+                        setTurno("enemy");
                 }else{
-                    //Modifico giocataDaEnemy
                     FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy",carta.getNome()+"#"+index);
-                    FirebaseClass.editFieldFirebase(codiceStanza,"turno","host");
+
+                    // DA RIVEDERE!! Bisogna gestire i turni in base a chi vince la manche, e non sempre in base a chi ha tirato per ultimo.
+                    if(getCarteGiocate().length < nGiocatori)
+                        setTurno("host");
                 }
             });
         }
@@ -278,25 +285,9 @@ public class engineMultiplayer {
         Engine.aggiornaNCarte(strTok.length);
     }
 
-    public static ArrayList<String> stringMazzoToArray(){
-        ArrayList<String> mazzoArrlst = new ArrayList<>();
-        String[] mazzoArr = mazzoOnline.split(DELIMITER);
-
-        Collections.addAll(mazzoArrlst, mazzoArr);
-
-        return mazzoArrlst;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static ArrayList<Carta> stringToArrayCarta(){
-        String[] mazzoStringa = stringMazzoToArray().toArray(new String[0]);
-        ArrayList<Carta> mazzoCarta = new ArrayList<>();
-
-        for(String c : mazzoStringa){
-            mazzoCarta.add(Engine.getCartaFromName(c));
-        }
-
-        return mazzoCarta;
+    public static void setTurno(String turno){
+        FirebaseClass.editFieldFirebase(codiceStanza,"turno", turno);
+        snapshot.setTurno(turno);
     }
 
 

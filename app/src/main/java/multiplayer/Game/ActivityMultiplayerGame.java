@@ -155,7 +155,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         onStop = true;
     }
 
-
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void attachBaseContext(Context newBase) {

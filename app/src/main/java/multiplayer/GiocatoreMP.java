@@ -20,8 +20,19 @@ import static multiplayer.Game.ActivityMultiplayerGame.*;
 import static multiplayer.engineMultiplayer.removeCardFromMazzo;
 
 public class GiocatoreMP extends Giocatore {
+    public String ruolo;
+
     public GiocatoreMP(String player, int i) {
         super(player, i);
+        this.ruolo = ruolo;
+    }
+
+    public String getRuolo(){
+        return ruolo;
+    }
+
+    public void setRuolo(String ruolo){
+        this.ruolo = ruolo;
     }
 
     /*@RequiresApi(api = Build.VERSION_CODES.O)

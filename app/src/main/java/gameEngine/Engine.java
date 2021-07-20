@@ -116,7 +116,7 @@ public class Engine{
         }
     }
 
-    static void estraiBriscola(){
+    public static void estraiBriscola(){
         briscola = mazzo.get(0);
         mazzo.remove(briscola);
         mazzo.add(briscola);
