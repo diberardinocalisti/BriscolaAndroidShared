@@ -70,6 +70,8 @@ public class Game {
         tipoCarte = SharedPref.getTipoCarte().toLowerCase();
         centerText = activity.findViewById(R.id.avviso);
 
+        Engine.aggiornaNCarte(0);
+
         for(int i = 0; i < carte.length; i++){
             String idS = "button" + (i+1);
             int id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
@@ -83,6 +85,7 @@ public class Game {
             }
         }
 
+        Utility.enableTopBar(activity);
         Engine.pulisciTavolo();
     }
 

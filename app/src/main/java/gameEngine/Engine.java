@@ -31,6 +31,7 @@ import Home.SharedPref;
 
 import static Login.loginClass.*;
 import static gameEngine.Game.*;
+import static gameEngine.Game.carte;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
@@ -80,6 +81,7 @@ public class Engine{
         final String delTipo = "_";
 
         String[] carteSplit = carte.split(delCarte);
+        Carta.nascondi(Game.carte[I_MAZZO]);
 
         for(String c : carteSplit){
 
@@ -128,6 +130,9 @@ public class Engine{
         Object event = new Object();
 
         new Thread(() -> {
+            for(Giocatore p : players)
+                p.mazzo.setVisibility(View.INVISIBLE);
+
             for(Giocatore p : players){
                 activity.runOnUiThread(p::svuotaMazzo);
 
@@ -218,7 +223,7 @@ public class Engine{
             return null;
     }
 
-    static void pulisciTavolo(){
+    public static void pulisciTavolo(){
         pulisciPianoGioco();
         pulisciPianoLaterale();
     }
@@ -231,7 +236,10 @@ public class Engine{
     static void pulisciPianoLaterale(){
         carte[I_BRISCOLA].setBackground(null);
         carte[I_MAZZO].setBackground(null);
+        pulisciPrese();
+    }
 
+    public static void pulisciPrese(){
         for(Giocatore p : giocatori)
             if(p != null)
                 p.prendi.setBackground(null);
@@ -410,7 +418,7 @@ public class Engine{
     public static void aggiornaNCarte(Integer n_Carte){
         TextView icona = activity.findViewById(R.id.n_carte);
 
-        if(n_Carte== 0) {
+        if(n_Carte == 0) {
             icona.setVisibility(View.INVISIBLE);
         }else{
             icona.setText(n_Carte.toString());

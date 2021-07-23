@@ -65,6 +65,8 @@ public class engineMultiplayer {
     public static void inizializza(ActivityMultiplayerGame c){
         Game.initialize(c);
         creaGiocatori();
+        Engine.pulisciTavolo();
+        Engine.pulisciPrese();
     }
 
     public static void checkIfSomeoneLeft(){
@@ -144,8 +146,8 @@ public class engineMultiplayer {
 
         Carta c = Engine.getCartaFromName(nome);
 
-        Game.canPlay = (roleId.equals(turno));
-        giocante = Game.canPlay ? Game.user : Game.opp;
+        Game.canPlay = false;
+        giocante =  (roleId.equals(turno)) ? Game.user : Game.opp;
 
         Object event = new Object();
 
@@ -180,7 +182,6 @@ public class engineMultiplayer {
                         if(vincente == null) {
                             prossimoTurno((GiocatoreMP) getOtherPlayer(c.getPortatore()));
                         }else{
-                            // Todo: ridefinire il metodo terminaManche per il multiplayer;
                             new Handler().postDelayed(() -> terminaManche((GiocatoreMP) vincente), intermezzo);
                         }
                     });
@@ -248,9 +249,10 @@ public class engineMultiplayer {
     public static void onClick(){
         for(Button b : Game.user.bottoni){
             b.setOnClickListener(v -> {
-                Game.canPlay = roleId.equals(snapshot.getTurno());
-
                 if(!Game.canPlay)
+                    return;
+
+                if(!roleId.equals(snapshot.getTurno()))
                     return;
 
                 final Button bottone = (Button) v;
@@ -275,14 +277,6 @@ public class engineMultiplayer {
                 }
             });
         }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void aggiornaNCarte(){
-        String carteDisponibili = snapshot.getCarteRimanenti();
-        String[] strTok = carteDisponibili.split(DELIMITER);
-
-        Engine.aggiornaNCarte(strTok.length);
     }
 
     public static void setTurno(String turno){

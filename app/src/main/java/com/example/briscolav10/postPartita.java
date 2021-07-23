@@ -105,6 +105,13 @@ public class postPartita extends AppCompatActivity {
         });
 
         exit.setOnClickListener(v -> Utility.goTo(this, MainActivity.class));
+
+        // Bisogna programmare il tasto restart per il multiplayer;
+        // Direi che se nel caso si è host, si crea una nuova stanza con lo stesso codice,
+        // altrimenti si accede alla stanza utilizzando il vecchio codice;
+        if(ActivityGame.multiplayer){
+            restart.setVisibility(View.INVISIBLE);
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)

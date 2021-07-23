@@ -62,6 +62,7 @@ import static gameEngine.Game.giocatori;
 import static gameEngine.Game.mazzo;
 import static gameEngine.Game.mazzoIniziale;
 import static gameEngine.Game.semi;
+import static gameEngine.Game.terminata;
 import static multiplayer.engineMultiplayer.*;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
@@ -95,20 +96,12 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);*/
 
-        getSupportActionBar().hide();
-
         onStop = false;
         distribuisci = false;
 
         roleId = (role.equals("HOST") ? "host" : "enemy");
 
         Game.canPlay = roleId.equals("host");
-
-        /*Toast.makeText(getApplicationContext(),"canPlAY --> " + Game.canPlay,Toast.LENGTH_SHORT).show();*/
-
-        /*if(role.equals("HOST")){
-            engineMultiplayer.startMultiplayerGame(ActivityMultiplayerGame.this);
-        }*/
 
         inizializza(this);
 
@@ -119,7 +112,11 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 snapshot = dataSnapshot.getValue(GameRoom.class);
 
                 if(!onStop){
-                    checkIfSomeoneLeft();
+                    try{
+                        checkIfSomeoneLeft();
+                    }catch(Exception e){
+                        return;
+                    }
 
                     if(!distribuisci){
                         if(roleId.equals("host"))
@@ -131,8 +128,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     }else{
                         engineMultiplayer.cartaGiocata();
                     }
-
-                    engineMultiplayer.aggiornaNCarte();
                 }
 
                 if(onStop) {
@@ -147,12 +142,21 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
     }
 
-    //Un utente è uscito dal campo da gioco
     @Override
     protected void onStop() {
         super.onStop();
-        FirebaseClass.editFieldFirebase(codiceStanza, roleId, "null");
-        onStop = true;
+
+        if(terminata) {
+            FirebaseClass.deleteFieldFirebase(null, codiceStanza);
+        }else{
+            FirebaseClass.editFieldFirebase(codiceStanza, roleId, "null");
+            onStop = true;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), ActivityMultiplayerGame.super::onBackPressed);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)

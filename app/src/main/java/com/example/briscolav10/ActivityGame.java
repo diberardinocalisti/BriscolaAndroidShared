@@ -61,20 +61,18 @@ public class ActivityGame extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         multiplayer = extras.getBoolean("multiplayer");
 
+        Utility.enableTopBar(this);
+
         //Se l'utente ha scelto modalità singlePlayer
         if (multiplayer) {
             startMultiPlayer();
         } else {
-            try {
-                startSinglePlayer();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            startSinglePlayer();
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    protected void startSinglePlayer() throws InterruptedException {
+    protected void startSinglePlayer() {
         setContentView(R.layout.campo_da_gioco);
 
         /*MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -108,7 +106,6 @@ public class ActivityGame extends AppCompatActivity {
 
         setContentView(R.layout.stanza_di_attesa);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
-        Utility.enableTopBar(this);
 
         attesa = true;
 
@@ -136,7 +133,6 @@ public class ActivityGame extends AppCompatActivity {
                             finishAttesa = true;
                             Intent i = new Intent(ActivityGame.this,ActivityMultiplayerGame.class);
                             ActivityGame.this.startActivity(i);
-                            System.out.println(value + " si è unito alla partita!");
                         }
                     }
                 }
@@ -151,7 +147,7 @@ public class ActivityGame extends AppCompatActivity {
         chiudi.setOnClickListener(v -> {
             Utility.oneLineDialog(ActivityGame.this, this.getString(R.string.leavegame), () -> {
                 //Elimino la stanza dal db
-                FirebaseClass.deleteFieldFirebase(null,codiceStanza);
+                FirebaseClass.deleteFieldFirebase(null, codiceStanza);
 
                 //Lo riporto nella homepage
                 Utility.goTo(ActivityGame.this, MainActivity.class);

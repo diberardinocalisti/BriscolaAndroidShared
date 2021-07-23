@@ -24,7 +24,6 @@ public class GiocatoreMP extends Giocatore {
 
     public GiocatoreMP(String player, int i) {
         super(player, i);
-        this.ruolo = ruolo;
     }
 
     public String getRuolo(){

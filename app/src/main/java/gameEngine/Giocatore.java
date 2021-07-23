@@ -284,15 +284,6 @@ public class Giocatore {
         }).start();
     }
 
-    public Carta getAvailableCarta(){
-        for(Carta c : this.carte){
-            View b = c.getButton();
-            if(b == null)
-                return c;
-        }
-        return null;
-    }
-
     public int getIndexFromCarta(Carta cartaDaTrovare){
         for(int i = 0; i < this.bottoni.length; i++)
             if(this.bottoni[i].getId() == cartaDaTrovare.getButton().getId())
@@ -302,6 +293,7 @@ public class Giocatore {
     }
 
     public void toccaA(){
+        Game.canPlay = true;
         giocante = this;
     }
 }
