@@ -1,9 +1,27 @@
 package multiplayer;
 
 public class GameRoom {
-
-    //Codice stanza
     private String gameCode;
+
+    private String host, enemy;
+    
+    private String carteRimanenti;
+
+    private String giocataDaHost;
+    private String giocataDaEnemy;
+    private String turno;
+
+    public GameRoom(){};
+
+    public GameRoom(String gameCode, String host, String enemy, String carteRimanenti, String giocataDaHost, String giocataDaEnemy, String turno) {
+        this.gameCode = gameCode;
+        this.host = host;
+        this.enemy = enemy;
+        this.carteRimanenti = carteRimanenti;
+        this.giocataDaHost = giocataDaHost;
+        this.giocataDaEnemy = giocataDaEnemy;
+        this.turno = turno;
+    }
 
     public String getGameCode() {
         return gameCode;
@@ -11,36 +29,6 @@ public class GameRoom {
 
     public void setGameCode(String gameCode) {
         this.gameCode = gameCode;
-    }
-
-    //Nome giocatore che ha avvbiato la partita
-    private String host;
-    //Nome giocatore che partecipa alla partita
-    private String enemy;
-    
-    //Carte rimanenti nel mazzo
-    
-    private String carteRimanenti;
-
-   private String giocataDaHost;
-   private String giocataDaEnemy;
-   private int puntiHost;
-   private int puntiEnemy;
-   private String turno;
-
-
-    public GameRoom(){};
-
-    public GameRoom(String gameCode, String host, String enemy, String carteRimanenti, String giocataDaHost, String giocataDaEnemy, int puntiHost, int puntiEnemy, String turno) {
-        this.gameCode = gameCode;
-        this.host = host;
-        this.enemy = enemy;
-        this.carteRimanenti = carteRimanenti;
-        this.giocataDaHost = giocataDaHost;
-        this.giocataDaEnemy = giocataDaEnemy;
-        this.puntiHost = puntiHost;
-        this.puntiEnemy = puntiEnemy;
-        this.turno = turno;
     }
 
     public String getHost() {
@@ -83,22 +71,6 @@ public class GameRoom {
         this.giocataDaEnemy = giocataDaEnemy;
     }
 
-    public int getPuntiHost() {
-        return puntiHost;
-    }
-
-    public void setPuntiHost(int puntiHost) {
-        this.puntiHost = puntiHost;
-    }
-
-    public int getPuntiEnemy() {
-        return puntiEnemy;
-    }
-
-    public void setPuntiEnemy(int puntiEnemy) {
-        this.puntiEnemy = puntiEnemy;
-    }
-
     public String getTurno() {
         return turno;
     }
@@ -116,8 +88,6 @@ public class GameRoom {
                 ", carteRimanenti='" + carteRimanenti + '\'' +
                 ", giocataDaHost='" + giocataDaHost + '\'' +
                 ", giocataDaEnemy='" + giocataDaEnemy + '\'' +
-                ", puntiHost=" + puntiHost +
-                ", puntiEnemy=" + puntiEnemy +
                 ", turno='" + turno + '\'' +
                 '}';
     }

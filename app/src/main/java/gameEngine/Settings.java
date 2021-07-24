@@ -82,7 +82,6 @@ public class Settings extends AppCompatActivity {
                     Game.CPU.copriCarte();
             }
 
-            // TODO: Nella modalità multiplayer, ricordarsi di bloccare l'ozione "carte scoperte";
             Engine.aggiornaTipoCarte(tipoCarte.getSelectedItem().toString());
         });
 

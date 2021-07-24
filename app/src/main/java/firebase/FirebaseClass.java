@@ -10,9 +10,6 @@ import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class FirebaseClass {
 
-    public static boolean exists;
-    public static int count = 0;
-
     public static DatabaseReference getFbRef()
     {
         return FirebaseDatabase.getInstance("https://briscola-472a8-default-rtdb.firebaseio.com/").getReference();
@@ -42,6 +39,4 @@ public class FirebaseClass {
         else
             getFbRef().child(field).removeValue();
     }
-
-
 }

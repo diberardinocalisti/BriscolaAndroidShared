@@ -1,16 +1,12 @@
 package multiplayer;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -26,7 +22,6 @@ import com.google.firebase.database.annotations.NotNull;
 
 import Login.loginClass;
 import firebase.FirebaseClass;
-import gameEngine.RunnablePar;
 import gameEngine.Utility;
 import multiplayer.Game.ActivityMultiplayerGame;
 

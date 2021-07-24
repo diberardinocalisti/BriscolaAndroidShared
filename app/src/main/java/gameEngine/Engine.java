@@ -16,8 +16,6 @@ import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 
 import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
@@ -29,9 +27,31 @@ import java.util.Comparator;
 
 import Home.SharedPref;
 
-import static Login.loginClass.*;
-import static gameEngine.Game.*;
+import static Login.loginClass.getFBNome;
+import static Login.loginClass.isFacebookLoggedIn;
+import static gameEngine.Game.I_BRISCOLA;
+import static gameEngine.Game.I_CAMPO_GIOCO;
+import static gameEngine.Game.I_MAZZO;
+import static gameEngine.Game.accelMultip;
+import static gameEngine.Game.activity;
+import static gameEngine.Game.briscola;
+import static gameEngine.Game.canPlay;
 import static gameEngine.Game.carte;
+import static gameEngine.Game.centerText;
+import static gameEngine.Game.dimensioneMazzo;
+import static gameEngine.Game.giocatori;
+import static gameEngine.Game.intermezzo;
+import static gameEngine.Game.intermezzoManche;
+import static gameEngine.Game.lastManche;
+import static gameEngine.Game.mazzo;
+import static gameEngine.Game.mazzoIniziale;
+import static gameEngine.Game.nCarte;
+import static gameEngine.Game.nGiocatori;
+import static gameEngine.Game.semi;
+import static gameEngine.Game.terminata;
+import static gameEngine.Game.ultimoVincitore;
+import static gameEngine.Game.user;
+import static gameEngine.Game.viewAnimDuration;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
@@ -49,10 +69,11 @@ public class Engine{
         inizia();
         pulisciTavolo();
         creaMazzo();
-        estraiBriscola();
 
         Giocatore[] randomTurno = getRandomOrdine();
-        distribuisciCarte(() -> prossimoTurno(randomTurno[0]), randomTurno);
+        distribuisciCarte(() ->
+                estraiBriscola(() ->
+                prossimoTurno(randomTurno[0])), randomTurno);
     }
 
     static void inizia(){
@@ -84,13 +105,13 @@ public class Engine{
         Carta.nascondi(Game.carte[I_MAZZO]);
 
         for(String c : carteSplit){
-
             String[] strTok = c.split(delTipo);
 
+            String tipo = strTok[0];
             int i = Integer.parseInt(strTok[1]);
             String seme = strTok[2];
 
-            mazzo.add(new Carta(i, seme));
+            mazzo.add(new Carta(i, seme, tipo));
         }
 
         mazzoIniziale = mazzo.toArray(new Carta[0]);
@@ -102,7 +123,7 @@ public class Engine{
         }
     }
 
-    static void creaGiocatori(){
+    public static void creaGiocatori(){
         for(int i = 0; i < giocatori.length; i++){
             boolean CPU = i == 0;
             if(!CPU){
@@ -118,12 +139,33 @@ public class Engine{
         }
     }
 
-    public static void estraiBriscola(){
+    public static void estraiBriscola(Runnable callback){
+        Object event = new Object();
+
+        new Thread(() -> {
+            try {
+                synchronized (event){
+                    event.wait();
+
+                    activity.runOnUiThread(() -> {
+                        briscola.setButton(carte[I_BRISCOLA]);
+                        briscola.mostra();
+                        if(callback != null)
+                            callback.run();
+                    });
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }).start();
+
         briscola = mazzo.get(0);
+        briscola.nascondi();
         mazzo.remove(briscola);
         mazzo.add(briscola);
-        briscola.setButton(carte[I_BRISCOLA]);
-        briscola.mostra();
+        briscola.setButton(carte[I_MAZZO]);
+        muoviCarta(user.prendi, carte[I_BRISCOLA], briscola, false, true, true, event);
     }
 
     public static void distribuisciCarte(Runnable callback, Giocatore[] players) {
@@ -234,9 +276,17 @@ public class Engine{
     }
 
     static void pulisciPianoLaterale(){
-        carte[I_BRISCOLA].setBackground(null);
-        carte[I_MAZZO].setBackground(null);
+        pulisciBriscola();
+        pulisciMazzo();
         pulisciPrese();
+    }
+
+    public static void pulisciMazzo(){
+        carte[I_MAZZO].setBackground(null);
+    }
+
+    public static void pulisciBriscola(){
+        carte[I_BRISCOLA].setBackground(null);
     }
 
     public static void pulisciPrese(){
@@ -429,6 +479,10 @@ public class Engine{
     public static void aggiornaTipoCarte(String tipoCarte){
         tipoCarte = tipoCarte.toLowerCase();
         SharedPref.setTipoCarte(tipoCarte);
+
+        if(ActivityGame.multiplayer)
+            return;
+
         Game.tipoCarte = tipoCarte;
 
         if(terminata)

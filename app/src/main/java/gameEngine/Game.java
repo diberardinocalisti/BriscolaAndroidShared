@@ -70,7 +70,7 @@ public class Game {
         tipoCarte = SharedPref.getTipoCarte().toLowerCase();
         centerText = activity.findViewById(R.id.avviso);
 
-        Engine.aggiornaNCarte(0);
+        Engine.aggiornaNCarte(mazzoIniziale.length);
 
         for(int i = 0; i < carte.length; i++){
             String idS = "button" + (i+1);

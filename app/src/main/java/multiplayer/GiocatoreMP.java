@@ -33,20 +33,4 @@ public class GiocatoreMP extends Giocatore {
     public void setRuolo(String ruolo){
         this.ruolo = ruolo;
     }
-
-    /*@RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void pesca() {
-        String carteDisponibili = mazzoOnline;
-        String[] strTok = carteDisponibili.split(DELIMITER);
-
-        String cartaPescata = strTok[0];
-
-        removeCardFromMazzo(cartaPescata);
-
-        //FirebaseClass.editFieldFirebase(codiceStanza, "carteRimanenti", mazzoOnline);
-        // snapshot.setCarteRimanenti(mazzoOnline);
-
-        super.pesca(getCartaFromName(cartaPescata));
-    }*/
 }

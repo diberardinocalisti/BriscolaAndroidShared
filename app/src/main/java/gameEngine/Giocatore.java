@@ -77,6 +77,10 @@ public class Giocatore {
         this.prendi = activity.findViewById(id);
     }
 
+    public void setNome(String nome){
+        this.nome = nome;
+    }
+
     public String getNome() {
         return nome;
     }
@@ -117,15 +121,17 @@ public class Giocatore {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void pesca(){
         if(!isLastManche())
-            this.pesca(Game.mazzo.get(0));
+            this.pesca(Game.mazzo.get(0), () -> {
+                if(isLastManche() && lastManche == 0)
+                    Engine.lastManche();
+            });
 
-        if(isLastManche() && lastManche == 0)
-            Engine.lastManche();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void pesca(Carta carta) {
-        this.prendi(carta);
+    public void pesca(Carta carta, Runnable callback) {
+        this.prendi(carta, callback);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -232,13 +238,13 @@ public class Giocatore {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public int prendi(Carta daAggiungere){
+    public int prendi(Carta daAggiungere, Runnable callback){
         for(int i = 0; i < carte.length; i++) {
             if (this.carte[i] == null) {
-                prendi(i, daAggiungere, null);
+                prendi(i, daAggiungere, callback);
                 return i;
             } else if (this.carte[i].getButton() == null) {
-                prendi(i, daAggiungere, null);
+                prendi(i, daAggiungere, callback);
                 return i;
             }
             /*else if (isLibero(this.carte[i].getButton())) {
@@ -256,8 +262,15 @@ public class Giocatore {
         Giocatore.this.carte[indice] = daAggiungere;
         Giocatore.this.carte[indice].setPortatore(Giocatore.this);
         Giocatore.this.carte[indice].setButton(Giocatore.this.bottoni[indice]);
+
+        if(isPenultimaManche())
+            pulisciMazzo();
+
         Game.mazzo.remove(Giocatore.this.carte[indice]);
         Engine.aggiornaNCarte();
+
+        if(isLastManche())
+            this.prendi = Game.carte[I_BRISCOLA];
 
         muoviCarta(this.prendi, this.bottoni[indice], daAggiungere, false, true, true, event);
 
@@ -274,9 +287,11 @@ public class Giocatore {
                             else
                                 Giocatore.this.carte[indice].nascondi();
                         }
+
+                        if(callback != null)
+                            callback.run();
                     });
-                    if(callback != null)
-                        callback.run();
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

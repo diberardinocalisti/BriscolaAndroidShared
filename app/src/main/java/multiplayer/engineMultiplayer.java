@@ -24,14 +24,12 @@ import gameEngine.Engine;
 import gameEngine.Game;
 import gameEngine.Giocatore;
 import gameEngine.Utility;
-import multiplayer.Game.ActivityMultiplayerGame;
 
-import static gameEngine.Engine.*;
 import static gameEngine.Game.*;
 import static multiplayer.Game.ActivityMultiplayerGame.*;
 
 
-public class engineMultiplayer {
+public class engineMultiplayer extends Engine{
     public static String codiceStanza;
     public static String role;
     public static final String DELIMITER = ";";
@@ -52,7 +50,7 @@ public class engineMultiplayer {
     }
 
     public static void accediAllaStanza(AppCompatActivity c,String gameCode){
-        GameRoom g = new GameRoom(gameCode,loginClass.getFBNome(),"null","null","null","null",-1,-1,"host");
+        GameRoom g = new GameRoom(gameCode, loginClass.getFBNome(),"null","null","null","null", "host");
         FirebaseClass.addToFirebase(g);
 
         Intent i = new Intent(c, ActivityGame.class);
@@ -62,8 +60,7 @@ public class engineMultiplayer {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void inizializza(ActivityMultiplayerGame c){
-        Game.initialize(c);
+    public static void inizializza(){
         creaGiocatori();
         Engine.pulisciTavolo();
         Engine.pulisciPrese();
@@ -108,7 +105,7 @@ public class engineMultiplayer {
    }
 
     public static void creaGiocatori(){
-        String[] players = new String[]{ActivityMultiplayerGame.host, ActivityMultiplayerGame.enemy};
+        String[] players = new String[]{snapshot.getHost(), snapshot.getEnemy()};
 
         for(int i = 0; i < Game.nGiocatori; i++)
             Game.giocatori[i] = new GiocatoreMP(players[i], i);
@@ -194,35 +191,37 @@ public class engineMultiplayer {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void initHost(){
-        Giocatore[] app = new Giocatore[nGiocatori];
-        app[0] = host;
-        app[1] = enemy;
+        inizializza();
+
+        Giocatore[] app = new Giocatore[]{host, enemy};
 
         mazzoOnline = engineMultiplayer.creaMazzoFirebase();
         snapshot.setCarteRimanenti(mazzoOnline);
 
         FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti", mazzoOnline);
 
-        Engine.estraiBriscola();
-        gameEngine.Engine.distribuisciCarte(null, app);
+        gameEngine.Engine.distribuisciCarte(() -> Engine.estraiBriscola(null), app);
 
         distribuisci = true;
+
+        engineMultiplayer.onClick();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initEnemy(){
-        Giocatore[] app = new Giocatore[nGiocatori];
-        app[0] = host;
-        app[1] = enemy;
+        inizializza();
+
+        Giocatore[] app = new Giocatore[]{host, enemy};
 
         mazzoOnline = snapshot.getCarteRimanenti();
 
         Engine.creaMazzo(mazzoOnline);
-        Engine.estraiBriscola();
 
-        gameEngine.Engine.distribuisciCarte(null, app);
+        gameEngine.Engine.distribuisciCarte(() -> Engine.estraiBriscola(null), app);
 
         distribuisci = true;
+
+        engineMultiplayer.onClick();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -283,7 +282,6 @@ public class engineMultiplayer {
         FirebaseClass.editFieldFirebase(codiceStanza,"turno", turno);
         snapshot.setTurno(turno);
     }
-
 
     public static void removeCardFromMazzo(String carta){
         mazzoOnline = mazzoOnline.replace(carta, "");

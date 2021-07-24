@@ -1,74 +1,44 @@
 package multiplayer.Game;
 
-import android.bluetooth.BluetoothA2dp;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
-import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-
-import Home.MainActivity;
 import firebase.FirebaseClass;
-import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
-import gameEngine.Giocatore;
 import gameEngine.Utility;
-import gameEngine.onClick;
 import multiplayer.GameRoom;
-import multiplayer.GiocatoreMP;
 import multiplayer.engineMultiplayer;
-import okhttp3.internal.Util;
 
-import static gameEngine.Engine.doLogic;
-import static gameEngine.Engine.getOtherCarta;
-import static gameEngine.Engine.getOtherPlayer;
-import static gameEngine.Engine.muoviCarta;
-import static gameEngine.Engine.prossimoTurno;
-import static gameEngine.Engine.terminaManche;
-import static gameEngine.Game.I_CAMPO_GIOCO;
-import static gameEngine.Game.activity;
-import static gameEngine.Game.carte;
-import static gameEngine.Game.giocante;
-import static gameEngine.Game.giocatori;
-import static gameEngine.Game.mazzo;
-import static gameEngine.Game.mazzoIniziale;
-import static gameEngine.Game.semi;
 import static gameEngine.Game.terminata;
-import static multiplayer.engineMultiplayer.*;
+import static multiplayer.engineMultiplayer.checkIfSomeoneLeft;
+import static multiplayer.engineMultiplayer.codiceStanza;
+import static multiplayer.engineMultiplayer.initEnemy;
+import static multiplayer.engineMultiplayer.initHost;
+import static multiplayer.engineMultiplayer.inizializza;
+import static multiplayer.engineMultiplayer.role;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
+    public static AppCompatActivity context;
     public static boolean start = false;
     public static String roleId;
-    public static String host = "host", enemy = "enemy";
+    public static String host, enemy;
     public static boolean onStop = false;
     public static String mazzoOnline = "";
     public static boolean initialManche = false;
@@ -96,14 +66,15 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);*/
 
-        onStop = false;
-        distribuisci = false;
+        onStop = distribuisci = false;
 
         roleId = (role.equals("HOST") ? "host" : "enemy");
 
         Game.canPlay = roleId.equals("host");
 
-        inizializza(this);
+        context = this;
+
+        Game.initialize(context);
 
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -123,8 +94,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                             initHost();
                         else if(!snapshot.getCarteRimanenti().equals("null"))
                             initEnemy();
-
-                        engineMultiplayer.onClick();
                     }else{
                         engineMultiplayer.cartaGiocata();
                     }
