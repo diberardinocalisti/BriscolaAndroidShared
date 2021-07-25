@@ -249,6 +249,9 @@ public class engineMultiplayer extends Engine{
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void onClick(){
+        for(Button b : carteBottoni)
+            b.setOnClickListener(null);
+
         for(Button b : Game.user.bottoni){
             b.setOnClickListener(v -> {
                 if(!Game.canPlay)
