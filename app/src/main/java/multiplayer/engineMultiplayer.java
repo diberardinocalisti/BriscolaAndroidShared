@@ -131,7 +131,7 @@ public class engineMultiplayer extends Engine{
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void cartaGiocata(){
         if(giocante == null)
-            prossimoTurno(host);
+            giocante = host;
 
         String turno = ((GiocatoreMP) giocante).getRuolo();
         String app = (turno.equals("enemy") ? snapshot.getGiocataDaEnemy() : snapshot.getGiocataDaHost());
@@ -177,7 +177,7 @@ public class engineMultiplayer extends Engine{
                         final Giocatore vincente = doLogic(c, getOtherCarta(c));
 
                         if(vincente == null) {
-                            prossimoTurno(getOtherPlayer(c.getPortatore()));
+                            prossimoTurno((GiocatoreMP) getOtherPlayer(c.getPortatore()));
                         }else{
                             new Handler().postDelayed(() -> terminaManche((GiocatoreMP) vincente), intermezzo);
                         }
