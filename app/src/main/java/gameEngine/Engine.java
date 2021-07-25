@@ -539,6 +539,9 @@ public class Engine{
                     background = objectCarta.getImage();
             }
 
+            if(objectCarta == null)
+                return;
+
             if(!objectCarta.isCoperta() && !reverseFlip)
                 return;
 
