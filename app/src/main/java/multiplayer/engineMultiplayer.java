@@ -128,7 +128,6 @@ public class engineMultiplayer extends Engine{
         }
     }
 
-    // @Todo: da gestire i turni (comincia sempre l'host)
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void cartaGiocata(){
         if(giocante == null)
@@ -153,7 +152,6 @@ public class engineMultiplayer extends Engine{
         if(c.getPortatore() == null)
             return;
 
-        // @Todo: Gestire i turni;
         View daMuovere = c.getPortatore().bottoni[indice];
 
         if(!daMuovere.isEnabled())
@@ -227,13 +225,11 @@ public class engineMultiplayer extends Engine{
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void prossimoTurno(GiocatoreMP p){
+    public static void prossimoTurno(Giocatore p){
         if(p == null)
-            return;
+            p = host;
 
-        //engineMultiplayer.setTurno(p.getRuolo());
         Engine.prossimoTurno(p);
-        giocante = p;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -269,30 +265,12 @@ public class engineMultiplayer extends Engine{
 
                 if(role.equals("HOST")){
                     FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",carta.getNome()+"#"+index);
-
-                    // DA RIVEDERE!! Bisogna gestire i turni in base a chi vince la manche, e non sempre in base a chi ha tirato per ultimo.
-                    //if(getCarteGiocate().length < nGiocatori)
-                        //setTurno("enemy");
                 }else{
                     FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy",carta.getNome()+"#"+index);
-
-                    // DA RIVEDERE!! Bisogna gestire i turni in base a chi vince la manche, e non sempre in base a chi ha tirato per ultimo.
-                    //if(getCarteGiocate().length < nGiocatori)
-                    // setTurno("host");
                 }
-
-                Carta[] carteGiocate = getCarteGiocate();
-                if(carteGiocate.length == 2)
-                    Toast.makeText(activity, "entrambe le carte sono state giocate", Toast.LENGTH_SHORT).show();
-
             });
         }
     }
-
-    /*public static void setTurno(String turno){
-        FirebaseClass.editFieldFirebase(codiceStanza,"turno", turno);
-        snapshot.setTurno(turno);
-    }*/
 
     public static void removeCardFromMazzo(String carta){
         mazzoOnline = mazzoOnline.replace(carta, "");
