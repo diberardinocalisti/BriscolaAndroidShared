@@ -225,11 +225,12 @@ public class engineMultiplayer extends Engine{
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void prossimoTurno(Giocatore p){
+    public static void prossimoTurno(GiocatoreMP p){
         if(p == null)
-            p = host;
+            return;
 
         Engine.prossimoTurno(p);
+        giocante = p;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
