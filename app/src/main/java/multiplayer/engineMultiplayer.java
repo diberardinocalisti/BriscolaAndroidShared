@@ -231,6 +231,9 @@ public class engineMultiplayer extends Engine{
 
         Engine.prossimoTurno(p);
         giocante = p;
+
+        System.out.println(host.getNome() + " è l'host");
+        System.out.println(enemy.getNome() + " è l'enemy");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
