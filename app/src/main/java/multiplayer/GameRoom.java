@@ -7,8 +7,7 @@ public class GameRoom {
     
     private String carteRimanenti;
 
-    private String giocataDaHost;
-    private String giocataDaEnemy;
+    private String giocataDaHost, giocataDaEnemy;
 
     public GameRoom(){};
 
