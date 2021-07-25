@@ -131,8 +131,11 @@ public class engineMultiplayer extends Engine{
     // @Todo: da gestire i turni (comincia sempre l'host)
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void cartaGiocata(){
+        if(giocante == null)
+            giocante = host;
+
         String turno = ((GiocatoreMP) giocante).getRuolo();
-        String app = (turno.equals("enemy") ? snapshot.getGiocataDaHost() : snapshot.getGiocataDaEnemy());
+        String app = (turno.equals("enemy") ? snapshot.getGiocataDaEnemy() : snapshot.getGiocataDaHost());
 
         if(app.equals("null"))
             return;
