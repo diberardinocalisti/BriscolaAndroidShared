@@ -247,8 +247,10 @@ public class engineMultiplayer extends Engine{
         FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost", "null");
         FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy", "null");
 
-        snapshot.setGiocataDaHost("null");
-        snapshot.setGiocataDaEnemy("null");
+        if(snapshot != null){
+            snapshot.setGiocataDaHost("null");
+            snapshot.setGiocataDaEnemy("null");
+        }
 
         Engine.terminaManche(vincitore);
     }

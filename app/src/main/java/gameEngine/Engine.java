@@ -26,6 +26,10 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import Home.SharedPref;
+import firebase.FirebaseClass;
+import multiplayer.Game.ActivityMultiplayerGame;
+import multiplayer.GameRoom;
+import multiplayer.engineMultiplayer;
 
 import static Login.loginClass.getFBNome;
 import static Login.loginClass.isFacebookLoggedIn;
@@ -251,18 +255,9 @@ public class Engine{
         i.putExtra("carte", user.mostraMazzo());
 
         activity.startActivity(i);
-    }
 
-    static Giocatore trovaVincitore(){
-        Integer score_1 = giocatori[0].getPunteggioCarte();
-        Integer score_2 = giocatori[1].getPunteggioCarte();
-
-        if(score_1 > score_2)
-            return giocatori[0];
-        else if(score_2 > score_1)
-            return giocatori[1];
-        else
-            return null;
+        if(ActivityGame.multiplayer)
+            FirebaseClass.deleteFieldFirebase(null, engineMultiplayer.codiceStanza);
     }
 
     public static void pulisciTavolo(){
