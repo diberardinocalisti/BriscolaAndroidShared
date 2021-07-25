@@ -147,7 +147,6 @@ public class engineMultiplayer extends Engine{
         Carta c = Engine.getCartaFromName(nome);
 
         Game.canPlay = false;
-        giocante =  (roleId.equals(turno)) ? Game.user : Game.opp;
 
         Object event = new Object();
 
