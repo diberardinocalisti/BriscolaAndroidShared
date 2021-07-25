@@ -1,14 +1,12 @@
 package com.example.briscolav10;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.ui.auth.AuthUI;
@@ -18,20 +16,17 @@ import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult;
 import com.firebase.ui.auth.util.ExtraConstants;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import Home.MainActivity;
-import gameEngine.Utility;
 
 public class ProvaLoginFirebase extends AppCompatActivity {
 
+    public static FirebaseUser user;
     // [START auth_fui_create_launcher]
     // See: https://developer.android.com/training/basics/intents/result
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
@@ -39,20 +34,17 @@ public class ProvaLoginFirebase extends AppCompatActivity {
             new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
                 @Override
                 public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
-                    System.out.println("Lanciato!!");
                     onSignInResult(result);
                 }
             }
     );
     // [END auth_fui_create_launcher]
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.prova_login_firebase);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
-        Utility.enableTopBar(this);
+        //setContentView(R.layout.activity_firebase_ui);
+
         createSignInIntent();
     }
 
@@ -61,33 +53,26 @@ public class ProvaLoginFirebase extends AppCompatActivity {
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build(),
-                new AuthUI.IdpConfig.FacebookBuilder().build());
+                new AuthUI.IdpConfig.GoogleBuilder().build());
 
         // Create and launch sign-in intent
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
+                .setIsSmartLockEnabled(false)
                 .build();
         signInLauncher.launch(signInIntent);
         // [END auth_fui_create_intent]
     }
 
     // [START auth_fui_result]
-
-
     private void onSignInResult(FirebaseAuthUIAuthenticationResult result) {
-
         IdpResponse response = result.getIdpResponse();
-        System.out.println("Dentro SIgnin --> " + result.getResultCode());
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
-            FirebaseUser user = FirebaseAuth.getInstance(FirebaseApp.getInstance("https://briscola-472a8-default-rtdb.firebaseio.com/")).getCurrentUser();
-            Toast.makeText(getApplicationContext(),"Login!",Toast.LENGTH_SHORT).show();
-            Utility.goTo(ProvaLoginFirebase.this, MainActivity.class);
-            // ...
+            user = FirebaseAuth.getInstance().getCurrentUser();
+            Toast.makeText(ProvaLoginFirebase.this,"Loggato con successo!",Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getApplicationContext(),"FAILLLL",Toast.LENGTH_SHORT).show();
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
             // response.getError().getErrorCode() and handle the error.
@@ -121,19 +106,19 @@ public class ProvaLoginFirebase extends AppCompatActivity {
         // [END auth_fui_delete]
     }
 
-    public void themeAndLogo() {
+    /*public void themeAndLogo() {
         List<AuthUI.IdpConfig> providers = Collections.emptyList();
 
         // [START auth_fui_theme_logo]
         Intent signInIntent = AuthUI.getInstance()
                 .createSignInIntentBuilder()
                 .setAvailableProviders(providers)
-                .setLogo(R.drawable.logo)      // Set logo drawable
-                //.setTheme(R.style.)      // Set theme
+                .setLogo(R.drawable.my_great_logo)      // Set logo drawable
+                .setTheme(R.style.MySuperAppTheme)      // Set theme
                 .build();
         signInLauncher.launch(signInIntent);
         // [END auth_fui_theme_logo]
-    }
+    }*/
 
     public void privacyAndTerms() {
         List<AuthUI.IdpConfig> providers = Collections.emptyList();
@@ -195,5 +180,4 @@ public class ProvaLoginFirebase extends AppCompatActivity {
         }
         // [END auth_fui_email_link_catch]
     }
-
 }
