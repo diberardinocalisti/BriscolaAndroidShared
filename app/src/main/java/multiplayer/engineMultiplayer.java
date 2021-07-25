@@ -105,24 +105,30 @@ public class engineMultiplayer extends Engine{
    }
 
     public static void creaGiocatori(){
-        String[] players = new String[]{snapshot.getHost(), snapshot.getEnemy()};
+        String[] players = new String[]{"giocatore1", "giocatore2"};
 
         for(int i = 0; i < Game.nGiocatori; i++)
             Game.giocatori[i] = new GiocatoreMP(players[i], i);
 
+        Game.user = giocatori[1];
+        Game.opp = giocatori[0];
+
         if(role.equals("HOST")) {
-            Game.user = giocatori[1];
-            Game.opp = giocatori[0];
+            host = Game.user;
+            enemy = Game.opp;
+
+            ((GiocatoreMP) Game.user).setRuolo("host");
+            ((GiocatoreMP) Game.opp).setRuolo("enemy");
         }else{
-            Game.user = giocatori[0];
-            Game.opp = giocatori[1];
+            host = Game.opp;
+            enemy = Game.user;
+
+            ((GiocatoreMP) Game.user).setRuolo("enemy");
+            ((GiocatoreMP) Game.opp).setRuolo("host");
         }
 
-        host = giocatori[0];
-        enemy = giocatori[1];
-
-        ((GiocatoreMP) host).setRuolo("host");
-        ((GiocatoreMP) enemy).setRuolo("enemy");
+        host.setNome(snapshot.getHost());
+        enemy.setNome(snapshot.getEnemy());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
