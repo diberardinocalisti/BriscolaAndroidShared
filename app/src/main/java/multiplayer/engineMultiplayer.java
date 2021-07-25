@@ -50,7 +50,7 @@ public class engineMultiplayer extends Engine{
     }
 
     public static void accediAllaStanza(AppCompatActivity c,String gameCode){
-        GameRoom g = new GameRoom(gameCode, loginClass.getFBNome(),"null","null","null","null", "host");
+        GameRoom g = new GameRoom(gameCode, loginClass.getFBNome(),"null","null","null","null");
         FirebaseClass.addToFirebase(g);
 
         Intent i = new Intent(c, ActivityGame.class);
@@ -131,7 +131,7 @@ public class engineMultiplayer extends Engine{
     // @Todo: da gestire i turni (comincia sempre l'host)
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void cartaGiocata(){
-        String turno = snapshot.getTurno();
+        String turno = ((GiocatoreMP) giocante).getRuolo();
         String app = (turno.equals("enemy") ? snapshot.getGiocataDaHost() : snapshot.getGiocataDaEnemy());
 
         if(app.equals("null"))
@@ -229,8 +229,9 @@ public class engineMultiplayer extends Engine{
         if(p == null)
             return;
 
-        engineMultiplayer.setTurno(p.getRuolo());
+        //engineMultiplayer.setTurno(p.getRuolo());
         Engine.prossimoTurno(p);
+        giocante = p;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -251,7 +252,7 @@ public class engineMultiplayer extends Engine{
                 if(!Game.canPlay)
                     return;
 
-                if(!roleId.equals(snapshot.getTurno()))
+                if(Game.user != giocante)
                     return;
 
                 final Button bottone = (Button) v;
@@ -265,23 +266,28 @@ public class engineMultiplayer extends Engine{
                     FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",carta.getNome()+"#"+index);
 
                     // DA RIVEDERE!! Bisogna gestire i turni in base a chi vince la manche, e non sempre in base a chi ha tirato per ultimo.
-                    if(getCarteGiocate().length < nGiocatori)
-                        setTurno("enemy");
+                    //if(getCarteGiocate().length < nGiocatori)
+                        //setTurno("enemy");
                 }else{
                     FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy",carta.getNome()+"#"+index);
 
                     // DA RIVEDERE!! Bisogna gestire i turni in base a chi vince la manche, e non sempre in base a chi ha tirato per ultimo.
-                    if(getCarteGiocate().length < nGiocatori)
-                        setTurno("host");
+                    //if(getCarteGiocate().length < nGiocatori)
+                    // setTurno("host");
                 }
+
+                Carta[] carteGiocate = getCarteGiocate();
+                if(carteGiocate.length == 2)
+                    Toast.makeText(activity, "entrambe le carte sono state giocate", Toast.LENGTH_SHORT).show();
+
             });
         }
     }
 
-    public static void setTurno(String turno){
+    /*public static void setTurno(String turno){
         FirebaseClass.editFieldFirebase(codiceStanza,"turno", turno);
         snapshot.setTurno(turno);
-    }
+    }*/
 
     public static void removeCardFromMazzo(String carta){
         mazzoOnline = mazzoOnline.replace(carta, "");

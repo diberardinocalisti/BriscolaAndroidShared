@@ -9,18 +9,16 @@ public class GameRoom {
 
     private String giocataDaHost;
     private String giocataDaEnemy;
-    private String turno;
 
     public GameRoom(){};
 
-    public GameRoom(String gameCode, String host, String enemy, String carteRimanenti, String giocataDaHost, String giocataDaEnemy, String turno) {
+    public GameRoom(String gameCode, String host, String enemy, String carteRimanenti, String giocataDaHost, String giocataDaEnemy) {
         this.gameCode = gameCode;
         this.host = host;
         this.enemy = enemy;
         this.carteRimanenti = carteRimanenti;
         this.giocataDaHost = giocataDaHost;
         this.giocataDaEnemy = giocataDaEnemy;
-        this.turno = turno;
     }
 
     public String getGameCode() {
@@ -71,14 +69,6 @@ public class GameRoom {
         this.giocataDaEnemy = giocataDaEnemy;
     }
 
-    public String getTurno() {
-        return turno;
-    }
-
-    public void setTurno(String turno) {
-        this.turno = turno;
-    }
-
     @Override
     public String toString() {
         return "GameRoom{" +
@@ -88,7 +78,6 @@ public class GameRoom {
                 ", carteRimanenti='" + carteRimanenti + '\'' +
                 ", giocataDaHost='" + giocataDaHost + '\'' +
                 ", giocataDaEnemy='" + giocataDaEnemy + '\'' +
-                ", turno='" + turno + '\'' +
                 '}';
     }
 }
