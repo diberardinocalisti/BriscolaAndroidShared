@@ -68,6 +68,7 @@ public class GameRoom {
         this.giocataDaEnemy = giocataDaEnemy;
     }
 
+
     @Override
     public String toString() {
         return "GameRoom{" +

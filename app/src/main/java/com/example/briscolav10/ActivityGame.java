@@ -169,7 +169,7 @@ public class ActivityGame extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        if(multiplayer && attesa && !finishAttesa){
+        if(attesa){
             FirebaseClass.deleteFieldFirebase(null, codiceStanza);
             Toast.makeText(getApplicationContext(), this.getString(R.string.sessionclosed), Toast.LENGTH_LONG).show();
         }
