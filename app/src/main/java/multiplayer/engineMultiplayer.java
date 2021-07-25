@@ -133,6 +133,9 @@ public class engineMultiplayer extends Engine{
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void cartaGiocata(){
+        System.out.println("carta enemy: " + snapshot.getGiocataDaEnemy());
+        System.out.println("carta host: " + snapshot.getGiocataDaHost());
+
         if(giocante == null)
             giocante = host;
 
