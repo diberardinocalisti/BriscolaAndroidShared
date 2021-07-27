@@ -98,86 +98,23 @@ public class Utility{
     }
 
     public static void createDialog(Context c, String title, String msg){
-        confirmDialog(c, title, msg, null, null);
-    }
+        Dialog dialog = new Dialog(c);
+        dialog.setContentView(R.layout.text_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-    public static void confirmDialog(Context c, String title, String message, DialogInterface.OnClickListener action, DialogInterface.OnCancelListener onCancel){
-        AlertDialog.Builder builder = new AlertDialog.Builder(c);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton(c.getString(R.string.ok), action);
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+        TextView dialogTitle = dialog.findViewById(R.id.titleDialog);
+        TextView dialogText = dialog.findViewById(R.id.textDialog);
 
-    public static void confirmDenyDialog(Context c, String title, String message, DialogInterface.OnClickListener action, DialogInterface.OnCancelListener onCancel){
-        AlertDialog.Builder builder = new AlertDialog.Builder(c);
-        builder.setTitle(title);
-        builder.setMessage(message);
-        builder.setPositiveButton(c.getString(R.string.ok), action);
-        builder.setNegativeButton(c.getString(R.string.cancel), null);
-        builder.setOnCancelListener(onCancel);
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
+        dialogTitle.setText(title);
+        dialogText.setText(msg);
 
-    public static void createInputDialogMultiplayer(Context c){
-        AlertDialog.Builder builder = new AlertDialog.Builder(c);
+        Button dialogOk = dialog.findViewById(R.id.okDialog);
+        dialogOk.setOnClickListener(v -> dialog.dismiss());
 
-        LayoutInflater inflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View tipoCarteView = inflater.inflate( R.layout.input_codice_stanza, null );
-        EditText input = tipoCarteView.findViewById(R.id.inputCodice);
+        ImageView dialogClose = dialog.findViewById(R.id.closeDialog);
+        dialogClose.setOnClickListener(v -> dialog.dismiss());
 
-        builder.setPositiveButton(c.getString(R.string.ok), (dialog, which) -> FirebaseClass.getFbRefSpeicific(input.getText().toString().toUpperCase()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
-                String host = "null";
-                String enemy = "null";
-
-                if(dataSnapshot.exists())
-                {
-                    for(DataSnapshot d : dataSnapshot.getChildren()){
-                        String key = d.getKey();
-                        Object value = d.getValue();
-
-                        if(key.equals("host"))
-                            host = String.valueOf(value);
-                        if(key.equals("enemy"))
-                            enemy = String.valueOf(value);
-                    }
-
-                    if(!host.equals("null") && !enemy.equals("null")){
-                        Toast.makeText(c.getApplicationContext(), c.getText(R.string.roomfull), Toast.LENGTH_LONG).show();
-                    }else{
-                        engineMultiplayer.codiceStanza = input.getText().toString();
-                        engineMultiplayer.role = "NOTHOST";
-                        FirebaseClass.editFieldFirebase(input.getText().toString(),"enemy", loginClass.getFBNome());
-                        goTo(c, ActivityMultiplayerGame.class);
-                    }
-                }else{
-                    Toast.makeText(c, c.getText(R.string.roomnotexisting), Toast.LENGTH_LONG).show();
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
-
-            }
-
-        })
-        );
-
-        builder.setNegativeButton(c.getString(R.string.cancel), null);
-        builder.setView(tipoCarteView);
-
-        // Create the AlertDialog
-        AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    public static void goTo(Context c, Class cl){
-        goTo((AppCompatActivity) c, cl);
     }
 
     public static void goTo(AppCompatActivity c, Class cl){

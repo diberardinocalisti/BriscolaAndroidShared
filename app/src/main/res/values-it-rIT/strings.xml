@@ -54,7 +54,7 @@
     <string name="youleft">Hai abbandonato la partita!</string>
     <string name="enemyleft">Il tuo avversario ha abbandonato la partita!</string>
     <string name="unknownerror">Oops! Qualcosa è andato storto!</string>
-    <string name="whylogintext">Se collegherai il tuo account Facebook al gioco sbloccherai l\'accesso al multigiocatore e avrai la possibilità di sfidare i tuoi amici in ogni momento!</string>
+    <string name="whylogintext">Se collegherai il tuo account social al gioco sbloccherai l\'accesso al multigiocatore e avrai la possibilità di sfidare i tuoi amici in ogni momento!</string>
     <string name="roomnotexisting">La stanza non esiste!</string>
     <string name="roomfull">La stanza è al momento piena!</string>
     <string name="tuoturno">è il tuo turno!</string>
