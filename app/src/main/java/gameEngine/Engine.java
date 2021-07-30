@@ -570,14 +570,6 @@ public class Engine{
         return animation;
     }
 
-    public static Animation ruotaAnim(View view, View destView){
-        RotateAnimation rotate = new RotateAnimation(view.getRotation(), destView.getRotation(), Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-        rotate.setDuration(viewAnimDuration);
-        rotate.setInterpolator(new AccelerateInterpolator(accelMultip));
-
-        return rotate;
-    }
-
     public static Animation fadeAnim(){
         Animation fadeAnim = new AlphaAnimation(1f, 0f);
         fadeAnim.setInterpolator(new AccelerateInterpolator(accelMultip));
