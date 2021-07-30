@@ -12,6 +12,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
@@ -27,8 +29,6 @@ import java.util.Comparator;
 
 import Home.SharedPref;
 import firebase.FirebaseClass;
-import multiplayer.Game.ActivityMultiplayerGame;
-import multiplayer.GameRoom;
 import multiplayer.engineMultiplayer;
 
 import static Login.loginClass.getFBNome;
@@ -131,7 +131,7 @@ public class Engine{
         for(int i = 0; i < giocatori.length; i++){
             boolean CPU = i == 0;
             if(!CPU){
-                String username = "Guest";
+                String username = activity.getString(R.string.guest);
 
                 if(isFacebookLoggedIn())
                     username = getFBNome();
@@ -568,6 +568,14 @@ public class Engine{
         });
 
         return animation;
+    }
+
+    public static Animation ruotaAnim(View view, View destView){
+        RotateAnimation rotate = new RotateAnimation(view.getRotation(), destView.getRotation(), Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        rotate.setDuration(viewAnimDuration);
+        rotate.setInterpolator(new AccelerateInterpolator(accelMultip));
+
+        return rotate;
     }
 
     public static Animation fadeAnim(){

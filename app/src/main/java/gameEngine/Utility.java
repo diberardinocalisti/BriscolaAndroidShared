@@ -1,7 +1,6 @@
 package gameEngine;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.service.autofill.Dataset;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -38,17 +36,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 
-import org.w3c.dom.Text;
-
 import Login.loginClass;
 import firebase.FirebaseClass;
-import multiplayer.Game.ActivityMultiplayerGame;
-import multiplayer.MultiplayerActivity;
+import multiplayer.ActivityMultiplayerGame;
 import multiplayer.engineMultiplayer;
 
 import static gameEngine.Game.activity;
 import static gameEngine.Game.textAnimDuration;
-import static gameEngine.Game.viewAnimDuration;
 
 public class Utility{
     @RequiresApi(api = Build.VERSION_CODES.N)

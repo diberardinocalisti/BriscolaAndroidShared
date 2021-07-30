@@ -2,38 +2,23 @@ package Home;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.R;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import Login.loginClass;
 import gameEngine.Game;
 import gameEngine.Utility;
-import multiplayer.Game.ActivityMultiplayerGame;
+import multiplayer.ActivityMultiplayerGame;
 
 public class MainActivity extends AppCompatActivity {
     View[] button = new View[5];

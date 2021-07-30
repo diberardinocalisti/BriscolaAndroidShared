@@ -1,4 +1,4 @@
-package multiplayer.Game;
+package multiplayer;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -20,11 +20,8 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import firebase.FirebaseClass;
-import gameEngine.Engine;
 import gameEngine.Game;
 import gameEngine.Utility;
-import multiplayer.GameRoom;
-import multiplayer.engineMultiplayer;
 
 import static gameEngine.Game.terminata;
 import static multiplayer.engineMultiplayer.checkIfSomeoneLeft;
@@ -35,10 +32,8 @@ import static multiplayer.engineMultiplayer.inizializza;
 import static multiplayer.engineMultiplayer.role;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
-    public static AppCompatActivity context;
     public static boolean start = false;
     public static String roleId;
-    public static String host, enemy;
     public static boolean onStop = false;
     public static String mazzoOnline = "";
     public static boolean initialManche = false;
@@ -72,9 +67,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
         Game.canPlay = roleId.equals("host");
 
-        context = this;
-
-        Game.initialize(context);
+        Game.initialize(this);
 
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)

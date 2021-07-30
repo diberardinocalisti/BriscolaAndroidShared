@@ -26,7 +26,7 @@ import gameEngine.Giocatore;
 import gameEngine.Utility;
 
 import static gameEngine.Game.*;
-import static multiplayer.Game.ActivityMultiplayerGame.*;
+import static multiplayer.ActivityMultiplayerGame.*;
 
 
 public class engineMultiplayer extends Engine{

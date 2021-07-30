@@ -2,13 +2,11 @@ package com.example.briscolav10;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,11 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.login.widget.ProfilePictureView;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -35,7 +29,7 @@ import Login.loginClass;
 import firebase.FirebaseClass;
 import gameEngine.Game;
 import gameEngine.Utility;
-import multiplayer.Game.ActivityMultiplayerGame;
+import multiplayer.ActivityMultiplayerGame;
 
 import static Login.loginClass.getFBNome;
 import static Login.loginClass.isFacebookLoggedIn;
@@ -139,13 +133,11 @@ public class ActivityGame extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError databaseError) {
-                System.out.println("ERROREEEE");
-            }
+            public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError databaseError){}
         });
 
         chiudi.setOnClickListener(v -> {
-            Utility.oneLineDialog(ActivityGame.this, this.getString(R.string.leavegame), () -> {
+            Utility.oneLineDialog(ActivityGame.this, this.getString(R.string.confirmleavegame), () -> {
                 //Elimino la stanza dal db
                 FirebaseClass.deleteFieldFirebase(null, codiceStanza);
 

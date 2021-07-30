@@ -6,6 +6,7 @@
     <string-array name="tipoCarte">
         <item>Napoletane</item>
         <item>Romagnole</item>
+        <item>Poker</item>
     </string-array>
     <string name="singleplayer">Singleplayer</string>
     <string name="multiplayer">Multiplayer</string>

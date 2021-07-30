@@ -23,7 +23,6 @@ import com.google.firebase.database.annotations.NotNull;
 import Login.loginClass;
 import firebase.FirebaseClass;
 import gameEngine.Utility;
-import multiplayer.Game.ActivityMultiplayerGame;
 
 public class MultiplayerActivity extends AppCompatActivity {
     Button[] button = new Button[4];

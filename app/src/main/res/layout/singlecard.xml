@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/cardImage"
-        android:layout_width="273px"
-        android:layout_height="436px"
+        android:layout_width="235px"
+        android:layout_height="375px"
         android:layout_margin="10dp"
         android:background="@drawable/napoletane_10_bastoni"
         app:layout_constraintEnd_toEndOf="parent"
