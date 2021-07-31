@@ -45,11 +45,12 @@ public class engineMultiplayer extends Engine{
         for (int i = 0; i < len; i++)
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
 
+        role = "HOST";
         codiceStanza = sb.toString();
-        accediAllaStanza(c, sb.toString());
+        accediHost(c, sb.toString());
     }
 
-    public static void accediAllaStanza(AppCompatActivity c,String gameCode){
+    public static void accediHost(AppCompatActivity c, String gameCode){
         GameRoom g = new GameRoom(gameCode, loginClass.getFBNome(),"null","null","null","null");
         FirebaseClass.addToFirebase(g);
 
@@ -57,6 +58,14 @@ public class engineMultiplayer extends Engine{
         i.putExtra("multiplayer",true);
         c.startActivity(i);
         c.finish();
+    }
+
+    public static void accediGuest(AppCompatActivity c, String input){
+        engineMultiplayer.codiceStanza = input;
+        engineMultiplayer.role = "NOTHOST";
+        ActivityGame.multiplayer = true;
+        FirebaseClass.editFieldFirebase(input,"enemy", loginClass.getFBNome());
+        Utility.goTo(c, ActivityMultiplayerGame.class);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -104,6 +113,7 @@ public class engineMultiplayer extends Engine{
         return mazzoFb.substring(0, mazzoFb.length()-1);
    }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void creaGiocatori(){
         String[] players = new String[]{"giocatore1", "giocatore2"};
 
@@ -129,13 +139,12 @@ public class engineMultiplayer extends Engine{
 
         host.setNome(snapshot.getHost());
         enemy.setNome(snapshot.getEnemy());
+
+        engineMultiplayer.setOnCLickListener();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void cartaGiocata(){
-        System.out.println("carta enemy: " + snapshot.getGiocataDaEnemy());
-        System.out.println("carta host: " + snapshot.getGiocataDaHost());
-
         if(giocante == null)
             giocante = host;
 
@@ -164,6 +173,8 @@ public class engineMultiplayer extends Engine{
             return;
 
         c.setButton(daMuovere);
+
+        clearText(centerText);
 
         muoviCarta(daMuovere, Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[lastManche][0]], c,false, true, false, event);
         giocaCarta(c, event);
@@ -209,8 +220,6 @@ public class engineMultiplayer extends Engine{
         gameEngine.Engine.distribuisciCarte(() -> Engine.estraiBriscola(null), app);
 
         distribuisci = true;
-
-        engineMultiplayer.onClick();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -226,8 +235,6 @@ public class engineMultiplayer extends Engine{
         gameEngine.Engine.distribuisciCarte(() -> Engine.estraiBriscola(null), app);
 
         distribuisci = true;
-
-        engineMultiplayer.onClick();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -256,46 +263,33 @@ public class engineMultiplayer extends Engine{
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void onClick(){
-        for(Button b : carteBottoni)
-            b.setOnClickListener(null);
+    public static void setOnCLickListener(){
+        View.OnClickListener onClickListener = engineMultiplayer::onClick;
 
-        for(Button b : Game.user.bottoni){
-            b.setOnClickListener(v -> {
-                if(!Game.canPlay)
-                    return;
+        for(Button b : Game.user.bottoni)
+            b.setOnClickListener(onClickListener);
+    }
 
-                if(Game.user != giocante)
-                    return;
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void onClick(View v){
+        if(!Game.canPlay)
+            return;
 
-                final Button bottone = (Button) v;
-                final Carta carta = Engine.getCartaFromButton(bottone);
+        if(Game.user != giocante)
+            return;
 
-                int index = Game.user.getIndexFromCarta(carta);
+        final Button bottone = (Button) v;
+        final Carta carta = Engine.getCartaFromButton(bottone);
 
-                Game.canPlay = false;
+        int index = Game.user.getIndexFromCarta(carta);
 
-                if(role.equals("HOST")){
-                    FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",carta.getNome()+"#"+index);
-                }else{
-                    FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy",carta.getNome()+"#"+index);
-                }
-            });
+        Game.canPlay = false;
+
+        if(role.equals("HOST")){
+            FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",carta.getNome()+"#"+index);
+        }else{
+            FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy",carta.getNome()+"#"+index);
         }
     }
 
-    public static void removeCardFromMazzo(String carta){
-        mazzoOnline = mazzoOnline.replace(carta, "");
-
-        if(mazzoOnline.startsWith(DELIMITER))
-            mazzoOnline = mazzoOnline.substring(1);
-
-        if(mazzoOnline.endsWith(DELIMITER))
-            mazzoOnline.substring(0, mazzoOnline.length() - 1);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static String arrayListToString(ArrayList<String> tot){
-        return String.join(DELIMITER, tot);
-    }
 }

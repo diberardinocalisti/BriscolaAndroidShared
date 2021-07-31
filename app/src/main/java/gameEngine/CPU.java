@@ -56,7 +56,7 @@ public class CPU extends Giocatore {
         delayGiocata = getCarteGiocatori().length == nGiocatori * nCarte && lastManche == 1 ? delayGiocata * 1.5 : intermezzoCPU;
 
         // Piccolo delay tra una giocata e l'altra (Range: 1000ms - 2000ms)
-        new Handler().postDelayed(() -> scegli().getButton().performClick(), (long) delayGiocata);
+        new Handler().postDelayed(() -> Engine.onClick(scegli().getButton()), (long) delayGiocata);
     }
 
     // METODO CHE RESTITUISCE LA MIGLIOR CARTA DA GIOCARE;

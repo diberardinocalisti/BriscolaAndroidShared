@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -25,8 +26,6 @@ import firebase.FirebaseClass;
 import gameEngine.Utility;
 
 public class MultiplayerActivity extends AppCompatActivity {
-    Button[] button = new Button[4];
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,35 +39,16 @@ public class MultiplayerActivity extends AppCompatActivity {
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         ActivityMultiplayerGame.onStop = false;
-        ActivityMultiplayerGame.start = false;
-        ActivityMultiplayerGame.initialManche = false;
 
-        for(int i = 0; i < button.length; i++){
-            int index = i;
+        Button createRoom = findViewById(R.id.createroom);
+        Button joinRoom = findViewById(R.id.joinroom);
+        Button howToPlay = findViewById(R.id.howtoplaymp);
+        Button goBack = findViewById(R.id.goback);
 
-            String idS = "button" + (index + 1);
-            int id = getResources().getIdentifier(idS, "id", getPackageName());
-
-            button[index] = findViewById(id);
-            button[index].setOnClickListener(v -> {
-                switch ((index+1)){
-                    case 1:
-                        engineMultiplayer.creaStanza(MultiplayerActivity.this);
-                        engineMultiplayer.role = "HOST";
-                        break;
-                    case 2:
-                        createInputDialog();
-                        break;
-                    case 3:
-                        MultiplayerActivity.super.onBackPressed();
-                        break;
-                    case 4:
-                        Utility.createDialog(MultiplayerActivity.this, button[index].getText().toString(),this.getString(R.string.howtoplaymptut));
-                        break;
-                }
-            });
-        }
-
+        createRoom.setOnClickListener(v -> engineMultiplayer.creaStanza(MultiplayerActivity.this));
+        joinRoom.setOnClickListener(v -> createInputDialog());
+        howToPlay.setOnClickListener(v -> Utility.createDialog(MultiplayerActivity.this, MultiplayerActivity.this.getString(R.string.howtoplaymp), MultiplayerActivity.this.getString(R.string.howtoplaymptut)));
+        goBack.setOnClickListener(v -> MultiplayerActivity.super.onBackPressed());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -104,23 +84,14 @@ public class MultiplayerActivity extends AppCompatActivity {
                         if(!host.equals("null") && !enemy.equals("null")){
                             Toast.makeText(MultiplayerActivity.this.getApplicationContext(), MultiplayerActivity.this.getText(R.string.roomfull), Toast.LENGTH_LONG).show();
                         }else{
-                            engineMultiplayer.codiceStanza = input;
-                            engineMultiplayer.role = "NOTHOST";
-                            ActivityGame.multiplayer = true;
-                            FirebaseClass.editFieldFirebase(input,"enemy", loginClass.getFBNome());
-                            Utility.goTo(MultiplayerActivity.this, ActivityMultiplayerGame.class);
+                            engineMultiplayer.accediGuest(MultiplayerActivity.this, input);
                         }
                     }else{
                         Toast.makeText(MultiplayerActivity.this, MultiplayerActivity.this.getText(R.string.roomnotexisting), Toast.LENGTH_LONG).show();
                     }
-
                 }
 
-                @Override
-                public void onCancelled(@NonNull @NotNull DatabaseError databaseError) {
-
-                }
-
+                @Override public void onCancelled(@NonNull @NotNull DatabaseError databaseError){}
             });
         });
     }

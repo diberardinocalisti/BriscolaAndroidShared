@@ -17,10 +17,10 @@
 
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/logo"
             android:layout_width="500px"
             android:layout_height="500px"
-            app:layout_constraintBottom_toTopOf="@+id/button1"
+            app:layout_constraintBottom_toTopOf="@+id/singleplayer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +28,7 @@
             app:srcCompat="@drawable/logo" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/singleplayer"
             android:layout_width="400px"
             android:layout_height="120px"
             android:layout_marginEnd="5dp"
@@ -42,7 +42,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/mioprofilo"
             android:layout_width="450px"
             android:layout_height="120px"
             android:layout_marginTop="10dp"
@@ -50,12 +50,12 @@
             android:background="@drawable/yellow_button"
             android:text="@string/myprofile"
             android:textSize="12.5sp"
-            app:layout_constraintEnd_toEndOf="@+id/button5"
-            app:layout_constraintStart_toStartOf="@+id/button1"
-            app:layout_constraintTop_toBottomOf="@+id/button1" />
+            app:layout_constraintEnd_toEndOf="@+id/multiplayer"
+            app:layout_constraintStart_toStartOf="@+id/singleplayer"
+            app:layout_constraintTop_toBottomOf="@+id/singleplayer" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/closegame"
             android:layout_width="400px"
             android:layout_height="120px"
             android:alpha="0.85"
@@ -65,10 +65,10 @@
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
+            app:layout_constraintTop_toBottomOf="@+id/mioprofilo" />
 
         <ImageButton
-            android:id="@+id/button4"
+            android:id="@+id/info"
             android:layout_width="125px"
             android:layout_height="125px"
             android:layout_marginEnd="16dp"
@@ -84,7 +84,7 @@
         </ImageButton>
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/multiplayer"
             android:layout_width="400px"
             android:layout_height="120px"
             android:layout_marginStart="5dp"
@@ -94,7 +94,7 @@
             android:text="@string/multiplayer"
             android:textSize="12.5sp"
             app:layout_constraintStart_toEndOf="@+id/view"
-            app:layout_constraintTop_toTopOf="@+id/button1" />
+            app:layout_constraintTop_toTopOf="@+id/singleplayer" />
 
 
         <View
@@ -106,7 +106,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/rank"
+            android:id="@+id/contact"
             android:layout_width="125px"
             android:layout_height="125px"
 
@@ -114,8 +114,8 @@
             android:layout_marginLeft="16dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/round_button"
-            android:src="@drawable/ic_baseline_assessment_24"
-            android:visibility="invisible"
+            android:src="@android:drawable/stat_notify_chat"
+            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"></ImageButton>
 

@@ -74,5 +74,7 @@
     <string name="matchended">Match ended!</string>
     <string name="confirm">Confirm</string>
     <string name="inserttext">Insert here...</string>
+    <string name="contactus">Contact us</string>
+    <string name="contactustxt">This game has been developed by Simone Di Berardino and Daniele Calisti. If you want to get in touch with us, you can send an email to diberardinocalisti@gmail.com!</string>
 
 </resources>

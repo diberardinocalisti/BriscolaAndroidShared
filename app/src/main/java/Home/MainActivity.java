@@ -2,29 +2,30 @@ package Home;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 
+import Login.LoginActivity;
 import Login.loginClass;
 import gameEngine.Game;
 import gameEngine.Utility;
 import multiplayer.ActivityMultiplayerGame;
+import multiplayer.MultiplayerActivity;
 
 public class MainActivity extends AppCompatActivity {
-    View[] button = new View[5];
-    ImageButton rank;
-
-
     @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -39,27 +40,64 @@ public class MainActivity extends AppCompatActivity {
         Utility.enableTopBar(this);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
+        /*
         rank = findViewById(R.id.rank);
 
         if(loginClass.isFacebookLoggedIn())
             rank.setVisibility(View.VISIBLE);
         else
             rank.setVisibility(View.INVISIBLE);
+        */
 
         ActivityMultiplayerGame.onStop = false;
-
-        for(int i = 0; i < button.length; i++){
-            int index = i;
-
-            String idS = "button" + (index + 1);
-            int id = getResources().getIdentifier(idS, "id", getPackageName());
-
-            button[index] = findViewById(id);
-            button[index].setOnClickListener(v -> new MainMenu().startGame(idS, this));
-        }
-
         Game.terminata = true;
         SharedPref.setContext(this);
+
+        setListeners();
+    }
+
+    protected void setListeners(){
+        Button singleplayer = findViewById(R.id.singleplayer);
+        Button multiplayer = findViewById(R.id.multiplayer);
+        Button mioProfilo = findViewById(R.id.mioprofilo);
+        Button closeGame = findViewById(R.id.closegame);
+        ImageButton info = findViewById(R.id.info);
+        ImageButton contact = findViewById(R.id.contact);
+
+        singleplayer.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ActivityGame.class);
+            intent.putExtra("multiplayer",false);
+            MainActivity.this.startActivity(intent);
+        });
+
+        multiplayer.setOnClickListener(v -> {
+            if(loginClass.isFacebookLoggedIn()){
+                Intent i = new Intent(MainActivity.this, MultiplayerActivity.class);
+                MainActivity.this.startActivity(i);
+            }else{
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                MainActivity.this.startActivity(i);
+            }
+        });
+
+        info.setOnClickListener(v -> {
+            String title = MainActivity.this.getString(R.string.intro);
+            String msg = MainActivity.this.getString(R.string.howtoplay);
+            Utility.createDialog(MainActivity.this, title, msg);
+        });
+
+        mioProfilo.setOnClickListener(v -> {
+            Intent in = new Intent(MainActivity.this, LoginActivity.class);
+            MainActivity.this.startActivity(in);
+        });
+
+        contact.setOnClickListener(v -> {
+            String title = MainActivity.this.getString(R.string.contactus);
+            String msg = MainActivity.this.getString(R.string.contactustxt);
+            Utility.createDialog(MainActivity.this, title, msg);
+        });
+
+        closeGame.setOnClickListener(v -> MainActivity.this.onBackPressed());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)

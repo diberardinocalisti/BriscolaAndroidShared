@@ -32,11 +32,9 @@ import static multiplayer.engineMultiplayer.inizializza;
 import static multiplayer.engineMultiplayer.role;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
-    public static boolean start = false;
     public static String roleId;
     public static boolean onStop = false;
     public static String mazzoOnline = "";
-    public static boolean initialManche = false;
     public static GameRoom snapshot;
     public static boolean distribuisci = false;
     private AdView mAdView;
@@ -100,8 +98,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
             @Override public void onCancelled(@NonNull @NotNull DatabaseError databaseError){}
         });
-
-
     }
 
     @Override

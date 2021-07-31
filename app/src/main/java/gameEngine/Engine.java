@@ -15,6 +15,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -43,6 +44,7 @@ import static gameEngine.Game.canPlay;
 import static gameEngine.Game.carte;
 import static gameEngine.Game.centerText;
 import static gameEngine.Game.dimensioneMazzo;
+import static gameEngine.Game.giocante;
 import static gameEngine.Game.giocatori;
 import static gameEngine.Game.intermezzo;
 import static gameEngine.Game.intermezzoManche;
@@ -141,6 +143,8 @@ public class Engine{
                 giocatori[i] = new CPU("CPU", i);
             }
         }
+
+        Engine.setOnCLickListener();
     }
 
     public static void estraiBriscola(Runnable callback){
@@ -204,6 +208,62 @@ public class Engine{
                     e.printStackTrace();
                 }
                 activity.runOnUiThread(callback);
+            }
+        }).start();
+    }
+
+    public static void setOnCLickListener(){
+        View.OnClickListener onClickListener = Engine::onClick;
+
+        for(Button b : Game.user.bottoni)
+            b.setOnClickListener(onClickListener);
+    }
+
+    public static void onClick(View v){
+        final Button bottone = (Button) v;
+        final Carta carta = Engine.getCartaFromButton(bottone);
+
+        if(carta == null)
+            return;
+
+        if(carta.getPortatore() != giocante)
+            return;
+
+        if(!Game.canPlay || terminata)
+            return;
+
+        Game.canPlay = false;
+
+        Object event = new Object();
+
+        final View destButton = carte[carta.getPortatore().index + I_CAMPO_GIOCO[lastManche][0]];
+
+        muoviCarta(bottone, destButton, false, true, false, event);
+        clearText(centerText);
+
+        new Thread(() -> {
+            try {
+                synchronized (event){
+                    event.wait();
+                    activity.runOnUiThread(() -> {
+                        if(giocante == null)
+                            return;
+
+                        Game.canPlay = true;
+
+                        giocante.lancia(carta);
+                        final Giocatore vincente = doLogic(carta, getOtherCarta(carta));
+
+                        if(vincente == null) {
+                            prossimoTurno(getOtherPlayer(giocante));
+                        }else{
+                            giocante = null;
+                            new Handler().postDelayed(() -> terminaManche(vincente), intermezzo);
+                        }
+                    });
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }).start();
     }

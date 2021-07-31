@@ -3,14 +3,8 @@ package gameEngine;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.RequiresApi;
-
-import com.example.briscolav10.R;
-
-import Home.MainMenu;
-import Home.SharedPref;
 
 import static gameEngine.Game.activity;
 

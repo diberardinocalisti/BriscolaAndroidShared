@@ -27,14 +27,14 @@
             android:id="@+id/imageView1"
             android:layout_width="500px"
             android:layout_height="500px"
-            app:layout_constraintBottom_toTopOf="@+id/button1"
+            app:layout_constraintBottom_toTopOf="@+id/createroom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/view2"
             app:srcCompat="@drawable/logo" />
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/createroom"
             android:layout_width="400px"
             android:layout_height="120px"
             android:layout_marginEnd="5dp"
@@ -48,7 +48,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/joinroom"
             android:layout_width="400px"
             android:layout_height="120px"
             android:layout_marginStart="5dp"
@@ -58,11 +58,11 @@
             android:text="@string/joingame"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/view2"
-            app:layout_constraintTop_toTopOf="@+id/button1" />
+            app:layout_constraintTop_toTopOf="@+id/createroom" />
 
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/goback"
             android:layout_width="400px"
             android:layout_height="120px"
             android:alpha="0.85"
@@ -72,10 +72,10 @@
             app:layout_constraintBottom_toBottomOf="@+id/view2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button4" />
+            app:layout_constraintTop_toBottomOf="@+id/howtoplaymp" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/howtoplaymp"
             android:layout_width="550px"
             android:layout_height="120px"
             android:layout_marginTop="10dp"
@@ -84,7 +84,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button1" />
+            app:layout_constraintTop_toBottomOf="@+id/createroom" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -94,7 +94,7 @@
         android:layout_height="match_parent">
 
         <ImageButton
-            android:id="@+id/rank"
+            android:id="@+id/contact"
             android:layout_width="125px"
             android:layout_height="125px"
             android:layout_margin="20dp"

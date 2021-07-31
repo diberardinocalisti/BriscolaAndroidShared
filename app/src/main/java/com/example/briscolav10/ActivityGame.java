@@ -7,9 +7,11 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +39,6 @@ import static Login.loginClass.setImgProfile;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class ActivityGame extends AppCompatActivity {
-    ProfilePictureView imgP;
     private AdView mAdView;
 
     public static boolean multiplayer = false;
@@ -82,10 +83,10 @@ public class ActivityGame extends AppCompatActivity {
         multiplayer = false;
         attesa = false;
 
-        imgP = findViewById(R.id.friendProfilePictureUser);
+        ProfilePictureView picHost = findViewById(R.id.friendProfilePictureUser);
 
         if(isFacebookLoggedIn())
-            setImgProfile(imgP);
+            setImgProfile(picHost);
 
         Game.startGame(this);
     }
@@ -103,12 +104,26 @@ public class ActivityGame extends AppCompatActivity {
 
         attesa = true;
 
-        ((TextView) findViewById(R.id.codice)).setText(this.getString(R.string.code) + codiceStanza);
-        ((TextView) findViewById(R.id.stato)).setText(this.getString(R.string.state) + this.getString(R.string.waiting));
-        ((TextView) findViewById(R.id.nome1)).setText(getFBNome());
-
+        TextView codice = findViewById(R.id.codice);
+        TextView stato = findViewById(R.id.stato);
+        TextView nomeHost = findViewById(R.id.nome1);
+        ProfilePictureView picHost = findViewById(R.id.friendProfilePicture1);
         Button chiudi = findViewById(R.id.chiudisala);
-        loginClass.setImgProfile(findViewById(R.id.friendProfilePicture1));
+
+        codice.setText(this.getString(R.string.code) + codiceStanza);
+        stato.setText(this.getString(R.string.state) + this.getString(R.string.waiting));
+        nomeHost.setText(getFBNome());
+        loginClass.setImgProfile(picHost);
+
+        chiudi.setOnClickListener(v -> {
+            Utility.oneLineDialog(ActivityGame.this, this.getString(R.string.confirmleavegame), () -> {
+                //Elimino la stanza dal db
+                FirebaseClass.deleteFieldFirebase(null, codiceStanza);
+
+                //Lo riporto nella homepage
+                Utility.goTo(ActivityGame.this, MainActivity.class);
+            });
+        });
 
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
             @Override
@@ -119,31 +134,18 @@ public class ActivityGame extends AppCompatActivity {
                     String key = d.getKey();
                     Object value = d.getValue();
 
-                    if(key.equals("enemy"))
-                    {
+                    if(key.equals("enemy")){
                         //è entrato l'avverrsario nella stanza
-                        if(!value.equals("null")  && !ActivityMultiplayerGame.onStop && !ActivityMultiplayerGame.start)
-                        {
+                        if(!value.equals("null")  && !ActivityMultiplayerGame.onStop){
                             finishAttesa = true;
-                            Intent i = new Intent(ActivityGame.this,ActivityMultiplayerGame.class);
+                            Intent i = new Intent(ActivityGame.this, ActivityMultiplayerGame.class);
                             ActivityGame.this.startActivity(i);
                         }
                     }
                 }
             }
 
-            @Override
-            public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError databaseError){}
-        });
-
-        chiudi.setOnClickListener(v -> {
-            Utility.oneLineDialog(ActivityGame.this, this.getString(R.string.confirmleavegame), () -> {
-                //Elimino la stanza dal db
-                FirebaseClass.deleteFieldFirebase(null, codiceStanza);
-
-                //Lo riporto nella homepage
-                Utility.goTo(ActivityGame.this, MainActivity.class);
-            });
+            @Override public void onCancelled(@NonNull @org.jetbrains.annotations.NotNull DatabaseError databaseError){}
         });
     }
 

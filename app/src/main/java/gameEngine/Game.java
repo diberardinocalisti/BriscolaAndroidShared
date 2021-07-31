@@ -66,7 +66,7 @@ public class Game {
         terminata = false;
         carte = new View[12];
         carteBottoni = new Button[nCarte * 2];
-        mazzoIniziale = new Carta[40];
+        mazzoIniziale = new Carta[dimensioneMazzo];
         tipoCarte = SharedPref.getTipoCarte().toLowerCase();
         centerText = activity.findViewById(R.id.avviso);
 
@@ -80,8 +80,8 @@ public class Game {
             carte[i].setVisibility(View.INVISIBLE);
 
             if(i < nCarte * nGiocatori){
-                carte[i].setOnClickListener(new onClick());
                 carteBottoni[i] = (Button) carte[i];
+                carteBottoni[i].setOnClickListener(null);
             }
         }
 
