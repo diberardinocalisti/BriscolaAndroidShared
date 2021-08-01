@@ -307,7 +307,7 @@ public class Giocatore {
         return -1;
     }
 
-    public void toccaA(){
+    public void toccaA() throws InterruptedException {
         Game.canPlay = true;
         giocante = this;
     }

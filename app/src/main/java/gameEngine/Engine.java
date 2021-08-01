@@ -78,8 +78,13 @@ public class Engine{
 
         Giocatore[] randomTurno = getRandomOrdine();
         distribuisciCarte(() ->
-                estraiBriscola(() ->
-                prossimoTurno(randomTurno[0])), randomTurno);
+                estraiBriscola(() -> {
+                    try {
+                        prossimoTurno(randomTurno[0]);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }), randomTurno);
     }
 
     static void inizia(){
@@ -255,7 +260,11 @@ public class Engine{
                         final Giocatore vincente = doLogic(carta, getOtherCarta(carta));
 
                         if(vincente == null) {
-                            prossimoTurno(getOtherPlayer(giocante));
+                            try {
+                                prossimoTurno(getOtherPlayer(giocante));
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }else{
                             giocante = null;
                             new Handler().postDelayed(() -> terminaManche(vincente), intermezzo);
@@ -268,7 +277,7 @@ public class Engine{
         }).start();
     }
 
-    public static void prossimoTurno(Giocatore p){
+    public static void prossimoTurno(Giocatore p) throws InterruptedException {
         if(p == null)
             p = getRandomPlayer();
 
@@ -285,7 +294,15 @@ public class Engine{
                 if(mazzo.size() > 0 || lastManche == 0)
                     p.pesca();
 
-            if(isTerminata()) termina(); else prossimoTurno(vincitore);
+            if(isTerminata())
+                termina();
+            else {
+                try {
+                    prossimoTurno(vincitore);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }, intermezzoManche));
     }
 
@@ -298,7 +315,15 @@ public class Engine{
         String tocca = activity.getString(stringId).replace("%user", ultimoVincitore.getNome());;
 
         String msg = activity.getString(R.string.lastmanche) + "\n" + tocca;
-        Utility.textAnimation(msg, centerText, () -> clearText(centerText));
+        Utility.textAnimation(msg, centerText, () -> {
+            clearText(centerText);
+
+            if(Game.CPU != null){
+                synchronized (Game.CPU){
+                    Game.CPU.notifyAll();
+                }
+            }
+        });
     }
 
     static void termina(){
@@ -439,6 +464,10 @@ public class Engine{
 
     static boolean isLibero(View b){
         return b.getBackground() == null || b.getVisibility() == View.INVISIBLE;
+    }
+
+    static boolean isCenterTextShown(){
+        return !centerText.getText().toString().equals("");
     }
 
     public static Giocatore doLogic(Carta last, Carta first) {

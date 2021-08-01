@@ -194,7 +194,11 @@ public class engineMultiplayer extends Engine{
                         final Giocatore vincente = doLogic(c, getOtherCarta(c));
 
                         if(vincente == null) {
-                            prossimoTurno((GiocatoreMP) getOtherPlayer(c.getPortatore()));
+                            try {
+                                prossimoTurno((GiocatoreMP) getOtherPlayer(c.getPortatore()));
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }else{
                             new Handler().postDelayed(() -> terminaManche((GiocatoreMP) vincente), intermezzo);
                         }
@@ -238,7 +242,7 @@ public class engineMultiplayer extends Engine{
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void prossimoTurno(GiocatoreMP p){
+    public static void prossimoTurno(GiocatoreMP p) throws InterruptedException {
         if(p == null)
             return;
 

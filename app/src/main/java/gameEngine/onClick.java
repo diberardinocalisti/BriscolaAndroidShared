@@ -54,7 +54,11 @@ public class onClick implements View.OnClickListener {
                         final Giocatore vincente = doLogic(carta, getOtherCarta(carta));
 
                         if(vincente == null) {
-                            prossimoTurno(getOtherPlayer(giocante));
+                            try {
+                                prossimoTurno(getOtherPlayer(giocante));
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }else{
                             giocante = null;
                             new Handler().postDelayed(() -> terminaManche(vincente), intermezzo);
