@@ -37,4 +37,8 @@ public class loginClass {
         return Profile.getCurrentProfile().getFirstName();
     }
 
+    public static String getFullFBName(){
+        return getFBNome() + " " + getFBCognome();
+    }
+
 }

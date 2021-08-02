@@ -10,15 +10,15 @@
         android:id="@+id/messageSent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
         android:gravity="top"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:text="messaggio mandato"
+        app:layout_constraintBottom_toBottomOf="@+id/author"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/author"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/chatSeperator2"
+        app:layout_constraintTop_toTopOf="@+id/author"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/author"
@@ -39,7 +39,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/carter_one"
         android:text="»"
-        android:textSize="12sp"
+        android:textSize="14sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

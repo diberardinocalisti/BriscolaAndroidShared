@@ -5,18 +5,18 @@ public class GameRoom {
 
     private String host, enemy;
     
-    private String carteRimanenti;
+    private String mazzo;
 
     private String giocataDaHost, giocataDaEnemy;
 
     private String chat;
     public GameRoom(){};
 
-    public GameRoom(String gameCode, String host, String enemy, String carteRimanenti, String giocataDaHost, String giocataDaEnemy, String chat) {
+    public GameRoom(String gameCode, String host, String enemy, String mazzo, String giocataDaHost, String giocataDaEnemy, String chat) {
         this.gameCode = gameCode;
         this.host = host;
         this.enemy = enemy;
-        this.carteRimanenti = carteRimanenti;
+        this.mazzo = mazzo;
         this.giocataDaHost = giocataDaHost;
         this.giocataDaEnemy = giocataDaEnemy;
         this.chat = chat;
@@ -46,12 +46,12 @@ public class GameRoom {
         this.enemy = enemy;
     }
 
-    public String getCarteRimanenti() {
-        return carteRimanenti;
+    public String getMazzo() {
+        return mazzo;
     }
 
-    public void setCarteRimanenti(String carteRimanenti) {
-        this.carteRimanenti = carteRimanenti;
+    public void setMazzo(String mazzo) {
+        this.mazzo = mazzo;
     }
 
     public String getChat(){
@@ -85,7 +85,7 @@ public class GameRoom {
                 "gameCode='" + gameCode + '\'' +
                 ", host='" + host + '\'' +
                 ", enemy='" + enemy + '\'' +
-                ", carteRimanenti='" + carteRimanenti + '\'' +
+                ", mazzo='" + mazzo + '\'' +
                 ", giocataDaHost='" + giocataDaHost + '\'' +
                 ", giocataDaEnemy='" + giocataDaEnemy + '\'' +
                 ", chat='" + chat + '\'' +

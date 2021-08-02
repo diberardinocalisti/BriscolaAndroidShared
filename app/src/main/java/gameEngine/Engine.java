@@ -33,6 +33,7 @@ import firebase.FirebaseClass;
 import multiplayer.engineMultiplayer;
 
 import static Login.loginClass.getFBNome;
+import static Login.loginClass.getFullFBName;
 import static Login.loginClass.isFacebookLoggedIn;
 import static gameEngine.Game.I_BRISCOLA;
 import static gameEngine.Game.I_CAMPO_GIOCO;
@@ -141,7 +142,7 @@ public class Engine{
                 String username = activity.getString(R.string.guest);
 
                 if(isFacebookLoggedIn())
-                    username = getFBNome();
+                    username = getFullFBName();
 
                 giocatori[i] = new Giocatore(username, i);
             }else{

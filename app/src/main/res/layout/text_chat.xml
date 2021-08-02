@@ -40,7 +40,16 @@
                     android:id="@+id/scrollViewLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"></LinearLayout>
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/carter_one"
+                        android:text="@string/welcomechat"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </ScrollView>
 
             <ImageView

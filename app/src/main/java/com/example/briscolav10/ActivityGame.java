@@ -34,6 +34,7 @@ import gameEngine.Utility;
 import multiplayer.ActivityMultiplayerGame;
 
 import static Login.loginClass.getFBNome;
+import static Login.loginClass.getFullFBName;
 import static Login.loginClass.isFacebookLoggedIn;
 import static Login.loginClass.setImgProfile;
 import static multiplayer.engineMultiplayer.codiceStanza;
@@ -112,7 +113,7 @@ public class ActivityGame extends AppCompatActivity {
 
         codice.setText(this.getString(R.string.code) + codiceStanza);
         stato.setText(this.getString(R.string.state) + this.getString(R.string.waiting));
-        nomeHost.setText(getFBNome());
+        nomeHost.setText(getFullFBName());
         loginClass.setImgProfile(picHost);
 
         chiudi.setOnClickListener(v -> {

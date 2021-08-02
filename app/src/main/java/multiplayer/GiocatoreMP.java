@@ -2,6 +2,7 @@ package multiplayer;
 
 import com.example.briscolav10.R;
 
+import gameEngine.Game;
 import gameEngine.Giocatore;
 
 import static gameEngine.Game.activity;
@@ -14,8 +15,9 @@ public class GiocatoreMP extends Giocatore {
         super(player, i);
     }
 
-    public void joinedMessage(){
-        sendChatMessage(this.getNome(), activity.getString(R.string.joinedgame), true);
+    public void joinedMessage() {
+        if(Game.user != this)
+            sendChatMessage(this.getNome(), activity.getString(R.string.joinedgame), true);
     }
 
     public String getRuolo(){

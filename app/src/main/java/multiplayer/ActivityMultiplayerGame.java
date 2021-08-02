@@ -28,9 +28,7 @@ import static multiplayer.engineMultiplayer.checkIfSomeoneLeft;
 import static multiplayer.engineMultiplayer.codiceStanza;
 import static multiplayer.engineMultiplayer.initEnemy;
 import static multiplayer.engineMultiplayer.initHost;
-import static multiplayer.engineMultiplayer.inizializza;
 import static multiplayer.engineMultiplayer.role;
-import static multiplayer.engineMultiplayer.updateChat;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
     public static String roleId;
@@ -84,7 +82,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     if(!distribuisci){
                         if(roleId.equals("host"))
                             initHost();
-                        else if(!snapshot.getCarteRimanenti().equals("null"))
+                        else if(!snapshot.getMazzo().equals("null"))
                             initEnemy();
                     }else{
                         engineMultiplayer.updateChat();

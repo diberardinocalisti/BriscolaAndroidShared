@@ -1,8 +1,6 @@
 package multiplayer;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,23 +9,18 @@ import android.os.Build;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 import com.google.android.material.textfield.TextInputEditText;
-
-import org.xmlpull.v1.XmlPullParser;
 
 import java.util.Random;
 
@@ -40,8 +33,17 @@ import gameEngine.Game;
 import gameEngine.Giocatore;
 import gameEngine.Utility;
 
-import static gameEngine.Game.*;
-import static multiplayer.ActivityMultiplayerGame.*;
+import static gameEngine.Game.I_CAMPO_GIOCO;
+import static gameEngine.Game.activity;
+import static gameEngine.Game.centerText;
+import static gameEngine.Game.giocante;
+import static gameEngine.Game.giocatori;
+import static gameEngine.Game.intermezzo;
+import static gameEngine.Game.lastManche;
+import static multiplayer.ActivityMultiplayerGame.distribuisci;
+import static multiplayer.ActivityMultiplayerGame.mazzoOnline;
+import static multiplayer.ActivityMultiplayerGame.onStop;
+import static multiplayer.ActivityMultiplayerGame.snapshot;
 
 
 public class engineMultiplayer extends Engine{
@@ -69,7 +71,7 @@ public class engineMultiplayer extends Engine{
     }
 
     public static void accediHost(AppCompatActivity c, String gameCode){
-        GameRoom g = new GameRoom(gameCode, loginClass.getFBNome(),"null","null","null","null", "null");
+        GameRoom g = new GameRoom(gameCode, loginClass.getFullFBName(),"null","null","null","null", "null");
         FirebaseClass.addToFirebase(g);
 
         Intent i = new Intent(c, ActivityGame.class);
@@ -82,7 +84,7 @@ public class engineMultiplayer extends Engine{
         engineMultiplayer.codiceStanza = input;
         engineMultiplayer.role = "NOTHOST";
         ActivityGame.multiplayer = true;
-        FirebaseClass.editFieldFirebase(input,"enemy", loginClass.getFBNome());
+        FirebaseClass.editFieldFirebase(input,"enemy", loginClass.getFullFBName());
         Utility.goTo(c, ActivityMultiplayerGame.class);
     }
 
@@ -158,10 +160,7 @@ public class engineMultiplayer extends Engine{
         host.setNome(snapshot.getHost());
         enemy.setNome(snapshot.getEnemy());
 
-        GiocatoreMP[] app = new GiocatoreMP[]{(GiocatoreMP)host, (GiocatoreMP)enemy};
-
-        for(GiocatoreMP p : app)
-            p.joinedMessage();
+        ((GiocatoreMP) Game.opp).joinedMessage();
 
         engineMultiplayer.setOnCLickListener();
     }
@@ -240,9 +239,9 @@ public class engineMultiplayer extends Engine{
         Giocatore[] app = new Giocatore[]{host, enemy};
 
         mazzoOnline = engineMultiplayer.creaMazzoFirebase();
-        snapshot.setCarteRimanenti(mazzoOnline);
+        snapshot.setMazzo(mazzoOnline);
 
-        FirebaseClass.editFieldFirebase(codiceStanza,"carteRimanenti", mazzoOnline);
+        FirebaseClass.editFieldFirebase(codiceStanza,"mazzo", mazzoOnline);
 
         gameEngine.Engine.distribuisciCarte(() -> Engine.estraiBriscola(null), app);
 
@@ -255,7 +254,7 @@ public class engineMultiplayer extends Engine{
 
         Giocatore[] app = new Giocatore[]{host, enemy};
 
-        mazzoOnline = snapshot.getCarteRimanenti();
+        mazzoOnline = snapshot.getMazzo();
 
         Engine.creaMazzo(mazzoOnline);
 

@@ -78,5 +78,6 @@
     <string name="textchat">Text chat</string>
     <string name="sendamessage">Send a message</string>
     <string name="joinedgame">joined the game!</string>
+    <string name="welcomechat">» Welcome to the game chat!</string>
 
 </resources>

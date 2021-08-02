@@ -19,7 +19,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
-            android:layout_width="900px"
+            android:layout_width="870px"
             android:layout_height="1000px"
             android:background="@drawable/round_box"
             app:layout_constraintBottom_toBottomOf="parent"

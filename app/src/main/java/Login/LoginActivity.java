@@ -112,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         TextView nome = findViewById(R.id.nome);
-        nome.setText(loginClass.getFBNome() + " " + loginClass.getFBCognome());
+        nome.setText(loginClass.getFullFBName());
 
         TextView nVittorie = findViewById(R.id.vittorieValore);
         TextView nSconfitte = findViewById(R.id.sconfitteValore);
