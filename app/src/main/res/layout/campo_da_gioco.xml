@@ -326,6 +326,28 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <ImageButton
+                        android:id="@+id/chat"
+                        android:layout_width="125px"
+                        android:layout_height="125px"
+
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/round_button"
+                        android:src="@android:drawable/stat_notify_chat"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/button6"></ImageButton>
+
+                    <ImageView
+                        android:id="@+id/chatNotis"
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
+                        android:visibility="invisible"
+                        app:layout_constraintStart_toStartOf="@+id/chat"
+                        app:layout_constraintTop_toTopOf="@+id/chat"
+                        app:srcCompat="@drawable/redcircle" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout

@@ -9,15 +9,17 @@ public class GameRoom {
 
     private String giocataDaHost, giocataDaEnemy;
 
+    private String chat;
     public GameRoom(){};
 
-    public GameRoom(String gameCode, String host, String enemy, String carteRimanenti, String giocataDaHost, String giocataDaEnemy) {
+    public GameRoom(String gameCode, String host, String enemy, String carteRimanenti, String giocataDaHost, String giocataDaEnemy, String chat) {
         this.gameCode = gameCode;
         this.host = host;
         this.enemy = enemy;
         this.carteRimanenti = carteRimanenti;
         this.giocataDaHost = giocataDaHost;
         this.giocataDaEnemy = giocataDaEnemy;
+        this.chat = chat;
     }
 
     public String getGameCode() {
@@ -52,6 +54,10 @@ public class GameRoom {
         this.carteRimanenti = carteRimanenti;
     }
 
+    public String getChat(){
+        return chat;
+    }
+
     public String getGiocataDaHost() {
         return giocataDaHost;
     }
@@ -78,6 +84,7 @@ public class GameRoom {
                 ", carteRimanenti='" + carteRimanenti + '\'' +
                 ", giocataDaHost='" + giocataDaHost + '\'' +
                 ", giocataDaEnemy='" + giocataDaEnemy + '\'' +
+                ", chat='" + chat + '\'' +
                 '}';
     }
 }

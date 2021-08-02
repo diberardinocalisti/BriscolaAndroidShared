@@ -1,19 +1,34 @@
 package multiplayer;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
+import com.google.android.material.textfield.TextInputEditText;
 
-import java.util.ArrayList;
+import org.xmlpull.v1.XmlPullParser;
+
 import java.util.Random;
 
 import Home.MainActivity;
@@ -32,7 +47,10 @@ import static multiplayer.ActivityMultiplayerGame.*;
 public class engineMultiplayer extends Engine{
     public static String codiceStanza;
     public static String role;
-    public static final String DELIMITER = ";";
+    public static final String MAZZO_DELIMETER = ";";
+    public static final String CHAT_DELIMETER = "§";
+
+    public static Dialog chat;
     public static Giocatore host, enemy;
 
     public static void creaStanza(AppCompatActivity c){
@@ -51,7 +69,7 @@ public class engineMultiplayer extends Engine{
     }
 
     public static void accediHost(AppCompatActivity c, String gameCode){
-        GameRoom g = new GameRoom(gameCode, loginClass.getFBNome(),"null","null","null","null");
+        GameRoom g = new GameRoom(gameCode, loginClass.getFBNome(),"null","null","null","null", "null");
         FirebaseClass.addToFirebase(g);
 
         Intent i = new Intent(c, ActivityGame.class);
@@ -108,14 +126,14 @@ public class engineMultiplayer extends Engine{
         Engine.creaMazzo();
 
         for(Carta c : Game.mazzo)
-            mazzoFb += c.getNome() + DELIMITER;
+            mazzoFb += c.getNome() + MAZZO_DELIMETER;
 
         return mazzoFb.substring(0, mazzoFb.length()-1);
    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void creaGiocatori(){
-        String[] players = new String[]{"giocatore1", "giocatore2"};
+        String[] players = new String[]{activity.getString(R.string.guest), activity.getString(R.string.guest)};
 
         for(int i = 0; i < Game.nGiocatori; i++)
             Game.giocatori[i] = new GiocatoreMP(players[i], i);
@@ -140,11 +158,16 @@ public class engineMultiplayer extends Engine{
         host.setNome(snapshot.getHost());
         enemy.setNome(snapshot.getEnemy());
 
+        GiocatoreMP[] app = new GiocatoreMP[]{(GiocatoreMP)host, (GiocatoreMP)enemy};
+
+        for(GiocatoreMP p : app)
+            p.joinedMessage();
+
         engineMultiplayer.setOnCLickListener();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void cartaGiocata(){
+    public static void checkIfCartaGiocata(){
         if(giocante == null)
             giocante = host;
 
@@ -296,4 +319,98 @@ public class engineMultiplayer extends Engine{
         }
     }
 
+    public static void updateChat(){
+        String chatMsg = snapshot.getChat();
+
+        if(chatMsg.equals("null"))
+            return;
+
+        String[] chatTkn = chatMsg.split(CHAT_DELIMETER);
+        String authorName = chatTkn[0];
+        StringBuilder textEntered = new StringBuilder(new String());
+
+        for(int i = 1; i < chatTkn.length; i++)
+            textEntered.append(chatTkn[i]);
+
+        sendChatMessage(authorName, textEntered.toString(), false);
+    }
+
+    public static void createChat(){
+        chat = new Dialog(activity);
+        chat.setContentView(R.layout.text_chat);
+        chat.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        View sendMessage = chat.findViewById(R.id.send);
+        TextInputEditText inputEditText = chat.findViewById(R.id.inputDialog);
+
+        removeChatNotis();
+
+        sendMessage.setOnClickListener(v -> {
+            String textEntered = inputEditText.getText().toString().trim();
+
+            if(textEntered.isEmpty())
+                return;
+
+            inputEditText.setText(new String());
+
+            String author = Game.user.getNome();
+            String fullMessage = author + CHAT_DELIMETER + textEntered;
+            FirebaseClass.editFieldFirebase(codiceStanza, "chat", fullMessage);
+        });
+
+        Runnable scrollDown = () -> {
+            ScrollView scrollView = chat.findViewById(R.id.scrollView);
+            scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
+        };
+
+        chat.setOnShowListener(dialog -> {
+            scrollDown.run();
+            removeChatNotis();
+        });
+
+        chat.setOnDismissListener(dialog -> removeChatNotis());
+    }
+
+    public static void sendChatMessage(String author, String message, boolean isEvent){
+        LinearLayout scrollViewLayout = chat.findViewById(R.id.scrollViewLayout);
+
+        LayoutInflater inflater = LayoutInflater.from(activity);
+        View parentView = inflater.inflate(R.layout.singlemsg, null);
+
+        TextView authorView = parentView.findViewById(R.id.author);
+        TextView messageView = parentView.findViewById(R.id.messageSent);
+        TextView chatSeperator = parentView.findViewById(R.id.chatSeperator2);
+
+        authorView.setText(author.trim());
+        messageView.setText(message.trim());
+
+        if(isEvent)
+            chatSeperator.setText(new String());
+        else
+            sendChatNotis();
+
+        scrollViewLayout.addView(parentView);
+
+        ScrollView scrollView = chat.findViewById(R.id.scrollView);
+        scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
+    }
+
+    public static void removeChatNotis(){
+        View chatNotis = activity.findViewById(R.id.chatNotis);
+        chatNotis.setVisibility(View.INVISIBLE);
+    }
+
+    public static void sendChatNotis(){
+        if(!chat.isShowing()){
+            View chatNotis = activity.findViewById(R.id.chatNotis);
+            chatNotis.setVisibility(View.VISIBLE);
+        }
+
+        final MediaPlayer mp = MediaPlayer.create(activity, R.raw.chatnotis);
+        mp.start();
+    }
+
+    public static void openChat(){
+        chat.show();
+    }
 }

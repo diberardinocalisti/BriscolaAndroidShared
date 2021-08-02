@@ -75,5 +75,8 @@
     <string name="inserttext">Insert here...</string>
     <string name="contactus">Contact us</string>
     <string name="contactustxt">This game has been developed by Simone Di Berardino and Daniele Calisti. If you want to get in touch with us, you can send an email to diberardinocalisti@gmail.com!</string>
+    <string name="textchat">Text chat</string>
+    <string name="sendamessage">Send a message</string>
+    <string name="joinedgame">joined the game!</string>
 
 </resources>

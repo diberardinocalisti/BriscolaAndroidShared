@@ -21,6 +21,7 @@ import java.util.Collections;
 import static gameEngine.Engine.*;
 import static gameEngine.Engine.isLastManche;
 import static gameEngine.Game.*;
+import static multiplayer.engineMultiplayer.sendChatMessage;
 
 public class Giocatore {
     public Button[] bottoni;

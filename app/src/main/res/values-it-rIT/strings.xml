@@ -70,5 +70,8 @@
     <string name="inserttext">Inserisci qui...</string>
     <string name="contactus">Contattaci</string>
     <string name="contactustxt">Questo gioco è stato sviluppato da Simone Di Berardino e Daniele Calisti. Se vuoi metterti in contatto con noi, puoi mandare un\'email a diberardinocalisti@gmail.com!</string>
+    <string name="textchat">Chat di testo</string>
+    <string name="sendamessage">Manda un messaggio</string>
+    <string name="joinedgame">ha partecipato alla partita!</string>
 
 </resources>

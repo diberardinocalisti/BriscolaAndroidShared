@@ -30,6 +30,7 @@ import static multiplayer.engineMultiplayer.initEnemy;
 import static multiplayer.engineMultiplayer.initHost;
 import static multiplayer.engineMultiplayer.inizializza;
 import static multiplayer.engineMultiplayer.role;
+import static multiplayer.engineMultiplayer.updateChat;
 
 public class ActivityMultiplayerGame extends AppCompatActivity {
     public static String roleId;
@@ -73,21 +74,23 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot.getValue(GameRoom.class);
 
-                if(!onStop){
-                    try{
-                        checkIfSomeoneLeft();
-                    }catch(Exception e){
-                        return;
-                    }
+                try{
+                    checkIfSomeoneLeft();
+                }catch(Exception e){
+                    return;
+                }
 
+                if(!onStop){
                     if(!distribuisci){
                         if(roleId.equals("host"))
                             initHost();
                         else if(!snapshot.getCarteRimanenti().equals("null"))
                             initEnemy();
                     }else{
-                        engineMultiplayer.cartaGiocata();
+                        engineMultiplayer.updateChat();
+                        engineMultiplayer.checkIfCartaGiocata();
                     }
+
                 }
 
                 if(onStop) {
@@ -110,6 +113,12 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             FirebaseClass.editFieldFirebase(codiceStanza, roleId, "null");
             onStop = true;
         }
+    }
+
+    @Override
+    protected void onDestroy(){
+        super.onStop();
+        super.onDestroy();
     }
 
     @Override

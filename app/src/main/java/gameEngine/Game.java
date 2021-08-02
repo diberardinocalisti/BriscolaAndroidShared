@@ -3,16 +3,19 @@ package gameEngine;
 import android.os.Build;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 
 import java.util.ArrayList;
 
 import Home.SharedPref;
+import multiplayer.engineMultiplayer;
 
 public class Game {
     public static AppCompatActivity activity;
@@ -83,6 +86,16 @@ public class Game {
                 carteBottoni[i] = (Button) carte[i];
                 carteBottoni[i].setOnClickListener(null);
             }
+        }
+
+        engineMultiplayer.createChat();
+
+        ImageView chatIcon = activity.findViewById(R.id.chat);
+        if(ActivityGame.multiplayer){
+            chatIcon.setVisibility(View.VISIBLE);
+            chatIcon.setOnClickListener(v -> engineMultiplayer.openChat());
+        }else{
+            chatIcon.setVisibility(View.INVISIBLE);
         }
 
         Utility.enableTopBar(activity);
