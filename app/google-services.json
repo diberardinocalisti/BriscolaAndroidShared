@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "905708124831",
-    "firebase_url": "https://briscola-472a8-default-rtdb.firebaseio.com",
-    "project_id": "briscola-472a8",
-    "storage_bucket": "briscola-472a8.appspot.com"
+    "project_number": "784188282618",
+    "firebase_url": "https://briscolasimonedaniele-default-rtdb.firebaseio.com",
+    "project_id": "briscolasimonedaniele",
+    "storage_bucket": "briscolasimonedaniele.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:905708124831:android:e55253d1abbec2b41e40aa",
+        "mobilesdk_app_id": "1:784188282618:android:63abe4aa45226041195b43",
         "android_client_info": {
           "package_name": "com.example.briscolav10"
         }
       },
       "oauth_client": [
         {
-          "client_id": "905708124831-er22vffu12sibnmn8ovgn0sc0os3kkrh.apps.googleusercontent.com",
+          "client_id": "784188282618-evar9s0eklh4srobu9q3id3m5lisbr0l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDK25WLXcmwqGuJBQzI0mJ7NShQEF0447E"
+          "current_key": "AIzaSyAHrhdnV1YFGrtBxaeFePmVcuD6p3bDe2w"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "905708124831-er22vffu12sibnmn8ovgn0sc0os3kkrh.apps.googleusercontent.com",
+              "client_id": "784188282618-evar9s0eklh4srobu9q3id3m5lisbr0l.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

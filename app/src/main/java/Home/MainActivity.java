@@ -11,11 +11,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
+import com.example.briscolav10.ProvaLoginFirebase;
 import com.example.briscolav10.R;
 
 import Login.LoginActivity;
@@ -112,5 +114,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Utility.oneLineDialog(this, this.getString(R.string.confirmleave), MainActivity.super::onBackPressed);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if(ProvaLoginFirebase.user != null)
+            System.out.println("Login");
+        else
+            System.out.println("Logout");
     }
 }

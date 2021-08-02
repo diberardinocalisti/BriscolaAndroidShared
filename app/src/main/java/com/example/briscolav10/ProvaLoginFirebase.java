@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -31,11 +32,9 @@ public class ProvaLoginFirebase extends AppCompatActivity {
     // See: https://developer.android.com/training/basics/intents/result
     private final ActivityResultLauncher<Intent> signInLauncher = registerForActivityResult(
             new FirebaseAuthUIActivityResultContract(),
-            new ActivityResultCallback<FirebaseAuthUIAuthenticationResult>() {
-                @Override
-                public void onActivityResult(FirebaseAuthUIAuthenticationResult result) {
-                    onSignInResult(result);
-                }
+            result -> {
+                System.out.println("ActivityhResult");
+                onSignInResult(result);
             }
     );
     // [END auth_fui_create_launcher]
@@ -52,8 +51,7 @@ public class ProvaLoginFirebase extends AppCompatActivity {
         // [START auth_fui_create_intent]
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
-                new AuthUI.IdpConfig.EmailBuilder().build(),
-                new AuthUI.IdpConfig.GoogleBuilder().build());
+                new AuthUI.IdpConfig.EmailBuilder().build());
 
         // Create and launch sign-in intent
         Intent signInIntent = AuthUI.getInstance()
@@ -70,8 +68,9 @@ public class ProvaLoginFirebase extends AppCompatActivity {
         IdpResponse response = result.getIdpResponse();
         if (result.getResultCode() == RESULT_OK) {
             // Successfully signed in
+            System.out.println("Prova login");
             user = FirebaseAuth.getInstance().getCurrentUser();
-            Toast.makeText(ProvaLoginFirebase.this,"Loggato con successo!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(),"Loggato con successo!",Toast.LENGTH_SHORT).show();
         } else {
             // Sign in failed. If response is null the user canceled the
             // sign-in flow using the back button. Otherwise check
@@ -120,7 +119,7 @@ public class ProvaLoginFirebase extends AppCompatActivity {
         // [END auth_fui_theme_logo]
     }*/
 
-    public void privacyAndTerms() {
+    /*public void privacyAndTerms() {
         List<AuthUI.IdpConfig> providers = Collections.emptyList();
 
         // [START auth_fui_pp_tos]
@@ -133,7 +132,7 @@ public class ProvaLoginFirebase extends AppCompatActivity {
                 .build();
         signInLauncher.launch(signInIntent);
         // [END auth_fui_pp_tos]
-    }
+    }*/
 
     public void emailLink() {
         // [START auth_fui_email_link]
