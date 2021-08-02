@@ -329,6 +329,7 @@ public class engineMultiplayer extends Engine{
         for(int i = 1; i < chatTkn.length; i++)
             textEntered.append(chatTkn[i]);
 
+        FirebaseClass.editFieldFirebase(codiceStanza,"chat","null");
         sendChatMessage(authorName, textEntered.toString(), false);
     }
 
@@ -339,6 +340,8 @@ public class engineMultiplayer extends Engine{
 
         View sendMessage = chat.findViewById(R.id.send);
         TextInputEditText inputEditText = chat.findViewById(R.id.inputDialog);
+
+        View closeDialog = chat.findViewById(R.id.closeDialog);
 
         removeChatNotis();
 
@@ -365,6 +368,7 @@ public class engineMultiplayer extends Engine{
             removeChatNotis();
         });
 
+        closeDialog.setOnClickListener(v -> chat.dismiss());
         chat.setOnDismissListener(dialog -> removeChatNotis());
     }
 

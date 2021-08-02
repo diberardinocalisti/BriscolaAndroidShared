@@ -58,6 +58,10 @@ public class GameRoom {
         return chat;
     }
 
+    public void setChat(String chat){
+        this.chat = chat;
+    }
+
     public String getGiocataDaHost() {
         return giocataDaHost;
     }

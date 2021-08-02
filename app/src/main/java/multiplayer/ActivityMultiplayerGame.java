@@ -90,7 +90,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                         engineMultiplayer.updateChat();
                         engineMultiplayer.checkIfCartaGiocata();
                     }
-
                 }
 
                 if(onStop) {
