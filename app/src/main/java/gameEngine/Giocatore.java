@@ -116,7 +116,6 @@ public class Giocatore {
     public void aggiornaIconaCarte(){
         int visibility = prese.size() == 0 ? View.INVISIBLE : View.VISIBLE;
         this.mazzo.setVisibility(visibility);
-        //this.iconaPunteggio.setText(this.punteggioCarte.toString());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -126,8 +125,6 @@ public class Giocatore {
                 if(isLastManche() && lastManche == 0)
                     Engine.lastManche();
             });
-
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

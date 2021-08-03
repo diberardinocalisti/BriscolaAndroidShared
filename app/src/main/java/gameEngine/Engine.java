@@ -63,8 +63,12 @@ import static gameEngine.Game.viewAnimDuration;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
     public static void inizializza() {
-        creaGiocatori();
-        iniziaPartita();
+        try{
+            creaGiocatori();
+            iniziaPartita();
+        }catch(Exception e){
+            System.out.println(e);
+        }
     }
 
     public static void iniziaPartita() {
@@ -155,6 +159,9 @@ public class Engine{
 
     public static void estraiBriscola(Runnable callback){
         Object event = new Object();
+
+        if(Engine.getCarteGiocatori().length < nGiocatori * nCarte)
+            return;
 
         new Thread(() -> {
             try {
