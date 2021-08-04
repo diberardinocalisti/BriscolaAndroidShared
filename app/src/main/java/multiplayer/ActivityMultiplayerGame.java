@@ -19,6 +19,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+
 import firebase.FirebaseClass;
 import gameEngine.Game;
 import gameEngine.Utility;
@@ -80,10 +82,20 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
                 if(!onStop){
                     if(!distribuisci){
-                        if(roleId.equals("host"))
-                            initHost();
-                        else if(!snapshot.getMazzo().equals("null"))
-                            initEnemy();
+                        if(roleId.equals("host")) {
+                            try {
+                                initHost();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else if(!snapshot.getMazzo().equals("null")) {
+                            try {
+                                initEnemy();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }else{
                         engineMultiplayer.updateChat();
                         engineMultiplayer.checkIfCartaGiocata();

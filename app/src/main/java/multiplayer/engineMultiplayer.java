@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -22,6 +23,7 @@ import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.IOException;
 import java.util.Random;
 
 import Home.MainActivity;
@@ -71,9 +73,10 @@ public class engineMultiplayer extends Engine{
     }
 
     public static void accediHost(AppCompatActivity c, String gameCode){
-        GameRoom g = new GameRoom(gameCode, loginClass.getFullFBName(),"null","null","null","null", "null");
+        GameRoom g = new GameRoom(gameCode, loginClass.getFullFBName(), "null", loginClass.getFBUserId(), "null","null","null","null", "null");
         FirebaseClass.addToFirebase(g);
 
+        System.out.println(loginClass.getFBUserId() + " id host");
         Intent i = new Intent(c, ActivityGame.class);
         i.putExtra("multiplayer",true);
         c.startActivity(i);
@@ -85,11 +88,12 @@ public class engineMultiplayer extends Engine{
         engineMultiplayer.role = "NOTHOST";
         ActivityGame.multiplayer = true;
         FirebaseClass.editFieldFirebase(input,"enemy", loginClass.getFullFBName());
+        FirebaseClass.editFieldFirebase(input,"idEnemy", loginClass.getFBUserId());
         Utility.goTo(c, ActivityMultiplayerGame.class);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void inizializza(){
+    public static void inizializza() throws IOException {
         creaGiocatori();
         Engine.pulisciTavolo();
         Engine.pulisciPrese();
@@ -134,7 +138,7 @@ public class engineMultiplayer extends Engine{
    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void creaGiocatori(){
+    public static void creaGiocatori() throws IOException {
         String[] players = new String[]{activity.getString(R.string.guest), activity.getString(R.string.guest)};
 
         for(int i = 0; i < Game.nGiocatori; i++)
@@ -157,10 +161,17 @@ public class engineMultiplayer extends Engine{
             ((GiocatoreMP) Game.opp).setRuolo("host");
         }
 
+        host.setId(snapshot.getIdHost());
+        enemy.setId(snapshot.getIdEnemy());
+
+        host.updateIcon();
+        enemy.updateIcon();
+
         host.setNome(snapshot.getHost());
         enemy.setNome(snapshot.getEnemy());
 
-        ((GiocatoreMP) Game.opp).joinedMessage();
+        System.out.println(host.getId() + " host");
+        System.out.println(enemy.getId() + " enemy");
 
         engineMultiplayer.setOnCLickListener();
     }
@@ -233,7 +244,7 @@ public class engineMultiplayer extends Engine{
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void initHost(){
+    public static void initHost() throws IOException {
         inizializza();
 
         Giocatore[] app = new Giocatore[]{host, enemy};
@@ -249,7 +260,7 @@ public class engineMultiplayer extends Engine{
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void initEnemy(){
+    public static void initEnemy() throws IOException {
         inizializza();
 
         Giocatore[] app = new Giocatore[]{host, enemy};
@@ -315,6 +326,7 @@ public class engineMultiplayer extends Engine{
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void updateChat(){
         String chatMsg = snapshot.getChat();
 
@@ -352,7 +364,7 @@ public class engineMultiplayer extends Engine{
 
             inputEditText.setText(new String());
 
-            String author = Game.user.getNome();
+            String author = Game.user.getId();
             String fullMessage = author + CHAT_DELIMETER + textEntered;
             FirebaseClass.editFieldFirebase(codiceStanza, "chat", fullMessage);
         });
@@ -371,18 +383,22 @@ public class engineMultiplayer extends Engine{
         chat.setOnDismissListener(dialog -> removeChatNotis());
     }
 
-    public static void sendChatMessage(String author, String message, boolean isEvent){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void sendChatMessage(String authorId, String message, boolean isEvent){
         LinearLayout scrollViewLayout = chat.findViewById(R.id.scrollViewLayout);
 
         LayoutInflater inflater = LayoutInflater.from(activity);
         View parentView = inflater.inflate(R.layout.singlemsg, null);
 
+        ImageView icon = parentView.findViewById(R.id.icon);
         TextView authorView = parentView.findViewById(R.id.author);
         TextView messageView = parentView.findViewById(R.id.messageSent);
         TextView chatSeperator = parentView.findViewById(R.id.chatSeperator2);
 
-        authorView.setText(author.trim());
+        Giocatore author = getPlayerById(authorId);
+        authorView.setText(author.getNome().trim());
         messageView.setText(message.trim());
+        icon.setImageBitmap(author.getIcon());
 
         if(isEvent)
             chatSeperator.setText(new String());

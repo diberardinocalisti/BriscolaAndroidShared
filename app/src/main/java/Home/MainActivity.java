@@ -6,18 +6,15 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
-import com.example.briscolav10.ProvaLoginFirebase;
 import com.example.briscolav10.R;
 
 import Login.LoginActivity;
@@ -119,10 +116,5 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        if(ProvaLoginFirebase.user != null)
-            System.out.println("Login");
-        else
-            System.out.println("Logout");
     }
 }

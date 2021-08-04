@@ -142,8 +142,8 @@
                         app:layout_constraintEnd_toStartOf="@+id/button5"
                         app:layout_constraintTop_toTopOf="@+id/button5" />
 
-                    <com.facebook.login.widget.ProfilePictureView
-                        android:id="@+id/friendProfilePictureUser"
+                    <ImageView
+                        android:id="@+id/friend_profile_picture_1"
                         android:layout_width="125px"
                         android:layout_height="125px"
                         android:layout_marginBottom="15dp"
@@ -152,9 +152,10 @@
                         android:visibility="visible"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/button4"
-                        app:layout_constraintStart_toStartOf="parent">
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:srcCompat="@drawable/com_facebook_profile_picture_blank_square">
 
-                    </com.facebook.login.widget.ProfilePictureView>
+                    </ImageView>
 
                     <Button
                         android:id="@+id/button5"
@@ -232,12 +233,12 @@
                         app:layout_constraintEnd_toStartOf="@+id/view5"
                         app:layout_constraintTop_toTopOf="@+id/button9" />
 
-                    <com.facebook.login.widget.ProfilePictureView
-                        android:id="@+id/friendProfilePictureEnemy"
+                    <ImageView
+                        android:id="@+id/friend_profile_picture_0"
                         android:layout_width="125px"
                         android:layout_height="125px"
                         android:layout_marginTop="15dp"
-                        android:src="@drawable/ic_baseline_account_circle_24"
+                        android:src="@drawable/com_facebook_profile_picture_blank_square"
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/button3"
@@ -249,7 +250,7 @@
                         android:layout_height="307px"
                         android:rotation="90"
                         android:visibility="invisible"
-                        app:layout_constraintBottom_toBottomOf="@+id/friendProfilePictureEnemy"
+                        app:layout_constraintBottom_toBottomOf="@+id/friend_profile_picture_0"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:srcCompat="@drawable/vuoto" />
@@ -262,7 +263,7 @@
                         android:visibility="invisible"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/friendProfilePictureUser"
+                        app:layout_constraintTop_toTopOf="@+id/friend_profile_picture_1"
                         app:srcCompat="@drawable/vuoto" />
 
                     <View

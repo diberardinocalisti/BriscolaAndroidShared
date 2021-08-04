@@ -102,18 +102,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="1.0">
 
-                <com.facebook.login.widget.ProfilePictureView
+                <ImageView
                     android:id="@+id/friendProfilePicture"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
-                    <ImageView
-                        android:id="@+id/android"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:contentDescription="@null"
-                        android:src="@drawable/subtracted_circle" />
-                </com.facebook.login.widget.ProfilePictureView>
+                <ImageView
+                    android:id="@+id/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@null"
+                    android:src="@drawable/subtracted_circle" />
 
             </FrameLayout>
 
@@ -190,7 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:text="0"
+                android:text="@string/loading"
                 android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="@+id/vittorieTesto"
                 app:layout_constraintStart_toEndOf="@+id/vittorieTesto"
@@ -221,7 +221,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:text="0"
+                android:text="@string/loading"
                 android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="@+id/sconfitteTesto"
                 app:layout_constraintStart_toEndOf="@+id/sconfitteTesto"
@@ -252,7 +252,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:text="0.0"
+                android:text="@string/loading"
                 android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="@+id/rateoTesto"
                 app:layout_constraintStart_toEndOf="@+id/rateoTesto"

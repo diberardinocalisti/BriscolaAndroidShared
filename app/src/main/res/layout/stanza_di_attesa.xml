@@ -38,18 +38,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/helper">
 
-                <com.facebook.login.widget.ProfilePictureView
-                    android:id="@+id/friendProfilePicture1"
-                    android:layout_width="100px"
-                    android:layout_height="100px">
+                <ImageView
+                    android:id="@+id/icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
-                    <ImageView
-                        android:id="@+id/android1"
-                        android:layout_width="100px"
-                        android:layout_height="100px"
-                        android:contentDescription="@null"
-                        android:src="@drawable/subtracted_circle" />
-                </com.facebook.login.widget.ProfilePictureView>
+                <ImageView
+                    android:id="@+id/android1"
+                    android:layout_width="100px"
+                    android:layout_height="100px"
+                    android:contentDescription="@null"
+                    android:src="@drawable/subtracted_circle" />
 
             </FrameLayout>
 
@@ -61,19 +61,18 @@
                 app:layout_constraintBottom_toTopOf="@+id/helper1"
                 app:layout_constraintStart_toStartOf="@+id/frameLayout3">
 
-                <com.facebook.login.widget.ProfilePictureView
+                <ImageView
                     android:id="@+id/friendProfilePicture2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+
+                <ImageView
+                    android:id="@+id/android2"
                     android:layout_width="100px"
-                    android:layout_height="100px">
-
-                    <ImageView
-                        android:id="@+id/android2"
-                        android:layout_width="100px"
-                        android:layout_height="100px"
-                        android:contentDescription="@null"
-                        android:src="@drawable/subtracted_circle" />
-                </com.facebook.login.widget.ProfilePictureView>
-
+                    android:layout_height="100px"
+                    android:contentDescription="@null"
+                    android:src="@drawable/subtracted_circle" />
             </FrameLayout>
 
             <View

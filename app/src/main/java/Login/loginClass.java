@@ -1,9 +1,22 @@
 package Login;
 
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
+import android.widget.ImageView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.facebook.AccessToken;
 import com.facebook.Profile;
 import com.facebook.login.widget.ProfilePictureView;
+
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import gameEngine.Game;
 
 public class loginClass {
 
@@ -22,9 +35,25 @@ public class loginClass {
         return AccessToken.getCurrentAccessToken().getUserId();
     }
 
-    public static void setImgProfile(ProfilePictureView img)
-    {
-        img.setProfileId(getFBUserId());
+    public static void setImgProfile(AppCompatActivity activity, String userId, ImageView imageIcon) {
+        new Thread(() -> {
+            URL imageURL = null;
+            try {
+                imageURL = new URL("https://graph.facebook.com/" + userId + "/picture?type=large");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            Bitmap bitmap = null;
+            try {
+                bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            Bitmap finalBitmap = bitmap;
+            activity.runOnUiThread(() -> imageIcon.setImageBitmap(finalBitmap));
+        }).start();
+
     }
 
     public static String getFBCognome()

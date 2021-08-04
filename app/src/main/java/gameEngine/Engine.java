@@ -24,6 +24,7 @@ import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
 import com.example.briscolav10.postPartita;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,6 +34,7 @@ import firebase.FirebaseClass;
 import multiplayer.engineMultiplayer;
 
 import static Login.loginClass.getFBNome;
+import static Login.loginClass.getFBUserId;
 import static Login.loginClass.getFullFBName;
 import static Login.loginClass.isFacebookLoggedIn;
 import static gameEngine.Game.I_BRISCOLA;
@@ -62,13 +64,9 @@ import static gameEngine.Game.viewAnimDuration;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
-    public static void inizializza() {
-        try{
-            creaGiocatori();
-            iniziaPartita();
-        }catch(Exception e){
-            System.out.println(e);
-        }
+    public static void inizializza() throws IOException {
+        creaGiocatori();
+        iniziaPartita();
     }
 
     public static void iniziaPartita() {
@@ -139,7 +137,7 @@ public class Engine{
         }
     }
 
-    public static void creaGiocatori(){
+    public static void creaGiocatori() throws IOException {
         for(int i = 0; i < giocatori.length; i++){
             boolean CPU = i == 0;
             if(!CPU){
@@ -148,7 +146,7 @@ public class Engine{
                 if(isFacebookLoggedIn())
                     username = getFullFBName();
 
-                giocatori[i] = new Giocatore(username, i);
+                giocatori[i] = new Giocatore(username, getFBUserId(), i);
             }else{
                 giocatori[i] = new CPU("CPU", i);
             }
@@ -392,6 +390,14 @@ public class Engine{
 
     static Giocatore getRandomPlayer(){
         return giocatori[(int) (Math.random() * giocatori.length)];
+    }
+
+    public static Giocatore getPlayerById(String id){
+        for(Giocatore p : giocatori)
+            if(p.getId().equals(id))
+                return p;
+
+        return null;
     }
 
     public static Giocatore getOtherPlayer(Giocatore current){

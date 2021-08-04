@@ -9,13 +9,17 @@ public class GameRoom {
 
     private String giocataDaHost, giocataDaEnemy;
 
+    private String idHost, idEnemy;
+
     private String chat;
     public GameRoom(){};
 
-    public GameRoom(String gameCode, String host, String enemy, String mazzo, String giocataDaHost, String giocataDaEnemy, String chat) {
+    public GameRoom(String gameCode, String host, String enemy, String idHost, String idEnemy, String mazzo, String giocataDaHost, String giocataDaEnemy, String chat) {
         this.gameCode = gameCode;
         this.host = host;
         this.enemy = enemy;
+        this.idHost = idHost;
+        this.idEnemy = idEnemy;
         this.mazzo = mazzo;
         this.giocataDaHost = giocataDaHost;
         this.giocataDaEnemy = giocataDaEnemy;
@@ -44,6 +48,22 @@ public class GameRoom {
 
     public void setEnemy(String enemy) {
         this.enemy = enemy;
+    }
+
+    public String getIdHost() {
+        return idHost;
+    }
+
+    public void setIdHost(String idHost) {
+        this.idHost = idHost;
+    }
+
+    public String getIdEnemy() {
+        return idEnemy;
+    }
+
+    public void setIdEnemy(String idEnemy) {
+        this.idEnemy = idEnemy;
     }
 
     public String getMazzo() {

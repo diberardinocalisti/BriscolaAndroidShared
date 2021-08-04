@@ -90,16 +90,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ProvaLoginFirebase"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop"
-            android:noHistory="true"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-            </intent-filter>
-        </activity>
         <activity android:name="Home.MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"

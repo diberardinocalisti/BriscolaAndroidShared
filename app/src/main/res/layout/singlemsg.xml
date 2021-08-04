@@ -6,6 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <FrameLayout
+        android:id="@+id/frameLayout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/helper">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="100px"
+            android:layout_height="150px"
+            app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+
+        <ImageView
+            android:id="@+id/android1"
+            android:layout_width="100px"
+            android:layout_height="150px"
+            android:contentDescription="@null"
+            android:src="@drawable/subtracted_circle" />
+
+    </FrameLayout>
+
     <TextView
         android:id="@+id/messageSent"
         android:layout_width="0dp"
@@ -24,25 +47,15 @@
         android:id="@+id/author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:fontFamily="@font/carter_one"
         android:paddingLeft="3dp"
         android:text="autore messaggio"
         android:textSize="14sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/chatSeperator"
-        app:layout_constraintStart_toEndOf="@+id/chatSeperator"
-        app:layout_constraintTop_toTopOf="@+id/chatSeperator" />
-
-    <TextView
-        android:id="@+id/chatSeperator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/carter_one"
-        android:text="»"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@+id/frameLayout3"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout3"
+        app:layout_constraintTop_toTopOf="@+id/frameLayout3" />
 
     <TextView
         android:id="@+id/chatSeperator2"

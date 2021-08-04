@@ -5,6 +5,7 @@ import android.os.Handler;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Home.SharedPref;
@@ -13,8 +14,8 @@ import static gameEngine.Engine.*;
 import static gameEngine.Game.*;
 
 public class CPU extends Giocatore {
-    protected CPU(String nome, Integer index) {
-        super(nome, index, true);
+    protected CPU(String nome, Integer index) throws IOException {
+        super(nome, index, null, true);
         Game.CPU = this;
     }
 

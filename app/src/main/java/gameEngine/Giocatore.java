@@ -1,22 +1,30 @@
 package gameEngine;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.Image;
 import android.os.Build;
 import android.os.Handler;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
 import com.example.briscolav10.R;
+import com.facebook.login.widget.ProfilePictureView;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+
+import Login.loginClass;
 
 import static gameEngine.Engine.*;
 import static gameEngine.Engine.isLastManche;
@@ -44,17 +52,18 @@ public class Giocatore {
 
     public View prendi;
 
-    // Icona che mostra il punteggio del giocatore;
-    //public Button iconaPunteggio;
+    public ImageView userIcon;
+
+    public String id;
 
     public View mazzo;
 
-    public Giocatore(String nome, Integer index){
-        this(nome, index, false);
+    public Giocatore(String nome, String userId, Integer index) throws IOException {
+        this(nome, index, userId, false);
         Game.user = this;
     }
 
-    public Giocatore(String nome, Integer index, boolean CPU){
+    protected Giocatore(String nome, Integer index, String userId, boolean CPU) throws IOException {
         this.nome = nome;
         this.CPU = CPU;
         this.index = index;
@@ -65,17 +74,22 @@ public class Giocatore {
         for(int i = this.index * nCarte, j = 0; j < nCarte; j++, i++)
             this.bottoni[j] = carteBottoni[i];
 
-        String idS = "button" + (this.index + 1 + 10);
+        String idS = "mazzo" + this.index;
         int id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
-        //this.iconaPunteggio = activity.findViewById(id);
-
-        idS = "mazzo" + this.index;
-        id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
         this.mazzo = activity.findViewById(id);
 
         idS = "prendi" + this.index;
         id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
         this.prendi = activity.findViewById(id);
+
+        idS = "friend_profile_picture_" + this.index;
+        id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
+        this.userIcon = activity.findViewById(id);
+
+        this.id = userId;
+
+        if(this.id != null)
+            this.updateIcon();
     }
 
     public void setNome(String nome){
@@ -88,6 +102,23 @@ public class Giocatore {
 
     public boolean isCPU(){
         return CPU;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Bitmap getIcon(){
+        BitmapDrawable drawable = (BitmapDrawable) this.userIcon.getDrawable();
+        return drawable.getBitmap();
+    }
+
+    public void updateIcon() throws IOException {
+        loginClass.setImgProfile(activity, this.id, this.userIcon);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

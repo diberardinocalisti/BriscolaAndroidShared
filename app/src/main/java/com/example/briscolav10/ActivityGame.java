@@ -7,7 +7,6 @@ import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -19,12 +18,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.facebook.login.widget.ProfilePictureView;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
+
+import java.io.IOException;
 
 import Home.MainActivity;
 import Login.loginClass;
@@ -33,10 +33,8 @@ import gameEngine.Game;
 import gameEngine.Utility;
 import multiplayer.ActivityMultiplayerGame;
 
-import static Login.loginClass.getFBNome;
+import static Login.loginClass.getFBUserId;
 import static Login.loginClass.getFullFBName;
-import static Login.loginClass.isFacebookLoggedIn;
-import static Login.loginClass.setImgProfile;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class ActivityGame extends AppCompatActivity {
@@ -61,14 +59,22 @@ public class ActivityGame extends AppCompatActivity {
 
         //Se l'utente ha scelto modalità singlePlayer
         if (multiplayer) {
-            startMultiPlayer();
+            try {
+                startMultiPlayer();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
-            startSinglePlayer();
+            try {
+                startSinglePlayer();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    protected void startSinglePlayer() {
+    protected void startSinglePlayer() throws IOException {
         setContentView(R.layout.campo_da_gioco);
 
         /*MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -84,17 +90,12 @@ public class ActivityGame extends AppCompatActivity {
         multiplayer = false;
         attesa = false;
 
-        ProfilePictureView picHost = findViewById(R.id.friendProfilePictureUser);
-
-        if(isFacebookLoggedIn())
-            setImgProfile(picHost);
-
         Game.startGame(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
-    protected void startMultiPlayer(){
+    protected void startMultiPlayer() throws IOException {
         if(ActivityMultiplayerGame.onStop){
             Utility.goTo(ActivityGame.this, MainActivity.class);
             ActivityMultiplayerGame.onStop = false;
@@ -108,13 +109,13 @@ public class ActivityGame extends AppCompatActivity {
         TextView codice = findViewById(R.id.codice);
         TextView stato = findViewById(R.id.stato);
         TextView nomeHost = findViewById(R.id.nome1);
-        ProfilePictureView picHost = findViewById(R.id.friendProfilePicture1);
+        ImageView picHost = findViewById(R.id.icon);
         Button chiudi = findViewById(R.id.chiudisala);
 
         codice.setText(this.getString(R.string.code) + codiceStanza);
         stato.setText(this.getString(R.string.state) + this.getString(R.string.waiting));
         nomeHost.setText(getFullFBName());
-        loginClass.setImgProfile(picHost);
+        loginClass.setImgProfile(this, getFBUserId(), picHost);
 
         chiudi.setOnClickListener(v -> {
             Utility.oneLineDialog(ActivityGame.this, this.getString(R.string.confirmleavegame), () -> {

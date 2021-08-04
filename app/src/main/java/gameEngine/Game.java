@@ -11,11 +11,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
+import com.facebook.FacebookActivity;
+import com.facebook.login.widget.ProfilePictureView;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import Home.SharedPref;
 import multiplayer.engineMultiplayer;
+
+import static Login.loginClass.getFBUserId;
+import static Login.loginClass.isFacebookLoggedIn;
+import static Login.loginClass.setImgProfile;
 
 public class Game {
     public static AppCompatActivity activity;
@@ -105,7 +112,7 @@ public class Game {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void startGame(AppCompatActivity activity) {
+    public static void startGame(AppCompatActivity activity) throws IOException {
         initialize(activity);
         Engine.inizializza();
     }

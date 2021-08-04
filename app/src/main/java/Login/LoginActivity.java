@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,7 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.login.widget.ProfilePictureView;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -53,7 +56,11 @@ public class LoginActivity extends AppCompatActivity {
         if(!loginClass.isFacebookLoggedIn()){
             loginPage();
         }else{
-            accountPage();
+            try {
+                accountPage();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -107,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getBaseContext(),msg,Toast.LENGTH_LONG).show();
     }
 
-    void accountPage(){
+    void accountPage() throws IOException {
         setContentView(R.layout.fb_profile);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
@@ -133,8 +140,8 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.logout).setOnClickListener(doLogout);
         findViewById(R.id.logoutB).setOnClickListener(doLogout);
 
-        ProfilePictureView imgProfile = findViewById(R.id.friendProfilePicture);
-        loginClass.setImgProfile(imgProfile);
+        ImageView imgProfile = findViewById(R.id.friendProfilePicture);
+        loginClass.setImgProfile(this, loginClass.getFBUserId(), imgProfile);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
