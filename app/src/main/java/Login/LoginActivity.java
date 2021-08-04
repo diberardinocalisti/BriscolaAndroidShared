@@ -36,8 +36,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import Home.MainActivity;
+import firebase.FirebaseClass;
 import gameEngine.Utility;
-
+import multiplayer.User;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -91,6 +92,10 @@ public class LoginActivity extends AppCompatActivity {
         l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+
+                // TODO: controllare se l'utente esiste già, solo se non esiste creare un nuovo campo
+                User user = new User(0,0);
+                FirebaseClass.addUserToFirebase(user,loginResult.getAccessToken().getUserId());
                 // TODO: indirizzare l'utente alla pagina del profilo una volta effettuato l'accesso;
                 Utility.goTo(curActivity, MainActivity.class);
             }
