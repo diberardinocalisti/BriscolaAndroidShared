@@ -17,14 +17,14 @@
     <string name="howtoplaymp">How to play with a friend</string>
     <string name="goback">Go back</string>
     <string name="edit">Edit</string>
-    <string name="logout">Succesfully logout!</string>
+    <string name="logout">Successfully logout!</string>
     <string name="totwin">Matches won:</string>
     <string name="totlose">Matches lost:</string>
     <string name="tottie">Matches tied:</string>
     <string name="rateo">W/L Ratio:</string>
     <string name="accountid">Account ID:</string>
     <string name="insertcode">Insert your code</string>
-    <string name="loading">Loading...</string>
+    <string name="loading">Loading…</string>
     <string name="credits">Created by Daniele Calisti and Di Berardino Simone</string>
     <string name="whylogin">Why login?</string>
     <string name="win">Victory!</string>
