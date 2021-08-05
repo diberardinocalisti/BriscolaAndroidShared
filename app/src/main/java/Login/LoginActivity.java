@@ -218,6 +218,9 @@ public class LoginActivity extends AppCompatActivity {
 
                     rateo = (vinteF != 0.0 && perseF != 0.0 ? vinteF/perseF : 0);
 
+                    if(perseF == 0.0)
+                        rateo = vinteF;
+
                     System.out.println("vinte --> " + vinteF+" perse --> " + perseF+" rateo --> " + rateo);
                     nRateo.setText(String.valueOf(rateo));
                 }
