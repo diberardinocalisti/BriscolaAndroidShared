@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                 String uid = loginResult.getAccessToken().getUserId();
                 fbUID = uid;
                 // TODO: controllare se l'utente esiste già, solo se non esiste creare un nuovo campo
-                FirebaseClass.getFbRef().child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                FirebaseClass.getFbRef().get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (!task.isSuccessful()) {
@@ -109,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                             boolean esiste = false;
                             for(DataSnapshot d: task.getResult().getChildren())
                             {
+                                System.out.println("Uid --> " + d.getKey());
                                 if(d.getKey().equals(uid))
                                 {
                                     esiste = true;
@@ -116,9 +117,14 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }
 
+                            System.out.println("Esiste --> "  +esiste);
+
                             if(!esiste) {
                                 User user = new User(0,0);
                                 FirebaseClass.addUserToFirebase(user,uid);
+                            }else
+                            {
+                                System.out.println("Non esiste!");
                             }
                         }
                     }
@@ -220,6 +226,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     if(perseF == 0.0)
                         rateo = vinteF;
+
+                    rateo = (float) (Math.round(rateo*100.0)/100.0);
 
                     System.out.println("vinte --> " + vinteF+" perse --> " + perseF+" rateo --> " + rateo);
                     nRateo.setText(String.valueOf(rateo));
