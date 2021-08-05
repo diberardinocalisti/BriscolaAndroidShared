@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.briscolav10.R;
+import game.danielesimone.briscolav10.R;
 
 import java.util.Random;
 

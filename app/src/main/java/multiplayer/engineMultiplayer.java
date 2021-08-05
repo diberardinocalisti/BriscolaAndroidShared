@@ -19,8 +19,8 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.briscolav10.ActivityGame;
-import com.example.briscolav10.R;
+import game.danielesimone.briscolav10.ActivityGame;
+import game.danielesimone.briscolav10.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;

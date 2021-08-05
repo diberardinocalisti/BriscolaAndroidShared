@@ -1,4 +1,4 @@
-package com.example.briscolav10;
+package game.danielesimone.briscolav10;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import game.danielesimone.briscolav10.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +29,6 @@ import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
 import gameEngine.Utility;
-import multiplayer.User;
 
 import static Login.LoginActivity.fbUID;
 import static gameEngine.Game.activity;

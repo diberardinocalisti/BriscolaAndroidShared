@@ -12,17 +12,15 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.briscolav10.ActivityGame;
-import com.example.briscolav10.R;
-import com.example.briscolav10.postPartita;
+import game.danielesimone.briscolav10.ActivityGame;
+import game.danielesimone.briscolav10.R;
+import game.danielesimone.briscolav10.postPartita;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,7 +31,6 @@ import Home.SharedPref;
 import firebase.FirebaseClass;
 import multiplayer.engineMultiplayer;
 
-import static Login.loginClass.getFBNome;
 import static Login.loginClass.getFBUserId;
 import static Login.loginClass.getFullFBName;
 import static Login.loginClass.isFacebookLoggedIn;

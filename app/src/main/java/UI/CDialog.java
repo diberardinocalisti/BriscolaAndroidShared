@@ -5,10 +5,9 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.briscolav10.R;
+import game.danielesimone.briscolav10.R;
 
 public class CDialog extends Dialog implements android.view.View.OnClickListener {
     public Activity c;

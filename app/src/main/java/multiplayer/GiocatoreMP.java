@@ -1,14 +1,8 @@
 package multiplayer;
 
-import com.example.briscolav10.R;
-
 import java.io.IOException;
 
-import gameEngine.Game;
 import gameEngine.Giocatore;
-
-import static gameEngine.Game.activity;
-import static multiplayer.engineMultiplayer.sendChatMessage;
 
 public class GiocatoreMP extends Giocatore {
     public String ruolo;

@@ -1,4 +1,4 @@
-package com.example.briscolav10;
+package game.danielesimone.briscolav10;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

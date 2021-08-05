@@ -3,17 +3,11 @@ package gameEngine;
 import static gameEngine.Engine.*;
 import static gameEngine.Game.*;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Handler;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import androidx.annotation.RequiresApi;
-
-import com.example.briscolav10.R;
 
 public class onClick implements View.OnClickListener {
     @RequiresApi(api = Build.VERSION_CODES.N)

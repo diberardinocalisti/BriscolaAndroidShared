@@ -9,20 +9,14 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.briscolav10.ActivityGame;
-import com.example.briscolav10.R;
-import com.facebook.FacebookActivity;
-import com.facebook.login.widget.ProfilePictureView;
+import game.danielesimone.briscolav10.ActivityGame;
+import game.danielesimone.briscolav10.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import Home.SharedPref;
 import multiplayer.engineMultiplayer;
-
-import static Login.loginClass.getFBUserId;
-import static Login.loginClass.isFacebookLoggedIn;
-import static Login.loginClass.setImgProfile;
 
 public class Game {
     public static AppCompatActivity activity;

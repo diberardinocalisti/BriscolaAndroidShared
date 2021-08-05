@@ -2,22 +2,14 @@ package gameEngine;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.os.Build;
-import android.os.Handler;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.briscolav10.R;
-import com.facebook.login.widget.ProfilePictureView;
-
-import org.w3c.dom.Text;
+import game.danielesimone.briscolav10.R;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,7 +21,6 @@ import Login.loginClass;
 import static gameEngine.Engine.*;
 import static gameEngine.Engine.isLastManche;
 import static gameEngine.Game.*;
-import static multiplayer.engineMultiplayer.sendChatMessage;
 
 public class Giocatore {
     public Button[] bottoni;

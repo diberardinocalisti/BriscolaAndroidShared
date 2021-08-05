@@ -14,8 +14,8 @@ import android.widget.ImageButton;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.briscolav10.ActivityGame;
-import com.example.briscolav10.R;
+import game.danielesimone.briscolav10.ActivityGame;
+import game.danielesimone.briscolav10.R;
 import com.facebook.AccessToken;
 
 import Login.LoginActivity;
