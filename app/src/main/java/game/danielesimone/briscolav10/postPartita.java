@@ -114,12 +114,8 @@ public class postPartita extends AppCompatActivity {
 
         exit.setOnClickListener(v -> Utility.goTo(this, MainActivity.class));
 
-        // Bisogna programmare il tasto restart per il multiplayer;
-        // Direi che se nel caso si è host, si crea una nuova stanza con lo stesso codice,
-        // altrimenti si accede alla stanza utilizzando il vecchio codice;
-        if(ActivityGame.multiplayer){
+        if(ActivityGame.multiplayer)
             restart.setVisibility(View.INVISIBLE);
-        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -139,23 +135,20 @@ public class postPartita extends AppCompatActivity {
 
         if(!ActivityGame.multiplayer)
             return;
-        //Prendo il num di vittorie
-        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    System.out.println("Errore!");
-                }
-                else {
-                    long perse = 0;
-                    for(DataSnapshot d: task.getResult().getChildren())
+
+        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                System.out.println("Errore!");
+            }
+            else {
+                long perse = 0;
+                for(DataSnapshot d: task.getResult().getChildren())
+                {
+                    if(d.getKey().equals("perse"))
                     {
-                        if(d.getKey().equals("perse"))
-                        {
-                            perse = (long) d.getValue();
-                            FirebaseClass.editFieldFirebase(fbUID,"perse",perse+1);
-                            break;
-                        }
+                        perse = (long) d.getValue();
+                        FirebaseClass.editFieldFirebase(fbUID,"perse",perse+1);
+                        break;
                     }
                 }
             }
@@ -175,23 +168,20 @@ public class postPartita extends AppCompatActivity {
 
         if(!ActivityGame.multiplayer)
             return;
-        //Prendo il num di vittorie
-        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    System.out.println("Errore!");
-                }
-                else {
-                    long vinte = 0;
-                    for(DataSnapshot d: task.getResult().getChildren())
+
+        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                System.out.println("Errore!");
+            }
+            else {
+                long vinte = 0;
+                for(DataSnapshot d: task.getResult().getChildren())
+                {
+                    if(d.getKey().equals("vinte"))
                     {
-                        if(d.getKey().equals("vinte"))
-                        {
-                            vinte = (long) d.getValue();
-                            FirebaseClass.editFieldFirebase(fbUID,"vinte",vinte+1);
-                            break;
-                        }
+                        vinte = (long) d.getValue();
+                        FirebaseClass.editFieldFirebase(fbUID,"vinte",vinte+1);
+                        break;
                     }
                 }
             }
