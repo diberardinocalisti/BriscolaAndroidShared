@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.briscolav10.ActivityGame;
 import com.example.briscolav10.R;
+import com.facebook.AccessToken;
 
 import Login.LoginActivity;
 import Login.loginClass;
@@ -30,6 +31,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(loginClass.isFacebookLoggedIn())
+        {
+            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+            LoginActivity.fbUID = accessToken.getUserId();
+        }
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);

@@ -48,6 +48,8 @@ import multiplayer.User;
 
 public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
+    public static String fbUID;
+    public TextView nVittorie, nSconfitte, nRateo;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -62,11 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         if(!loginClass.isFacebookLoggedIn()){
             loginPage();
         }else{
-            try {
-                accountPage();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            accountPage();
         }
 
     }
@@ -99,6 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onSuccess(LoginResult loginResult) {
 
                 String uid = loginResult.getAccessToken().getUserId();
+                fbUID = uid;
                 // TODO: controllare se l'utente esiste già, solo se non esiste creare un nuovo campo
                 FirebaseClass.getFbRef().child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
@@ -147,16 +146,18 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getBaseContext(),msg,Toast.LENGTH_LONG).show();
     }
 
-    void accountPage() throws IOException {
+    void accountPage(){
         setContentView(R.layout.fb_profile);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         TextView nome = findViewById(R.id.nome);
         nome.setText(loginClass.getFullFBName());
 
-        TextView nVittorie = findViewById(R.id.vittorieValore);
-        TextView nSconfitte = findViewById(R.id.sconfitteValore);
-        TextView nRateo = findViewById(R.id.rateoValore);
+        nVittorie = findViewById(R.id.vittorieValore);
+        nSconfitte = findViewById(R.id.sconfitteValore);
+        nRateo = findViewById(R.id.rateoValore);
+
+        setStatistiche();
 
         TextView accountId = findViewById(R.id.idValore);
         accountId.setText(loginClass.getFBUserId());
@@ -184,5 +185,43 @@ public class LoginActivity extends AppCompatActivity {
         final Configuration override = new Configuration(newBase.getResources().getConfiguration());
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
+    }
+
+    public void setStatistiche()
+    {
+        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    System.out.println("Error --> " + task.getException());
+                }
+                else {
+                    String vinte = null,perse=null;
+                    float rateo = 0.0f,vinteF = 0.0f, perseF = 0.0f;
+                    for(DataSnapshot d: task.getResult().getChildren())
+                    {
+                        if(d.getKey().equals("perse"))
+                        {
+                            perse = String.valueOf(d.getValue());
+                            perseF = Float.parseFloat(perse);
+                            nSconfitte.setText(String.valueOf(d.getValue()));
+                        }
+
+                        if(d.getKey().equals("vinte"))
+                        {
+                            vinte = String.valueOf(d.getValue());
+                            vinteF = Float.parseFloat(vinte);
+                            nVittorie.setText(String.valueOf(d.getValue()));
+                        }
+                    }
+
+
+                    rateo = (vinteF != 0.0 && perseF != 0.0 ? vinteF/perseF : 0);
+
+                    System.out.println("vinte --> " + vinteF+" perse --> " + perseF+" rateo --> " + rateo);
+                    nRateo.setText(String.valueOf(rateo));
+                }
+            }
+        });
     }
 }

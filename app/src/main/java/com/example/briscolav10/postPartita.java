@@ -13,21 +13,32 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+
 import Home.MainActivity;
+import firebase.FirebaseClass;
 import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
 import gameEngine.Utility;
+import multiplayer.User;
 
+import static Login.LoginActivity.fbUID;
 import static gameEngine.Game.activity;
 import static gameEngine.Game.maxPunti;
 import static gameEngine.Game.nGiocatori;
 
 public class postPartita extends AppCompatActivity {
+
+    public String background, stato;
+
     @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -52,16 +63,13 @@ public class postPartita extends AppCompatActivity {
         int punteggio = extras.getInt("punteggio");
         String[] daMostrare = extras.getStringArray("carte");
 
-        String background, stato;
+
         if(punteggio < maxPunti/nGiocatori) {
-            background = "sconfitta";
-            stato = this.getResources().getString(R.string.lost);
+            partitaPersa();
         }else if(punteggio == maxPunti/nGiocatori) {
-            background = "pareggio";
-            stato = this.getResources().getString(R.string.tie);
+            pareggio();
         }else{
-            background = "vittoria";
-            stato = this.getResources().getString(R.string.win);
+            partitaVinta();
         }
 
         // Aggiorna lo sfondo in base all'esito della partita (blu/rosso/grigio);
@@ -121,5 +129,74 @@ public class postPartita extends AppCompatActivity {
         final Configuration override = new Configuration(newBase.getResources().getConfiguration());
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
+    }
+
+
+    public void partitaPersa()
+    {
+        background = "sconfitta";
+        stato = this.getResources().getString(R.string.lost);
+
+        if(!ActivityGame.multiplayer)
+            return;
+        //Prendo il num di vittorie
+        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    System.out.println("Errore!");
+                }
+                else {
+                    int perse = 0;
+                    for(DataSnapshot d: task.getResult().getChildren())
+                    {
+                        if(d.getKey().equals("perse"))
+                        {
+                            perse = (int) d.getValue();
+                            FirebaseClass.editFieldFirebase(fbUID,"perse",perse+1);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public void pareggio()
+    {
+        background = "pareggio";
+        stato = this.getResources().getString(R.string.tie);
+    }
+
+    public void partitaVinta()
+    {
+        background = "vittoria";
+        stato = this.getResources().getString(R.string.win);
+
+        if(!ActivityGame.multiplayer)
+            return;
+        //Prendo il num di vittorie
+        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                if (!task.isSuccessful()) {
+                    System.out.println("Errore!");
+                }
+                else {
+                    int vinte = 0;
+                    for(DataSnapshot d: task.getResult().getChildren())
+                    {
+                        if(d.getKey().equals("vinte"))
+                        {
+                            vinte = (int) d.getValue();
+                            FirebaseClass.editFieldFirebase(fbUID,"vinte",vinte+1);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
+
     }
 }
