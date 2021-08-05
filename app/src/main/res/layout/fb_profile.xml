@@ -39,7 +39,7 @@
                 android:layout_marginRight="5dp"
                 android:alpha="0.85"
                 android:background="@drawable/yellow_button"
-                android:text="Modifica"
+                android:text="@string/edit"
                 android:textAllCaps="false"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/helper5"
