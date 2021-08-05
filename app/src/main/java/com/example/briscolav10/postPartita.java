@@ -147,12 +147,12 @@ public class postPartita extends AppCompatActivity {
                     System.out.println("Errore!");
                 }
                 else {
-                    int perse = 0;
+                    long perse = 0;
                     for(DataSnapshot d: task.getResult().getChildren())
                     {
                         if(d.getKey().equals("perse"))
                         {
-                            perse = (int) d.getValue();
+                            perse = (long) d.getValue();
                             FirebaseClass.editFieldFirebase(fbUID,"perse",perse+1);
                             break;
                         }
@@ -183,12 +183,12 @@ public class postPartita extends AppCompatActivity {
                     System.out.println("Errore!");
                 }
                 else {
-                    int vinte = 0;
+                    long vinte = 0;
                     for(DataSnapshot d: task.getResult().getChildren())
                     {
                         if(d.getKey().equals("vinte"))
                         {
-                            vinte = (int) d.getValue();
+                            vinte = (long) d.getValue();
                             FirebaseClass.editFieldFirebase(fbUID,"vinte",vinte+1);
                             break;
                         }
