@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -30,6 +31,10 @@ import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.login.widget.ProfilePictureView;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -93,9 +98,32 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
 
+                String uid = loginResult.getAccessToken().getUserId();
                 // TODO: controllare se l'utente esiste già, solo se non esiste creare un nuovo campo
-                User user = new User(0,0);
-                FirebaseClass.addUserToFirebase(user,loginResult.getAccessToken().getUserId());
+                FirebaseClass.getFbRef().child(uid).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            System.out.println("Errore!");
+                        }
+                        else {
+                            boolean esiste = false;
+                            for(DataSnapshot d: task.getResult().getChildren())
+                            {
+                                if(d.getKey().equals(uid))
+                                {
+                                    esiste = true;
+                                    break;
+                                }
+                            }
+
+                            if(!esiste) {
+                                User user = new User(0,0);
+                                FirebaseClass.addUserToFirebase(user,uid);
+                            }
+                        }
+                    }
+                });
                 // TODO: indirizzare l'utente alla pagina del profilo una volta effettuato l'accesso;
                 Utility.goTo(curActivity, MainActivity.class);
             }
