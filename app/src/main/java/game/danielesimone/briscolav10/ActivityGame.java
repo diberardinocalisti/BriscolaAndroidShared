@@ -44,6 +44,9 @@ public class ActivityGame extends AppCompatActivity {
     public static boolean multiplayer = false;
     public static boolean attesa = false;
     public static boolean finishAttesa = false;    //Se mando l'utente alla pagina del gioco è comunque onmStop() e quindi verrebbe eliminata la staanza
+    public static boolean pause = false;
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -186,5 +189,14 @@ public class ActivityGame extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), ActivityGame.super::onBackPressed);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        ActivityGame.pause = true;
+
+
     }
 }

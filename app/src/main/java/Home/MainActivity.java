@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import firebase.FirebaseClass;
 import game.danielesimone.briscolav10.ActivityGame;
 import game.danielesimone.briscolav10.R;
 import com.facebook.AccessToken;
@@ -23,7 +24,9 @@ import Login.loginClass;
 import gameEngine.Game;
 import gameEngine.Utility;
 import multiplayer.ActivityMultiplayerGame;
+import multiplayer.GameRoom;
 import multiplayer.MultiplayerActivity;
+import multiplayer.engineMultiplayer;
 
 public class MainActivity extends AppCompatActivity {
     @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
@@ -123,5 +126,24 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(ActivityGame.pause)
+        {
+            GameRoom g = new GameRoom(engineMultiplayer.codiceStanza, loginClass.getFullFBName(), "null", loginClass.getFBUserId(), "null","null","null","null", "null");
+            FirebaseClass.addToFirebase(g);
+
+            ActivityGame.attesa = true;
+
+            Intent i = new Intent(MainActivity.this,ActivityGame.class);
+            i.putExtra("multiplayer",true);
+            MainActivity.this.startActivity(i);
+
+            ActivityGame.pause = false;
+        }
     }
 }
