@@ -21,7 +21,6 @@ public class FirebaseClass {
         return FirebaseDatabase.getInstance("https://briscola-75019-default-rtdb.firebaseio.com/").getReference(path);
     }
 
-
     public static void addToFirebase(GameRoom g)
     {
         getFbRef().child(g.getGameCode()).setValue(g);

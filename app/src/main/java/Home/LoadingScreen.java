@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,12 +37,17 @@ public class LoadingScreen extends AppCompatActivity {
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         new Handler().postDelayed(() -> {
-            if(SharedPref.getTipoCarte().equals("null"))
-                this.startActivity(new Intent(this, Initconfig.class));
-            else
-                this.startActivity(new Intent(this, MainActivity.class));
+            findViewById(R.id.parent).setOnClickListener(v -> {
+                Class destination = SharedPref.getTipoCarte().equals("null") ? Initconfig.class : MainActivity.class;
+                this.startActivity(new Intent(this, destination));
+                this.finish();
+            });
 
-            this.finish();
-       }, durataCaricamento);
+            ProgressBar progressBar = findViewById(R.id.progressBar);
+            progressBar.setVisibility(View.INVISIBLE);
+
+            TextView centerTextView = findViewById(R.id.textView);
+            centerTextView.setText(getString(R.string.touchtostart));
+        }, durataCaricamento);
     }
 }

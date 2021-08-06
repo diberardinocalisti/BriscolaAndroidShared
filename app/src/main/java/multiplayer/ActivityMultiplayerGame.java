@@ -74,10 +74,13 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
                 snapshot = dataSnapshot.getValue(GameRoom.class);
 
-                try{
-                    checkIfSomeoneLeft();
-                }catch(Exception e){
-                    return;
+                if(!onStop){
+                    try{
+                        System.out.println("check");
+                        checkIfSomeoneLeft();
+                    }catch(Exception e){
+                        return;
+                    }
                 }
 
                 if(!onStop){

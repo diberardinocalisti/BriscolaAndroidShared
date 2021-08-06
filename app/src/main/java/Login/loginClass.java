@@ -32,7 +32,7 @@ public class loginClass {
 
     public static String getFBUserId()
     {
-        return AccessToken.getCurrentAccessToken().getUserId();
+        return isFacebookLoggedIn() ? AccessToken.getCurrentAccessToken().getUserId() : null;
     }
 
     public static void setImgProfile(AppCompatActivity activity, String userId, ImageView imageIcon) {

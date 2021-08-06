@@ -74,5 +74,13 @@
     <string name="sendamessage">Manda un messaggio</string>
     <string name="joinedgame">ha partecipato alla partita!</string>
     <string name="welcomechat">» Benvenuto nella chat di gioco!</string>
+    <string name="touchtostart">Tocca per iniziare!</string>
+    <string name="joinfriend">Unisciti a un amico</string>
+    <string name="accessviacode">Accedi con codice</string>
+    <string name="roomlist">Lista stanze</string>
+    <string name="refresh">Aggiorna</string>
+    <string name="noavailableroom">Ooops! Nessuna stanza trovata.</string>
+    <string name="full">Piena</string>
+    <string name="warning">Attenzione!</string>
 
 </resources>

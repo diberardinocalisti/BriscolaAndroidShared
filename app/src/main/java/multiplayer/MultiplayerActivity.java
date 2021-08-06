@@ -38,13 +38,13 @@ public class MultiplayerActivity extends AppCompatActivity {
         ActivityMultiplayerGame.onStop = false;
 
         Button createRoom = findViewById(R.id.createroom);
-        Button joinRoom = findViewById(R.id.joinroom);
-        Button howToPlay = findViewById(R.id.howtoplaymp);
+        Button joinRoom = findViewById(R.id.accessviacode);
+        Button roomList = findViewById(R.id.roomlist);
         Button goBack = findViewById(R.id.goback);
 
         createRoom.setOnClickListener(v -> engineMultiplayer.creaStanza(MultiplayerActivity.this));
         joinRoom.setOnClickListener(v -> createInputDialog());
-        howToPlay.setOnClickListener(v -> Utility.createDialog(MultiplayerActivity.this, MultiplayerActivity.this.getString(R.string.howtoplaymp), MultiplayerActivity.this.getString(R.string.howtoplaymptut)));
+        roomList.setOnClickListener(v -> Utility.goTo(this, RoomList.class));
         goBack.setOnClickListener(v -> MultiplayerActivity.super.onBackPressed());
     }
 

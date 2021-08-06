@@ -1,9 +1,7 @@
 package multiplayer;
 
 public class User {
-
-    private int vinte;
-    private int perse;
+    private int vinte, perse;
 
     public User(int vinte, int perse) {
         this.vinte = vinte;

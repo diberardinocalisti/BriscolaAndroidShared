@@ -76,7 +76,6 @@ public class engineMultiplayer extends Engine{
         GameRoom g = new GameRoom(gameCode, loginClass.getFullFBName(), "null", loginClass.getFBUserId(), "null","null","null","null", "null");
         FirebaseClass.addToFirebase(g);
 
-        System.out.println(loginClass.getFBUserId() + " id host");
         Intent i = new Intent(c, ActivityGame.class);
         i.putExtra("multiplayer",true);
         c.startActivity(i);
@@ -112,9 +111,7 @@ public class engineMultiplayer extends Engine{
                 Utility.goTo(activity, MainActivity.class);
             }
             onStop = true;
-        }
-
-        if(enemy.equals("null") && !host.equals("null")) {
+        }else if(enemy.equals("null") && !host.equals("null")) {
             if (!role.equals("HOST")){
                 Toast.makeText(activity, activity.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
             }else{
@@ -391,7 +388,7 @@ public class engineMultiplayer extends Engine{
         View parentView = inflater.inflate(R.layout.singlemsg, null);
 
         ImageView icon = parentView.findViewById(R.id.icon);
-        TextView authorView = parentView.findViewById(R.id.author);
+        TextView authorView = parentView.findViewById(R.id.authorName);
         TextView messageView = parentView.findViewById(R.id.messageSent);
         TextView chatSeperator = parentView.findViewById(R.id.chatSeperator2);
 

@@ -18,6 +18,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import Login.LoginActivity;
+import Login.loginClass;
 import game.danielesimone.briscolav10.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -133,15 +135,12 @@ public class postPartita extends AppCompatActivity {
         background = "sconfitta";
         stato = this.getResources().getString(R.string.lost);
 
-        if(!ActivityGame.multiplayer)
+        if(!loginClass.isFacebookLoggedIn())
             return;
 
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                System.out.println("Errore!");
-            }
-            else {
-                long perse = 0;
+            if(task.isSuccessful()){
+                long perse;
                 for(DataSnapshot d: task.getResult().getChildren())
                 {
                     if(d.getKey().equals("perse"))
@@ -166,19 +165,15 @@ public class postPartita extends AppCompatActivity {
         background = "vittoria";
         stato = this.getResources().getString(R.string.win);
 
-        if(!ActivityGame.multiplayer)
+        if(!loginClass.isFacebookLoggedIn())
             return;
 
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
-            if (!task.isSuccessful()) {
-                System.out.println("Errore!");
-            }
-            else {
-                long vinte = 0;
-                for(DataSnapshot d: task.getResult().getChildren())
-                {
-                    if(d.getKey().equals("vinte"))
-                    {
+            if(task.isSuccessful()){
+                long vinte;
+
+                for(DataSnapshot d: task.getResult().getChildren()){
+                    if(d.getKey().equals("vinte")){
                         vinte = (long) d.getValue();
                         FirebaseClass.editFieldFirebase(fbUID,"vinte",vinte+1);
                         break;

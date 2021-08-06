@@ -1,10 +1,12 @@
 package multiplayer;
 
+import com.google.firebase.database.DataSnapshot;
+
 public class GameRoom {
-    private String gameCode;
+    public static String gameCode;
 
     private String host, enemy;
-    
+
     private String mazzo;
 
     private String giocataDaHost, giocataDaEnemy;
@@ -12,10 +14,11 @@ public class GameRoom {
     private String idHost, idEnemy;
 
     private String chat;
+
     public GameRoom(){};
 
     public GameRoom(String gameCode, String host, String enemy, String idHost, String idEnemy, String mazzo, String giocataDaHost, String giocataDaEnemy, String chat) {
-        this.gameCode = gameCode;
+        GameRoom.gameCode = gameCode;
         this.host = host;
         this.enemy = enemy;
         this.idHost = idHost;
@@ -110,5 +113,9 @@ public class GameRoom {
                 ", giocataDaEnemy='" + giocataDaEnemy + '\'' +
                 ", chat='" + chat + '\'' +
                 '}';
+    }
+
+    public static boolean isGameRoom(DataSnapshot d){
+        return d.hasChild("gameCode");
     }
 }

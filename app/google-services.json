@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "784188282618",
+    "firebase_url": "https://briscola-75019-default-rtdb.firebaseio.com/",
+    "project_id": "briscolasimonedaniele",
+    "storage_bucket": "briscolasimonedaniele.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784188282618:android:63abe4aa45226041195b43",
+        "android_client_info": {
+          "package_name": "game.danielesimone.briscolav10"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784188282618-evar9s0eklh4srobu9q3id3m5lisbr0l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHrhdnV1YFGrtBxaeFePmVcuD6p3bDe2w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784188282618-evar9s0eklh4srobu9q3id3m5lisbr0l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -60,11 +60,7 @@ public class ActivityGame extends AppCompatActivity {
 
         //Se l'utente ha scelto modalità singlePlayer
         if (multiplayer) {
-            try {
-                startMultiPlayer();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            startMultiPlayer();
         } else {
             try {
                 startSinglePlayer();
@@ -96,7 +92,7 @@ public class ActivityGame extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
-    protected void startMultiPlayer() throws IOException {
+    protected void startMultiPlayer() {
         if(ActivityMultiplayerGame.onStop){
             Utility.goTo(ActivityGame.this, MainActivity.class);
             ActivityMultiplayerGame.onStop = false;
@@ -170,7 +166,6 @@ public class ActivityGame extends AppCompatActivity {
         
         if(attesa && !finishAttesa){
             FirebaseClass.deleteFieldFirebase(null, codiceStanza);
-            Toast.makeText(getApplicationContext(), this.getString(R.string.sessionclosed), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -191,10 +186,5 @@ public class ActivityGame extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), ActivityGame.super::onBackPressed);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
     }
 }

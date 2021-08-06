@@ -83,37 +83,22 @@ public class LoginActivity extends AppCompatActivity {
         l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-
                 String uid = loginResult.getAccessToken().getUserId();
                 fbUID = uid;
-                // TODO: controllare se l'utente esiste già, solo se non esiste creare un nuovo campo
-                FirebaseClass.getFbRef().get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            System.out.println("Errore!");
+
+                FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        boolean esiste = false;
+                        for(DataSnapshot d: task.getResult().getChildren()){
+                            if(d.getKey().equals(uid)){
+                                esiste = true;
+                                break;
+                            }
                         }
-                        else {
-                            boolean esiste = false;
-                            for(DataSnapshot d: task.getResult().getChildren())
-                            {
-                                System.out.println("Uid --> " + d.getKey());
-                                if(d.getKey().equals(uid))
-                                {
-                                    esiste = true;
-                                    break;
-                                }
-                            }
 
-                            System.out.println("Esiste --> "  +esiste);
-
-                            if(!esiste) {
-                                User user = new User(0,0);
-                                FirebaseClass.addUserToFirebase(user,uid);
-                            }else
-                            {
-                                System.out.println("Non esiste!");
-                            }
+                        if(!esiste) {
+                            User user = new User(0,0);
+                            FirebaseClass.addUserToFirebase(user,uid);
                         }
                     }
                 });
@@ -152,24 +137,7 @@ public class LoginActivity extends AppCompatActivity {
         nRateo = findViewById(R.id.rateoValore);
 
         setStatistiche();
-
-        TextView accountId = findViewById(R.id.idValore);
-        accountId.setText(loginClass.getFBUserId());
-
-        Button modificaProfilo = findViewById(R.id.editB);
-        modificaProfilo.setOnClickListener(v -> {
-            final String editProfileTut = "https://www.facebook.com/profile.php";
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(editProfileTut));
-            startActivity(browserIntent);
-        });
-
-        View.OnClickListener doLogout = (v) -> findViewById(R.id.logoutHook).performClick();
-
-        findViewById(R.id.logout).setOnClickListener(doLogout);
-        findViewById(R.id.logoutB).setOnClickListener(doLogout);
-
-        ImageView imgProfile = findViewById(R.id.friendProfilePicture);
-        loginClass.setImgProfile(this, loginClass.getFBUserId(), imgProfile);
+        setListeners();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -183,44 +151,58 @@ public class LoginActivity extends AppCompatActivity {
 
     public void setStatistiche()
     {
-        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
-                    System.out.println("Error --> " + task.getException());
-                }
-                else {
-                    String vinte = null,perse=null;
-                    float rateo = 0.0f,vinteF = 0.0f, perseF = 0.0f;
-                    for(DataSnapshot d: task.getResult().getChildren())
-                    {
-                        if(d.getKey().equals("perse"))
-                        {
-                            perse = String.valueOf(d.getValue());
-                            perseF = Float.parseFloat(perse);
-                            nSconfitte.setText(String.valueOf(d.getValue()));
-                        }
+        TextView accountId = findViewById(R.id.idValore);
+        accountId.setText(loginClass.getFBUserId());
 
-                        if(d.getKey().equals("vinte"))
-                        {
-                            vinte = String.valueOf(d.getValue());
-                            vinteF = Float.parseFloat(vinte);
-                            nVittorie.setText(String.valueOf(d.getValue()));
-                        }
+        ImageView imgProfile = findViewById(R.id.friendProfilePicture);
+        loginClass.setImgProfile(this, loginClass.getFBUserId(), imgProfile);
+
+        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                String vinte, perse;
+                float rateo, vinteF = 0.0f, perseF = 0.0f;
+
+                for(DataSnapshot d: task.getResult().getChildren())
+                {
+                    if(d.getKey().equals("perse"))
+                    {
+                        perse = String.valueOf(d.getValue());
+                        perseF = Float.parseFloat(perse);
+                        nSconfitte.setText(String.valueOf(d.getValue()));
                     }
 
-
-                    rateo = (vinteF != 0.0 && perseF != 0.0 ? vinteF/perseF : 0);
-
-                    if(perseF == 0.0)
-                        rateo = vinteF;
-
-                    rateo = (float) (Math.round(rateo*100.0)/100.0);
-
-                    System.out.println("vinte --> " + vinteF+" perse --> " + perseF+" rateo --> " + rateo);
-                    nRateo.setText(String.valueOf(rateo));
+                    if(d.getKey().equals("vinte"))
+                    {
+                        vinte = String.valueOf(d.getValue());
+                        vinteF = Float.parseFloat(vinte);
+                        nVittorie.setText(String.valueOf(d.getValue()));
+                    }
                 }
+
+
+                rateo = (vinteF != 0.0 && perseF != 0.0 ? vinteF/perseF : 0);
+
+                if(perseF == 0.0)
+                    rateo = vinteF;
+
+                rateo = (float) (Math.round(rateo*100.0)/100.0);
+
+                nRateo.setText(String.valueOf(rateo));
             }
         });
+    }
+
+    public void setListeners(){
+        Button modificaProfilo = findViewById(R.id.editB);
+        modificaProfilo.setOnClickListener(v -> {
+            final String editProfileTut = "https://www.facebook.com/profile.php";
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(editProfileTut));
+            startActivity(browserIntent);
+        });
+
+        View.OnClickListener doLogout = (v) -> findViewById(R.id.logoutHook).performClick();
+
+        findViewById(R.id.logout).setOnClickListener(doLogout);
+        findViewById(R.id.logoutB).setOnClickListener(doLogout);
     }
 }

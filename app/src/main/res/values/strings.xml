@@ -79,5 +79,13 @@
     <string name="sendamessage">Send a message</string>
     <string name="joinedgame">joined the game!</string>
     <string name="welcomechat">» Welcome to the game chat!</string>
+    <string name="touchtostart">Touch to start!</string>
+    <string name="joinfriend">Join a friend</string>
+    <string name="accessviacode">Join via code</string>
+    <string name="roomlist">Room list</string>
+    <string name="refresh">Refresh</string>
+    <string name="noavailableroom">Ooops! No rooms found.</string>
+    <string name="full">Full</string>
+    <string name="warning">Warning!</string>
 
 </resources>

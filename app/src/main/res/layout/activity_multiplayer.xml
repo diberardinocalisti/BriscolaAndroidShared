@@ -48,14 +48,14 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/joinroom"
+            android:id="@+id/accessviacode"
             android:layout_width="400px"
             android:layout_height="120px"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
             android:alpha="0.85"
             android:background="@drawable/yellow_button"
-            android:text="@string/joingame"
+            android:text="@string/accessviacode"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="@+id/view2"
             app:layout_constraintTop_toTopOf="@+id/createroom" />
@@ -72,15 +72,15 @@
             app:layout_constraintBottom_toBottomOf="@+id/view2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/howtoplaymp" />
+            app:layout_constraintTop_toBottomOf="@+id/roomlist" />
 
         <Button
-            android:id="@+id/howtoplaymp"
-            android:layout_width="550px"
+            android:id="@+id/roomlist"
+            android:layout_width="400px"
             android:layout_height="120px"
             android:layout_marginTop="10dp"
             android:background="@drawable/yellow_button"
-            android:text="@string/howtoplaymp"
+            android:text="@string/roomlist"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

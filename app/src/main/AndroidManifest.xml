@@ -49,6 +49,17 @@
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
+
+        <activity android:name="multiplayer.RoomList"
+            android:parentActivityName = "multiplayer.MultiplayerActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
+
         <activity android:name="multiplayer.ActivityMultiplayerGame"
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
