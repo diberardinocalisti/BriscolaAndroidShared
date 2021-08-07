@@ -18,7 +18,7 @@ import game.danielesimone.briscolav10.R;
 import gameEngine.Utility;
 
 public class LoadingScreen extends AppCompatActivity {
-    public static boolean appAlreadyOpened = false;
+    public static boolean gameRunning = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -38,7 +38,7 @@ public class LoadingScreen extends AppCompatActivity {
 
         Class destination = SharedPref.getTipoCarte().equals("null") ? Initconfig.class : MainActivity.class;
 
-        if(!appAlreadyOpened){
+        if(!gameRunning){
             new Handler().postDelayed(() -> {
                 findViewById(R.id.parent).setOnClickListener(v -> {
                     LoadingScreen.this.startActivity(new Intent(LoadingScreen.this, destination));

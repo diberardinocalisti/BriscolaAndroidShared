@@ -28,7 +28,7 @@ import multiplayer.GameRoom;
 import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
 
-import static Home.LoadingScreen.appAlreadyOpened;
+import static Home.LoadingScreen.gameRunning;
 
 public class MainActivity extends AppCompatActivity {
     @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        appAlreadyOpened = true;
+        gameRunning = true;
 
         if(loginClass.isFacebookLoggedIn()){
             AccessToken accessToken = AccessToken.getCurrentAccessToken();
@@ -115,11 +115,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Utility.oneLineDialog(this, this.getString(R.string.confirmleave), MainActivity.super::onBackPressed);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     @Override
