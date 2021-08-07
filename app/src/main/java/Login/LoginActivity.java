@@ -6,6 +6,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,6 +26,7 @@ import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -39,16 +41,15 @@ import multiplayer.User;
 
 
 public class LoginActivity extends AppCompatActivity {
-    private CallbackManager callbackManager;
+    public static AccessTokenTracker logoutTraker;
     public static String fbUID;
-    public TextView nVittorie, nSconfitte, nRateo;
+    public CallbackManager callbackManager;
     public static boolean login = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -59,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
         }else{
             accountPage();
         }
-
     }
 
     @Override
@@ -68,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    void loginPage(){
+    protected void loginPage(){
         setContentView(R.layout.login_page);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
@@ -83,36 +83,31 @@ public class LoginActivity extends AppCompatActivity {
         Button back = findViewById(R.id.button2);
         back.setOnClickListener(v -> super.onBackPressed());
 
-        final LoginActivity curActivity = this;
-
-        //@TODO gestire il logout da facebook
         l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                    AccessToken token = loginResult.getAccessToken();
-                    String uid = token.getUserId();
-                    fbUID = uid;
+                AccessToken token = loginResult.getAccessToken();
+                fbUID = token.getUserId();
 
-                    FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
-                        if(task.isSuccessful()){
-                            boolean esiste = false;
-                            for(DataSnapshot d: task.getResult().getChildren()){
-                                if(d.getKey().equals(uid)){
-                                    esiste = true;
-                                    break;
-                                }
-                            }
-
-                            if(!esiste) {
-                                login = true;
-                                User user = new User(0,0,"","");
-                                FirebaseClass.addUserToFirebase(user,uid);
+                FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        boolean esiste = false;
+                        for(DataSnapshot d: task.getResult().getChildren()){
+                            if(d.getKey().equals(fbUID)){
+                                esiste = true;
+                                break;
                             }
                         }
-                    });
-                    // TODO: indirizzare l'utente alla pagina del profilo una volta effettuato l'accesso;
-                    Utility.goTo(curActivity, MainActivity.class);
-                }
+
+                        if(!esiste) {
+                            login = true;
+                            User user = new User(0,0,"","");
+                            FirebaseClass.addUserToFirebase(user, fbUID);
+                        }
+                    }
+                });
+                accountPage();
+            }
             @Override
             public void onCancel() {
                 loginMsg(LoginActivity.this.getString(R.string.unknownerror));
@@ -123,40 +118,38 @@ public class LoginActivity extends AppCompatActivity {
                 loginMsg(LoginActivity.this.getString(R.string.unknownerror));
             }
         });
-
-        AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
-            @Override
-            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                if(currentAccessToken == null)
-                {
-                    LoginManager.getInstance().logOut();
-                    Toast.makeText(getApplicationContext(),"Logout!",Toast.LENGTH_SHORT).show();
-                    Utility.goTo(LoginActivity.this,MainActivity.class);
-                }
-            }
-        };
     }
 
 
-    void loginMsg(CharSequence msg){
+    protected void loginMsg(CharSequence msg){
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(i);
         Toast.makeText(getBaseContext(),msg,Toast.LENGTH_LONG).show();
     }
 
-    void accountPage(){
+    protected void accountPage(){
         setContentView(R.layout.fb_profile);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
-        TextView nome = findViewById(R.id.nome);
-        nome.setText(loginClass.getFullFBName());
+        final int refreshRate = 100;
 
-        nVittorie = findViewById(R.id.vittorieValore);
-        nSconfitte = findViewById(R.id.sconfitteValore);
-        nRateo = findViewById(R.id.rateoValore);
+        // Dato che il listener onSuccess viene eseguito nonostante le informazioni del profilo non siano ancora state ancora
+        // lette, aspetto finché getCurrentProfile restituisce il profilo dell'utente;
+        new Thread(() -> {
+            while(Profile.getCurrentProfile() == null) {
+                try {
+                    Thread.sleep(refreshRate);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
-        setStatistiche();
-        setListeners();
+            LoginActivity.this.runOnUiThread(() -> {
+                setStatistiche();
+                setListeners();
+                handleLogout();
+            });
+        }).start();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -168,13 +161,19 @@ public class LoginActivity extends AppCompatActivity {
         applyOverrideConfiguration(override);
     }
 
-    public void setStatistiche()
-    {
+    protected void setStatistiche(){
+        TextView nome = findViewById(R.id.nome);
+        nome.setText(loginClass.getFullFBName());
+
         TextView accountId = findViewById(R.id.idValore);
         accountId.setText(loginClass.getFBUserId());
 
         ImageView imgProfile = findViewById(R.id.friendProfilePicture);
         loginClass.setImgProfile(this, loginClass.getFBUserId(), imgProfile);
+
+        TextView nVittorie = findViewById(R.id.vittorieValore);
+        TextView nSconfitte = findViewById(R.id.sconfitteValore);
+        TextView nRateo = findViewById(R.id.rateoValore);
 
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
@@ -183,15 +182,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 for(DataSnapshot d: task.getResult().getChildren())
                 {
-                    if(d.getKey().equals("perse"))
-                    {
+                    if(d.getKey().equals("perse")){
                         perse = String.valueOf(d.getValue());
                         perseF = Float.parseFloat(perse);
                         nSconfitte.setText(String.valueOf(d.getValue()));
                     }
 
-                    if(d.getKey().equals("vinte"))
-                    {
+                    if(d.getKey().equals("vinte")) {
                         vinte = String.valueOf(d.getValue());
                         vinteF = Float.parseFloat(vinte);
                         nVittorie.setText(String.valueOf(d.getValue()));
@@ -211,11 +208,11 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void setListeners(){
+    protected void setListeners(){
         Button modificaProfilo = findViewById(R.id.editB);
         modificaProfilo.setOnClickListener(v -> {
-            final String editProfileTut = "https://www.facebook.com/profile.php";
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(editProfileTut));
+            final String editProfileUrl = "https://www.facebook.com/profile.php";
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(editProfileUrl));
             startActivity(browserIntent);
         });
 
@@ -223,5 +220,21 @@ public class LoginActivity extends AppCompatActivity {
 
         findViewById(R.id.logout).setOnClickListener(doLogout);
         findViewById(R.id.logoutB).setOnClickListener(doLogout);
+    }
+
+    protected void handleLogout(){
+        // Creo un nuovo tracker solamente nel caso in cui non ne esista già uno;
+        if(logoutTraker == null){
+            logoutTraker = new AccessTokenTracker() {
+                @Override
+                protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+                    if(currentAccessToken == null){
+                        LoginManager.getInstance().logOut();
+                        Toast.makeText(getApplicationContext(), getString(R.string.logoutsuccess), Toast.LENGTH_SHORT).show();
+                        Utility.goTo(LoginActivity.this,MainActivity.class);
+                    }
+                }
+            };
+        }
     }
 }

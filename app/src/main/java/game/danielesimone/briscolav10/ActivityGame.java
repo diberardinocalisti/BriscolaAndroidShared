@@ -33,6 +33,7 @@ import firebase.FirebaseClass;
 import gameEngine.Game;
 import gameEngine.Utility;
 import multiplayer.ActivityMultiplayerGame;
+import multiplayer.MultiplayerActivity;
 
 import static Login.loginClass.getFBUserId;
 import static Login.loginClass.getFullFBName;
@@ -43,10 +44,8 @@ public class ActivityGame extends AppCompatActivity {
 
     public static boolean multiplayer = false;
     public static boolean attesa = false;
-    public static boolean finishAttesa = false;    //Se mando l'utente alla pagina del gioco è comunque onmStop() e quindi verrebbe eliminata la staanza
-    public static boolean pause = false;
-    public static boolean openedAgain = false;
-
+    public static boolean finishAttesa = false;
+    public static boolean leftGame = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -58,24 +57,19 @@ public class ActivityGame extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         multiplayer = extras.getBoolean("multiplayer");
-        openedAgain = extras.getBoolean("openedAgain");
+        leftGame = false;
 
         Utility.enableTopBar(this);
 
-        //Se l'utente ha scelto modalità singlePlayer
-        if (multiplayer) {
+        if(multiplayer) {
             startMultiPlayer();
         } else {
-            try {
-                startSinglePlayer();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            startSinglePlayer();
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    protected void startSinglePlayer() throws IOException {
+    protected void startSinglePlayer() {
         setContentView(R.layout.campo_da_gioco);
 
         /*MobileAds.initialize(this, new OnInitializationCompleteListener() {
@@ -113,32 +107,22 @@ public class ActivityGame extends AppCompatActivity {
         ImageView picHost = findViewById(R.id.icon);
         Button chiudi = findViewById(R.id.chiudisala);
 
+        nomeHost.setText(getFullFBName());
         codice.setText(this.getString(R.string.code) + codiceStanza);
         stato.setText(this.getString(R.string.state) + this.getString(R.string.waiting));
-        nomeHost.setText(getFullFBName());
         loginClass.setImgProfile(this, getFBUserId(), picHost);
 
-        chiudi.setOnClickListener(v -> {
-            Utility.oneLineDialog(ActivityGame.this, this.getString(R.string.confirmleavegame), () -> {
-                //Elimino la stanza dal db
-                FirebaseClass.deleteFieldFirebase(null, codiceStanza);
-
-                //Lo riporto nella homepage
-                Utility.goTo(ActivityGame.this, MainActivity.class);
-            });
-        });
+        chiudi.setOnClickListener(v -> ActivityGame.this.onBackPressed());
 
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
-
                 for(DataSnapshot d : dataSnapshot.getChildren())
                 {
                     String key = d.getKey();
                     Object value = d.getValue();
 
                     if(key.equals("enemy")){
-                        //è entrato l'avverrsario nella stanza
                         if(!value.equals("null")  && !ActivityMultiplayerGame.onStop){
                             finishAttesa = true;
                             Intent i = new Intent(ActivityGame.this, ActivityMultiplayerGame.class);
@@ -155,8 +139,8 @@ public class ActivityGame extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(ActivityMultiplayerGame.onStop)
-        {
+
+        if(multiplayer && ActivityMultiplayerGame.onStop){
            Utility.goTo(ActivityGame.this,MainActivity.class);
            ActivityMultiplayerGame.onStop = false;
         }
@@ -168,7 +152,7 @@ public class ActivityGame extends AppCompatActivity {
 
         Game.gameClosed = true;
         
-        if(attesa && !finishAttesa){
+        if(multiplayer && attesa && !finishAttesa){
             FirebaseClass.deleteFieldFirebase(null, codiceStanza);
         }
     }
@@ -189,14 +173,15 @@ public class ActivityGame extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), ActivityGame.super::onBackPressed);
+        Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), () -> {
+            leftGame = true;
+            Class destination = multiplayer ? MultiplayerActivity.class : MainActivity.class;
+            Utility.goTo(this, destination);
+        });
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-
-        if(!openedAgain)
-            ActivityGame.pause = true;
     }
 }

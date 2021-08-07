@@ -54,13 +54,13 @@
     <string name="trovato">Found</string>
     <string name="sessionclosed">Session closed! Create a new lobby to start playing again.</string>
     <string name="leavegame">Leave game</string>
-    <string name="confirmleavegame">Leaving the game</string>
+    <string name="confirmleavegame">Leaving the game?</string>
     <string name="typecard">Cards</string>
     <string name="youleft">You left the game!</string>
     <string name="enemyleft">Your opponent left the game!</string>
     <string name="unknownerror">Oops! Something went wrong!</string>
     <string name="whylogintext">If you link your Facebook account to your game you\'ll grant the access to the multiplayer mode and you\'ll be able to play with your friends at any time!</string>
-    <string name="roomnotexisting">Room does not exist!</string>
+    <string name="roomnotexisting">This room does not exist or your opponent is currently inactive.</string>
     <string name="roomfull">Room is currently full!</string>
     <string name="tuoturno">It\'s your turn!</string>
     <string name="turno">It\'s %user\'s turn!</string>
@@ -72,7 +72,7 @@
     <string name="lastmanche">Last manche!</string>
     <string name="matchended">Match ended!</string>
     <string name="confirm">Confirm</string>
-    <string name="inserttext">Insert here...</string>
+    <string name="inserttext">Insert here…</string>
     <string name="contactus">Contact us</string>
     <string name="contactustxt">This game has been developed by Simone Di Berardino and Daniele Calisti. If you want to get in touch with us, you can send an email to diberardinocalisti@gmail.com!</string>
     <string name="textchat">Text chat</string>
@@ -87,5 +87,6 @@
     <string name="noavailableroom">Ooops! No rooms found.</string>
     <string name="full">Full</string>
     <string name="warning">Warning!</string>
+    <string name="logoutsuccess">Logged out successfully!</string>
 
 </resources>

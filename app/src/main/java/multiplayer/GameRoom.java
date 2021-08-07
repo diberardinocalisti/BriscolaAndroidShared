@@ -4,15 +4,10 @@ import com.google.firebase.database.DataSnapshot;
 
 public class GameRoom {
     public static String gameCode;
-
     private String host, enemy;
-
     private String mazzo;
-
     private String giocataDaHost, giocataDaEnemy;
-
     private String idHost, idEnemy;
-
     private String chat;
 
     public GameRoom(){};
@@ -34,7 +29,7 @@ public class GameRoom {
     }
 
     public void setGameCode(String gameCode) {
-        this.gameCode = gameCode;
+        GameRoom.gameCode = gameCode;
     }
 
     public String getHost() {

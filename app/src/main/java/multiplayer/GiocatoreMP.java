@@ -7,7 +7,7 @@ import gameEngine.Giocatore;
 public class GiocatoreMP extends Giocatore {
     public String ruolo;
 
-    public GiocatoreMP(String player, int i) throws IOException {
+    public GiocatoreMP(String player, int i) {
         super(player, null, i);
     }
 

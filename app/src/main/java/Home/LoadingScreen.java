@@ -17,8 +17,8 @@ import game.danielesimone.briscolav10.R;
 
 import gameEngine.Utility;
 
-
 public class LoadingScreen extends AppCompatActivity {
+    public static boolean appAlreadyOpened = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -36,18 +36,23 @@ public class LoadingScreen extends AppCompatActivity {
         setContentView(R.layout.loading_screen);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
-        new Handler().postDelayed(() -> {
-            findViewById(R.id.parent).setOnClickListener(v -> {
-                Class destination = SharedPref.getTipoCarte().equals("null") ? Initconfig.class : MainActivity.class;
-                this.startActivity(new Intent(this, destination));
-                this.finish();
-            });
+        Class destination = SharedPref.getTipoCarte().equals("null") ? Initconfig.class : MainActivity.class;
 
-            ProgressBar progressBar = findViewById(R.id.progressBar);
-            progressBar.setVisibility(View.INVISIBLE);
+        if(!appAlreadyOpened){
+            new Handler().postDelayed(() -> {
+                findViewById(R.id.parent).setOnClickListener(v -> {
+                    LoadingScreen.this.startActivity(new Intent(LoadingScreen.this, destination));
+                    LoadingScreen.this.finish();
+                });
 
-            TextView centerTextView = findViewById(R.id.textView);
-            centerTextView.setText(getString(R.string.touchtostart));
-        }, durataCaricamento);
+                ProgressBar progressBar = findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.INVISIBLE);
+
+                TextView centerTextView = findViewById(R.id.textView);
+                centerTextView.setText(getString(R.string.touchtostart));
+            }, durataCaricamento);
+        }else{
+            LoadingScreen.this.startActivity(new Intent(LoadingScreen.this, destination));
+        }
     }
 }

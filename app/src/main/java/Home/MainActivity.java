@@ -28,6 +28,8 @@ import multiplayer.GameRoom;
 import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
 
+import static Home.LoadingScreen.appAlreadyOpened;
+
 public class MainActivity extends AppCompatActivity {
     @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -35,8 +37,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(loginClass.isFacebookLoggedIn())
-        {
+        appAlreadyOpened = true;
+
+        if(loginClass.isFacebookLoggedIn()){
             AccessToken accessToken = AccessToken.getCurrentAccessToken();
             LoginActivity.fbUID = accessToken.getUserId();
         }
@@ -48,15 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         Utility.enableTopBar(this);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
-
-        /*
-        rank = findViewById(R.id.rank);
-
-        if(loginClass.isFacebookLoggedIn())
-            rank.setVisibility(View.VISIBLE);
-        else
-            rank.setVisibility(View.INVISIBLE);
-        */
 
         ActivityMultiplayerGame.onStop = false;
         Game.terminata = true;
@@ -132,28 +126,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        if(LoginActivity.login)
-        {
-            FirebaseClass.editFieldFirebase(LoginActivity.fbUID,"nome",loginClass.getFBNome());
-            FirebaseClass.editFieldFirebase(LoginActivity.fbUID,"cognome",loginClass.getFBCognome());
-
+        if(LoginActivity.login){
+            FirebaseClass.editFieldFirebase(LoginActivity.fbUID,"nome", loginClass.getFBNome());
+            FirebaseClass.editFieldFirebase(LoginActivity.fbUID,"cognome", loginClass.getFBCognome());
             LoginActivity.login = false;
         }
 
+        if(!ActivityGame.multiplayer)
+            return;
 
-        if(ActivityGame.pause)
-        {
-            GameRoom g = new GameRoom(engineMultiplayer.codiceStanza, loginClass.getFullFBName(), "null", loginClass.getFBUserId(), "null","null","null","null", "null");
-            FirebaseClass.addToFirebase(g);
-
-            ActivityGame.attesa = true;
-
-            Intent i = new Intent(MainActivity.this,ActivityGame.class);
-            i.putExtra("multiplayer",true);
-            i.putExtra("openedAgain",true);
-            MainActivity.this.startActivity(i);
-
-            ActivityGame.pause = false;
-        }
+        if(!ActivityGame.leftGame)
+            engineMultiplayer.accediHost(MainActivity.this, engineMultiplayer.codiceStanza);
     }
 }

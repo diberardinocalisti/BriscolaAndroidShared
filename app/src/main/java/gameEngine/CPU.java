@@ -14,7 +14,7 @@ import static gameEngine.Engine.*;
 import static gameEngine.Game.*;
 
 public class CPU extends Giocatore {
-    protected CPU(String nome, Integer index) throws IOException {
+    protected CPU(String nome, Integer index) {
         super(nome, index, null, true);
         Game.CPU = this;
     }

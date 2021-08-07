@@ -61,7 +61,7 @@ import static gameEngine.Game.viewAnimDuration;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
-    public static void inizializza() throws IOException {
+    public static void inizializza() {
         creaGiocatori();
         iniziaPartita();
     }
@@ -134,7 +134,7 @@ public class Engine{
         }
     }
 
-    public static void creaGiocatori() throws IOException {
+    public static void creaGiocatori() {
         for(int i = 0; i < giocatori.length; i++){
             boolean CPU = i == 0;
             if(!CPU){

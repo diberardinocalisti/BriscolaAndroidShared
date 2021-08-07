@@ -54,6 +54,7 @@
             android:parentActivityName = "multiplayer.MultiplayerActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
+            android:noHistory="true"
             >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

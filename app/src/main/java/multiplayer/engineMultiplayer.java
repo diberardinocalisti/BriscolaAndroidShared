@@ -73,7 +73,7 @@ public class engineMultiplayer extends Engine{
     }
 
     public static void accediHost(AppCompatActivity c, String gameCode){
-        GameRoom g = new GameRoom(gameCode, loginClass.getFullFBName(), "null", loginClass.getFBUserId(), "null","null","null","null", "null");
+        GameRoom g = new GameRoom(gameCode, loginClass.getFBNome(), "null", loginClass.getFBUserId(), "null","null","null","null", "null");
         FirebaseClass.addToFirebase(g);
 
         Intent i = new Intent(c, ActivityGame.class);
@@ -86,13 +86,13 @@ public class engineMultiplayer extends Engine{
         engineMultiplayer.codiceStanza = input;
         engineMultiplayer.role = "NOTHOST";
         ActivityGame.multiplayer = true;
-        FirebaseClass.editFieldFirebase(input,"enemy", loginClass.getFullFBName());
+        FirebaseClass.editFieldFirebase(input,"enemy", loginClass.getFBNome());
         FirebaseClass.editFieldFirebase(input,"idEnemy", loginClass.getFBUserId());
         Utility.goTo(c, ActivityMultiplayerGame.class);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void inizializza() throws IOException {
+    public static void inizializza() {
         creaGiocatori();
         Engine.pulisciTavolo();
         Engine.pulisciPrese();
@@ -135,7 +135,7 @@ public class engineMultiplayer extends Engine{
    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void creaGiocatori() throws IOException {
+    public static void creaGiocatori() {
         String[] players = new String[]{activity.getString(R.string.guest), activity.getString(R.string.guest)};
 
         for(int i = 0; i < Game.nGiocatori; i++)
@@ -166,9 +166,6 @@ public class engineMultiplayer extends Engine{
 
         host.setNome(snapshot.getHost());
         enemy.setNome(snapshot.getEnemy());
-
-        System.out.println(host.getId() + " host");
-        System.out.println(enemy.getId() + " enemy");
 
         engineMultiplayer.setOnCLickListener();
     }

@@ -77,15 +77,15 @@ public class RoomList extends AppCompatActivity {
                     for(DataSnapshot row : d.getChildren()){
                        if(row.getKey().equals("host"))
                             nomeHost = String.valueOf(row.getValue());
-                        else if(row.getKey().equals("enemy"))
+                       else if(row.getKey().equals("enemy"))
                             nomeEnemy = String.valueOf(row.getValue());
-                        else if(row.getKey().equals("idHost"))
+                       else if(row.getKey().equals("idHost"))
                             idHost = String.valueOf(row.getValue());
-                        else if(row.getKey().equals("gameCode"))
+                       else if(row.getKey().equals("gameCode"))
                             gameCode = String.valueOf(row.getValue());
 
-                        //if(row.getKey().equals("gameCode"))
-                            //FirebaseClass.deleteFieldFirebase(null, String.valueOf(row.getValue()));
+                       if(row.getKey().equals("gameCode"))
+                            FirebaseClass.deleteFieldFirebase(null, String.valueOf(row.getValue()));
                     }
 
                     addRoom(nomeHost, nomeEnemy, idHost, gameCode);

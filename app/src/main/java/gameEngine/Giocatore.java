@@ -49,12 +49,12 @@ public class Giocatore {
 
     public View mazzo;
 
-    public Giocatore(String nome, String userId, Integer index) throws IOException {
+    public Giocatore(String nome, String userId, Integer index) {
         this(nome, index, userId, false);
         Game.user = this;
     }
 
-    protected Giocatore(String nome, Integer index, String userId, boolean CPU) throws IOException {
+    protected Giocatore(String nome, Integer index, String userId, boolean CPU) {
         this.nome = nome;
         this.CPU = CPU;
         this.index = index;
@@ -108,7 +108,7 @@ public class Giocatore {
         return drawable.getBitmap();
     }
 
-    public void updateIcon() throws IOException {
+    public void updateIcon() {
         loginClass.setImgProfile(activity, this.id, this.userIcon);
     }
 

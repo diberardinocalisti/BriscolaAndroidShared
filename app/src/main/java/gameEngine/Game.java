@@ -106,7 +106,7 @@ public class Game {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void startGame(AppCompatActivity activity) throws IOException {
+    public static void startGame(AppCompatActivity activity) {
         initialize(activity);
         Engine.inizializza();
     }
