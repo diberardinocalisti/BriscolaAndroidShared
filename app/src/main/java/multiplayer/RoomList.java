@@ -83,9 +83,6 @@ public class RoomList extends AppCompatActivity {
                             idHost = String.valueOf(row.getValue());
                        else if(row.getKey().equals("gameCode"))
                             gameCode = String.valueOf(row.getValue());
-
-                       if(row.getKey().equals("gameCode"))
-                            FirebaseClass.deleteFieldFirebase(null, String.valueOf(row.getValue()));
                     }
 
                     addRoom(nomeHost, nomeEnemy, idHost, gameCode);

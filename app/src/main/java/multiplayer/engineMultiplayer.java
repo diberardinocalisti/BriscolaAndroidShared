@@ -35,6 +35,7 @@ import gameEngine.Game;
 import gameEngine.Giocatore;
 import gameEngine.Utility;
 
+import static game.danielesimone.briscolav10.ActivityGame.leftGame;
 import static gameEngine.Game.I_CAMPO_GIOCO;
 import static gameEngine.Game.activity;
 import static gameEngine.Game.centerText;
@@ -102,29 +103,32 @@ public class engineMultiplayer extends Engine{
         String host = snapshot.getHost();
         String enemy = snapshot.getEnemy();
 
-        if(host.equals("null") && !enemy.equals("null"))
-        {
-            if(role.equals("HOST")) {
-                Toast.makeText(activity, activity.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(activity, activity.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
-                Utility.goTo(activity, MainActivity.class);
-            }
-            onStop = true;
-        }else if(enemy.equals("null") && !host.equals("null")) {
-            if (!role.equals("HOST")){
-                Toast.makeText(activity, activity.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(activity, activity.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
-                Utility.goTo(activity, MainActivity.class);
-            }
+        if(host.equals("null") && !enemy.equals("null")){
+            returnToMpMenu();
 
-            onStop = true;
+            if(role.equals("HOST"))
+                Toast.makeText(activity, activity.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(activity, activity.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
+        }else if(enemy.equals("null") && !host.equals("null")) {
+            returnToMpMenu();
+
+            if (!role.equals("HOST"))
+                Toast.makeText(activity, activity.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(activity, activity.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
         }
     }
 
-   @RequiresApi(api = Build.VERSION_CODES.O)
-   public static String creaMazzoFirebase(){
+    public static void returnToMpMenu(){
+        onStop = true;
+        leftGame = true;
+        Utility.goTo(activity, MainActivity.class);
+        leftGame = true;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String creaMazzoFirebase(){
         String mazzoFb = new String();
         Engine.creaMazzo();
 
@@ -238,8 +242,10 @@ public class engineMultiplayer extends Engine{
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void initHost() throws IOException {
+    public static void initHost() {
         inizializza();
+
+        System.out.println("INIT HOST!!");
 
         Giocatore[] app = new Giocatore[]{host, enemy};
 
@@ -254,7 +260,7 @@ public class engineMultiplayer extends Engine{
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void initEnemy() throws IOException {
+    public static void initEnemy() {
         inizializza();
 
         Giocatore[] app = new Giocatore[]{host, enemy};

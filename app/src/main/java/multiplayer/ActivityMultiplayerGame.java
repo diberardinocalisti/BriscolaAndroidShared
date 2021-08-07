@@ -35,7 +35,7 @@ import static multiplayer.engineMultiplayer.role;
 public class ActivityMultiplayerGame extends AppCompatActivity {
     public static String roleId;
     public static boolean onStop = false;
-    public static String mazzoOnline = "";
+    public static String mazzoOnline = new String();
     public static GameRoom snapshot;
     public static boolean distribuisci = false;
     private AdView mAdView;
@@ -76,7 +76,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
                 if(!onStop){
                     try{
-                        System.out.println("check");
                         checkIfSomeoneLeft();
                     }catch(Exception e){
                         return;
@@ -86,28 +85,14 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 if(!onStop){
                     if(!distribuisci){
                         if(roleId.equals("host")) {
-                            try {
-                                initHost();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        else if(!snapshot.getMazzo().equals("null")) {
-                            try {
-                                initEnemy();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            initHost();
+                        }else if(!snapshot.getMazzo().equals("null")) {
+                            initEnemy();
                         }
                     }else{
                         engineMultiplayer.updateChat();
                         engineMultiplayer.checkIfCartaGiocata();
                     }
-                }
-
-                if(onStop) {
-                    FirebaseClass.deleteFieldFirebase(null, codiceStanza);
-                    ActivityMultiplayerGame.this.finish();
                 }
             }
 

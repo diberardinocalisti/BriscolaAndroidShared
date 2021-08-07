@@ -45,7 +45,7 @@ public class ActivityGame extends AppCompatActivity {
     public static boolean multiplayer = false;
     public static boolean attesa = false;
     public static boolean finishAttesa = false;
-    public static boolean leftGame = false;
+    public static boolean leftGame = true;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -141,7 +141,7 @@ public class ActivityGame extends AppCompatActivity {
         super.onResume();
 
         if(multiplayer && ActivityMultiplayerGame.onStop){
-           Utility.goTo(ActivityGame.this,MainActivity.class);
+           Utility.goTo(ActivityGame.this, MainActivity.class);
            ActivityMultiplayerGame.onStop = false;
         }
     }
@@ -175,8 +175,7 @@ public class ActivityGame extends AppCompatActivity {
     public void onBackPressed() {
         Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), () -> {
             leftGame = true;
-            Class destination = multiplayer ? MultiplayerActivity.class : MainActivity.class;
-            Utility.goTo(this, destination);
+            Utility.goTo(this, MainActivity.class);
         });
     }
 

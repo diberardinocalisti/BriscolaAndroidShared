@@ -22,6 +22,8 @@ import com.google.firebase.database.annotations.NotNull;
 import firebase.FirebaseClass;
 import gameEngine.Utility;
 
+import static game.danielesimone.briscolav10.ActivityGame.leftGame;
+
 public class MultiplayerActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState) {
