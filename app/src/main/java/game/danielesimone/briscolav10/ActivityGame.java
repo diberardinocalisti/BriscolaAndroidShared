@@ -45,7 +45,7 @@ public class ActivityGame extends AppCompatActivity {
     public static boolean attesa = false;
     public static boolean finishAttesa = false;    //Se mando l'utente alla pagina del gioco è comunque onmStop() e quindi verrebbe eliminata la staanza
     public static boolean pause = false;
-
+    public static boolean openedAgain = false;
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -58,6 +58,7 @@ public class ActivityGame extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         multiplayer = extras.getBoolean("multiplayer");
+        openedAgain = extras.getBoolean("openedAgain");
 
         Utility.enableTopBar(this);
 
@@ -195,8 +196,7 @@ public class ActivityGame extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        ActivityGame.pause = true;
-
-
+        if(!openedAgain)
+            ActivityGame.pause = true;
     }
 }

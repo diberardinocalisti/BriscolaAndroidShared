@@ -132,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        System.out.println(ActivityGame.pause);
         if(ActivityGame.pause)
         {
             GameRoom g = new GameRoom(engineMultiplayer.codiceStanza, loginClass.getFullFBName(), "null", loginClass.getFBUserId(), "null","null","null","null", "null");
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
             Intent i = new Intent(MainActivity.this,ActivityGame.class);
             i.putExtra("multiplayer",true);
+            i.putExtra("openedAgain",true);
             MainActivity.this.startActivity(i);
 
             ActivityGame.pause = false;
