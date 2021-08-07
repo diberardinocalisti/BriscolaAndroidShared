@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     public static String fbUID;
     public TextView nVittorie, nSconfitte, nRateo;
+    public static boolean login = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -88,7 +89,8 @@ public class LoginActivity extends AppCompatActivity {
         l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                    String uid = loginResult.getAccessToken().getUserId();
+                    AccessToken token = loginResult.getAccessToken();
+                    String uid = token.getUserId();
                     fbUID = uid;
 
                     FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
@@ -102,7 +104,8 @@ public class LoginActivity extends AppCompatActivity {
                             }
 
                             if(!esiste) {
-                                User user = new User(0,0);
+                                login = true;
+                                User user = new User(0,0,"","");
                                 FirebaseClass.addUserToFirebase(user,uid);
                             }
                         }

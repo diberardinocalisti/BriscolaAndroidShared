@@ -132,7 +132,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        System.out.println(ActivityGame.pause);
+        if(LoginActivity.login)
+        {
+            FirebaseClass.editFieldFirebase(LoginActivity.fbUID,"nome",loginClass.getFBNome());
+            FirebaseClass.editFieldFirebase(LoginActivity.fbUID,"cognome",loginClass.getFBCognome());
+
+            LoginActivity.login = false;
+        }
+
+
         if(ActivityGame.pause)
         {
             GameRoom g = new GameRoom(engineMultiplayer.codiceStanza, loginClass.getFullFBName(), "null", loginClass.getFBUserId(), "null","null","null","null", "null");
