@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import game.danielesimone.briscolav10.R;
 
 import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -73,6 +74,7 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager = CallbackManager.Factory.create();
 
         LoginButton l = findViewById(R.id.login_button);
+        //l.setPermissions("user_friends");
 
         Button why = findViewById(R.id.button1);
         why.setOnClickListener(v -> Utility.createDialog(this, why.getText().toString(), this.getString(R.string.whylogintext)));
@@ -118,6 +120,18 @@ public class LoginActivity extends AppCompatActivity {
                 loginMsg(LoginActivity.this.getString(R.string.unknownerror));
             }
         });
+
+        AccessTokenTracker accessTokenTracker = new AccessTokenTracker() {
+            @Override
+            protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+                if(currentAccessToken == null)
+                {
+                    LoginManager.getInstance().logOut();
+                    Toast.makeText(getApplicationContext(),"Logout!",Toast.LENGTH_SHORT).show();
+                    Utility.goTo(LoginActivity.this,MainActivity.class);
+                }
+            }
+        };
     }
 
 
@@ -132,27 +146,7 @@ public class LoginActivity extends AppCompatActivity {
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         TextView nome = findViewById(R.id.nome);
-        Button logout = findViewById(R.id.logoutB);
-        ImageView log = findViewById(R.id.logout);
         nome.setText(loginClass.getFullFBName());
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginManager.getInstance().logOut();
-                Toast.makeText(getApplicationContext(),"Logout!",Toast.LENGTH_SHORT).show();
-                Utility.goTo(LoginActivity.this,MainActivity.class);
-            }
-        });
-
-        log.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LoginManager.getInstance().logOut();
-                Toast.makeText(getApplicationContext(),"Logout!",Toast.LENGTH_SHORT).show();
-                Utility.goTo(LoginActivity.this,MainActivity.class);
-            }
-        });
 
         nVittorie = findViewById(R.id.vittorieValore);
         nSconfitte = findViewById(R.id.sconfitteValore);
