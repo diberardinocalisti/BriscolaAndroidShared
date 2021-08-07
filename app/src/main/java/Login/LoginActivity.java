@@ -19,9 +19,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import game.danielesimone.briscolav10.R;
+
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -83,29 +86,28 @@ public class LoginActivity extends AppCompatActivity {
         l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                String uid = loginResult.getAccessToken().getUserId();
-                fbUID = uid;
+                    String uid = loginResult.getAccessToken().getUserId();
+                    fbUID = uid;
 
-                FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        boolean esiste = false;
-                        for(DataSnapshot d: task.getResult().getChildren()){
-                            if(d.getKey().equals(uid)){
-                                esiste = true;
-                                break;
+                    FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
+                        if(task.isSuccessful()){
+                            boolean esiste = false;
+                            for(DataSnapshot d: task.getResult().getChildren()){
+                                if(d.getKey().equals(uid)){
+                                    esiste = true;
+                                    break;
+                                }
+                            }
+
+                            if(!esiste) {
+                                User user = new User(0,0);
+                                FirebaseClass.addUserToFirebase(user,uid);
                             }
                         }
-
-                        if(!esiste) {
-                            User user = new User(0,0);
-                            FirebaseClass.addUserToFirebase(user,uid);
-                        }
-                    }
-                });
-                // TODO: indirizzare l'utente alla pagina del profilo una volta effettuato l'accesso;
-                Utility.goTo(curActivity, MainActivity.class);
-            }
-
+                    });
+                    // TODO: indirizzare l'utente alla pagina del profilo una volta effettuato l'accesso;
+                    Utility.goTo(curActivity, MainActivity.class);
+                }
             @Override
             public void onCancel() {
                 loginMsg(LoginActivity.this.getString(R.string.unknownerror));
@@ -130,7 +132,27 @@ public class LoginActivity extends AppCompatActivity {
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         TextView nome = findViewById(R.id.nome);
+        Button logout = findViewById(R.id.logoutB);
+        ImageView log = findViewById(R.id.logout);
         nome.setText(loginClass.getFullFBName());
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logOut();
+                Toast.makeText(getApplicationContext(),"Logout!",Toast.LENGTH_SHORT).show();
+                Utility.goTo(LoginActivity.this,MainActivity.class);
+            }
+        });
+
+        log.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().logOut();
+                Toast.makeText(getApplicationContext(),"Logout!",Toast.LENGTH_SHORT).show();
+                Utility.goTo(LoginActivity.this,MainActivity.class);
+            }
+        });
 
         nVittorie = findViewById(R.id.vittorieValore);
         nSconfitte = findViewById(R.id.sconfitteValore);
