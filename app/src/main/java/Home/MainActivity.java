@@ -121,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        if(ActivityGame.multiplayer && ActivityMultiplayerGame.onStop)
+            ActivityMultiplayerGame.onStop = false;
+
         if(LoginActivity.login){
             FirebaseClass.editFieldFirebase(LoginActivity.fbUID,"nome", loginClass.getFBNome());
             FirebaseClass.editFieldFirebase(LoginActivity.fbUID,"cognome", loginClass.getFBCognome());
@@ -132,5 +135,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(!ActivityGame.leftGame)
             engineMultiplayer.accediHost(MainActivity.this, engineMultiplayer.codiceStanza);
+
     }
 }

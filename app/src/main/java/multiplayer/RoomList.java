@@ -112,7 +112,10 @@ public class RoomList extends AppCompatActivity {
                             gameCode = String.valueOf(row.getValue());
                     }
 
-                    addRoom(nomeHost, nomeEnemy, idHost, gameCode);
+                    boolean isFull = !nomeEnemy.equals("null");
+
+                    if(!isFull)
+                        addRoom(nomeHost, nomeEnemy, idHost, gameCode);
                 }
             }
 
@@ -142,18 +145,8 @@ public class RoomList extends AppCompatActivity {
         ProgressBar progressBar = findViewById(R.id.loadingBar);
         progressBar.setVisibility(View.INVISIBLE);
 
-        boolean isFull = !nomeEnemy.equals("null");
-
-        if(isFull){
-            nPlayers.setText(getString(R.string.full));
-        }
-
         joinBtn.setOnClickListener(v -> {
-            if(isFull){
-                Utility.oneLineDialog(RoomList.this, RoomList.this.getString(R.string.roomfull), () -> {});
-            }else{
                 engineMultiplayer.accediGuest(RoomList.this, gameCode);
-            }
         });
 
     }

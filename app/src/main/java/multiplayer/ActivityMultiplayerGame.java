@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import Home.MainActivity;
 import game.danielesimone.briscolav10.R;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.database.DataSnapshot;
@@ -108,7 +109,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             FirebaseClass.deleteFieldFirebase(null, codiceStanza);
         }else{
             FirebaseClass.editFieldFirebase(codiceStanza, roleId, "null");
+            FirebaseClass.deleteFieldFirebase(null,codiceStanza);
             onStop = true;
+            Utility.goTo(ActivityMultiplayerGame.this, MainActivity.class);
         }
     }
 

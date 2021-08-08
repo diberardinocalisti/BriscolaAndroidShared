@@ -140,6 +140,7 @@ public class ActivityGame extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        System.out.println("Multi --> " + multiplayer+" || onStop --> " + ActivityMultiplayerGame.onStop);
         if(multiplayer && ActivityMultiplayerGame.onStop){
            Utility.goTo(ActivityGame.this, MainActivity.class);
            ActivityMultiplayerGame.onStop = false;
@@ -151,7 +152,8 @@ public class ActivityGame extends AppCompatActivity {
         super.onStop();
 
         Game.gameClosed = true;
-        
+
+        System.out.println(multiplayer+" " + attesa +" "+finishAttesa);
         if(multiplayer && attesa && !finishAttesa){
             FirebaseClass.deleteFieldFirebase(null, codiceStanza);
         }
