@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import Home.SharedPref;
 import multiplayer.engineMultiplayer;
 
+import static game.danielesimone.briscolav10.ActivityGame.leftGame;
+
 public class Game {
     public static AppCompatActivity activity;
     public static final Integer viewAnimDuration = 350, accelMultip = 2, textAnimDuration = 250;
@@ -75,6 +77,7 @@ public class Game {
         tipoCarte = SharedPref.getTipoCarte().toLowerCase();
         centerText = activity.findViewById(R.id.avviso);
         gameClosed = false;
+        leftGame = false;
 
         Engine.aggiornaNCarte(mazzoIniziale.length);
 

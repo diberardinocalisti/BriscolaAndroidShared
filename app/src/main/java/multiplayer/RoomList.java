@@ -2,7 +2,6 @@ package multiplayer;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -115,7 +114,7 @@ public class RoomList extends AppCompatActivity {
                     boolean isFull = !nomeEnemy.equals("null");
 
                     if(!isFull)
-                        addRoom(nomeHost, nomeEnemy, idHost, gameCode);
+                        addRoom(nomeHost, idHost, gameCode);
                 }
             }
 
@@ -126,7 +125,7 @@ public class RoomList extends AppCompatActivity {
         });
     }
 
-    protected void addRoom(String nomeHost, String nomeEnemy, String idHost, String gameCode){
+    protected void addRoom(String nomeHost, String idHost, String gameCode){
         LinearLayout scrollViewLayout = findViewById(R.id.scrollViewLayout);
 
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -134,7 +133,6 @@ public class RoomList extends AppCompatActivity {
 
         TextView hostName = parentView.findViewById(R.id.hostName);
         ImageView hostImage = parentView.findViewById(R.id.hostIcon);
-        TextView nPlayers = parentView.findViewById(R.id.nPlayers);
         View joinBtn = parentView.findViewById(R.id.joinIcon);
 
         hostName.setText(nomeHost);

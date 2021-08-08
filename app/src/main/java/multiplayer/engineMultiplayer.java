@@ -122,9 +122,11 @@ public class engineMultiplayer extends Engine{
 
     public static void returnToMpMenu(){
         onStop = true;
-        leftGame = true;
-        Utility.goTo(activity, MainActivity.class);
-        leftGame = true;
+        if(!leftGame){
+            leftGame = true;
+            Utility.goTo(activity, MainActivity.class);
+            activity.finish();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

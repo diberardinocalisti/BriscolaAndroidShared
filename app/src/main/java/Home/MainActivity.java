@@ -135,6 +135,5 @@ public class MainActivity extends AppCompatActivity {
 
         if(!ActivityGame.leftGame)
             engineMultiplayer.accediHost(MainActivity.this, engineMultiplayer.codiceStanza);
-
     }
 }

@@ -26,6 +26,7 @@ import firebase.FirebaseClass;
 import gameEngine.Game;
 import gameEngine.Utility;
 
+import static game.danielesimone.briscolav10.ActivityGame.leftGame;
 import static gameEngine.Game.terminata;
 import static multiplayer.engineMultiplayer.checkIfSomeoneLeft;
 import static multiplayer.engineMultiplayer.codiceStanza;
@@ -105,14 +106,11 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        if(terminata) {
-            FirebaseClass.deleteFieldFirebase(null, codiceStanza);
-        }else{
-            FirebaseClass.editFieldFirebase(codiceStanza, roleId, "null");
-            FirebaseClass.deleteFieldFirebase(null,codiceStanza);
-            onStop = true;
-            Utility.goTo(ActivityMultiplayerGame.this, MainActivity.class);
-        }
+        leftGame = true;
+        onStop = true;
+        FirebaseClass.editFieldFirebase(codiceStanza, roleId, "null");
+        FirebaseClass.deleteFieldFirebase(null, codiceStanza);
+        Utility.goTo(this, MainActivity.class);
     }
 
     @Override
@@ -123,7 +121,10 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), ActivityMultiplayerGame.super::onBackPressed);
+        Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), () -> {
+            leftGame = true;
+            Utility.goTo(this, MainActivity.class);
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -134,4 +135,13 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(leftGame)
+            Utility.goTo(this, MainActivity.class);
+    }
+
 }

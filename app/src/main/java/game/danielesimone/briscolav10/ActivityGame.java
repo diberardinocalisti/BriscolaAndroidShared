@@ -177,7 +177,7 @@ public class ActivityGame extends AppCompatActivity {
     public void onBackPressed() {
         Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), () -> {
             leftGame = true;
-            Utility.goTo(this, MainActivity.class);
+            Utility.goTo(this, multiplayer ? MultiplayerActivity.class : MainActivity.class);
         });
     }
 
