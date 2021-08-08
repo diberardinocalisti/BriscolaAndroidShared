@@ -105,6 +105,10 @@ public class Utility{
         c.startActivity(i);
     }
 
+    public static void mainMenu(AppCompatActivity c){
+        goTo(c, MainActivity.class);
+    }
+
     // Ridimensiona i componenti in base alla dimensione dello schermo, NOTA: da utilizzare ogni qual volta si cambia la content view;
     public static void ridimensionamento(AppCompatActivity activity, ViewGroup v){
         DisplayMetrics displayMetrics = new DisplayMetrics();

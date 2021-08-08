@@ -27,6 +27,7 @@ import gameEngine.Game;
 import gameEngine.Utility;
 
 import static game.danielesimone.briscolav10.ActivityGame.leftGame;
+import static gameEngine.Game.activity;
 import static gameEngine.Game.terminata;
 import static multiplayer.engineMultiplayer.checkIfSomeoneLeft;
 import static multiplayer.engineMultiplayer.codiceStanza;
@@ -110,7 +111,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         onStop = true;
         FirebaseClass.editFieldFirebase(codiceStanza, roleId, "null");
         FirebaseClass.deleteFieldFirebase(null, codiceStanza);
-        Utility.goTo(this, MainActivity.class);
+        Utility.mainMenu(this);
     }
 
     @Override
@@ -123,7 +124,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     public void onBackPressed() {
         Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), () -> {
             leftGame = true;
-            Utility.goTo(this, MainActivity.class);
+            Utility.mainMenu(this);
         });
     }
 
@@ -141,7 +142,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         super.onResume();
 
         if(leftGame)
-            Utility.goTo(this, MainActivity.class);
+            Utility.mainMenu(this);
     }
-
 }

@@ -151,9 +151,6 @@ public class ActivityGame extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
 
-        Game.gameClosed = true;
-
-        System.out.println(multiplayer+" " + attesa +" "+finishAttesa);
         if(multiplayer && attesa && !finishAttesa){
             FirebaseClass.deleteFieldFirebase(null, codiceStanza);
         }

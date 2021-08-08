@@ -104,14 +104,14 @@ public class engineMultiplayer extends Engine{
         String enemy = snapshot.getEnemy();
 
         if(host.equals("null") && !enemy.equals("null")){
-            returnToMpMenu();
+            returnToMainMenu();
 
             if(role.equals("HOST"))
                 Toast.makeText(activity, activity.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(activity, activity.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
         }else if(enemy.equals("null") && !host.equals("null")) {
-            returnToMpMenu();
+            returnToMainMenu();
 
             if (!role.equals("HOST"))
                 Toast.makeText(activity, activity.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
@@ -120,11 +120,11 @@ public class engineMultiplayer extends Engine{
         }
     }
 
-    public static void returnToMpMenu(){
+    public static void returnToMainMenu(){
         onStop = true;
         if(!leftGame){
             leftGame = true;
-            Utility.goTo(activity, MainActivity.class);
+            Utility.mainMenu(activity);
             activity.finish();
         }
     }

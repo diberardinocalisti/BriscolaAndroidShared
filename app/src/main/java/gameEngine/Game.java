@@ -54,7 +54,6 @@ public class Game {
     public static Giocatore giocante, ultimoVincitore;
     public static boolean canPlay, terminata = true;
     public static short lastManche = 0;
-    public static boolean gameClosed = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initialize(AppCompatActivity activity){
@@ -76,7 +75,6 @@ public class Game {
         mazzoIniziale = new Carta[dimensioneMazzo];
         tipoCarte = SharedPref.getTipoCarte().toLowerCase();
         centerText = activity.findViewById(R.id.avviso);
-        gameClosed = false;
         leftGame = false;
 
         Engine.aggiornaNCarte(mazzoIniziale.length);
