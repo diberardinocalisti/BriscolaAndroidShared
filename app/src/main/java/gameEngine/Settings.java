@@ -12,9 +12,8 @@ import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 
-import game.danielesimone.briscolav10.R;
+import game.danielesimone.briscola.R;
 
 import java.util.Arrays;
 import java.util.List;

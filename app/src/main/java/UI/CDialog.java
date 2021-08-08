@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
-import game.danielesimone.briscolav10.R;
+import game.danielesimone.briscola.R;
 
 public class CDialog extends Dialog implements android.view.View.OnClickListener {
     public Activity c;

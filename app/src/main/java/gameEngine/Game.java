@@ -9,16 +9,15 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import game.danielesimone.briscolav10.ActivityGame;
-import game.danielesimone.briscolav10.R;
+import game.danielesimone.briscola.ActivityGame;
+import game.danielesimone.briscola.R;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import Home.SharedPref;
 import multiplayer.engineMultiplayer;
 
-import static game.danielesimone.briscolav10.ActivityGame.leftGame;
+import static game.danielesimone.briscola.ActivityGame.leftGame;
 
 public class Game {
     public static AppCompatActivity activity;

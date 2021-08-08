@@ -18,11 +18,10 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
-import game.danielesimone.briscolav10.ActivityGame;
-import game.danielesimone.briscolav10.R;
-import game.danielesimone.briscolav10.postPartita;
+import game.danielesimone.briscola.ActivityGame;
+import game.danielesimone.briscola.R;
+import game.danielesimone.briscola.postPartita;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

@@ -11,8 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import Home.MainActivity;
-import game.danielesimone.briscolav10.R;
+import game.danielesimone.briscola.R;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,15 +19,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-
 import firebase.FirebaseClass;
 import gameEngine.Game;
 import gameEngine.Utility;
 
-import static game.danielesimone.briscolav10.ActivityGame.leftGame;
-import static gameEngine.Game.activity;
-import static gameEngine.Game.terminata;
+import static game.danielesimone.briscola.ActivityGame.leftGame;
 import static multiplayer.engineMultiplayer.checkIfSomeoneLeft;
 import static multiplayer.engineMultiplayer.codiceStanza;
 import static multiplayer.engineMultiplayer.initEnemy;

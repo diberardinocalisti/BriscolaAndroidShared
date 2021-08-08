@@ -1,4 +1,4 @@
-package game.danielesimone.briscolav10;
+package game.danielesimone.briscola;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -6,26 +6,22 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import game.danielesimone.briscolav10.R;
+import game.danielesimone.briscola.R;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
-
-import java.io.IOException;
 
 import Home.MainActivity;
 import Login.loginClass;

@@ -22,11 +22,9 @@ import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 import firebase.FirebaseClass;
-import game.danielesimone.briscolav10.R;
-import gameEngine.Carta;
+import game.danielesimone.briscola.R;
 import gameEngine.Utility;
 
 import static Login.loginClass.setImgProfile;

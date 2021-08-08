@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="game.danielesimone.briscolav10">
+    package="game.danielesimone.briscola">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
@@ -21,7 +21,7 @@
 
         android:theme="@style/Theme.BriscolaV10">
 
-        <activity android:name="game.danielesimone.briscolav10.ActivityGame"
+        <activity android:name="game.danielesimone.briscola.ActivityGame"
             android:noHistory="true"
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
@@ -29,7 +29,7 @@
             ><intent-filter>
             <action android:name="android.intent.action.VIEW" />
             </intent-filter>
-        </activity>        <activity android:name="game.danielesimone.briscolav10.postPartita"
+        </activity>        <activity android:name="game.danielesimone.briscola.postPartita"
             android:noHistory="true"
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"

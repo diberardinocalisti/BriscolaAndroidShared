@@ -25,12 +25,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import Home.MainActivity;
-import game.danielesimone.briscolav10.R;
-import multiplayer.MultiplayerActivity;
+import game.danielesimone.briscola.R;
 
 import static gameEngine.Game.activity;
 import static gameEngine.Game.textAnimDuration;
-import static multiplayer.ActivityMultiplayerGame.onStop;
 
 public class Utility{
     @RequiresApi(api = Build.VERSION_CODES.N)

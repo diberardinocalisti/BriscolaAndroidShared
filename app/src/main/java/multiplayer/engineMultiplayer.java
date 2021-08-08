@@ -19,14 +19,12 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import game.danielesimone.briscolav10.ActivityGame;
-import game.danielesimone.briscolav10.R;
+import game.danielesimone.briscola.ActivityGame;
+import game.danielesimone.briscola.R;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.IOException;
 import java.util.Random;
 
-import Home.MainActivity;
 import Login.loginClass;
 import firebase.FirebaseClass;
 import gameEngine.Carta;
@@ -35,7 +33,7 @@ import gameEngine.Game;
 import gameEngine.Giocatore;
 import gameEngine.Utility;
 
-import static game.danielesimone.briscolav10.ActivityGame.leftGame;
+import static game.danielesimone.briscola.ActivityGame.leftGame;
 import static gameEngine.Game.I_CAMPO_GIOCO;
 import static gameEngine.Game.activity;
 import static gameEngine.Game.centerText;

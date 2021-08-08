@@ -9,9 +9,8 @@ import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 
-import game.danielesimone.briscolav10.R;
+import game.danielesimone.briscola.R;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

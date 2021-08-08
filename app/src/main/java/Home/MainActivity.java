@@ -15,8 +15,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import firebase.FirebaseClass;
-import game.danielesimone.briscolav10.ActivityGame;
-import game.danielesimone.briscolav10.R;
+import game.danielesimone.briscola.ActivityGame;
+import game.danielesimone.briscola.R;
 import com.facebook.AccessToken;
 
 import Login.LoginActivity;
@@ -24,7 +24,6 @@ import Login.loginClass;
 import gameEngine.Game;
 import gameEngine.Utility;
 import multiplayer.ActivityMultiplayerGame;
-import multiplayer.GameRoom;
 import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
 

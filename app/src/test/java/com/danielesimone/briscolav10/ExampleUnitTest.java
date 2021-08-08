@@ -1,4 +1,4 @@
-package game.danielesimone.briscolav10;
+package game.danielesimone.briscola;
 
 import org.junit.Test;
 

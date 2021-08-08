@@ -1,4 +1,4 @@
-package game.danielesimone.briscolav10;
+package game.danielesimone.briscola;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,16 +13,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import Login.LoginActivity;
 import Login.loginClass;
-import game.danielesimone.briscolav10.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import game.danielesimone.briscola.R;
+
 import com.google.firebase.database.DataSnapshot;
 
 import Home.MainActivity;

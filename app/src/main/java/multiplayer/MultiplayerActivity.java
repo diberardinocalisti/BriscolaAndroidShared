@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import game.danielesimone.briscolav10.R;
+import game.danielesimone.briscola.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -21,8 +21,6 @@ import com.google.firebase.database.annotations.NotNull;
 
 import firebase.FirebaseClass;
 import gameEngine.Utility;
-
-import static game.danielesimone.briscolav10.ActivityGame.leftGame;
 
 public class MultiplayerActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
