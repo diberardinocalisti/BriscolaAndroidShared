@@ -18,7 +18,10 @@ public class CDialog extends Dialog implements android.view.View.OnClickListener
         super(c);
         this.c = c;
         this.title = title;
-        this.callback = callback;
+        this.callback = () -> {
+            callback.run();
+            this.dismiss();
+        };
     }
 
     @Override

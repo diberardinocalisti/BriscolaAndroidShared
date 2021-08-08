@@ -20,14 +20,22 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
 import firebase.FirebaseClass;
 import game.danielesimone.briscolav10.R;
+import gameEngine.Carta;
 import gameEngine.Utility;
 
 import static Login.loginClass.setImgProfile;
 import static multiplayer.GameRoom.isGameRoom;
 
 public class RoomList extends AppCompatActivity {
+    private int selectedItem;
+    private String[] filterOptions;
+
     @SuppressLint("ResourceType")
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +49,7 @@ public class RoomList extends AppCompatActivity {
         Utility.enableTopBar(this);
 
         initializeLayout();
-        showRooms();
+        refreshRooms();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -58,6 +66,9 @@ public class RoomList extends AppCompatActivity {
             refreshRooms();
         });
 
+        filterOptions = new String[]{RoomList.this.getString(R.string.showall), RoomList.this.getString(R.string.shownotempty)};
+        selectedItem = 0;
+
         settingsBtn.setOnClickListener(v -> {
             AlertDialog.Builder dialog = new AlertDialog.Builder(RoomList.this);
             LayoutInflater inflater = (LayoutInflater) RoomList.this.getSystemService( LAYOUT_INFLATER_SERVICE );
@@ -65,12 +76,16 @@ public class RoomList extends AppCompatActivity {
             View roomSettings = inflater.inflate(R.layout.room_settings, null);
             Spinner filterSpinner = roomSettings.findViewById(R.id.filterSpinner);
 
-            String[] filterOptions = new String[]{RoomList.this.getString(R.string.showall), RoomList.this.getString(R.string.shownotempty)};
             ArrayAdapter<String> adapter = new ArrayAdapter<>(RoomList.this, android.R.layout.simple_spinner_item, filterOptions);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             filterSpinner.setAdapter(adapter);
+            filterSpinner.setSelection(selectedItem);
 
-            dialog.setPositiveButton(RoomList.this.getString(R.string.confirm), (dialog1, which) -> refreshRooms());
+            dialog.setPositiveButton(RoomList.this.getString(R.string.confirm), (dialog1, which) -> {
+                selectedItem = filterSpinner.getSelectedItemPosition();
+                refreshRooms();
+            });
+
             dialog.setNegativeButton(RoomList.this.getString(R.string.cancel), null);
             dialog.setView(roomSettings);
             dialog.create().show();
@@ -80,6 +95,7 @@ public class RoomList extends AppCompatActivity {
     protected void refreshRooms(){
         LinearLayout scrollViewLayout = findViewById(R.id.scrollViewLayout);
         scrollViewLayout.removeAllViews();
+
         showRooms();
     }
 
@@ -93,12 +109,10 @@ public class RoomList extends AppCompatActivity {
         FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
             Iterable<DataSnapshot> result = task.getResult().getChildren();
 
-            int nRooms = 0;
+            ArrayList<Room> rooms = new ArrayList<>();
 
             for(DataSnapshot d: result){
                 if(isGameRoom(d)){
-                    nRooms++;
-
                     String nomeHost = new String(), nomeEnemy = new String(), idHost = new String(), gameCode = new String();
                     for(DataSnapshot row : d.getChildren()){
                        if(row.getKey().equals("host"))
@@ -113,19 +127,28 @@ public class RoomList extends AppCompatActivity {
 
                     boolean isFull = !nomeEnemy.equals("null");
 
-                    if(!isFull)
-                        addRoom(nomeHost, idHost, gameCode);
+                    rooms.add(new Room(nomeHost, idHost, gameCode, isFull));
                 }
             }
 
-            if(nRooms == 0){
+            Collections.sort(rooms, (room1, room2) -> room1.getNomeHost().toLowerCase().compareTo(room2.getNomeHost().toLowerCase()));
+
+            if(rooms.size() > 0){
+                for(Room room : rooms)
+                    addRoomToList(room.getNomeHost(), room.getHostId(), room.getGameCode(), room.isFull());
+            }else{
                 alert.setText(getString(R.string.noavailableroom));
                 progressBar.setVisibility(View.INVISIBLE);
             }
         });
     }
 
-    protected void addRoom(String nomeHost, String idHost, String gameCode){
+    protected void addRoomToList(String nomeHost, String idHost, String gameCode, boolean isFull){
+        boolean showAll = filterOptions[selectedItem].equals(this.getString(R.string.showall));
+
+        if(isFull && !showAll)
+            return;
+
         LinearLayout scrollViewLayout = findViewById(R.id.scrollViewLayout);
 
         LayoutInflater inflater = LayoutInflater.from(this);
@@ -134,6 +157,7 @@ public class RoomList extends AppCompatActivity {
         TextView hostName = parentView.findViewById(R.id.hostName);
         ImageView hostImage = parentView.findViewById(R.id.hostIcon);
         View joinBtn = parentView.findViewById(R.id.joinIcon);
+        TextView nPlayers = parentView.findViewById(R.id.nPlayers);
 
         hostName.setText(nomeHost);
         setImgProfile(this, idHost, hostImage);
@@ -143,9 +167,44 @@ public class RoomList extends AppCompatActivity {
         ProgressBar progressBar = findViewById(R.id.loadingBar);
         progressBar.setVisibility(View.INVISIBLE);
 
-        joinBtn.setOnClickListener(v -> {
-                engineMultiplayer.accediGuest(RoomList.this, gameCode);
-        });
+        if(isFull)
+            nPlayers.setText(this.getString(R.string.full));
 
+        joinBtn.setOnClickListener(v -> {
+            if(!isFull)
+                engineMultiplayer.accediGuest(RoomList.this, gameCode);
+            else
+                Utility.oneLineDialog(this, this.getString(R.string.roomfull), () -> {});
+        });
+    }
+
+    public class Room {
+        private String gameCode;
+        private String nomeHost;
+        private String hostId;
+        private boolean isFull;
+
+        public Room(String nomeHost, String hostId, String gameCode, boolean isFull) {
+            this.nomeHost = nomeHost;
+            this.hostId = hostId;
+            this.gameCode = gameCode;
+            this.isFull = isFull;
+        }
+
+        public String getGameCode() {
+            return gameCode;
+        }
+
+        public String getNomeHost() {
+            return nomeHost;
+        }
+
+        public String getHostId() {
+            return hostId;
+        }
+
+        public boolean isFull() {
+            return isFull;
+        }
     }
 }

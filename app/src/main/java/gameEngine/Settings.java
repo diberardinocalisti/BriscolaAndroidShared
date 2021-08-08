@@ -22,7 +22,9 @@ import java.util.stream.Collectors;
 
 import Home.SharedPref;
 
-public class Settings extends AppCompatActivity {
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
+public class Settings {
 
     @SuppressLint("ResourceType")
     @RequiresApi(api = Build.VERSION_CODES.N)
