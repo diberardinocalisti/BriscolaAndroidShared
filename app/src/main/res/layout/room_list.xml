@@ -142,16 +142,40 @@
 
         <Button
             android:id="@+id/refresh"
-            android:layout_width="430px"
+            android:layout_width="320px"
             android:layout_height="120px"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:alpha="0.85"
             android:background="@drawable/yellow_button"
             android:text="@string/refresh"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/view6"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+        <Button
+            android:id="@+id/roomSettings"
+            android:layout_width="320px"
+            android:layout_height="120px"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:alpha="0.85"
+            android:background="@drawable/yellow_button"
+            android:text="@string/settings"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/view6"
+            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+        <View
+            android:id="@+id/view6"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

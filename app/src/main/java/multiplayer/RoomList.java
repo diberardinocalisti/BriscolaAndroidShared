@@ -1,16 +1,19 @@
 package multiplayer;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -42,19 +45,43 @@ public class RoomList extends AppCompatActivity {
         showRooms();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     protected void initializeLayout(){
         ProgressBar progressBar = findViewById(R.id.loadingBar);
 
         View refreshBtn = findViewById(R.id.refresh);
+        View settingsBtn = findViewById(R.id.roomSettings);
 
         refreshBtn.setOnClickListener(v -> {
             if(progressBar.getVisibility() == View.VISIBLE)
                 return;
 
-            LinearLayout scrollViewLayout = findViewById(R.id.scrollViewLayout);
-            scrollViewLayout.removeAllViews();
-            showRooms();
+            refreshRooms();
         });
+
+        settingsBtn.setOnClickListener(v -> {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(RoomList.this);
+            LayoutInflater inflater = (LayoutInflater) RoomList.this.getSystemService( LAYOUT_INFLATER_SERVICE );
+
+            View roomSettings = inflater.inflate(R.layout.room_settings, null);
+            Spinner filterSpinner = roomSettings.findViewById(R.id.filterSpinner);
+
+            String[] filterOptions = new String[]{RoomList.this.getString(R.string.showall), RoomList.this.getString(R.string.shownotempty)};
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(RoomList.this, android.R.layout.simple_spinner_item, filterOptions);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            filterSpinner.setAdapter(adapter);
+
+            dialog.setPositiveButton(RoomList.this.getString(R.string.confirm), (dialog1, which) -> refreshRooms());
+            dialog.setNegativeButton(RoomList.this.getString(R.string.cancel), null);
+            dialog.setView(roomSettings);
+            dialog.create().show();
+        });
+    }
+
+    protected void refreshRooms(){
+        LinearLayout scrollViewLayout = findViewById(R.id.scrollViewLayout);
+        scrollViewLayout.removeAllViews();
+        showRooms();
     }
 
     protected void showRooms(){

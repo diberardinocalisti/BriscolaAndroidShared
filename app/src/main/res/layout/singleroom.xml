@@ -5,7 +5,8 @@
     android:id="@+id/roomlayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp">
+    android:layout_margin="8dp"
+    android:padding="5dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -58,13 +59,13 @@
             <ImageView
                 android:id="@+id/hostIcon"
                 android:layout_width="100px"
-                android:layout_height="150px"
+                android:layout_height="100px"
                 app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
             <ImageView
                 android:id="@+id/android1"
                 android:layout_width="100px"
-                android:layout_height="150px"
+                android:layout_height="100px"
                 android:contentDescription="@null"
                 android:src="@drawable/subtracted_circle" />
 

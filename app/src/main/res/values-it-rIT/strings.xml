@@ -83,5 +83,11 @@
     <string name="full">Piena</string>
     <string name="warning">Attenzione!</string>
     <string name="logoutsuccess">Logout eseguito con successo!</string>
+    <string name="showall">Tutte</string>
+    <string name="shownotempty">Solo disponibili</string>
+    <string name="filterrooms">Filtra stanze</string>
+    <string name="roomsettings">Impostazioni lista stanze</string>
+    <string name="show">Mostra</string>
+    <string name="filter">Filtra</string>
 
 </resources>

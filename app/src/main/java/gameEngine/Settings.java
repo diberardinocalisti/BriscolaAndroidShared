@@ -29,10 +29,10 @@ public class Settings extends AppCompatActivity {
     public void createSettingsMenu(Context c)
     {
         AlertDialog.Builder builder = new AlertDialog.Builder(c);
-        LayoutInflater inflater = (LayoutInflater) c.getSystemService( c.LAYOUT_INFLATER_SERVICE );
+        LayoutInflater inflater = (LayoutInflater) c.getSystemService( LAYOUT_INFLATER_SERVICE );
 
         // VIEW;
-        View tipoCarteView = inflater.inflate( R.layout.spinner_tipo_carte, null );
+        View tipoCarteView = inflater.inflate(R.layout.settings, null);
 
         // SPINNER;
         Spinner tipoCarte = tipoCarteView.findViewById(R.id.spinner);
