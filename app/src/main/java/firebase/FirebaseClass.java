@@ -1,5 +1,6 @@
 package firebase;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -43,5 +44,44 @@ public class FirebaseClass {
             getFbRefSpeicific(specific).child(field).removeValue();
         else
             getFbRef().child(field).removeValue();
+    }
+
+    public static void aggiornaVittorie(String fbUID)
+    {
+        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                String vinte;
+                float vinteF = 0.0f;
+
+                for(DataSnapshot d: task.getResult().getChildren())
+                {
+                    if(d.getKey().equals("vinte")) {
+                        vinte = String.valueOf(d.getValue());
+                        vinteF = Float.parseFloat(vinte);
+                        FirebaseClass.editFieldFirebase(fbUID,"vinte",vinteF+1);
+                    }
+                }
+            }
+        });
+    }
+
+    public static void aggiornaSconfitte(String fbUID)
+    {
+        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                String perse;
+                float perseF = 0.0f;
+
+                for(DataSnapshot d: task.getResult().getChildren())
+                {
+                    if(d.getKey().equals("perse")){
+                        perse = String.valueOf(d.getValue());
+                        perseF = Float.parseFloat(perse);
+                        FirebaseClass.editFieldFirebase(fbUID,"perse",perseF+1);
+                    }
+                }
+
+            }
+        });
     }
 }

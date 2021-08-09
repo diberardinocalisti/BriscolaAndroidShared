@@ -37,6 +37,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     public static GameRoom snapshot;
     public static boolean distribuisci = false;
     private AdView mAdView;
+    public static String idHost = "", idEnemy = "";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -82,6 +83,10 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
                 if(!onStop){
                     if(!distribuisci){
+                        idHost = snapshot.getIdHost();
+                        idEnemy = snapshot.getIdEnemy();
+                        System.out.println("Host --> " + idHost+"\nEnemy --> " + idEnemy);System.out.println("Host --> " + idHost+"\nEnemy --> " + idEnemy);
+
                         if(roleId.equals("host")) {
                             initHost();
                         }else if(!snapshot.getMazzo().equals("null")) {

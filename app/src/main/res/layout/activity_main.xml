@@ -54,6 +54,7 @@
             app:layout_constraintStart_toStartOf="@+id/singleplayer"
             app:layout_constraintTop_toBottomOf="@+id/singleplayer" />
 
+
         <Button
             android:id="@+id/closegame"
             android:layout_width="400px"
