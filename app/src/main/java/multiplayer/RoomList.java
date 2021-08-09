@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -177,10 +178,10 @@ public class RoomList extends AppCompatActivity {
     }
 
     public class Room {
-        private String gameCode;
-        private String nomeHost;
-        private String hostId;
-        private boolean isFull;
+        private final String gameCode;
+        private final String nomeHost;
+        private final String hostId;
+        private final boolean isFull;
 
         public Room(String nomeHost, String hostId, String gameCode, boolean isFull) {
             this.nomeHost = nomeHost;

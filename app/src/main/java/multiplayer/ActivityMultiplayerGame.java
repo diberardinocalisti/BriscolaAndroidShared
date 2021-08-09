@@ -24,6 +24,7 @@ import gameEngine.Game;
 import gameEngine.Utility;
 
 import static game.danielesimone.briscola.ActivityGame.leftGame;
+import static gameEngine.Game.terminata;
 import static multiplayer.engineMultiplayer.checkIfSomeoneLeft;
 import static multiplayer.engineMultiplayer.codiceStanza;
 import static multiplayer.engineMultiplayer.initEnemy;
@@ -106,7 +107,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         onStop = true;
         FirebaseClass.editFieldFirebase(codiceStanza, roleId, "null");
         FirebaseClass.deleteFieldFirebase(null, codiceStanza);
-        Utility.mainMenu(this);
+
+        if(!terminata)
+            Utility.mainMenu(this);
     }
 
     @Override

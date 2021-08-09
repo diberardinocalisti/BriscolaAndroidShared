@@ -41,6 +41,7 @@ import static gameEngine.Game.giocante;
 import static gameEngine.Game.giocatori;
 import static gameEngine.Game.intermezzo;
 import static gameEngine.Game.lastManche;
+import static gameEngine.Game.opp;
 import static multiplayer.ActivityMultiplayerGame.distribuisci;
 import static multiplayer.ActivityMultiplayerGame.mazzoOnline;
 import static multiplayer.ActivityMultiplayerGame.onStop;
@@ -104,18 +105,28 @@ public class engineMultiplayer extends Engine{
         if(host.equals("null") && !enemy.equals("null")){
             returnToMainMenu();
 
-            if(role.equals("HOST"))
-                Toast.makeText(activity, activity.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(activity, activity.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
+            if(role.equals("HOST")) {
+                youLeft();
+            }else{
+                opponentLeft();
+            }
         }else if(enemy.equals("null") && !host.equals("null")) {
             returnToMainMenu();
 
-            if (!role.equals("HOST"))
-                Toast.makeText(activity, activity.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
-            else
-                Toast.makeText(activity, activity.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
+            if(!role.equals("HOST")){
+                youLeft();
+            }else{
+                opponentLeft();
+            }
         }
+    }
+
+    public static void youLeft(){
+        Toast.makeText(activity, activity.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
+    }
+
+    public static void opponentLeft(){
+        Toast.makeText(activity, activity.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
     }
 
     public static void returnToMainMenu(){
@@ -231,7 +242,7 @@ public class engineMultiplayer extends Engine{
                                 e.printStackTrace();
                             }
                         }else{
-                            new Handler().postDelayed(() -> terminaManche((GiocatoreMP) vincente), intermezzo);
+                            new Handler().postDelayed(() -> terminaManche(vincente), intermezzo);
                         }
                     });
                 }
@@ -244,9 +255,7 @@ public class engineMultiplayer extends Engine{
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void initHost() {
         inizializza();
-
-        System.out.println("INIT HOST!!");
-
+        
         Giocatore[] app = new Giocatore[]{host, enemy};
 
         mazzoOnline = engineMultiplayer.creaMazzoFirebase();
@@ -284,7 +293,7 @@ public class engineMultiplayer extends Engine{
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void terminaManche(GiocatoreMP vincitore){
+    public static void terminaManche(Giocatore vincitore){
         FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost", "null");
         FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaEnemy", "null");
 
