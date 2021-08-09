@@ -64,16 +64,16 @@ public class Giocatore {
         for(int i = this.index * nCarte, j = 0; j < nCarte; j++, i++)
             this.bottoni[j] = carteBottoni[i];
 
-        String idS = "mazzo" + this.index;
-        int id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
+        String idName = "mazzo" + this.index;
+        int id = activity.getResources().getIdentifier(idName, "id", activity.getPackageName());
         this.mazzo = activity.findViewById(id);
 
-        idS = "prendi" + this.index;
-        id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
+        idName = "prendi" + this.index;
+        id = activity.getResources().getIdentifier(idName, "id", activity.getPackageName());
         this.prendi = activity.findViewById(id);
 
-        idS = "friend_profile_picture_" + this.index;
-        id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
+        idName = "friend_profile_picture_" + this.index;
+        id = activity.getResources().getIdentifier(idName, "id", activity.getPackageName());
         this.userIcon = activity.findViewById(id);
 
         this.id = userId;
@@ -135,8 +135,7 @@ public class Giocatore {
     }
 
     public void aggiornaIconaCarte(){
-        int visibility = prese.size() == 0 ? View.INVISIBLE : View.VISIBLE;
-        this.mazzo.setVisibility(visibility);
+        this.mazzo.setVisibility(prese.size() == 0 ? View.INVISIBLE : View.VISIBLE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -171,7 +170,6 @@ public class Giocatore {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }).start();
 
         int valoreCarte = 0;
@@ -199,7 +197,7 @@ public class Giocatore {
 
         String points = "+" + valoreCarte + " " + activity.getString(R.string.points) + "!";
 
-        String titolo = new String();
+        String titolo;
 
         if(!isTerminata()){
             int stringId = Game.user == this ? R.string.tuoturno : R.string.turno;
@@ -257,21 +255,16 @@ public class Giocatore {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public int prendi(Carta daAggiungere, Runnable callback){
+    public void prendi(Carta daAggiungere, Runnable callback){
         for(int i = 0; i < carte.length; i++) {
             if (this.carte[i] == null) {
                 prendi(i, daAggiungere, callback);
-                return i;
-            } else if (this.carte[i].getButton() == null) {
+                return;
+            }else if (this.carte[i].getButton() == null) {
                 prendi(i, daAggiungere, callback);
-                return i;
+                return;
             }
-            /*else if (isLibero(this.carte[i].getButton())) {
-                prendi(i, daAggiungere, null);
-                return i;
-            }*/
         }
-        return -1;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -327,7 +320,7 @@ public class Giocatore {
     }
 
     public void toccaA() throws InterruptedException {
-        Game.canPlay = true;
+        canPlay = true;
         giocante = this;
     }
 }
