@@ -61,35 +61,49 @@ public class MultiplayerActivity extends AppCompatActivity {
         Utility.inputDialog(this, this.getString(R.string.insertcode), (Object par) -> {
             String input = ((String) par).toUpperCase();
 
-            FirebaseClass.getFbRefSpeicific(input).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
-                    String host = "null";
-                    String enemy = "null";
+            joinRoomByCode(this, input, null,
+                    () -> Utility.oneLineDialog(this, (String) this.getText(R.string.roomnotexisting), null),
+                    () -> Utility.oneLineDialog(this, (String) this.getText(R.string.roomfull), null));
+        });
+    }
 
-                    if(dataSnapshot.exists()){
-                        for(DataSnapshot d : dataSnapshot.getChildren()){
-                            String key = d.getKey();
-                            Object value = d.getValue();
+    public static void joinRoomByCode(AppCompatActivity context, String gameCode, Runnable onRoomAvailableCallback, Runnable onRoomNotExistingCallback, Runnable onRoomFullCallback){
+        if(gameCode.isEmpty())
+            return;
 
-                            if(key.equals("host"))
-                                host = String.valueOf(value);
-                            if(key.equals("enemy"))
-                                enemy = String.valueOf(value);
-                        }
+        FirebaseClass.getFbRefSpeicific(gameCode).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
+                String host = "null";
+                String enemy = "null";
 
-                        if(!host.equals("null") && !enemy.equals("null")){
-                            Toast.makeText(MultiplayerActivity.this.getApplicationContext(), MultiplayerActivity.this.getText(R.string.roomfull), Toast.LENGTH_LONG).show();
-                        }else{
-                            engineMultiplayer.accediGuest(MultiplayerActivity.this, input);
-                        }
-                    }else{
-                        Toast.makeText(MultiplayerActivity.this, MultiplayerActivity.this.getText(R.string.roomnotexisting), Toast.LENGTH_LONG).show();
+                if(dataSnapshot.exists()){
+                    for(DataSnapshot d : dataSnapshot.getChildren()){
+                        String key = d.getKey();
+                        Object value = d.getValue();
+
+                        if(key.equals("host"))
+                            host = String.valueOf(value);
+                        if(key.equals("enemy"))
+                            enemy = String.valueOf(value);
                     }
-                }
 
-                @Override public void onCancelled(@NonNull @NotNull DatabaseError databaseError){}
-            });
+                    if(!host.equals("null") && !enemy.equals("null")){
+                        if(onRoomFullCallback != null)
+                            onRoomFullCallback.run();
+                    }else{
+                        if(onRoomAvailableCallback != null)
+                            onRoomAvailableCallback.run();
+
+                        engineMultiplayer.accediGuest(context, gameCode);
+                    }
+                }else{
+                    if(onRoomNotExistingCallback != null)
+                        onRoomNotExistingCallback.run();
+                }
+            }
+
+            @Override public void onCancelled(@NonNull @NotNull DatabaseError databaseError){}
         });
     }
 }

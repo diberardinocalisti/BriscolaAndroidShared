@@ -28,6 +28,8 @@ import java.util.Comparator;
 
 import Home.SharedPref;
 import firebase.FirebaseClass;
+import multiplayer.ActivityMultiplayerGame;
+import multiplayer.GiocatoreMP;
 import multiplayer.engineMultiplayer;
 
 import static Login.loginClass.getFBUserId;
@@ -57,6 +59,7 @@ import static gameEngine.Game.terminata;
 import static gameEngine.Game.ultimoVincitore;
 import static gameEngine.Game.user;
 import static gameEngine.Game.viewAnimDuration;
+import static multiplayer.engineMultiplayer.codiceStanza;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
@@ -341,10 +344,13 @@ public class Engine{
         i.putExtra("punteggio", user.getPunteggioCarte());
         i.putExtra("carte", user.mostraMazzo());
 
-        activity.startActivity(i);
-
-        if(ActivityGame.multiplayer)
+        if(ActivityGame.multiplayer){
+            FirebaseClass.getFbRefSpeicific(codiceStanza).removeEventListener(ActivityMultiplayerGame.valueEventListener);
             FirebaseClass.deleteFieldFirebase(null, engineMultiplayer.codiceStanza);
+            i.putExtra("ruolo", ((GiocatoreMP) user).getRuolo());
+        }
+
+        activity.startActivity(i);
     }
 
     public static void pulisciTavolo(){

@@ -30,6 +30,7 @@ import gameEngine.Utility;
 
 import static Login.loginClass.setImgProfile;
 import static multiplayer.GameRoom.isGameRoom;
+import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class RoomList extends AppCompatActivity {
     private int selectedItem;
@@ -113,19 +114,19 @@ public class RoomList extends AppCompatActivity {
             for(DataSnapshot d: result){
                 if(isGameRoom(d)){
                     String nomeHost = new String(), nomeEnemy = new String(), idHost = new String(), gameCode = new String();
+
                     for(DataSnapshot row : d.getChildren()){
-                       if(row.getKey().equals("host"))
-                            nomeHost = String.valueOf(row.getValue());
-                       else if(row.getKey().equals("enemy"))
-                            nomeEnemy = String.valueOf(row.getValue());
-                       else if(row.getKey().equals("idHost"))
-                            idHost = String.valueOf(row.getValue());
-                       else if(row.getKey().equals("gameCode"))
-                            gameCode = String.valueOf(row.getValue());
+                        switch (row.getKey()) {
+                            case "host": nomeHost = String.valueOf(row.getValue()); break;
+                            case "enemy": nomeEnemy = String.valueOf(row.getValue()); break;
+                            case "idHost": idHost = String.valueOf(row.getValue()); break;
+                            case "gameCode": gameCode = String.valueOf(row.getValue()); break;
+                        }
+                        /*if(row.getKey().equals("gameCode"))
+                            FirebaseClass.deleteFieldFirebase(null, row.getValue().toString());*/
                     }
 
                     boolean isFull = !nomeEnemy.equals("null");
-
                     rooms.add(new Room(nomeHost, idHost, gameCode, isFull));
                 }
             }

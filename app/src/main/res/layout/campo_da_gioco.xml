@@ -359,7 +359,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
-                    <!--<com.google.android.gms.ads.AdView
+                    <com.google.android.gms.ads.AdView
                         xmlns:ads="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/adView"
                         android:layout_width="match_parent"
@@ -367,8 +367,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_alignParentBottom="true"
                         ads:adSize="BANNER"
-                        ads:adUnitId="ca-app-pub-3432724503217594/3611627436">
-                    </com.google.android.gms.ads.AdView>-->
+                        ads:adUnitId="ca-app-pub-9833115755260479/5143272318">
+                    </com.google.android.gms.ads.AdView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

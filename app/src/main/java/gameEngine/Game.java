@@ -56,6 +56,8 @@ public class Game {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initialize(AppCompatActivity activity){
+        activity.setContentView(R.layout.campo_da_gioco);
+
         Utility.enableTopBar(activity);
         Utility.ridimensionamento(activity, activity.findViewById(R.id.campogioco));
 
@@ -100,6 +102,8 @@ public class Game {
         }else{
             chatIcon.setVisibility(View.INVISIBLE);
         }
+
+        Utility.addAdv(activity);
 
         Utility.enableTopBar(activity);
         Engine.pulisciTavolo();

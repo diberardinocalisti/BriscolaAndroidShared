@@ -39,6 +39,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     public static boolean distribuisci = false;
     private AdView mAdView;
     public static String idHost = "", idEnemy = "";
+    public static ValueEventListener valueEventListener;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -48,18 +49,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.campo_da_gioco);
-
-        /*MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);*/
-
         onStop = distribuisci = false;
 
         roleId = (role.equals("HOST") ? "host" : "enemy");
@@ -68,7 +57,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
         Game.initialize(this);
 
-        FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(new ValueEventListener() {
+        valueEventListener = new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
@@ -86,7 +75,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                     if(!distribuisci){
                         idHost = snapshot.getIdHost();
                         idEnemy = snapshot.getIdEnemy();
-                        System.out.println("Host --> " + idHost+"\nEnemy --> " + idEnemy);System.out.println("Host --> " + idHost+"\nEnemy --> " + idEnemy);
 
                         if(roleId.equals("host")) {
                             initHost();
@@ -101,7 +89,9 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             }
 
             @Override public void onCancelled(@NonNull @NotNull DatabaseError databaseError){}
-        });
+        };
+
+        FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(valueEventListener);
     }
 
     @Override

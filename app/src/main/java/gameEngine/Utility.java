@@ -24,6 +24,10 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+
 import Home.MainActivity;
 import game.danielesimone.briscola.R;
 
@@ -45,6 +49,14 @@ public class Utility{
         idS = "righticon";
         id = c.getResources().getIdentifier(idS, "id", c.getPackageName());
         c.findViewById(id).setOnClickListener(v -> new Settings().createSettingsMenu(c));
+    }
+
+    public static void addAdv(AppCompatActivity appCompatActivity){
+        MobileAds.initialize(appCompatActivity, initializationStatus -> {});
+
+        AdView mAdView = appCompatActivity.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     // Input dialog;

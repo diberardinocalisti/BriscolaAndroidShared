@@ -21,6 +21,10 @@
 
         android:theme="@style/Theme.BriscolaV10">
 
+        <meta-data
+            android:name="game.danielesimone.briscola"
+            android:value="ca-app-pub-9833115755260479~5712256132"/>
+
         <activity android:name="game.danielesimone.briscola.ActivityGame"
             android:noHistory="true"
             android:parentActivityName = "Home.MainActivity"

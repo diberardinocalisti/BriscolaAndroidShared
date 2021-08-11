@@ -28,11 +28,15 @@ import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
 import gameEngine.Utility;
+import multiplayer.MultiplayerActivity;
+import multiplayer.engineMultiplayer;
 
 import static Login.LoginActivity.fbUID;
+import static game.danielesimone.briscola.ActivityGame.leftGame;
 import static gameEngine.Game.activity;
 import static gameEngine.Game.maxPunti;
 import static gameEngine.Game.nGiocatori;
+import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class postPartita extends AppCompatActivity {
 
@@ -61,7 +65,7 @@ public class postPartita extends AppCompatActivity {
 
         int punteggio = extras.getInt("punteggio");
         String[] daMostrare = extras.getStringArray("carte");
-
+        String ruolo = extras.getString("ruolo");
 
         if(punteggio < maxPunti/nGiocatori) {
             partitaPersa();
@@ -105,16 +109,29 @@ public class postPartita extends AppCompatActivity {
             }).start();
         }
 
-        restart.setOnClickListener(v -> {
-            Intent i = new Intent(this, ActivityGame.class);
-            i.putExtra("multiplayer", ActivityGame.multiplayer);
-            this.startActivity(i);
-        });
+        View.OnClickListener restartAction;
 
+        if(!ActivityGame.multiplayer){
+            restartAction = v -> {
+                Intent i = new Intent(this, ActivityGame.class);
+                i.putExtra("multiplayer", ActivityGame.multiplayer);
+                this.startActivity(i);
+            };
+        }else{
+            restartAction = v -> {
+                if(ruolo.equals("host")){
+                    engineMultiplayer.accediHost(this, codiceStanza);
+                }else{
+                    MultiplayerActivity.joinRoomByCode(this, engineMultiplayer.codiceStanza,
+                            () -> Utility.goTo(this, MultiplayerActivity.class),
+                            () -> Utility.oneLineDialog(this, (String) this.getText(R.string.waithost), null),
+                            () -> Utility.oneLineDialog(this, (String) this.getText(R.string.roomfull), null));
+                }
+            };
+        }
+
+        restart.setOnClickListener(restartAction);
         exit.setOnClickListener(v -> Utility.goTo(this, MainActivity.class));
-
-        if(ActivityGame.multiplayer)
-            restart.setVisibility(View.INVISIBLE);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -125,7 +142,6 @@ public class postPartita extends AppCompatActivity {
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
     }
-
 
     public void partitaPersa()
     {

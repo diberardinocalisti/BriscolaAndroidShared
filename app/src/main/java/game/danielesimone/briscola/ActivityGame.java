@@ -17,7 +17,12 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import game.danielesimone.briscola.R;
+
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -36,8 +41,6 @@ import static Login.loginClass.getFullFBName;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class ActivityGame extends AppCompatActivity {
-    private AdView mAdView;
-
     public static boolean multiplayer = false;
     public static boolean attesa = false;
     public static boolean finishAttesa = false;
@@ -66,18 +69,6 @@ public class ActivityGame extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void startSinglePlayer() {
-        setContentView(R.layout.campo_da_gioco);
-
-        /*MobileAds.initialize(this, new OnInitializationCompleteListener() {
-            @Override
-            public void onInitializationComplete(InitializationStatus initializationStatus) {
-            }
-        });
-
-        mAdView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);*/
-
         multiplayer = false;
         attesa = false;
 
@@ -94,6 +85,8 @@ public class ActivityGame extends AppCompatActivity {
 
         setContentView(R.layout.stanza_di_attesa);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
+
+        Utility.addAdv(this);
 
         attesa = true;
 
@@ -136,7 +129,6 @@ public class ActivityGame extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        System.out.println("Multi --> " + multiplayer+" || onStop --> " + ActivityMultiplayerGame.onStop);
         if(multiplayer && ActivityMultiplayerGame.onStop){
            Utility.goTo(ActivityGame.this, MainActivity.class);
            ActivityMultiplayerGame.onStop = false;

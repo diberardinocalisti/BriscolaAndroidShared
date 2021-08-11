@@ -89,5 +89,6 @@
     <string name="roomsettings">Impostazioni lista stanze</string>
     <string name="show">Mostra</string>
     <string name="filter">Filtra</string>
+    <string name="waithost">In attesa dell\'host…</string>
 
 </resources>

@@ -94,5 +94,6 @@
     <string name="roomsettings">Room list settings</string>
     <string name="show">Show</string>
     <string name="filter">Filter</string>
+    <string name="waithost">Waiting for the host…</string>
 
 </resources>
