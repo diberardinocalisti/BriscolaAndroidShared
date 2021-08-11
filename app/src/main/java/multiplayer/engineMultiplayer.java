@@ -43,6 +43,8 @@ import static gameEngine.Game.intermezzo;
 import static gameEngine.Game.lastManche;
 import static gameEngine.Game.opp;
 import static multiplayer.ActivityMultiplayerGame.distribuisci;
+import static multiplayer.ActivityMultiplayerGame.idEnemy;
+import static multiplayer.ActivityMultiplayerGame.idHost;
 import static multiplayer.ActivityMultiplayerGame.mazzoOnline;
 import static multiplayer.ActivityMultiplayerGame.onStop;
 import static multiplayer.ActivityMultiplayerGame.snapshot;
@@ -105,6 +107,8 @@ public class engineMultiplayer extends Engine{
         if(host.equals("null") && !enemy.equals("null")){
             returnToMainMenu();
 
+            aggiornaStatisticheSePartitaAbbandonata(idHost,idEnemy);
+
             if(role.equals("HOST")) {
                 youLeft();
             }else{
@@ -112,6 +116,8 @@ public class engineMultiplayer extends Engine{
             }
         }else if(enemy.equals("null") && !host.equals("null")) {
             returnToMainMenu();
+
+            aggiornaStatisticheSePartitaAbbandonata(idEnemy,idHost);
 
             if(!role.equals("HOST")){
                 youLeft();
@@ -437,5 +443,18 @@ public class engineMultiplayer extends Engine{
 
     public static void openChat(){
         chat.show();
+    }
+
+    /**
+     *
+     * @param aggiungiSconfitta id di chi ha abbandonato
+     * @param aggiungiVittoria  id dell'avevrsario
+     */
+    public static void aggiornaStatisticheSePartitaAbbandonata(String aggiungiSconfitta, String aggiungiVittoria)
+    {
+        //Aggiorno la sconfitta di chi ha abbandonatio la partita
+        FirebaseClass.aggiornaSconfitte(aggiungiSconfitta);
+        //Aggiungo una vittoria all'avversario
+        FirebaseClass.aggiornaVittorie(aggiungiVittoria);
     }
 }
