@@ -70,7 +70,7 @@ public class FirebaseClass {
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 String perse;
-                float perseF = 0.0f;
+                float perseF;
 
                 for(DataSnapshot d: task.getResult().getChildren())
                 {

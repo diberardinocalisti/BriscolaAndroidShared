@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -22,10 +23,12 @@ import com.facebook.AccessToken;
 import Login.LoginActivity;
 import Login.loginClass;
 import gameEngine.Game;
+import gameEngine.Storico;
 import gameEngine.Utility;
 import multiplayer.ActivityMultiplayerGame;
 import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
+import okhttp3.internal.Util;
 
 import static Home.LoadingScreen.gameRunning;
 
@@ -65,41 +68,43 @@ public class MainActivity extends AppCompatActivity {
         Button closeGame = findViewById(R.id.closegame);
         ImageButton info = findViewById(R.id.info);
         ImageButton contact = findViewById(R.id.contact);
+        ImageButton history = findViewById(R.id.history);
 
         singleplayer.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ActivityGame.class);
+            Intent intent = new Intent(this, ActivityGame.class);
             intent.putExtra("multiplayer",false);
-            MainActivity.this.startActivity(intent);
+            this.startActivity(intent);
         });
 
         multiplayer.setOnClickListener(v -> {
             if(loginClass.isFacebookLoggedIn()){
-                Intent i = new Intent(MainActivity.this, MultiplayerActivity.class);
-                MainActivity.this.startActivity(i);
+                Intent i = new Intent(this, MultiplayerActivity.class);
+                this.startActivity(i);
             }else{
-                Intent i = new Intent(MainActivity.this, LoginActivity.class);
-                MainActivity.this.startActivity(i);
+                Intent i = new Intent(this, LoginActivity.class);
+                this.startActivity(i);
             }
         });
 
         info.setOnClickListener(v -> {
-            String title = MainActivity.this.getString(R.string.intro);
-            String msg = MainActivity.this.getString(R.string.howtoplay);
-            Utility.createDialog(MainActivity.this, title, msg);
+            String title = this.getString(R.string.intro);
+            String msg = this.getString(R.string.howtoplay);
+            Utility.createDialog(this, title, msg);
         });
 
         mioProfilo.setOnClickListener(v -> {
-            Intent in = new Intent(MainActivity.this, LoginActivity.class);
-            MainActivity.this.startActivity(in);
+            Intent in = new Intent(this, LoginActivity.class);
+            this.startActivity(in);
         });
 
         contact.setOnClickListener(v -> {
-            String title = MainActivity.this.getString(R.string.contactus);
-            String msg = MainActivity.this.getString(R.string.contactustxt);
-            Utility.createDialog(MainActivity.this, title, msg);
+            String title = this.getString(R.string.contactus);
+            String msg = this.getString(R.string.contactustxt);
+            Utility.createDialog(this, title, msg);
         });
 
-        closeGame.setOnClickListener(v -> MainActivity.this.onBackPressed());
+        history.setOnClickListener(v -> Utility.goTo(this, Storico.class));
+        closeGame.setOnClickListener(v -> this.onBackPressed());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -133,6 +138,6 @@ public class MainActivity extends AppCompatActivity {
             return;
 
         if(!ActivityGame.leftGame)
-            engineMultiplayer.accediHost(MainActivity.this, engineMultiplayer.codiceStanza);
+            engineMultiplayer.accediHost(this, engineMultiplayer.codiceStanza);
     }
 }

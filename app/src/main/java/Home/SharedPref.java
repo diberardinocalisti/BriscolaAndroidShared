@@ -4,6 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.facebook.share.Share;
+import com.google.android.gms.common.util.JsonUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import gameEngine.Game;
 
@@ -16,9 +21,11 @@ public class SharedPref {
 
     private static final String CARTE_SCOP_ID = "CARTE_SCOPERTE";
     private static final String TIPO_CARTE_ID = "TIPO_CARTE";
+    private static final String STORICO_ID = "STORICO";
 
     private static final String CARTE_DEFAULT = "null";
     private static final boolean SCOPERTE_DEFAULT = false;
+    private static final String STORICO_DEFAULT = "{\"storico\":[{\"punti\":0,\"data\":null}]}";
 
     public static boolean getCarteScoperte(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -44,6 +51,36 @@ public class SharedPref {
 
         editor.putString(TIPO_CARTE_ID, tipoCarte);
         editor.apply();
+    }
+
+    public static void addPartita(Integer punti) throws JSONException {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String jsonString = sharedPreferences.getString(STORICO_ID, STORICO_DEFAULT);
+
+        JSONObject obj = new JSONObject(jsonString);
+
+        JSONArray x = obj.getJSONArray("storico");
+
+        JSONObject newPartita = new JSONObject();
+        newPartita.put("punti", punti);
+        newPartita.put("data", null);
+
+        x.put(newPartita);
+    }
+
+    public static JSONArray getStorico() throws JSONException {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        String jsonString = sharedPreferences.getString(STORICO_ID, STORICO_DEFAULT);
+
+        JSONObject obj = new JSONObject(jsonString);
+
+        JSONArray x =  obj.getJSONArray("storico");
+
+        for(int i = 0; i < x.length(); i++){
+            System.out.println(x.getJSONObject(i).getString("punti") + " punti");
+        }
+
+        return null;
     }
 
     public static void setContext(Context context){

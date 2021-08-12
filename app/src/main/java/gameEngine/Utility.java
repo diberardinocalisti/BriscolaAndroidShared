@@ -28,6 +28,17 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Locale;
+
 import Home.MainActivity;
 import game.danielesimone.briscola.R;
 
@@ -35,6 +46,51 @@ import static gameEngine.Game.activity;
 import static gameEngine.Game.textAnimDuration;
 
 public class Utility{
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String getTimeString(){
+        String ora = Integer.toString(LocalDateTime.now().getHour());
+        String minuti = Integer.toString(LocalDateTime.now().getMinute());
+
+        DateFormat formatoData = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
+        String giorno = formatoData.format(new Date());
+
+        return giorno + ", " + ora + ":" + minuti;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static void writeFile(AppCompatActivity context, String content, String fileDir, String fileName){
+        File externalFile = new File(context.getExternalFilesDir(fileDir), fileName);
+        FileOutputStream fileOutputStream;
+
+        try{
+            fileOutputStream = new FileOutputStream(externalFile);
+            fileOutputStream.write(content.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public static String readFile(AppCompatActivity context, String fileDir, String fileName) {
+        FileReader fr;
+        File externalFile = new File(context.getExternalFilesDir(fileDir), fileName);
+        StringBuilder fileString = new StringBuilder();
+        try{
+            fr = new FileReader(externalFile);
+            BufferedReader bufferedReader = new BufferedReader(fr);
+            String line = bufferedReader.readLine();
+            while(line != null){
+                fileString.append(line).append("\n");
+                line = bufferedReader.readLine();
+            }
+        }catch(FileNotFoundException ignored){} catch(IOException ignored){}
+
+        if(fileString.toString().isEmpty())
+            return "[{}]";
+        else
+            return fileString.toString();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void enableTopBar(AppCompatActivity c){
         int resId = c.getResources().getIdentifier("topbar", "drawable", c.getPackageName());

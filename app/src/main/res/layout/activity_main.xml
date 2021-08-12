@@ -120,6 +120,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"></ImageButton>
 
+        <ImageButton
+            android:id="@+id/history"
+            android:layout_width="125px"
+            android:layout_height="125px"
+
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/round_button"
+            android:src="@drawable/book"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toStartOf="@+id/info"
+            app:layout_constraintStart_toEndOf="@+id/contact"></ImageButton>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -17,6 +17,9 @@ public class CPU extends Giocatore {
     protected CPU(String nome, Integer index) {
         super(nome, index, null, true);
         Game.CPU = this;
+        Game.opp = this;
+
+        System.out.println("id " + this.getId());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

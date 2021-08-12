@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/roomlayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:padding="5dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:fontFamily="@font/carter_one"
+            android:text="Match description"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/data"
+            app:layout_constraintStart_toEndOf="@+id/frameLayout3"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/carter_one"
+            android:text="16/02/21 10:30"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <FrameLayout
+            android:id="@+id/frameLayout3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF">
+
+            <ImageView
+                android:id="@+id/oppIcon"
+                android:layout_width="100px"
+                android:layout_height="100px"
+                app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
+
+            <ImageView
+                android:id="@+id/android1"
+                android:layout_width="100px"
+                android:layout_height="100px"
+                android:contentDescription="@null"
+                android:src="@drawable/subtracted_circle" />
+
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

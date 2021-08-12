@@ -36,6 +36,9 @@ public class loginClass {
     }
 
     public static void setImgProfile(AppCompatActivity activity, String userId, ImageView imageIcon) {
+        if(userId.equals("null"))
+            return;
+
         new Thread(() -> {
             URL imageURL = null;
             try {

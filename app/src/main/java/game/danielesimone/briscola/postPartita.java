@@ -27,6 +27,7 @@ import firebase.FirebaseClass;
 import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
+import gameEngine.Storico;
 import gameEngine.Utility;
 import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
@@ -42,8 +43,8 @@ public class postPartita extends AppCompatActivity {
 
     public String background, stato;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +68,8 @@ public class postPartita extends AppCompatActivity {
         String[] daMostrare = extras.getStringArray("carte");
         String ruolo = extras.getString("ruolo");
 
+        Storico.addPartita(this, punteggio, Game.opp.getNome(), Game.opp.getId(), Utility.getTimeString());
+
         if(punteggio < maxPunti/nGiocatori) {
             partitaPersa();
         }else if(punteggio == maxPunti/nGiocatori) {
@@ -76,14 +79,8 @@ public class postPartita extends AppCompatActivity {
         }
 
         // Aggiorna lo sfondo in base all'esito della partita (blu/rosso/grigio);
-        int resID = activity.getResources().getIdentifier(background, "drawable", activity.getPackageName());
-
-        final int sdk = android.os.Build.VERSION.SDK_INT;
-        if(sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            postpartita.setBackgroundDrawable(ContextCompat.getDrawable(activity, resID) );
-        }else{
-            postpartita.setBackground(ContextCompat.getDrawable(activity, resID));
-        }
+        int resID = this.getResources().getIdentifier(background, "drawable", this.getPackageName());
+        postpartita.setBackground(ContextCompat.getDrawable(this, resID));
 
         // Scrive lo stato della partita (vittoria/sconfitta/pareggio);
         esito.setText(stato);
@@ -95,14 +92,14 @@ public class postPartita extends AppCompatActivity {
             Carta carta = Engine.getCartaFromName(daMostrare[i]);
             String idS = "carta" + (i+1);
 
-            int id = activity.getResources().getIdentifier(idS, "id", activity.getPackageName());
+            int id = this.getResources().getIdentifier(idS, "id", this.getPackageName());
             ImageView bottone = findViewById(id);
 
             bottone.setBackground(Carta.getVuoto());
             new Thread(() -> {
                 try {
                     Thread.sleep(Game.viewAnimDuration);
-                    activity.runOnUiThread(() -> Engine.flipAnim(bottone, carta.getImage(), false, null));
+                    this.runOnUiThread(() -> Engine.flipAnim(bottone, carta.getImage(), false, null));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

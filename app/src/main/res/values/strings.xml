@@ -95,5 +95,9 @@
     <string name="show">Show</string>
     <string name="filter">Filter</string>
     <string name="waithost">Waiting for the host…</string>
+    <string name="storico">Match history</string>
+    <string name="nomatchfound">No matches found.</string>
+    <string name="resethistory">Reset history</string>
+    <string name="resetconfirm">Are you sure you want to reset your match history?</string>
 
 </resources>

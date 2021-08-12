@@ -90,5 +90,9 @@
     <string name="show">Mostra</string>
     <string name="filter">Filtra</string>
     <string name="waithost">In attesa dell\'host…</string>
+    <string name="storico">Storico partite</string>
+    <string name="nomatchfound">Nessuna partita trovata.</string>
+    <string name="resethistory">Azzera storico</string>
+    <string name="resetconfirm">Sei sicuro di voler azzerare il tuo storico partite?</string>
 
 </resources>
