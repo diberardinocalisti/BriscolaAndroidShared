@@ -68,11 +68,12 @@ public class postPartita extends AppCompatActivity {
         String[] daMostrare = extras.getStringArray("carte");
         String ruolo = extras.getString("ruolo");
 
-        Storico.addPartita(this, punteggio, Game.opp.getNome(), Game.opp.getId(), Utility.getTimeString());
+        // Aggiunge la partita allo storico;
+        Storico.addPartita(this, new Storico.Partita(punteggio, Game.opp.getNome(), Game.opp.getId(), Utility.getTimeString()));
 
-        if(punteggio < maxPunti/nGiocatori) {
+        if(punteggio < maxPunti/nGiocatori){
             partitaPersa();
-        }else if(punteggio == maxPunti/nGiocatori) {
+        }else if(punteggio == maxPunti/nGiocatori){
             pareggio();
         }else{
             partitaVinta();

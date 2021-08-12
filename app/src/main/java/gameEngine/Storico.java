@@ -133,8 +133,7 @@ public class Storico extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void addPartita(AppCompatActivity context, int punti, String nomeAvversario, String idAvversario, String data){
-        Partita lastMatch = new Partita(punti, nomeAvversario, idAvversario, data);
+    public static void addPartita(AppCompatActivity context, Partita lastMatch){
         ArrayList<Partita> matches = getMatches(context);
         matches.add(lastMatch);
 
