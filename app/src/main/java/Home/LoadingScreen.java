@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.ads.MobileAds;
+
 import game.danielesimone.briscola.R;
 
 import gameEngine.Utility;
@@ -37,6 +39,8 @@ public class LoadingScreen extends AppCompatActivity {
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         Class destination = SharedPref.getTipoCarte().equals("null") ? Initconfig.class : MainActivity.class;
+
+        MobileAds.initialize(this, initializationStatus -> {});
 
         if(!gameRunning){
             new Handler().postDelayed(() -> {

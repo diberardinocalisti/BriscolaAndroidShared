@@ -103,7 +103,7 @@ public class Game {
             chatIcon.setVisibility(View.INVISIBLE);
         }
 
-        Utility.addAdv(activity);
+        Utility.showAd(activity);
 
         Utility.enableTopBar(activity);
         Engine.pulisciTavolo();

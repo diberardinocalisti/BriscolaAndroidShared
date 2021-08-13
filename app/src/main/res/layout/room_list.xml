@@ -150,7 +150,7 @@
             android:background="@drawable/yellow_button"
             android:text="@string/refresh"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/footer"
             app:layout_constraintEnd_toStartOf="@+id/view6"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
@@ -164,7 +164,7 @@
             android:background="@drawable/yellow_button"
             android:text="@string/settings"
             android:textSize="14sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/footer"
             app:layout_constraintStart_toEndOf="@+id/view6"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
@@ -176,6 +176,24 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/topbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-9833115755260479/9941848012"></com.google.android.gms.ads.AdView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

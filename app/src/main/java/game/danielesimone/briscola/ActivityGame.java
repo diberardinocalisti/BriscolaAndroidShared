@@ -86,7 +86,7 @@ public class ActivityGame extends AppCompatActivity {
         setContentView(R.layout.stanza_di_attesa);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
-        Utility.addAdv(this);
+        Utility.showAd(this);
 
         attesa = true;
 

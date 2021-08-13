@@ -1,4 +1,4 @@
-package gameEngine;
+package game.danielesimone.briscola;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
@@ -32,6 +32,7 @@ import java.util.Collections;
 
 import UI.UiColor;
 import game.danielesimone.briscola.R;
+import gameEngine.Utility;
 import multiplayer.RoomList;
 import multiplayer.engineMultiplayer;
 
@@ -78,6 +79,8 @@ public class Storico extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     protected void initializeLayout(){
+        Utility.showAd(this);
+
         TextView alert = findViewById(R.id.alertStorico);
         alert.setText(new String());
 

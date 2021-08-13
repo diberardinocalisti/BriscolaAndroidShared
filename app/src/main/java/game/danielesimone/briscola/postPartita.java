@@ -18,7 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import Login.loginClass;
-import game.danielesimone.briscola.R;
 
 import com.google.firebase.database.DataSnapshot;
 
@@ -27,14 +26,11 @@ import firebase.FirebaseClass;
 import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
-import gameEngine.Storico;
 import gameEngine.Utility;
 import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
 
 import static Login.LoginActivity.fbUID;
-import static game.danielesimone.briscola.ActivityGame.leftGame;
-import static gameEngine.Game.activity;
 import static gameEngine.Game.maxPunti;
 import static gameEngine.Game.nGiocatori;
 import static multiplayer.engineMultiplayer.codiceStanza;

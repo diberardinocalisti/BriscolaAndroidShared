@@ -54,6 +54,8 @@ public class RoomList extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     protected void initializeLayout(){
+        Utility.showAd(this);
+
         ProgressBar progressBar = findViewById(R.id.loadingBar);
 
         View refreshBtn = findViewById(R.id.refresh);

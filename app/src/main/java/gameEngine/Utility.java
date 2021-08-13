@@ -107,9 +107,7 @@ public class Utility{
         c.findViewById(id).setOnClickListener(v -> new Settings().createSettingsMenu(c));
     }
 
-    public static void addAdv(AppCompatActivity appCompatActivity){
-        MobileAds.initialize(appCompatActivity, initializationStatus -> {});
-
+    public static void showAd(AppCompatActivity appCompatActivity){
         AdView mAdView = appCompatActivity.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);

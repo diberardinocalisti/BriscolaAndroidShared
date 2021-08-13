@@ -59,7 +59,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="gameEngine.Storico"
+        <activity android:name=".Storico"
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
