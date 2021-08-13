@@ -195,20 +195,11 @@ public class Giocatore {
         if(isPenultimaManche())
             return;
 
-        String points = "+" + valoreCarte + " " + activity.getString(R.string.points) + "!";
+        String title = "+" + valoreCarte + " " + activity.getString(R.string.points) + "!\n";
+        String description = isTerminata() ? activity.getString(R.string.matchended) : getMessaggioTurno(this);
+        String messageToShow = title + description;
 
-        String titolo;
-
-        if(!isTerminata()){
-            int stringId = Game.user == this ? R.string.tuoturno : R.string.turno;
-            titolo = activity.getString(stringId).replace("%user", this.getNome());;
-        }else{
-            titolo = activity.getString(R.string.matchended);
-        }
-
-        String msg = points + "\n" + titolo;
-
-        Utility.textAnimation(msg, centerText, () -> clearText(centerText));
+        showMessage(messageToShow);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

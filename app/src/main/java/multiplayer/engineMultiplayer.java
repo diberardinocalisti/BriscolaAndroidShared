@@ -19,14 +19,14 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import game.danielesimone.briscola.ActivityGame;
-import game.danielesimone.briscola.R;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Random;
 
 import Login.loginClass;
 import firebase.FirebaseClass;
+import game.danielesimone.briscola.ActivityGame;
+import game.danielesimone.briscola.R;
 import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
@@ -41,7 +41,6 @@ import static gameEngine.Game.giocante;
 import static gameEngine.Game.giocatori;
 import static gameEngine.Game.intermezzo;
 import static gameEngine.Game.lastManche;
-import static gameEngine.Game.opp;
 import static multiplayer.ActivityMultiplayerGame.distribuisci;
 import static multiplayer.ActivityMultiplayerGame.idEnemy;
 import static multiplayer.ActivityMultiplayerGame.idHost;
@@ -209,6 +208,7 @@ public class engineMultiplayer extends Engine{
         Carta c = Engine.getCartaFromName(nome);
 
         Game.canPlay = false;
+        Game.cartaGiocata = true;
 
         Object event = new Object();
 
@@ -242,11 +242,7 @@ public class engineMultiplayer extends Engine{
                         final Giocatore vincente = doLogic(c, getOtherCarta(c));
 
                         if(vincente == null) {
-                            try {
-                                prossimoTurno((GiocatoreMP) getOtherPlayer(c.getPortatore()));
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            prossimoTurno(getOtherPlayer(c.getPortatore()));
                         }else{
                             new Handler().postDelayed(() -> terminaManche(vincente), intermezzo);
                         }
@@ -261,15 +257,13 @@ public class engineMultiplayer extends Engine{
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void initHost() {
         inizializza();
-        
-        Giocatore[] app = new Giocatore[]{host, enemy};
 
         mazzoOnline = engineMultiplayer.creaMazzoFirebase();
         snapshot.setMazzo(mazzoOnline);
 
         FirebaseClass.editFieldFirebase(codiceStanza,"mazzo", mazzoOnline);
 
-        gameEngine.Engine.distribuisciCarte(() -> Engine.estraiBriscola(null), app);
+        Engine.distribuisciCarte(new Giocatore[]{host, enemy});
 
         distribuisci = true;
     }
@@ -278,19 +272,17 @@ public class engineMultiplayer extends Engine{
     public static void initEnemy() {
         inizializza();
 
-        Giocatore[] app = new Giocatore[]{host, enemy};
-
         mazzoOnline = snapshot.getMazzo();
 
         Engine.creaMazzo(mazzoOnline);
 
-        gameEngine.Engine.distribuisciCarte(() -> Engine.estraiBriscola(null), app);
+        Engine.distribuisciCarte(new Giocatore[]{host, enemy});
 
         distribuisci = true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void prossimoTurno(GiocatoreMP p) throws InterruptedException {
+    public static void prossimoTurno(Giocatore p) {
         if(p == null)
             return;
 
@@ -313,10 +305,8 @@ public class engineMultiplayer extends Engine{
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void setOnCLickListener(){
-        View.OnClickListener onClickListener = engineMultiplayer::onClick;
-
         for(Button b : Game.user.bottoni)
-            b.setOnClickListener(onClickListener);
+            b.setOnClickListener(engineMultiplayer::onClick);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)

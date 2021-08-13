@@ -9,12 +9,11 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import game.danielesimone.briscola.ActivityGame;
-import game.danielesimone.briscola.R;
-
 import java.util.ArrayList;
 
 import Home.SharedPref;
+import game.danielesimone.briscola.ActivityGame;
+import game.danielesimone.briscola.R;
 import multiplayer.engineMultiplayer;
 
 import static game.danielesimone.briscola.ActivityGame.leftGame;
@@ -51,7 +50,7 @@ public class Game {
     public static Carta[] mazzoIniziale;
 
     public static Giocatore giocante, ultimoVincitore;
-    public static boolean canPlay, terminata = true;
+    public static boolean canPlay, terminata = true, cartaGiocata;
     public static short lastManche = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -77,6 +76,7 @@ public class Game {
         tipoCarte = SharedPref.getTipoCarte().toLowerCase();
         centerText = activity.findViewById(R.id.avviso);
         leftGame = false;
+        cartaGiocata = false;
 
         Engine.aggiornaNCarte(mazzoIniziale.length);
 

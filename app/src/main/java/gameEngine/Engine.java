@@ -18,16 +18,15 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
-import game.danielesimone.briscola.ActivityGame;
-import game.danielesimone.briscola.R;
-import game.danielesimone.briscola.postPartita;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import Home.SharedPref;
 import firebase.FirebaseClass;
+import game.danielesimone.briscola.ActivityGame;
+import game.danielesimone.briscola.R;
+import game.danielesimone.briscola.postPartita;
 import multiplayer.ActivityMultiplayerGame;
 import multiplayer.GiocatoreMP;
 import multiplayer.engineMultiplayer;
@@ -42,6 +41,7 @@ import static gameEngine.Game.accelMultip;
 import static gameEngine.Game.activity;
 import static gameEngine.Game.briscola;
 import static gameEngine.Game.canPlay;
+import static gameEngine.Game.cartaGiocata;
 import static gameEngine.Game.carte;
 import static gameEngine.Game.centerText;
 import static gameEngine.Game.dimensioneMazzo;
@@ -65,11 +65,6 @@ import static multiplayer.engineMultiplayer.codiceStanza;
 public class Engine{
     public static void inizializza() {
         creaGiocatori();
-        iniziaPartita();
-    }
-
-    public static void iniziaPartita() {
-        reset();
         iniziaRound();
     }
 
@@ -79,18 +74,11 @@ public class Engine{
         creaMazzo();
 
         Giocatore[] randomTurno = getRandomOrdine();
-        distribuisciCarte(() ->
-                estraiBriscola(() -> {
-                    try {
-                        prossimoTurno(randomTurno[0]);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }), randomTurno);
+        distribuisciCarte(randomTurno);
     }
 
     static void inizia(){
-        canPlay = true;
+        canPlay = false;
         terminata = false;
     }
 
@@ -128,12 +116,6 @@ public class Engine{
         }
 
         mazzoIniziale = mazzo.toArray(new Carta[0]);
-    }
-
-    static void reset(){
-        for(Giocatore p : giocatori){
-            p.svuotaMazzo();
-        }
     }
 
     public static void creaGiocatori() {
@@ -186,6 +168,21 @@ public class Engine{
         muoviCarta(user.prendi, carte[I_BRISCOLA], briscola, false, true, true, event);
     }
 
+    public static void distribuisciCarte(Giocatore[] turno){
+        Giocatore giocante = turno[0];
+        distribuisciCarte(() -> estraiBriscola(() -> {
+            Runnable callback = null;
+
+            if(giocante == Game.CPU)
+                callback = () -> prossimoTurno(giocante);
+            else
+                prossimoTurno(giocante);
+
+            if(!cartaGiocata)
+                showMessage(getMessaggioTurno(giocante), callback);
+        }), turno);
+    }
+
     public static void distribuisciCarte(Runnable callback, Giocatore[] players) {
         Object event = new Object();
 
@@ -220,6 +217,11 @@ public class Engine{
                 activity.runOnUiThread(callback);
             }
         }).start();
+    }
+
+    public static String getMessaggioTurno(Giocatore giocatore){
+        int stringId = Game.user == giocatore ? R.string.tuoturno : R.string.turno;
+        return activity.getString(stringId).replace("%user", giocatore.getNome());
     }
 
     public static void setOnCLickListener(){
@@ -265,11 +267,7 @@ public class Engine{
                         final Giocatore vincente = doLogic(carta, getOtherCarta(carta));
 
                         if(vincente == null) {
-                            try {
-                                prossimoTurno(getOtherPlayer(giocante));
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            prossimoTurno(getOtherPlayer(giocante));
                         }else{
                             giocante = null;
                             new Handler().postDelayed(() -> terminaManche(vincente), intermezzo);
@@ -282,11 +280,13 @@ public class Engine{
         }).start();
     }
 
-    public static void prossimoTurno(Giocatore p) throws InterruptedException {
+    public static void prossimoTurno(Giocatore p) {
         if(p == null)
             p = getRandomPlayer();
 
-        p.toccaA();
+        try{
+            p.toccaA();
+        }catch(InterruptedException ignored){}
     }
 
     public static void terminaManche(Giocatore vincitore) {
@@ -299,14 +299,10 @@ public class Engine{
                 if(mazzo.size() > 0 || lastManche == 0)
                     p.pesca();
 
-            if(isTerminata())
+            if(isTerminata()) {
                 termina();
-            else {
-                try {
-                    prossimoTurno(vincitore);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            }else{
+                prossimoTurno(vincitore);
             }
         }, intermezzoManche));
     }
@@ -608,6 +604,19 @@ public class Engine{
         arr[1] = vincente == giocatori[0] ? giocatori[1] : giocatori[0];
 
         return arr;
+    }
+
+    public static void showMessage(String text){
+        showMessage(text, null);
+    }
+
+    public static void showMessage(String text, Runnable callback){
+        Utility.textAnimation(text, centerText, () -> {
+            if(callback != null)
+                callback.run();
+
+            clearText(centerText);
+        });
     }
 
     public static void clearText(TextView textView){
