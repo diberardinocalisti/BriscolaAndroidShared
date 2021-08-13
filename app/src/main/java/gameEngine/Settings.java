@@ -35,25 +35,29 @@ public class Settings {
         // VIEW;
         View tipoCarteView = inflater.inflate(R.layout.settings, null);
 
-        // SPINNER;
-        Spinner tipoCarte = tipoCarteView.findViewById(R.id.spinner);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item,c.getResources().getStringArray(R.array.tipoCarte));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        tipoCarte.setAdapter(adapter);
-
-        // CHECKBOX;
-        CheckBox carteScoperte = tipoCarteView.findViewById(R.id.checkbox);
-
-        String selectedItem = SharedPref.getTipoCarte();
+        // SPINNER TIPO CARTE;
+        Spinner tipoCarte = tipoCarteView.findViewById(R.id.typeCardSpinner);
+        ArrayAdapter<String> adapterTipo = new ArrayAdapter<String>(c, android.R.layout.simple_spinner_item,c.getResources().getStringArray(R.array.tipoCarte));
+        adapterTipo.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tipoCarte.setAdapter(adapterTipo);
+        String selectedTipo = SharedPref.getTipoCarte();
         List<String> opzioniTipo = Arrays.asList(c.getResources().getStringArray(R.array.tipoCarte));
         opzioniTipo = opzioniTipo.stream().map(String::toLowerCase).collect(Collectors.toList());
+        int indexTipo = opzioniTipo.indexOf(selectedTipo);
+        indexTipo = indexTipo == -1 ? 0 : indexTipo;
+        tipoCarte.setSelection(indexTipo);
 
-        int indexList = opzioniTipo.indexOf(selectedItem);
-        indexList = indexList == -1 ? 0 : indexList;
-        tipoCarte.setSelection(indexList);
-
+        // CHECKBOX;
+        CheckBox carteScoperte = tipoCarteView.findViewById(R.id.showCardCheckbox);
         carteScoperte.setChecked(SharedPref.getCarteScoperte());
+
+
+        // SPINNER SKILL CPU;
+        Spinner skillCpu = tipoCarteView.findViewById(R.id.cpuSkillSpinner);
+        ArrayAdapter<String> adapterSkill = new ArrayAdapter<>(c, android.R.layout.simple_spinner_item, new String[]{c.getString(R.string.easy), c.getString(R.string.hard)});
+        adapterSkill.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        skillCpu.setAdapter(adapterSkill);
+        skillCpu.setSelection(SharedPref.getCPUSkill());
 
         // CONFIRM;
         builder.setPositiveButton(c.getString(R.string.ok), (dialog, id) -> {
@@ -67,7 +71,13 @@ public class Settings {
                     Game.CPU.copriCarte();
             }
 
-            Engine.aggiornaTipoCarte(tipoCarte.getSelectedItem().toString());
+            int skillValue = skillCpu.getSelectedItemPosition();
+            SharedPref.setCPUSkill(skillValue);
+            if(Game.CPU != null)
+                Game.CPU.setSkill(skillValue);
+
+            String tipoCarteValue = tipoCarte.getSelectedItem().toString();
+            Engine.aggiornaTipoCarte(tipoCarteValue);
         });
 
         builder.setNegativeButton(c.getString(R.string.cancel), null);

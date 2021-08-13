@@ -14,25 +14,22 @@ import static gameEngine.Engine.*;
 import static gameEngine.Game.*;
 
 public class CPU extends Giocatore {
+    private int skill;
+
     protected CPU(String nome, Integer index) {
         super(nome, index, null, true);
+        this.skill = SharedPref.getCPUSkill();
+
         Game.CPU = this;
         Game.opp = this;
-
-        System.out.println("id " + this.getId());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void prendi(Integer indice, Carta daAggiungere, Runnable callback){
-        super.prendi(indice, daAggiungere, () -> activity.runOnUiThread(() -> {
-            if(callback != null)
-                callback.run();
+    public int getSkill(){
+        return this.skill;
+    }
 
-            boolean scoperte = SharedPref.getCarteScoperte();
-
-            if(!scoperte)
-                CPU.this.carte[indice].nascondi();
-        }));
+    public void setSkill(int skill){
+        this.skill = skill;
     }
 
     public void scopriCarte(){
@@ -53,7 +50,7 @@ public class CPU extends Giocatore {
         Game.canPlay = false;
 
         super.toccaA();
-        
+
         new Thread(() -> {
             // SE E' L'ULTIMA MANCHE, ASPETTA CHE L'AVVISO DELL'ULTIMA MANCHE SPARISCA PRIMA DI GIOCARE LA PROPRIA CARTA;
             if(isLastManche() && getCarteGiocatori().length == nGiocatori * nCarte) {
@@ -72,6 +69,11 @@ public class CPU extends Giocatore {
     // METODO CHE RESTITUISCE LA MIGLIOR CARTA DA GIOCARE;
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Carta scegli(){
+        return this.skill == 0 ? algoEasy() : algoHard();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Carta algoHard(){
         Game.canPlay = true;
 
         Carta[] sulTavolo = Engine.getCarteGiocate();
@@ -135,26 +137,26 @@ public class CPU extends Giocatore {
          * Se la briscola è un carico e siamo all'ultima manche, il bot tirerà la carta più bassa che ha nel mazzo
          * tale che non superi quella avversaria (in modo da assicurarsi la presa della briscola)
          */
-        if(Game.mazzo.size() == 2 && Game.briscola.isCarico())
+        if(Game.mazzo.size() == nGiocatori && Game.briscola.isCarico())
             if(!getMin(nonSuperano).supera(cartaSulTavolo))
                 return minNonSupera;
 
         if(cartaSulTavolo.isLiscio()){
             /**
-            * Se si possiedono solo carte briscole che superano quella avversaria;
-            **/
+             * Se si possiedono solo carte briscole che superano quella avversaria;
+             **/
             if(minSupera.isBriscola()){
                 /** Se la carta più bassa che supera quella avversaria è una briscola e non è un carico
-                * la si gioca solo nel caso in cui non si abbia un non carico (non briscola)
-                * da poter lanciare, altrimenti si gioca il non carico;
-                **/
+                 * la si gioca solo nel caso in cui non si abbia un non carico (non briscola)
+                 * da poter lanciare, altrimenti si gioca il non carico;
+                 **/
                 if(!minSupera.isCarico()) {
                     return minBriscEsc.isLiscio() ? minBriscEsc : minSupera;
                 }else{
                     /**
-                    * Se la minima (escludendo le briscole) è un carico, allora gioca la briscola solo nel caso in cui non sia un carico;
-                    * Altrimenti gioca il carico;
-                    **/
+                     * Se la minima (escludendo le briscole) è un carico, allora gioca la briscola solo nel caso in cui non sia un carico;
+                     * Altrimenti gioca il carico;
+                     **/
                     if(minBriscEsc.isCarico())
                         return !minPunti.isCarico() ? minPunti : minBriscEsc;
                     else return minBriscEsc;
@@ -185,6 +187,44 @@ public class CPU extends Giocatore {
                 return maxSupera.isBriscola() ? minSupera : maxSupera;
             }
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public Carta algoEasy(){
+        Game.canPlay = true;
+
+        Carta[] sulTavolo = Engine.getCarteGiocate();
+        Carta[] mieCarte = this.carte;
+
+        // ARRAY CONTENENTE LE CARTE DEL MAZZO CHE SUPERANO QUELLA AVVERSARIA;
+        Carta[] superano = getSuperano(sulTavolo);
+
+        // LA CARTA CON PUNTEGGIO PIU' BASSO, ESCLUDENDO LE BRISCOLE;
+        Carta minBriscEsc = Engine.getMin(nonBriscole());
+
+        // LA BRISCOLA PIU' BASSA NEL MAZZO;
+        Carta minBrisc = Engine.getMin(briscole());
+
+        /** Se nessuna delle carte supera quella avversaria o se si sta facendo la prima mossa; */
+        if(superano.length == 0){
+            /**
+             * Se, escludendo le briscole, la carta più bassa del proprio mazzo è un carico, la lancia
+             * solo nel caso in cui non abbia una briscola non carico da lanciare;
+             **/
+            if(minBriscEsc.isCarico()){
+                return minBrisc.isCarico() ? minBriscEsc : minBrisc;
+            }else{
+                return minBriscEsc;
+            }
+        }
+
+        // LA CARTA PIU' BASSA DEL MAZZO (TRA QUELLE CHE SUPERANO LA CARTA AVVERSARIA), ESCLUDENDO LE BRISCOLE SE PRESENTI;
+        Carta minSupera = Engine.getMin(nonBriscole(superano));
+
+        // LA CARTA PIU' ALTA DEL MAZZO (TRA QUELLE CHE SUPERANO LA CARTA AVVERSARIA), ESCLUDENDO LE BRISCOLE SE PRESENTI;
+        Carta maxSupera = Engine.getMax(nonBriscole(superano));
+
+        return maxSupera.isBriscola() ? minSupera : maxSupera;
     }
 
     // SE NON SI PASSA NESSUN PARAMETRO AL METODO, ALLORA SI CONSIDERA IL MAZZO DEL GIOCATORE;

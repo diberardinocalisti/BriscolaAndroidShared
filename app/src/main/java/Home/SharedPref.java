@@ -21,11 +21,11 @@ public class SharedPref {
 
     private static final String CARTE_SCOP_ID = "CARTE_SCOPERTE";
     private static final String TIPO_CARTE_ID = "TIPO_CARTE";
-    private static final String STORICO_ID = "STORICO";
+    private static final String CPU_SKILL_ID = "SKILL_CPU";
 
     private static final String CARTE_DEFAULT = "null";
     private static final boolean SCOPERTE_DEFAULT = false;
-    private static final String STORICO_DEFAULT = "{\"storico\":[{\"punti\":0,\"data\":null}]}";
+    private static final int CPU_SKILL_DEFAULT = 1;
 
     public static boolean getCarteScoperte(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -53,34 +53,17 @@ public class SharedPref {
         editor.apply();
     }
 
-    public static void addPartita(Integer punti) throws JSONException {
+    public static int getCPUSkill(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        String jsonString = sharedPreferences.getString(STORICO_ID, STORICO_DEFAULT);
-
-        JSONObject obj = new JSONObject(jsonString);
-
-        JSONArray x = obj.getJSONArray("storico");
-
-        JSONObject newPartita = new JSONObject();
-        newPartita.put("punti", punti);
-        newPartita.put("data", null);
-
-        x.put(newPartita);
+        return sharedPreferences.getInt(CPU_SKILL_ID, CPU_SKILL_DEFAULT);
     }
 
-    public static JSONArray getStorico() throws JSONException {
+    public static void setCPUSkill(int skillValue){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
-        String jsonString = sharedPreferences.getString(STORICO_ID, STORICO_DEFAULT);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        JSONObject obj = new JSONObject(jsonString);
-
-        JSONArray x =  obj.getJSONArray("storico");
-
-        for(int i = 0; i < x.length(); i++){
-            System.out.println(x.getJSONObject(i).getString("punti") + " punti");
-        }
-
-        return null;
+        editor.putInt(CPU_SKILL_ID, skillValue);
+        editor.apply();
     }
 
     public static void setContext(Context context){

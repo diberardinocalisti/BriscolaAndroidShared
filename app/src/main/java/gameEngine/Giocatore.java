@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 
+import Home.SharedPref;
 import game.danielesimone.briscola.R;
 
 import java.util.ArrayList;
@@ -139,20 +140,6 @@ public class Giocatore {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void pesca(){
-        if(!isLastManche())
-            this.pesca(Game.mazzo.get(0), () -> {
-                if(isLastManche() && lastManche == 0)
-                    Engine.lastManche();
-            });
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void pesca(Carta carta, Runnable callback) {
-        this.prendi(carta, callback);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public void mancheVinta(Runnable callback) {
         Object event = new Object();
 
@@ -246,6 +233,15 @@ public class Giocatore {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
+    public void pesca(){
+        if(!isLastManche())
+            this.prendi(Game.mazzo.get(0), () -> {
+                if(isLastManche() && lastManche == 0)
+                    Engine.lastManche();
+            });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void prendi(Carta daAggiungere, Runnable callback){
         for(int i = 0; i < carte.length; i++) {
             if (this.carte[i] == null) {
@@ -289,10 +285,14 @@ public class Giocatore {
                                 Giocatore.this.carte[indice].mostra();
                             else
                                 Giocatore.this.carte[indice].nascondi();
+                        }else{
+                            boolean scoperte = SharedPref.getCarteScoperte();
+
+                            if(!scoperte)
+                                this.carte[indice].nascondi();
                         }
 
-                        if(callback != null)
-                            callback.run();
+                        callback.run();
                     });
 
                 } catch (InterruptedException e) {
