@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.TextView;
 
 import game.danielesimone.briscola.R;
@@ -31,9 +32,14 @@ public class CDialog extends Dialog implements android.view.View.OnClickListener
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog);
-        ((TextView)findViewById(R.id.title)).setText(CDialog.this.title);
-        findViewById(R.id.btn_yes).setOnClickListener(v -> CDialog.this.callback.run());
-        findViewById(R.id.btn_no).setOnClickListener(v -> dismiss());
+
+        TextView title = this.findViewById(R.id.title);
+        Button btnYes = this.findViewById(R.id.btn_yes);
+        Button btnNo = this.findViewById(R.id.btn_no);
+
+        title.setText(this.title);
+        btnYes.setOnClickListener(v -> this.callback.run());
+        btnNo.setOnClickListener(v -> dismiss());
     }
 
     @Override

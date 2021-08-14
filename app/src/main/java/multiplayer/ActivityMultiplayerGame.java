@@ -37,7 +37,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     public static String mazzoOnline = new String();
     public static GameRoom snapshot;
     public static boolean distribuisci = false;
-    private AdView mAdView;
     public static String idHost = "", idEnemy = "";
     public static ValueEventListener valueEventListener;
 
