@@ -117,8 +117,11 @@ public class postPartita extends AppCompatActivity {
                     engineMultiplayer.accediHost(this, codiceStanza);
                 }else{
                     MultiplayerActivity.joinRoomByCode(this, engineMultiplayer.codiceStanza,
+                            // On complete callback;
                             () -> Utility.goTo(this, MultiplayerActivity.class),
+                            // On room not existing callback;
                             () -> Utility.oneLineDialog(this, (String) this.getText(R.string.waithost), null),
+                            // On room full callback;
                             () -> Utility.oneLineDialog(this, (String) this.getText(R.string.roomfull), null));
                 }
             };
