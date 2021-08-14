@@ -94,7 +94,7 @@
     <string name="roomsettings">Room list settings</string>
     <string name="show">Show</string>
     <string name="filter">Filter</string>
-    <string name="waithost">Waiting for the host…</string>
+    <string name="waithost">Waiting for the host, retry in a few seconds…</string>
     <string name="storico">Match history</string>
     <string name="nomatchfound">No matches found.</string>
     <string name="resethistory">Reset history</string>

@@ -89,7 +89,7 @@
     <string name="roomsettings">Impostazioni lista stanze</string>
     <string name="show">Mostra</string>
     <string name="filter">Filtra</string>
-    <string name="waithost">In attesa dell\'host…</string>
+    <string name="waithost">In attesa dell\'host, riprova tra qualche secondo…</string>
     <string name="storico">Storico partite</string>
     <string name="nomatchfound">Nessuna partita trovata.</string>
     <string name="resethistory">Azzera storico</string>
