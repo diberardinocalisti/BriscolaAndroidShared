@@ -19,6 +19,7 @@ import java.util.Random;
 
 import gameEngine.Carta;
 import gameEngine.Game;
+import gameEngine.SharedPref;
 import gameEngine.Utility;
 
 public class Initconfig extends AppCompatActivity {

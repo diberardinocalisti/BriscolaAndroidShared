@@ -5,15 +5,15 @@ import android.os.Handler;
 
 import androidx.annotation.RequiresApi;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
-import Home.SharedPref;
+import game.danielesimone.briscola.R;
 
 import static gameEngine.Engine.*;
 import static gameEngine.Game.*;
 
 public class CPU extends Giocatore {
+    final static int EASY = 0, HARD = 1;
     private int skill;
 
     protected CPU(String nome, Integer index) {

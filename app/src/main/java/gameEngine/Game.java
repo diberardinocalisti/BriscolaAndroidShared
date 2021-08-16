@@ -11,12 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-import Home.SharedPref;
 import game.danielesimone.briscola.ActivityGame;
 import game.danielesimone.briscola.R;
 import multiplayer.engineMultiplayer;
 
 import static game.danielesimone.briscola.ActivityGame.leftGame;
+import static gameEngine.Game.activity;
 
 public class Game {
     public static AppCompatActivity activity;
@@ -29,13 +29,6 @@ public class Game {
     public static String tipoCarte;
     public static Carta briscola;
     public static TextView centerText;
-
-    public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;
-    public static final int[][] I_CAMPO_GIOCO = new int[][]{
-            {8,9},
-            {10,11}
-    };
-
     public static Giocatore[] giocatori;
     public static CPU CPU;
     public static Giocatore user, opp;
@@ -50,8 +43,14 @@ public class Game {
     public static Carta[] mazzoIniziale;
 
     public static Giocatore giocante, ultimoVincitore;
-    public static boolean canPlay, terminata = true, cartaGiocata;
+    public static boolean canPlay, terminata = true, cartaGiocata, difficoltàScelta = false;
     public static short lastManche = 0;
+
+    public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;
+    public static final int[][] I_CAMPO_GIOCO = new int[][]{
+            {8,9},
+            {10,11}
+    };
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initialize(AppCompatActivity activity){

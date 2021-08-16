@@ -129,8 +129,19 @@ public class Storico extends AppCompatActivity {
 
         setImgProfile(this, idAvversario, oppIcon);
 
-        boolean vittoria = punti > maxPunti/nGiocatori;
-        description.setTextColor(vittoria ? UiColor.GREEN : UiColor.RED);
+        boolean isVittoria = punti > maxPunti/nGiocatori;
+        boolean isSconfitta = punti < maxPunti/nGiocatori;
+        boolean isPareggio = punti == maxPunti/nGiocatori;
+
+        int color = 0;
+        if(isVittoria)
+            color = UiColor.GREEN;
+        else if(isSconfitta)
+            color = UiColor.RED;
+        else if(isPareggio)
+            color = UiColor.YELLOW;
+
+        description.setTextColor(color);
 
         scrollViewLayout.addView(parentView);
     }

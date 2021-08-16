@@ -17,6 +17,7 @@ import com.google.android.gms.ads.MobileAds;
 
 import game.danielesimone.briscola.R;
 
+import gameEngine.SharedPref;
 import gameEngine.Utility;
 
 public class LoadingScreen extends AppCompatActivity {

@@ -97,5 +97,8 @@
     <string name="cpuskill">Difficoltà CPU</string>
     <string name="easy">Principiante</string>
     <string name="hard">Esperto</string>
+    <string name="skillselect">Imposta la difficoltà</string>
+    <string name="rateapptitle">Ti piace l\'app? Recensiscila!</string>
+    <string name="you">Tu</string>
 
 </resources>

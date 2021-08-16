@@ -401,11 +401,13 @@ public class engineMultiplayer extends Engine{
         TextView chatSeperator = parentView.findViewById(R.id.chatSeperator2);
 
         Giocatore author = getPlayerById(authorId);
-        authorView.setText(author.getNome().trim());
+        String authorName = author == Game.user ? activity.getString(R.string.you) : author.getNome();
+
+        authorView.setText(authorName.trim());
         messageView.setText(message.trim());
         icon.setImageBitmap(author.getIcon());
 
-        if(isEvent)
+        if(isEvent || authorName.isEmpty())
             chatSeperator.setText(new String());
         else
             sendChatNotis();

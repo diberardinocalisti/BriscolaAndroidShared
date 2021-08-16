@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import androidx.annotation.RequiresApi;
 
-import Home.SharedPref;
 import game.danielesimone.briscola.R;
 
 import java.util.ArrayList;

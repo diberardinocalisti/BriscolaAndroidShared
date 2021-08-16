@@ -2,6 +2,7 @@ package UI;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -12,16 +13,41 @@ import game.danielesimone.briscola.R;
 
 public class CDialog extends Dialog implements android.view.View.OnClickListener {
     public Activity c;
-    public String title;
-    public Runnable callback;
+    public String title, option1, option2;
+    public Runnable firstCallback, secondCallback, dismissCallback;
 
-    public CDialog(Activity c, String title, Runnable callback) {
+    public CDialog(Activity c, String title, Runnable firstCallback) {
+        this(c, title, c.getString(R.string.ok), c.getString(R.string.cancel), firstCallback, null, null);
+    }
+
+    public CDialog(Activity c, String title, String option1, String option2, Runnable firstCallback, Runnable secondCallback, Runnable dismissCallback){
         super(c);
         this.c = c;
         this.title = title;
-        this.callback = () -> {
-            if(callback != null)
-                callback.run();
+        this.option1 = option1;
+        this.option2 = option2;
+
+        this.dismissCallback = () -> {
+            if(dismissCallback != null)
+                dismissCallback.run();
+
+            this.dismiss();
+        };
+
+        this.firstCallback = () -> {
+            if(firstCallback != null)
+                firstCallback.run();
+
+            this.dismissCallback = null;
+
+            this.dismiss();
+        };
+
+        this.secondCallback = () -> {
+            if(secondCallback != null)
+                secondCallback.run();
+
+            this.dismissCallback = null;
 
             this.dismiss();
         };
@@ -34,26 +60,22 @@ public class CDialog extends Dialog implements android.view.View.OnClickListener
         setContentView(R.layout.dialog);
 
         TextView title = this.findViewById(R.id.title);
-        Button btnYes = this.findViewById(R.id.btn_yes);
-        Button btnNo = this.findViewById(R.id.btn_no);
+        Button btn1 = this.findViewById(R.id.btn1);
+        Button btn2 = this.findViewById(R.id.btn2);
 
         title.setText(this.title);
-        btnYes.setOnClickListener(v -> this.callback.run());
-        btnNo.setOnClickListener(v -> dismiss());
+
+        btn1.setOnClickListener(v -> this.firstCallback.run());
+        btn1.setText(this.option1);
+
+        btn2.setOnClickListener(v -> this.secondCallback.run());
+        btn2.setText(this.option2);
+
+        this.setOnDismissListener(dialog -> {
+            if(this.dismissCallback != null)
+                this.dismissCallback.run();
+        });
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_yes:
-                c.finish();
-                break;
-            case R.id.btn_no:
-                dismiss();
-                break;
-            default:
-                break;
-        }
-        dismiss();
-    }
+    @Override public void onClick(View v){}
 }

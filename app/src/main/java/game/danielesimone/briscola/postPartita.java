@@ -1,9 +1,11 @@
 package game.danielesimone.briscola;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +22,8 @@ import androidx.core.content.ContextCompat;
 import Login.loginClass;
 
 import com.google.firebase.database.DataSnapshot;
+
+import java.net.URI;
 
 import Home.MainActivity;
 import firebase.FirebaseClass;
@@ -67,12 +71,16 @@ public class postPartita extends AppCompatActivity {
         // Aggiunge la partita allo storico;
         Storico.addPartita(this, new Storico.Partita(punteggio, Game.opp.getNome(), Game.opp.getId(), Utility.getTimeString()));
 
-        if(punteggio < maxPunti/nGiocatori){
+        boolean isPersa = punteggio < maxPunti/nGiocatori;
+        boolean isVittoria = punteggio > maxPunti/nGiocatori;
+        boolean isPareggio = punteggio == maxPunti/nGiocatori;
+
+        if(isPersa){
             partitaPersa();
-        }else if(punteggio == maxPunti/nGiocatori){
-            pareggio();
-        }else{
+        }else if(isVittoria){
             partitaVinta();
+        }else if(isPareggio){
+            pareggio();
         }
 
         // Aggiorna lo sfondo in base all'esito della partita (blu/rosso/grigio);
@@ -103,7 +111,7 @@ public class postPartita extends AppCompatActivity {
             }).start();
         }
 
-        View.OnClickListener restartAction;
+        View.OnClickListener restartAction, closeAction;
 
         if(!ActivityGame.multiplayer){
             restartAction = v -> {
@@ -127,21 +135,17 @@ public class postPartita extends AppCompatActivity {
             };
         }
 
+        closeAction = v -> {
+            Intent i = new Intent(this, MainActivity.class);
+            i.putExtra("askRateApp", Math.random() > .5);
+            this.startActivity(i);
+        };
+
         restart.setOnClickListener(restartAction);
-        exit.setOnClickListener(v -> Utility.goTo(this, MainActivity.class));
+        exit.setOnClickListener(closeAction);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(newBase);
-        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-    }
-
-    public void partitaPersa()
-    {
+    public void partitaPersa(){
         background = "sconfitta";
         stato = this.getResources().getString(R.string.lost);
 
@@ -164,14 +168,7 @@ public class postPartita extends AppCompatActivity {
         });
     }
 
-    public void pareggio()
-    {
-        background = "pareggio";
-        stato = this.getResources().getString(R.string.tie);
-    }
-
-    public void partitaVinta()
-    {
+    public void partitaVinta(){
         background = "vittoria";
         stato = this.getResources().getString(R.string.win);
 
@@ -191,7 +188,19 @@ public class postPartita extends AppCompatActivity {
                 }
             }
         });
+    }
 
+    public void pareggio(){
+        background = "pareggio";
+        stato = this.getResources().getString(R.string.tie);
+    }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
     }
 }

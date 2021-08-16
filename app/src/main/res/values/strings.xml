@@ -102,5 +102,8 @@
     <string name="cpuskill">CPU Skill</string>
     <string name="easy">Easy</string>
     <string name="hard">Hard</string>
+    <string name="skillselect">Set the difficulty</string>
+    <string name="rateapptitle">Do you like this game? Rate the app!</string>
+    <string name="you">You</string>
 
 </resources>

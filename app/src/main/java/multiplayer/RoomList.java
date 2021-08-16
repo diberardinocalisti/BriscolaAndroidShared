@@ -146,6 +146,8 @@ public class RoomList extends AppCompatActivity {
     }
 
     protected void addRoomToList(String nomeHost, String idHost, String gameCode, boolean isFull){
+        //FirebaseClass.deleteFieldFirebase(null, gameCode);
+
         boolean showAll = filterOptions[selectedItem].equals(this.getString(R.string.showall));
 
         if(isFull && !showAll)

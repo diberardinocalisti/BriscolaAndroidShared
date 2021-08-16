@@ -19,8 +19,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import Home.SharedPref;
-
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
 public class Settings {

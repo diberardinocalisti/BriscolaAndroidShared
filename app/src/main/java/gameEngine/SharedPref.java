@@ -1,16 +1,7 @@
-package Home;
+package gameEngine;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import com.facebook.share.Share;
-import com.google.android.gms.common.util.JsonUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import gameEngine.Game;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -25,7 +16,7 @@ public class SharedPref {
 
     private static final String CARTE_DEFAULT = "null";
     private static final boolean SCOPERTE_DEFAULT = false;
-    private static final int CPU_SKILL_DEFAULT = 1;
+    private static final int CPU_SKILL_DEFAULT = -1;
 
     public static boolean getCarteScoperte(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);

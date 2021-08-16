@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
@@ -23,6 +24,7 @@ import Login.LoginActivity;
 import Login.loginClass;
 import gameEngine.Game;
 import game.danielesimone.briscola.Storico;
+import gameEngine.SharedPref;
 import gameEngine.Utility;
 import multiplayer.ActivityMultiplayerGame;
 import multiplayer.MultiplayerActivity;
@@ -37,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        setContentView(R.layout.activity_main);
+
+        Utility.enableTopBar(this);
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
+
         gameRunning = true;
 
         if(loginClass.isFacebookLoggedIn()){
@@ -44,19 +53,26 @@ public class MainActivity extends AppCompatActivity {
             LoginActivity.fbUID = accessToken.getUserId();
         }
 
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        setContentView(R.layout.activity_main);
-
-        Utility.enableTopBar(this);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
-
         ActivityMultiplayerGame.onStop = false;
         Game.terminata = true;
         SharedPref.setContext(this);
 
         setListeners();
+
+        Bundle extras = getIntent().getExtras();
+        if(extras != null){
+            boolean showRateApp = extras.getBoolean("askRateApp");
+            if(showRateApp)
+                rateApp();
+        }
+    }
+
+    public void rateApp(){
+        Utility.oneLineDialog(this, this.getString(R.string.rateapptitle), () -> {
+            final String link = "https://play.google.com/store/apps/details?id=%s";
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format(link, getPackageName())));
+            startActivity(browserIntent);
+        });
     }
 
     protected void setListeners(){
@@ -105,15 +121,6 @@ public class MainActivity extends AppCompatActivity {
         closeGame.setOnClickListener(v -> this.onBackPressed());
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(newBase);
-        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-    }
-
     @Override
     public void onBackPressed() {
         Utility.oneLineDialog(this, this.getString(R.string.confirmleave), MainActivity.super::onBackPressed);
@@ -138,4 +145,14 @@ public class MainActivity extends AppCompatActivity {
         if(!ActivityGame.leftGame)
             engineMultiplayer.accediHost(this, engineMultiplayer.codiceStanza);
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
+    }
+
 }

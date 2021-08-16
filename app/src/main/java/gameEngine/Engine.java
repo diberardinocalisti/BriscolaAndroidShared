@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import Home.SharedPref;
 import firebase.FirebaseClass;
 import game.danielesimone.briscola.ActivityGame;
 import game.danielesimone.briscola.R;
@@ -64,8 +63,7 @@ import static multiplayer.engineMultiplayer.codiceStanza;
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Engine{
     public static void inizializza() {
-        creaGiocatori();
-        iniziaRound();
+        creaGiocatori(Engine::iniziaRound);
     }
 
     static void iniziaRound() {
@@ -118,7 +116,7 @@ public class Engine{
         mazzoIniziale = mazzo.toArray(new Carta[0]);
     }
 
-    public static void creaGiocatori() {
+    public static void creaGiocatori(Runnable callback) {
         for(int i = 0; i < giocatori.length; i++){
             boolean CPU = i == 0;
             if(!CPU){
@@ -134,6 +132,33 @@ public class Engine{
         }
 
         Engine.setOnCLickListener();
+
+        // Mostrerà la dialog di sceltà della difficoltà solo la prima partita;
+        if(!Game.difficoltàScelta){
+            Game.difficoltàScelta = true;
+
+            Utility.oneLineDialog(activity,
+                    activity.getString(R.string.skillselect),
+                    activity.getString(R.string.easy),
+                    activity.getString(R.string.hard),
+
+                    // First option;
+                    () -> {
+                        SharedPref.setCPUSkill(gameEngine.CPU.EASY);
+                        callback.run();
+                    },
+
+                    // Second option;
+                    () -> {
+                        SharedPref.setCPUSkill(gameEngine.CPU.HARD);
+                        callback.run();
+                    },
+
+                    // Dismiss option;
+                    callback);
+        }else{
+            callback.run();
+        }
     }
 
     public static void estraiBriscola(Runnable callback){
@@ -157,7 +182,6 @@ public class Engine{
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
         }).start();
 
         briscola = mazzo.get(0);

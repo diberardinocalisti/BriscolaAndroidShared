@@ -143,6 +143,10 @@ public class Utility{
         new UI.CDialog((Activity) c, title, callback).show();
     }
 
+    public static void oneLineDialog(Context c, String title, String option1, String option2, Runnable firstCallback, Runnable secondCallback, Runnable dismissCallback){
+        new UI.CDialog((Activity) c, title, option1, option2, firstCallback, secondCallback, dismissCallback).show();
+    }
+
     public static void createDialog(Context c, String title, String msg){
         Dialog dialog = new Dialog(c);
         dialog.setContentView(R.layout.text_dialog);
