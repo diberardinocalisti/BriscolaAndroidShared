@@ -148,12 +148,14 @@ public class Engine{
                     // First option;
                     () -> {
                         SharedPref.setCPUSkill(gameEngine.CPU.EASY);
+                        Game.CPU.setSkill(gameEngine.CPU.EASY);
                         callback.run();
                     },
 
                     // Second option;
                     () -> {
                         SharedPref.setCPUSkill(gameEngine.CPU.HARD);
+                        Game.CPU.setSkill(gameEngine.CPU.HARD);
                         callback.run();
                     },
 
