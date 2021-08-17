@@ -14,6 +14,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -38,12 +39,14 @@ import static gameEngine.Game.I_CAMPO_GIOCO;
 import static gameEngine.Game.I_MAZZO;
 import static gameEngine.Game.accelMultip;
 import static gameEngine.Game.activity;
+import static gameEngine.Game.bottoneBriscola;
 import static gameEngine.Game.briscola;
 import static gameEngine.Game.canPlay;
 import static gameEngine.Game.cartaGiocata;
 import static gameEngine.Game.carte;
 import static gameEngine.Game.centerText;
 import static gameEngine.Game.dimensioneMazzo;
+import static gameEngine.Game.fadeAnimDuration;
 import static gameEngine.Game.giocante;
 import static gameEngine.Game.giocatori;
 import static gameEngine.Game.intermezzo;
@@ -87,8 +90,7 @@ public class Engine{
         Carta.nascondi(carte[I_MAZZO]);
 
         for(String seme : semi)
-            //<= dimensioneMazzo/semi.length
-            for(int i = 1; i <= 2; i++)
+            for(int i = 1; i <= dimensioneMazzo/semi.length; i++)
                 mazzo.add(new Carta(i, seme));
 
         Collections.shuffle(mazzo);
@@ -191,6 +193,23 @@ public class Engine{
         mazzo.add(briscola);
         briscola.setButton(carte[I_MAZZO]);
         muoviCarta(user.prendi, carte[I_BRISCOLA], briscola, false, true, true, event);
+    }
+
+    public static void tempShowBriscola(){
+        AnimationSet fadeIn = new AnimationSet(false);
+        AnimationSet fadeOut = new AnimationSet(false);
+
+        carte[I_MAZZO].setBackground(briscola.getImage());
+
+        fadeOut.addAnimation(fadeoutAnim(() -> carte[I_MAZZO].setBackground(null)));
+        fadeIn.addAnimation(fadeinAnim(() -> new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                carte[I_MAZZO].startAnimation(fadeOut);
+            }
+        }, viewAnimDuration)));
+
+        carte[I_MAZZO].startAnimation(fadeIn);
     }
 
     public static void distribuisciCarte(Giocatore[] turno){
@@ -342,6 +361,7 @@ public class Engine{
 
         String msg = activity.getString(R.string.lastmanche) + "\n" + tocca;
         Utility.textAnimation(msg, centerText, () -> {
+            bottoneBriscola.setVisibility(View.VISIBLE);
             clearText(centerText);
 
             if(Game.CPU != null){
@@ -388,6 +408,7 @@ public class Engine{
         pulisciBriscola();
         pulisciMazzo();
         pulisciPrese();
+        pulisciBottoneBriscola();
     }
 
     public static void pulisciMazzo(){
@@ -396,6 +417,10 @@ public class Engine{
 
     public static void pulisciBriscola(){
         carte[I_BRISCOLA].setBackground(null);
+    }
+
+    public static void pulisciBottoneBriscola(){
+        bottoneBriscola.setVisibility(View.INVISIBLE);
     }
 
     public static void pulisciPrese(){
@@ -658,7 +683,7 @@ public class Engine{
         animationSet.addAnimation(moveAnim(startView, destView, event));
 
         if(fade)
-            animationSet.addAnimation(fadeAnim());
+            animationSet.addAnimation(fadeoutAnim(null));
 
         startView.startAnimation(animationSet);
 
@@ -709,11 +734,40 @@ public class Engine{
         return animation;
     }
 
-    public static Animation fadeAnim(){
+    public static Animation fadeoutAnim(Runnable callback){
         Animation fadeAnim = new AlphaAnimation(1f, 0f);
         fadeAnim.setInterpolator(new AccelerateInterpolator(accelMultip));
-        fadeAnim.setDuration(viewAnimDuration);
+        fadeAnim.setDuration(fadeAnimDuration);
         fadeAnim.setFillAfter(false);
+        fadeAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(callback != null)
+                    callback.run();
+            }
+
+            @Override public void onAnimationStart(Animation animation){}
+            @Override public void onAnimationRepeat(Animation animation){}
+        });
+        return fadeAnim;
+    }
+
+    public static Animation fadeinAnim(Runnable callback){
+        Animation fadeAnim = new AlphaAnimation(0f, 1f);
+        fadeAnim.setInterpolator(new AccelerateInterpolator(accelMultip));
+        fadeAnim.setDuration(fadeAnimDuration);
+        fadeAnim.setFillAfter(false);
+
+        fadeAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(callback != null)
+                    callback.run();
+            }
+
+            @Override public void onAnimationStart(Animation animation){}
+            @Override public void onAnimationRepeat(Animation animation){}
+        });
 
         return fadeAnim;
     }

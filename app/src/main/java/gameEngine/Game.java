@@ -2,6 +2,8 @@ package gameEngine;
 
 import android.os.Build;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,7 +22,7 @@ import static gameEngine.Game.activity;
 
 public class Game {
     public static AppCompatActivity activity;
-    public static final Integer viewAnimDuration = 350, accelMultip = 2, textAnimDuration = 250;
+    public static final Integer viewAnimDuration = 350, accelMultip = 2, textAnimDuration = 250, fadeAnimDuration = 1000;
     public static final Integer intermezzo = 750;
     public static final Integer intermezzoCPU = 650;
     public static final Integer intermezzoManche = 100;
@@ -38,6 +40,7 @@ public class Game {
 
     // Tutte le carte dei giocatori (quelle che possono essere giocate);
     public static Button[] carteBottoni;
+    public static View bottoneBriscola;
 
     public static ArrayList<Carta> mazzo;
     public static Carta[] mazzoIniziale;
@@ -76,6 +79,7 @@ public class Game {
         centerText = activity.findViewById(R.id.avviso);
         leftGame = false;
         cartaGiocata = false;
+        bottoneBriscola = activity.findViewById(R.id.showbriscola);
 
         Engine.aggiornaNCarte(mazzoIniziale.length);
 
@@ -92,8 +96,10 @@ public class Game {
             }
         }
 
-        engineMultiplayer.createChat();
+        bottoneBriscola.setVisibility(View.INVISIBLE);
+        bottoneBriscola.setOnClickListener(v -> Engine.tempShowBriscola());
 
+        engineMultiplayer.createChat();
         ImageView chatIcon = activity.findViewById(R.id.chat);
         if(ActivityGame.multiplayer){
             chatIcon.setVisibility(View.VISIBLE);
@@ -103,7 +109,6 @@ public class Game {
         }
 
         Utility.showAd(activity);
-
         Utility.enableTopBar(activity);
         Engine.pulisciTavolo();
     }

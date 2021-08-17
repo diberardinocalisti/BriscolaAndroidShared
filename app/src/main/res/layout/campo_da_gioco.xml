@@ -146,7 +146,7 @@
                         android:id="@+id/friend_profile_picture_1"
                         android:layout_width="125px"
                         android:layout_height="125px"
-                        android:layout_marginBottom="15dp"
+                        android:layout_marginBottom="16dp"
                         android:padding="1sp"
                         android:paddingRight="10sp"
                         android:visibility="visible"
@@ -237,7 +237,7 @@
                         android:id="@+id/friend_profile_picture_0"
                         android:layout_width="125px"
                         android:layout_height="125px"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="16dp"
                         android:src="@drawable/com_facebook_profile_picture_blank_square"
                         android:visibility="visible"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -339,6 +339,19 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/button6"></ImageButton>
+
+                    <ImageButton
+                        android:id="@+id/showbriscola"
+                        android:layout_width="125px"
+                        android:layout_height="125px"
+
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/round_button"
+                        android:src="@drawable/ic_baseline_remove_red_eye_24"
+                        android:visibility="invisible"
+                        app:layout_constraintEnd_toStartOf="@+id/button1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"></ImageButton>
 
                     <ImageView
                         android:id="@+id/chatNotis"
