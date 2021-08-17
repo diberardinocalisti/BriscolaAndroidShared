@@ -116,7 +116,7 @@ public class Storico extends AppCompatActivity {
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View parentView = inflater.inflate(R.layout.singlematch, null);
-        
+
         TextView description = parentView.findViewById(R.id.description);
 
         TextView data = parentView.findViewById(R.id.data);

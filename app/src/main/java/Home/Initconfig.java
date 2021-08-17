@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,7 +36,7 @@ public class Initconfig extends AppCompatActivity {
 
         setContentView(R.layout.choicecard);
 
-        LinearLayout gallery = this.findViewById(R.id.gallery);
+        LinearLayout gallery = this.findViewById(R.id.cardGallery);
         LayoutInflater inflater = LayoutInflater.from(this);
 
         String[] tipoArray = this.getResources().getStringArray(R.array.tipoCarte);
@@ -61,9 +62,22 @@ public class Initconfig extends AppCompatActivity {
             gallery.addView(view);
         }
 
-        findViewById(R.id.random).setOnClickListener(v -> {
+        HorizontalScrollView cardScrollView = findViewById(R.id.cardScrollView);
+        View randomBtn = findViewById(R.id.random);
+        View scrollLeftBtn = findViewById(R.id.scrollLeft);
+        View scrollRightBtn = findViewById(R.id.scrollRight);
+
+        randomBtn.setOnClickListener(v -> {
             SharedPref.setTipoCarte(randomTipo);
             this.startActivity(new Intent(this, MainActivity.class));
+        });
+
+        scrollLeftBtn.setOnClickListener(v -> {
+            cardScrollView.post(() -> cardScrollView.fullScroll(View.FOCUS_LEFT));
+        });
+
+        scrollRightBtn.setOnClickListener(v -> {
+            cardScrollView.post(() -> cardScrollView.fullScroll(View.FOCUS_RIGHT));
         });
 
         Utility.enableTopBar(this);

@@ -100,5 +100,6 @@
     <string name="skillselect">Imposta la difficoltà</string>
     <string name="rateapptitle">Ti piace l\'app? Recensiscila!</string>
     <string name="you">Tu</string>
+    <string name="notconcluded">Non conclusa</string>
 
 </resources>

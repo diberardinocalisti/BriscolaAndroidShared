@@ -27,6 +27,7 @@ import Login.loginClass;
 import firebase.FirebaseClass;
 import game.danielesimone.briscola.ActivityGame;
 import game.danielesimone.briscola.R;
+import game.danielesimone.briscola.Storico;
 import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
@@ -99,14 +100,13 @@ public class engineMultiplayer extends Engine{
         Engine.pulisciPrese();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void checkIfSomeoneLeft(){
         String host = snapshot.getHost();
         String enemy = snapshot.getEnemy();
 
         if(host.equals("null") && !enemy.equals("null")){
             returnToMainMenu();
-
-            aggiornaStatisticheSePartitaAbbandonata(idHost,idEnemy);
 
             if(role.equals("HOST")) {
                 youLeft();
@@ -115,8 +115,6 @@ public class engineMultiplayer extends Engine{
             }
         }else if(enemy.equals("null") && !host.equals("null")) {
             returnToMainMenu();
-
-            aggiornaStatisticheSePartitaAbbandonata(idEnemy,idHost);
 
             if(!role.equals("HOST")){
                 youLeft();
@@ -130,8 +128,14 @@ public class engineMultiplayer extends Engine{
         Toast.makeText(activity, activity.getString(R.string.youleft), Toast.LENGTH_SHORT).show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void opponentLeft(){
         Toast.makeText(activity, activity.getString(R.string.enemyleft), Toast.LENGTH_SHORT).show();
+
+        //Aggiorno la sconfitta di chi ha abbandonato la partita;
+        FirebaseClass.aggiornaSconfitte(Game.opp.getId());
+        //Aggiungo una vittoria;
+        FirebaseClass.aggiornaVittorie(Game.user.getId());
     }
 
     public static void returnToMainMenu(){
@@ -435,18 +439,5 @@ public class engineMultiplayer extends Engine{
 
     public static void openChat(){
         chat.show();
-    }
-
-    /**
-     *
-     * @param aggiungiSconfitta id di chi ha abbandonato
-     * @param aggiungiVittoria  id dell'avevrsario
-     */
-    public static void aggiornaStatisticheSePartitaAbbandonata(String aggiungiSconfitta, String aggiungiVittoria)
-    {
-        //Aggiorno la sconfitta di chi ha abbandonatio la partita
-        FirebaseClass.aggiornaSconfitte(aggiungiSconfitta);
-        //Aggiungo una vittoria all'avversario
-        FirebaseClass.aggiornaVittorie(aggiungiVittoria);
     }
 }

@@ -46,10 +46,24 @@ import static gameEngine.Game.activity;
 import static gameEngine.Game.textAnimDuration;
 
 public class Utility{
+    public static boolean isNumber(String number){
+        try{
+            Integer.parseInt(number);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String getTimeString(){
         String ora = Integer.toString(LocalDateTime.now().getHour());
         String minuti = Integer.toString(LocalDateTime.now().getMinute());
+
+        if(minuti.length() == 1)
+            minuti = String.format("0%s", minuti);
+
+        if(ora.length() == 1)
+            ora = String.format("0%s", ora);
 
         DateFormat formatoData = DateFormat.getDateInstance(DateFormat.SHORT, Locale.ITALY);
         String giorno = formatoData.format(new Date());

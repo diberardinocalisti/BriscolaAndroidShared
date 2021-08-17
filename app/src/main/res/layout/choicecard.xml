@@ -85,18 +85,43 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gallery"
-        app:layout_constraintVertical_bias="0.331"
+        app:layout_constraintTop_toBottomOf="@+id/cardScrollView"
         tools:ignore="MissingConstraints" />
 
-    <LinearLayout
-        android:id="@+id/gallery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+    <ImageView
+        android:id="@+id/scrollLeft"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/cardScrollView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sottotitolo" />
+        app:layout_constraintTop_toTopOf="@+id/cardScrollView"
+        app:srcCompat="@drawable/ic_baseline_arrow_left_24" />
+
+    <ImageView
+        android:id="@+id/scrollRight"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="@+id/scrollLeft"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/scrollLeft"
+        app:srcCompat="@drawable/ic_baseline_arrow_right_24" />
+
+    <HorizontalScrollView
+        android:id="@+id/cardScrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toStartOf="@+id/scrollRight"
+        app:layout_constraintStart_toEndOf="@+id/scrollLeft"
+        app:layout_constraintTop_toBottomOf="@+id/sottotitolo">
+
+        <LinearLayout
+            android:id="@+id/cardGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal" />
+    </HorizontalScrollView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

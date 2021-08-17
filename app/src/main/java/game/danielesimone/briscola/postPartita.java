@@ -137,7 +137,7 @@ public class postPartita extends AppCompatActivity {
 
         closeAction = v -> {
             Intent i = new Intent(this, MainActivity.class);
-            i.putExtra("askRateApp", Math.random() > .5);
+            i.putExtra("askRateApp", Math.random() > 0.66);
             this.startActivity(i);
         };
 

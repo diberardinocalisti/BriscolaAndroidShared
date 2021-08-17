@@ -6,6 +6,7 @@
     <string-array name="tipoCarte">
         <item>Napoletane</item>
         <item>Romagnole</item>
+        <item>Piacentine</item>
         <item>Poker</item>
     </string-array>
     <string name="singleplayer">Singleplayer</string>
@@ -105,5 +106,6 @@
     <string name="skillselect">Set the difficulty</string>
     <string name="rateapptitle">Do you like this game? Rate the app!</string>
     <string name="you">You</string>
+    <string name="notconcluded">Not ended</string>
 
 </resources>
