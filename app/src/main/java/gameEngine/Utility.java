@@ -54,6 +54,19 @@ public class Utility{
             return false;
         }
     }
+
+    public static void runnablePercentage(int percentage, Runnable callback){
+        if(percentage > 100)
+            percentage = 100;
+        else if(percentage < 0)
+            percentage = 0;
+
+        final int numberPicked = (int) (Math.random() * 100);
+
+        if(numberPicked <= percentage)
+            callback.run();
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static String getTimeString(){
         String ora = Integer.toString(LocalDateTime.now().getHour());

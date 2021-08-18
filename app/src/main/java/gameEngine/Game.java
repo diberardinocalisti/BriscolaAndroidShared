@@ -34,6 +34,7 @@ public class Game {
     public static Giocatore[] giocatori;
     public static CPU CPU;
     public static Giocatore user, opp;
+    public static Timer timer;
 
     // Tutte le carte presenti nel campo di gioco;
     public static View[] carte;
@@ -80,6 +81,7 @@ public class Game {
         leftGame = false;
         cartaGiocata = false;
         bottoneBriscola = activity.findViewById(R.id.showbriscola);
+        timer = new Timer(); timer.start();
 
         Engine.aggiornaNCarte(mazzoIniziale.length);
 

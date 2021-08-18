@@ -37,6 +37,7 @@ import multiplayer.engineMultiplayer;
 import static Login.LoginActivity.fbUID;
 import static gameEngine.Game.maxPunti;
 import static gameEngine.Game.nGiocatori;
+import static gameEngine.Game.timer;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class postPartita extends AppCompatActivity {
@@ -61,11 +62,14 @@ public class postPartita extends AppCompatActivity {
         View postpartita = findViewById(R.id.parent);
         TextView esito = findViewById(R.id.esito);
         TextView punti = findViewById(R.id.nPunti);
+        TextView nCarte = findViewById(R.id.nCarte);
+        TextView durata = findViewById(R.id.matchTime);
         Button restart = findViewById(R.id.restart);
         Button exit = findViewById(R.id.exit);
 
         int punteggio = extras.getInt("punteggio");
         String[] daMostrare = extras.getStringArray("carte");
+        int mazzoSize = extras.getInt("nCarte");
         String ruolo = extras.getString("ruolo");
 
         // Aggiunge la partita allo storico;
@@ -92,6 +96,15 @@ public class postPartita extends AppCompatActivity {
 
         // Scrive i punti ottenuti;
         punti.setText("+" + punteggio);
+
+        // Scrive il numero di carte ottenute;
+        final String cardsCollectedString = getString(R.string.cardscollected);
+        nCarte.setText(cardsCollectedString.replace("{ncards}", Integer.toString(mazzoSize)));
+
+        // Scrive la durata della partita;
+        timer.stop();
+        final String matchTimeString = getString(R.string.matchtime);
+        durata.setText(matchTimeString.replace("{time}", timer.getElapsedTimeString()));
 
         for(int i = 0; i < daMostrare.length; i++){
             Carta carta = Engine.getCartaFromName(daMostrare[i]);
@@ -137,7 +150,8 @@ public class postPartita extends AppCompatActivity {
 
         closeAction = v -> {
             Intent i = new Intent(this, MainActivity.class);
-            i.putExtra("askRateApp", Math.random() > 0.66);
+            final int percentageShowDialog = 50;
+            Utility.runnablePercentage(percentageShowDialog, () -> i.putExtra("askRateApp", true));
             this.startActivity(i);
         };
 

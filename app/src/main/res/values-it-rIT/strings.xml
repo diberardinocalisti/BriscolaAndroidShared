@@ -101,5 +101,8 @@
     <string name="rateapptitle">Ti piace l\'app? Recensiscila!</string>
     <string name="you">Tu</string>
     <string name="notconcluded">Non conclusa</string>
+    <string name="cardscollected">Hai ottenuto {ncards} carte.</string>
+    <string name="matchtime">Durata partita: {time}</string>
+    <string name="yourcards">Carte ottenute</string>
 
 </resources>

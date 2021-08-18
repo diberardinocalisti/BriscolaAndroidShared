@@ -201,12 +201,14 @@ public class Engine{
         AnimationSet fadeIn = new AnimationSet(false);
         AnimationSet fadeOut = new AnimationSet(false);
 
+        clearText(centerText);
+
         carte[I_MAZZO].setBackground(briscola.getImage());
         bottoneBriscola.setEnabled(false);
 
-        fadeIn.addAnimation(fadeinAnim(() -> new Handler().postDelayed(() -> {
+        fadeIn.addAnimation(fadeinAnim(() -> {
             carte[I_MAZZO].startAnimation(fadeOut);
-        }, viewAnimDuration)));
+        }));
 
         fadeOut.addAnimation(fadeoutAnim(() -> {
             carte[I_MAZZO].setBackground(null);
@@ -394,6 +396,7 @@ public class Engine{
 
         i.putExtra("punteggio", user.getPunteggioCarte());
         i.putExtra("carte", user.mostraMazzo());
+        i.putExtra("nCarte", user.prese.size());
 
         if(ActivityGame.multiplayer){
             FirebaseClass.getFbRefSpeicific(codiceStanza).removeEventListener(ActivityMultiplayerGame.valueEventListener);

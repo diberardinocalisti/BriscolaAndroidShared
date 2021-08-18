@@ -56,7 +56,7 @@
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/login_why"
+                        app:layout_constraintEnd_toEndOf="@+id/button1"
                         app:layout_constraintHorizontal_bias="0.186"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -69,7 +69,7 @@
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/login_why"
+                        app:layout_constraintEnd_toEndOf="@+id/button1"
                         app:layout_constraintHorizontal_bias="0.186"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -82,7 +82,7 @@
                         android:focusable="false"
                         android:focusableInTouchMode="false"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/login_why"
+                        app:layout_constraintEnd_toEndOf="@+id/button1"
                         app:layout_constraintHorizontal_bias="0.186"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -95,14 +95,14 @@
                         tools:layout_editor_absoluteY="0dp" />
 
                     <Button
-                        android:id="@+id/login_why"
+                        android:id="@+id/button1"
                         android:layout_width="192px"
                         android:layout_height="307px"
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/vuoto"
-                        app:layout_constraintBottom_toBottomOf="@+id/login_back"
-                        app:layout_constraintEnd_toStartOf="@+id/login_back" />
+                        app:layout_constraintBottom_toBottomOf="@+id/button2"
+                        app:layout_constraintEnd_toStartOf="@+id/button2" />
 
                     <Button
                         android:id="@+id/button3"
@@ -111,8 +111,8 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginLeft="10dp"
                         android:background="@drawable/vuoto"
-                        app:layout_constraintBottom_toBottomOf="@+id/login_back"
-                        app:layout_constraintStart_toEndOf="@+id/login_back" />
+                        app:layout_constraintBottom_toBottomOf="@+id/button2"
+                        app:layout_constraintStart_toEndOf="@+id/button2" />
 
                     <Button
                         android:id="@+id/n_carte"
@@ -179,7 +179,7 @@
                         app:layout_constraintTop_toTopOf="@+id/button5" />
 
                     <Button
-                        android:id="@+id/login_back"
+                        android:id="@+id/button2"
                         android:layout_width="192px"
                         android:layout_height="307px"
                         android:background="@drawable/vuoto"
@@ -349,7 +349,7 @@
                         android:background="@drawable/round_button"
                         android:src="@drawable/ic_baseline_remove_red_eye_24"
                         android:visibility="invisible"
-                        app:layout_constraintEnd_toStartOf="@+id/login_why"
+                        app:layout_constraintEnd_toStartOf="@+id/button1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"></ImageButton>
 
