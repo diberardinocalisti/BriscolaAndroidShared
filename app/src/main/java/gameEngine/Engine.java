@@ -202,14 +202,16 @@ public class Engine{
         AnimationSet fadeOut = new AnimationSet(false);
 
         carte[I_MAZZO].setBackground(briscola.getImage());
+        bottoneBriscola.setEnabled(false);
 
-        fadeOut.addAnimation(fadeoutAnim(() -> carte[I_MAZZO].setBackground(null)));
-        fadeIn.addAnimation(fadeinAnim(() -> new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                carte[I_MAZZO].startAnimation(fadeOut);
-            }
+        fadeIn.addAnimation(fadeinAnim(() -> new Handler().postDelayed(() -> {
+            carte[I_MAZZO].startAnimation(fadeOut);
         }, viewAnimDuration)));
+
+        fadeOut.addAnimation(fadeoutAnim(() -> {
+            carte[I_MAZZO].setBackground(null);
+            bottoneBriscola.setEnabled(true);
+        }));
 
         carte[I_MAZZO].startAnimation(fadeIn);
     }
@@ -355,16 +357,22 @@ public class Engine{
 
     public static void lastManche(){
         pulisciPianoLaterale();
+
         centerText = activity.findViewById(R.id.avvisocentro);
         lastManche = 1;
 
         int stringId = Game.user == ultimoVincitore ? R.string.tuoturno : R.string.turno;
         String tocca = activity.getString(stringId).replace("%user", ultimoVincitore.getNome());;
 
-        String msg = activity.getString(R.string.lastmanche) + "\n" + tocca;
-        Utility.textAnimation(msg, centerText, () -> {
-            bottoneBriscola.setVisibility(View.VISIBLE);
+        String message = activity.getString(R.string.lastmanche) + "\n" + tocca;
+        Utility.textAnimation(message, centerText, () -> {
             clearText(centerText);
+
+            final AnimationSet fadeIn = new AnimationSet(false);
+            fadeIn.addAnimation(fadeinAnim(() -> bottoneBriscola.setAlpha(1)));
+
+            bottoneBriscola.setVisibility(View.VISIBLE);
+            bottoneBriscola.startAnimation(fadeIn);
 
             if(Game.CPU != null){
                 synchronized (Game.CPU){
