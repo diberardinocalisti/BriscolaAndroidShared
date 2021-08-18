@@ -15,7 +15,7 @@
         android:background="@drawable/background">
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/login_logo"
             android:layout_width="500px"
             android:layout_height="500px"
             app:layout_constraintBottom_toTopOf="@+id/login_button"
@@ -31,13 +31,13 @@
             android:layout_marginBottom="10dp"
             android:alpha="0.85"
             android:background="@drawable/blue_button"
-            app:layout_constraintBottom_toTopOf="@+id/button1"
-            app:layout_constraintEnd_toEndOf="@+id/button1"
-            app:layout_constraintStart_toStartOf="@+id/button1" />
+            app:layout_constraintBottom_toTopOf="@+id/login_why"
+            app:layout_constraintEnd_toEndOf="@+id/login_why"
+            app:layout_constraintStart_toStartOf="@+id/login_why" />
 
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/login_why"
             android:layout_width="450px"
             android:layout_height="80px"
             android:alpha="0.85"
@@ -51,7 +51,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/login_back"
             android:layout_width="450px"
             android:layout_height="80px"
             android:layout_marginTop="10dp"
@@ -60,10 +60,28 @@
             android:text="@string/goback"
             android:textAllCaps="false"
             android:textSize="35px"
-            app:layout_constraintEnd_toEndOf="@+id/button1"
+            app:layout_constraintEnd_toEndOf="@+id/login_why"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/button1"
-            app:layout_constraintTop_toBottomOf="@+id/button1" />
+            app:layout_constraintStart_toStartOf="@+id/login_why"
+            app:layout_constraintTop_toBottomOf="@+id/login_why" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/topbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-9833115755260479/9941848012"></com.google.android.gms.ads.AdView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

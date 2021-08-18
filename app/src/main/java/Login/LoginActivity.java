@@ -67,16 +67,17 @@ public class LoginActivity extends AppCompatActivity {
     protected void loginPage(){
         setContentView(R.layout.login_page);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
+        Utility.showAd(this);
 
         callbackManager = CallbackManager.Factory.create();
 
         LoginButton l = findViewById(R.id.login_button);
         //l.setPermissions("user_friends");
 
-        Button why = findViewById(R.id.button1);
+        Button why = findViewById(R.id.login_why);
         why.setOnClickListener(v -> Utility.createDialog(this, why.getText().toString(), this.getString(R.string.whylogintext)));
 
-        Button back = findViewById(R.id.button2);
+        Button back = findViewById(R.id.login_back);
         back.setOnClickListener(v -> super.onBackPressed());
 
         l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -126,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void accountPage(){
         setContentView(R.layout.fb_profile);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
+        Utility.showAd(this);
 
         final int refreshRate = 100;
 

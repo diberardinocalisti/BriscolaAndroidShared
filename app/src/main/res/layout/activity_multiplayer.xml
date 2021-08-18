@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/login_logo"
             android:layout_width="500px"
             android:layout_height="500px"
             app:layout_constraintBottom_toTopOf="@+id/createroom"
