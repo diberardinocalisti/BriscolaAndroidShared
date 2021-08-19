@@ -118,5 +118,6 @@
     <string name="yourcards">Cards collected</string>
     <string name="difficultysetto">Difficulty set to {difficulty}!</string>
     <string name="pointswvalue">{points} points</string>
+    <string name="nocardscollected">No cards collected.</string>
 
 </resources>

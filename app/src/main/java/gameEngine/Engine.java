@@ -527,17 +527,10 @@ public class Engine{
     }
 
     public static Comparator<Carta> ordinaCarte = (o1, o2) -> {
-        if(o1.getValore() > o2.getValore()) {
-            return 1;
-        } else if(o1.getValore() == o2.getValore()){
-            if(o1.getNumero() > o2.getNumero())
-                return 1;
-            else if(o1.getNumero() < o2.getNumero())
-                return -1;
-            else
-                return 0;
+        if(o1.getValore() != o2.getValore()) {
+            return o1.getValore() - o2.getValore();
         }else{
-            return -1;
+            return o1.getNumero() - o2.getNumero();
         }
     };
 
