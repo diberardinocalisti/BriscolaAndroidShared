@@ -52,7 +52,7 @@ public class Settings {
 
         // SPINNER SKILL CPU;
         Spinner skillCpu = tipoCarteView.findViewById(R.id.cpuSkillSpinner);
-        ArrayAdapter<String> adapterSkill = new ArrayAdapter<>(c, android.R.layout.simple_spinner_item, new String[]{c.getString(R.string.easy), c.getString(R.string.hard)});
+        ArrayAdapter<String> adapterSkill = new ArrayAdapter<>(c, android.R.layout.simple_spinner_item, c.getResources().getStringArray(R.array.difficulties));
         adapterSkill.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         skillCpu.setAdapter(adapterSkill);
         skillCpu.setSelection(SharedPref.getCPUSkill());

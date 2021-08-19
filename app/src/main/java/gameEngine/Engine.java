@@ -16,9 +16,11 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -142,20 +144,18 @@ public class Engine{
 
             Utility.oneLineDialog(activity,
                     activity.getString(R.string.skillselect),
-                    activity.getString(R.string.easy),
-                    activity.getString(R.string.hard),
+                    CPU.difficulties[CPU.EASY],
+                    CPU.difficulties[CPU.HARD],
 
                     // First option;
                     () -> {
-                        SharedPref.setCPUSkill(gameEngine.CPU.EASY);
-                        Game.CPU.setSkill(gameEngine.CPU.EASY);
+                        setCPUSkillAndShowToast(CPU.EASY);
                         callback.run();
                     },
 
                     // Second option;
                     () -> {
-                        SharedPref.setCPUSkill(gameEngine.CPU.HARD);
-                        Game.CPU.setSkill(gameEngine.CPU.HARD);
+                        setCPUSkillAndShowToast(CPU.HARD);
                         callback.run();
                     },
 
@@ -164,6 +164,12 @@ public class Engine{
         }else{
             callback.run();
         }
+    }
+
+    public static void setCPUSkillAndShowToast(int skillValue){
+        SharedPref.setCPUSkill(skillValue);
+        Game.CPU.setSkill(skillValue);
+        Toast.makeText(activity, ((String) activity.getText(R.string.difficultysetto)).replace("{difficulty}", CPU.difficulties[skillValue].toLowerCase()), Toast.LENGTH_SHORT).show();
     }
 
     public static void estraiBriscola(Runnable callback){
@@ -350,7 +356,7 @@ public class Engine{
                     p.pesca();
 
             if(isTerminata()) {
-                termina();
+                terminaPartita();
             }else{
                 prossimoTurno(vincitore);
             }
@@ -384,19 +390,11 @@ public class Engine{
         });
     }
 
-    static void termina(){
+    static void terminaPartita(){
         canPlay = false;
         terminata = true;
 
-        terminaPartita();
-    }
-
-    static void terminaPartita(){
         Intent i = new Intent(activity, postPartita.class);
-
-        i.putExtra("punteggio", user.getPunteggioCarte());
-        i.putExtra("carte", user.mostraMazzo());
-        i.putExtra("nCarte", user.prese.size());
 
         if(ActivityGame.multiplayer){
             FirebaseClass.getFbRefSpeicific(codiceStanza).removeEventListener(ActivityMultiplayerGame.valueEventListener);
@@ -523,7 +521,25 @@ public class Engine{
         return null;
     }
 
-    public static Comparator<Carta> ordinaCarte = Comparator.comparingInt(Carta::getValore);
+    public static void ordinaMazzo(ArrayList<Carta> mazzo){
+        Collections.sort(mazzo, Engine.ordinaCarte);
+        Collections.reverse(mazzo);
+    }
+
+    public static Comparator<Carta> ordinaCarte = (o1, o2) -> {
+        if(o1.getValore() > o2.getValore()) {
+            return 1;
+        } else if(o1.getValore() == o2.getValore()){
+            if(o1.getNumero() > o2.getNumero())
+                return 1;
+            else if(o1.getNumero() < o2.getNumero())
+                return -1;
+            else
+                return 0;
+        }else{
+            return -1;
+        }
+    };
 
     static boolean isTerminata(){
         return getCarteGiocatori().length == 0;
@@ -674,12 +690,19 @@ public class Engine{
     }
 
     public static void showMessage(String text, Runnable callback){
+        hideTempBriscola();
+
         Utility.textAnimation(text, centerText, () -> {
             if(callback != null)
                 callback.run();
 
             clearText(centerText);
         });
+    }
+
+    public static void hideTempBriscola(){
+        if(isLastManche())
+            carte[I_MAZZO].setBackground(null);
     }
 
     public static void clearText(TextView textView){

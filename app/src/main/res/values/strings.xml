@@ -9,6 +9,12 @@
         <item>Piacentine</item>
         <item>Poker</item>
     </string-array>
+
+    <string-array name="difficulties">
+        <item>Easy</item>
+        <item>Hard</item>
+    </string-array>
+
     <string name="singleplayer">Singleplayer</string>
     <string name="multiplayer">Multiplayer</string>
     <string name="myprofile">My account</string>
@@ -110,5 +116,7 @@
     <string name="cardscollected">You collected {ncards} cards.</string>
     <string name="matchtime">Match time: {time}</string>
     <string name="yourcards">Cards collected</string>
+    <string name="difficultysetto">Difficulty set to {difficulty}!</string>
+    <string name="pointswvalue">{points} points</string>
 
 </resources>

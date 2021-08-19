@@ -13,7 +13,8 @@ import static gameEngine.Engine.*;
 import static gameEngine.Game.*;
 
 public class CPU extends Giocatore {
-    final static int EASY = 0, HARD = 1;
+    public static String[] difficulties;
+    public final static int EASY = 0, HARD = 1;
     private int skill;
 
     protected CPU(String nome, Integer index) {

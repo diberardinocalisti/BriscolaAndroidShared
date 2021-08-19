@@ -111,21 +111,6 @@ public class Giocatore {
         loginClass.setImgProfile(activity, this.id, this.userIcon);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public String[] mostraMazzo() {
-        final int daMostrare = nCarte;
-
-        ArrayList<Carta> carte = prese;
-        Collections.sort(carte, Engine.ordinaCarte);
-        Collections.reverse(carte);
-        ArrayList<String> mostrate = new ArrayList<>();
-
-        for(int i = 0; i < daMostrare && i < carte.size(); i++)
-            mostrate.add(carte.get(i).getNome());
-
-        return mostrate.toArray(new String[0]);
-    }
-
     public void svuotaMazzo(){
         Arrays.fill(carte, null);
 

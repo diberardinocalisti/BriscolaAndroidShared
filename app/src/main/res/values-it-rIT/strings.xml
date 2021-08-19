@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="difficulties">
+        <item>Principiante</item>
+        <item>Esperto</item>
+    </string-array>
+
     <string name="app_name">Briscola</string>
     <string name="facebook_application_id" translatable="false">603960137243421</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb603960137243421</string>
@@ -95,8 +100,6 @@
     <string name="resethistory">Azzera storico</string>
     <string name="resetconfirm">Sei sicuro di voler azzerare il tuo storico partite?</string>
     <string name="cpuskill">Difficoltà CPU</string>
-    <string name="easy">Principiante</string>
-    <string name="hard">Esperto</string>
     <string name="skillselect">Imposta la difficoltà</string>
     <string name="rateapptitle">Ti piace l\'app? Recensiscila!</string>
     <string name="you">Tu</string>
@@ -104,5 +107,7 @@
     <string name="cardscollected">Hai ottenuto {ncards} carte.</string>
     <string name="matchtime">Durata partita: {time}</string>
     <string name="yourcards">Carte ottenute</string>
+    <string name="difficultysetto">Difficoltà impostata a {difficulty}!</string>
+    <string name="pointswvalue">{points} punti</string>
 
 </resources>

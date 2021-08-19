@@ -64,6 +64,7 @@ public class Game {
         Utility.ridimensionamento(activity, activity.findViewById(R.id.campogioco));
 
         Game.activity = activity;
+        gameEngine.CPU.difficulties = activity.getResources().getStringArray(R.array.difficulties);
 
         giocatori = new Giocatore[nGiocatori];
         mazzo = new ArrayList<>();
