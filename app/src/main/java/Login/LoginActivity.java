@@ -226,6 +226,7 @@ public class LoginActivity extends AppCompatActivity {
 
         TextInputEditText usernameInput = dialog.findViewById(R.id.registerUsernameInput);
         TextInputEditText passwordInput = dialog.findViewById(R.id.registerPasswordInput);
+        //TextInputEditText emailInput = dialog.findViewById(R.id.)
         Button register = dialog.findViewById(R.id.registerConfirm);
         ImageView close = dialog.findViewById(R.id.registerClose);
 
@@ -246,7 +247,7 @@ public class LoginActivity extends AppCompatActivity {
                             Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
                         }else{
                             // Registra un nuovo utente;
-                            EmailUser eU = new EmailUser(0,0, hashPassword);
+                            EmailUser eU = new EmailUser(0,0, hashPassword,"");
                             FirebaseClass.addUserToFirebase(eU,username);
 
                             dialog.dismiss();

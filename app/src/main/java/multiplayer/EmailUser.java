@@ -3,11 +3,13 @@ package multiplayer;
 public class EmailUser {
     private int vinte;
     private int perse;
+    private String email;
     private String password;
 
-    public EmailUser(int vinte, int perse, String password) {
+    public EmailUser(int vinte, int perse, String email, String password) {
         this.vinte = vinte;
         this.perse = perse;
+        this.email = email;
         this.password = password;
     }
 
@@ -25,6 +27,14 @@ public class EmailUser {
 
     public void setPerse(int perse) {
         this.perse = perse;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
