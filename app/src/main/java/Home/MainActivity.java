@@ -53,16 +53,13 @@ public class MainActivity extends AppCompatActivity {
 
         gameRunning = true;
 
-
         if(isFacebookLoggedIn()) {
             AccessToken accessToken = AccessToken.getCurrentAccessToken();
             LoginActivity.fbUID = accessToken.getUserId();
-        }else if(isUsernameLoggedIn())
-        {
+        }else if(isUsernameLoggedIn()){
             LoginActivity.fbUID = SharedPref.getUsername();
-            loginClass.setEmailUser();
+            loginClass.updateEmail();
         }
-
 
         ActivityMultiplayerGame.onStop = false;
         Game.terminata = true;

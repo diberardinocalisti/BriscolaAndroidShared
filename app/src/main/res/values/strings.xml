@@ -133,7 +133,14 @@
     <string name="password_recovery">Forgot your password?</string>
     <string name="loginerror">Wrong login details</string>
     <string name="loginsuccess">Logged in with success!</string>
-    <string name="usernameerror">Your username cannot include special characters.</string>
-    <string name="usernameexisting">This username already exists.</string>
+    <string name="usernameerror">Your username is not valid.</string>
+    <string name="usernameexisting">This username is already registered.</string>
+    <string name="erroredit">Login with Facebook if you want to edit your profile!</string>
+    <string name="confirmlogout">Are you sure you want to logout?</string>
+    <string name="usernamelength">Your username needs to be atleast {length} characters long.</string>
+    <string name="passwordlength">Your password needs to be atleast {length} characters long.</string>
+    <string name="emailnotvalid">Please enter a valid email.</string>
+    <string name="registersuccess">Registered with success!</string>
+    <string name="emailexisting">This email is already registered.</string>
 
 </resources>

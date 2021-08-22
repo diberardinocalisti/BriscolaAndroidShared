@@ -136,30 +136,28 @@ public class loginClass {
         }
     }
 
-    public static boolean isUsernameOk(String username)
+    public static boolean isFirebaseStringValid(String string)
     {
-        if(username.equals("null"))
-            return false;
+        string = string.trim();
 
-        if(username.contains(".") || username.contains("#") || username.contains("$") || username.contains("[") || username.contains("]"))
+        if(string.equals("null") || string.isEmpty() || string.contains(".")  || string.contains("#") || string.contains("$") || string.contains("[") || string.contains("]"))
             return false;
         else
             return true;
     }
 
-    public static void setEmailUser() {
-
+    public static void updateEmail() {
         FirebaseClass.getFbRef().child(LoginActivity.fbUID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                    for(DataSnapshot d : snapshot.getChildren())
+                for(DataSnapshot d : snapshot.getChildren())
+                {
+                    if(d.getKey().equals("email"))
                     {
-                        if(d.getKey().equals("email"))
-                        {
-                            SharedPref.setEmail(String.valueOf(d.getValue()));
-                            break;
-                        }
+                        SharedPref.setEmail(String.valueOf(d.getValue()));
+                        break;
                     }
+                }
             }
 
             @Override

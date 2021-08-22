@@ -11,7 +11,9 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,6 +34,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.Profile;
+import com.facebook.appevents.suggestedevents.ViewOnClickListener;
 import com.facebook.login.Login;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
@@ -60,7 +63,6 @@ public class LoginActivity extends AppCompatActivity {
     public static String fbUID;
     public CallbackManager callbackManager;
     public static boolean login = false;
-    public static String metodoLogin = "";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -134,8 +136,6 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
 
-                metodoLogin = "fb";
-
                 accountPage();
             }
             @Override
@@ -170,48 +170,39 @@ public class LoginActivity extends AppCompatActivity {
             String password = passwordInput.getText().toString().trim();
             String hashPassword = loginClass.getMd5(password);
 
-            if(!loginClass.isUsernameOk(username)){
-                Utility.oneLineDialog(this, this.getString(R.string.usernameerror), null);
-            }else {
-                // Accedi all'account già esistente;
-                FirebaseClass.getFbRef().child(username).get().addOnCompleteListener(task -> {
-                    if(task.isSuccessful()){
-                        boolean entrato = false;
+            // Accedi all'account già esistente;
+            FirebaseClass.getFbRef().child(username).get().addOnCompleteListener(task -> {
+                boolean entrato = false;
 
-                        for(DataSnapshot d: task.getResult().getChildren())
-                        {
-                            entrato = true;
+                if(task.isSuccessful()){
+                    for(DataSnapshot d: task.getResult().getChildren()){
+                        entrato = true;
 
-                            Object value = d.getValue();
-                            Object key = d.getKey();
+                        Object value = d.getValue();
+                        Object key = d.getKey();
 
-                            if(key.equals("password")){
-                                if(hashPassword.equals(value)){
-                                    Utility.oneLineDialog(this, this.getString(R.string.loginsuccess), null);
-                                    metodoLogin = "username";
+                        if(key.equals("password")){
+                            if(hashPassword.equals(value)){
+                                LoginActivity.fbUID = username;
+                                SharedPref.setUsername(username);
+                                SharedPref.setPassword(hashPassword);
+                                loginClass.updateEmail();
 
-                                    SharedPref.setUsername(username);
-                                    SharedPref.setPassword(hashPassword);
-
-                                    Utility.goTo(LoginActivity.this,MainActivity.class);
-
-                                    LoginActivity.fbUID = username;
-
-                                    loginClass.setEmailUser();
-
-                                    dialog.dismiss();
-                                }else{
-                                    Utility.oneLineDialog(this, this.getString(R.string.loginerror), null);
-                                }
+                                Toast.makeText(getApplicationContext(), LoginActivity.this.getString(R.string.registersuccess),Toast.LENGTH_SHORT).show();
+                                accountPage();
+                                break;
+                            }else{
+                                Utility.oneLineDialog(this, this.getString(R.string.loginerror), null);
                             }
-
                         }
-
-                        if(!entrato)
-                            Toast.makeText(getApplicationContext(),"Credenziali errate ",Toast.LENGTH_LONG).show();
                     }
-                });
-            }
+                }
+
+                if(!entrato)
+                    Utility.oneLineDialog(this, this.getString(R.string.loginerror), null);
+
+                dialog.dismiss();
+            });
 
         });
 
@@ -246,42 +237,62 @@ public class LoginActivity extends AppCompatActivity {
             String username = usernameInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
             String hashPassword = loginClass.getMd5(password);
-            String email = emailInput.getText().toString().trim();
+            String email = emailInput.getText().toString().trim().replace(".", "_"); // Firebase non accetta punti;
 
-            //Controllo se lo username è tutto ok
-            if(!loginClass.isUsernameOk(username)){
-                Utility.oneLineDialog(this, this.getString(R.string.usernameerror), null);
-            }else{
-                //Controllo se lo username già esiste
-                FirebaseClass.getFbRef().addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        if(snapshot.hasChild(username)){
-                            Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
-                        }else{
-                            // Registra un nuovo utente;
-                            EmailUser eU = new EmailUser(0,0, email,hashPassword);
-                            FirebaseClass.addUserToFirebase(eU,username);
-
-                            dialog.dismiss();
-
-                            SharedPref.setUsername(username);
-                            SharedPref.setPassword(hashPassword);
-                            SharedPref.setEmail(email);
-
-                            LoginActivity.fbUID = username;
-
-                            Toast.makeText(getApplicationContext(),LoginActivity.this.getString(R.string.loginsuccess),Toast.LENGTH_SHORT).show();
-                            Utility.goTo(LoginActivity.this,MainActivity.class);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-                    }
-                });
+            final Integer usernameRequiredLength = 3;
+            if(username.length() < usernameRequiredLength){
+                String message = this.getString(R.string.usernamelength).replace("{length}", usernameRequiredLength.toString());
+                Utility.oneLineDialog(this, message, null);
+                return;
             }
+
+            if(!loginClass.isFirebaseStringValid(username)){
+                Utility.oneLineDialog(this, this.getString(R.string.usernameerror), null);
+                return;
+            }
+
+            String tempEmail = email.replace("_", ".");
+            boolean isValidEmail = (!TextUtils.isEmpty(tempEmail) && Patterns.EMAIL_ADDRESS.matcher(tempEmail).matches());
+            if(!isValidEmail || !loginClass.isFirebaseStringValid(email)){
+                String message = this.getString(R.string.emailnotvalid);
+                Utility.oneLineDialog(this, message, null);
+                return;
+            }
+
+            final Integer passwordRequiredLength = 6;
+            if(password.length() < passwordRequiredLength){
+                String message = this.getString(R.string.passwordlength).replace("{length}", passwordRequiredLength.toString());
+                Utility.oneLineDialog(this, message, null);
+                return;
+            }
+
+            FirebaseClass.getFbRef().addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    if(snapshot.hasChild(username)){
+                        Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
+                    }else{
+                        // TODO: Controllare se l'email è già stata registrata;
+
+                        EmailUser eU = new EmailUser(0,0, email,hashPassword);
+                        FirebaseClass.addUserToFirebase(eU,username);
+
+                        SharedPref.setUsername(username);
+                        SharedPref.setPassword(hashPassword);
+                        SharedPref.setEmail(email);
+                        LoginActivity.fbUID = username;
+
+                        Toast.makeText(getApplicationContext(), LoginActivity.this.getString(R.string.registersuccess),Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        accountPage();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                }
+            });
         });
 
         close.setOnClickListener(v -> dialog.dismiss());
@@ -299,21 +310,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.fb_profile);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
         Utility.showAd(this);
-
-        Button logout = findViewById(R.id.logoutB);
-
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(loginClass.isUsernameLoggedIn())
-                {
-                    SharedPref.setUsername("null");
-                    SharedPref.setPassword("null");
-                    Toast.makeText(getApplicationContext(), getString(R.string.logoutsuccess), Toast.LENGTH_SHORT).show();
-                    Utility.goTo(LoginActivity.this, MainActivity.class);
-                }
-            }
-        });
 
         final int refreshRate = 100;
 
@@ -349,26 +345,18 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void setStatistiche(){
-        System.out.println("statistiche");
         TextView nome = findViewById(R.id.nome);
         TextView accountId = findViewById(R.id.idValore);
-        TextView idTesto = findViewById(R.id.idTesto);
 
         String nomeProfilo = loginClass.isFacebookLoggedIn() ? loginClass.getFullFBName() : loginClass.getName();
 
         nome.setText(nomeProfilo);
 
-        if(loginClass.isUsernameLoggedIn())
-        {
-            idTesto.setText(this.getString(R.string.email));
-            accountId.setText(SharedPref.getEmail());
-        }else if (loginClass.isFacebookLoggedIn())
-        {
-            idTesto.setText(this.getString(R.string.accountid));
+        if(loginClass.isUsernameLoggedIn()){
+            accountId.setText(SharedPref.getEmail().split("@")[0]);
+        }else if (loginClass.isFacebookLoggedIn()) {
             accountId.setText(loginClass.getFBUserId());
         }
-
-
 
         ImageView imgProfile = findViewById(R.id.friendProfilePicture);
         loginClass.setImgProfile(this, loginClass.getFBUserId(), imgProfile);
@@ -413,24 +401,37 @@ public class LoginActivity extends AppCompatActivity {
     protected void setListeners(){
         Button modificaProfilo = findViewById(R.id.editB);
         modificaProfilo.setOnClickListener(v -> {
-            final String editProfileUrl = "https://www.facebook.com/profile.php";
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(editProfileUrl));
-            startActivity(browserIntent);
+            if(loginClass.isFacebookLoggedIn()){
+                final String editProfileUrl = "https://www.facebook.com/profile.php";
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(editProfileUrl));
+                startActivity(browserIntent);
+            }else{
+                String message = this.getString(R.string.erroredit);
+                Utility.oneLineDialog(this, message, null);
+            }
         });
 
-        if(!loginClass.isFacebookLoggedIn())
-            modificaProfilo.setVisibility(View.INVISIBLE);
-
-        View.OnClickListener doLogout = (v) -> findViewById(R.id.logoutHook).performClick();
+        View.OnClickListener doLogout = null;
+        if(loginClass.isFacebookLoggedIn()){
+            doLogout = (v) -> findViewById(R.id.logoutHook).performClick();
+        }else if(loginClass.isUsernameLoggedIn()){
+            doLogout = (v) -> {
+                Utility.oneLineDialog(this, this.getString(R.string.confirmlogout), () -> {
+                    SharedPref.setUsername("null");
+                    SharedPref.setPassword("null");
+                    Toast.makeText(getApplicationContext(), getString(R.string.logoutsuccess), Toast.LENGTH_SHORT).show();
+                    Utility.goTo(LoginActivity.this, MainActivity.class);
+                });
+            };
+        }
 
         findViewById(R.id.logout).setOnClickListener(doLogout);
         findViewById(R.id.logoutB).setOnClickListener(doLogout);
     }
 
     protected void handleLogout(){
-        // Creo un nuovo tracker solamente nel caso in cui non ne esista già uno;
-        if(loginClass.isFacebookLoggedIn())
-        {
+        if(loginClass.isFacebookLoggedIn()){
+            // Creo un nuovo tracker solamente nel caso in cui non ne esista già uno;
             if(logoutTraker == null) {
                 logoutTraker = new AccessTokenTracker() {
                     @Override

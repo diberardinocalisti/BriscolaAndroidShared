@@ -126,7 +126,14 @@
     <string name="password_recovery">Password dimenticata?</string>
     <string name="loginerror">Credenziali errate</string>
     <string name="loginsuccess">Accesso effettuato correttamente!</string>
-    <string name="usernameerror">Il tuo username non può contenere caratteri speciali.</string>
-    <string name="usernameexisting">Questo username già esiste.</string>
+    <string name="usernameerror">Il tuo username non è valido.</string>
+    <string name="usernameexisting">Questo username è già stato registrato.</string>
+    <string name="erroredit">Accedi con Facebook se vuoi modificare il tuo profilo!</string>
+    <string name="confirmlogout">Sei sicuro di volerti disconnettere?</string>
+    <string name="usernamelength">Il tuo username deve essere lungo almeno {length} caratteri.</string>
+    <string name="passwordlength">La tua password deve essere lunga almeno {length} caratteri.</string>
+    <string name="emailnotvalid">Inserisci una email valida.</string>
+    <string name="registersuccess">Registrazione effettuata correttamente!</string>
+    <string name="emailexisting">Questa mail è già stata registrata.</string>
 
 </resources>
