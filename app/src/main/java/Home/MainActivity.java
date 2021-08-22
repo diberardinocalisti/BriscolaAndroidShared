@@ -33,6 +33,7 @@ import multiplayer.engineMultiplayer;
 import static Home.LoadingScreen.gameRunning;
 
 public class MainActivity extends AppCompatActivity {
+
     @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override

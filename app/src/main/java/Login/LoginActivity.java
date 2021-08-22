@@ -11,6 +11,7 @@ import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -35,10 +37,18 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import Home.MainActivity;
 import firebase.FirebaseClass;
 import gameEngine.Utility;
+import multiplayer.EmailUser;
 import multiplayer.User;
 
 
@@ -47,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     public static String fbUID;
     public CallbackManager callbackManager;
     public static boolean login = false;
+    public static String metodoLogin = "";
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -119,6 +130,9 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+                metodoLogin = "fb";
+
                 accountPage();
             }
             @Override
@@ -149,10 +163,46 @@ public class LoginActivity extends AppCompatActivity {
         ImageView close = dialog.findViewById(R.id.loginClose);
 
         login.setOnClickListener(v -> {
-            String username = usernameInput.getText().toString();
-            String password = passwordInput.getText().toString();
+            String username = usernameInput.getText().toString().trim();
+            String password = passwordInput.getText().toString().trim();
+            String hashPassword = loginClass.getMd5(password);
 
-            // Accedi all'account già esistente;
+            if(!loginClass.isUsernameOk(username))
+                Toast.makeText(getApplicationContext(),"La stringa non deve contenere i seguenti caratteri\n'.', '#', '$', '[', ']'",Toast.LENGTH_LONG).show();
+            else
+            {
+                // Accedi all'account già esistente;
+                FirebaseClass.getFbRef().child(username).get().addOnCompleteListener(task -> {
+                    if(task.isSuccessful()){
+                        boolean entrato = false;
+
+                        for(DataSnapshot d: task.getResult().getChildren())
+                        {
+                            entrato = true;
+
+                            Object value = d.getValue();
+                            Object key = d.getKey();
+
+                            if(key.equals("password"))
+                            {
+                                if(hashPassword.equals(value))
+                                {
+                                    Toast.makeText(getApplicationContext(),"Loggato con successo",Toast.LENGTH_LONG).show();
+                                    metodoLogin = "username";
+                                    dialog.dismiss();
+                                }else
+                                {
+                                    Toast.makeText(getApplicationContext(),"Credenziali errate ",Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        }
+
+                        if(!entrato)
+                            Toast.makeText(getApplicationContext(),"Credenziali errate ",Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
         });
 
         register.setOnClickListener(v -> {
@@ -182,10 +232,39 @@ public class LoginActivity extends AppCompatActivity {
         ImageView close = dialog.findViewById(R.id.registerClose);
 
         register.setOnClickListener(v -> {
-            String username = usernameInput.getText().toString();
-            String password = passwordInput.getText().toString();
+            String username = usernameInput.getText().toString().trim();
+            String password = passwordInput.getText().toString().trim();
+            String hashPassword = loginClass.getMd5(password);
 
-            // Registra un nuovo utente;
+            //Controllo se lo username è tutto ok
+            if(!loginClass.isUsernameOk(username))
+                Toast.makeText(getApplicationContext(),"La stringa non deve contenere i seguenti caratteri\n'.', '#', '$', '[', ']'",Toast.LENGTH_LONG).show();
+            else
+            {
+                //Controllo se lo username già esiste
+                FirebaseClass.getFbRef().addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if (snapshot.hasChild(username)) {
+                            Toast.makeText(getApplicationContext(),"Lo username scelto già esiste, prova con un nuovo username",Toast.LENGTH_LONG).show();
+                        }else
+                        {
+                            // Registra un nuovo utente;
+                            EmailUser eU = new EmailUser(0,0, hashPassword);
+                            FirebaseClass.addUserToFirebase(eU,username);
+
+                            dialog.dismiss();
+
+                            //@TODO Una volta registrato l'utente inserisco le sue credenziali nelle sharedPref in modo da ricordarlo quando si logga
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+            }
         });
 
         close.setOnClickListener(v -> dialog.dismiss());
