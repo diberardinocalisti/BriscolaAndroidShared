@@ -66,7 +66,7 @@
     <string name="youleft">You left the game!</string>
     <string name="enemyleft">Your opponent left the game!</string>
     <string name="unknownerror">Oops! Something went wrong!</string>
-    <string name="whylogintext">If you link your Facebook account to your game you\'ll grant the access to the multiplayer mode and you\'ll be able to play with your friends at any time!</string>
+    <string name="whylogintext">If you register or login to your social account you\'ll grant the access to the multiplayer mode and you\'ll be able to play with your friends at any time!</string>
     <string name="roomnotexisting">This room does not exist or your opponent is currently inactive.</string>
     <string name="roomfull">Room is currently full!</string>
     <string name="tuoturno">It\'s your turn!</string>
@@ -119,5 +119,17 @@
     <string name="difficultysetto">Difficulty set to {difficulty}!</string>
     <string name="pointswvalue">{points} points</string>
     <string name="nocardscollected">No cards collected.</string>
+    <string name="login_page">Login page</string>
+    <string name="facebook">Facebook</string>
+    <string name="email">Email</string>
+    <string name="login_method">Choose your preferred login method</string>
+    <string name="moreinfo">More info</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="register_page">Register page</string>
+    <string name="confirmpassword">Confirm password</string>
+    <string name="username">Username</string>
+    <string name="password_recovery">Forgot your password?</string>
 
 </resources>

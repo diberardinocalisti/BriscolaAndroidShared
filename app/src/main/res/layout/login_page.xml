@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:alpha="0.99"
+    android:alpha="1"
     android:orientation="vertical"
     tools:context="Home.MainActivity">
 
@@ -14,56 +14,130 @@
         android:layout_height="match_parent"
         android:background="@drawable/background">
 
-        <ImageView
-            android:id="@+id/login_logo"
-            android:layout_width="500px"
-            android:layout_height="500px"
-            app:layout_constraintBottom_toTopOf="@+id/login_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo" />
 
-        <com.facebook.login.widget.LoginButton
-            android:id="@+id/login_button"
-            android:layout_width="450px"
-            android:layout_height="33dp"
-            android:layout_marginBottom="10dp"
-            android:alpha="0.85"
-            android:background="@drawable/blue_button"
-            app:layout_constraintBottom_toTopOf="@+id/login_why"
-            app:layout_constraintEnd_toEndOf="@+id/login_why"
-            app:layout_constraintStart_toStartOf="@+id/login_why" />
-
-
-        <Button
-            android:id="@+id/login_why"
-            android:layout_width="450px"
-            android:layout_height="80px"
-            android:alpha="0.85"
-            android:background="@drawable/yellow_button"
-            android:text="@string/whylogin"
-            android:textAllCaps="false"
-            android:textSize="35px"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <View
+            android:id="@+id/view10"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/footer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/login_hook"
+            android:layout_width="450px"
+            android:layout_height="33dp"
+            android:alpha="0.85"
+            android:background="@drawable/blue_button"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/footer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/login_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/carter_one"
+            android:paddingRight="2dp"
+            android:shadowColor="#000"
+            android:shadowDx="2"
+            android:shadowDy="5"
+            android:shadowRadius="1.5"
+            android:text="@string/login_page"
+            android:textAllCaps="true"
+            android:textColor="#fff"
+            android:textSize="29sp"
+            app:layout_constraintBottom_toTopOf="@+id/login_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/login_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:fontFamily="@font/carter_one"
+            android:gravity="center"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:shadowColor="#000"
+            android:shadowDx="2"
+            android:shadowDy="5"
+            android:shadowRadius="1.5"
+            android:text="@string/login_method"
+            android:textAllCaps="true"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/login_facebook"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <Button
+            android:id="@+id/login_facebook"
+            android:layout_width="380px"
+            android:layout_height="120px"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="16dp"
+            android:alpha="0.85"
+            android:background="@drawable/yellow_button"
+            android:drawableRight="@drawable/com_facebook_button_icon"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/facebook"
+            android:textSize="12.5sp"
+            app:layout_constraintBottom_toTopOf="@+id/login_help"
+            app:layout_constraintEnd_toStartOf="@+id/view10" />
+
+        <Button
+            android:id="@+id/login_username"
+            android:layout_width="380px"
+            android:layout_height="120px"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:alpha="0.85"
+            android:background="@drawable/yellow_button"
+            android:drawableRight="@drawable/ic_baseline_account_circle_25"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/username"
+            android:textSize="12.5sp"
+            app:layout_constraintBottom_toBottomOf="@+id/login_facebook"
+            app:layout_constraintStart_toEndOf="@+id/view10"
+            app:layout_constraintTop_toTopOf="@+id/login_facebook" />
+
+        <Button
+            android:id="@+id/login_help"
+            android:layout_width="380px"
+            android:layout_height="120px"
+            android:alpha="0.85"
+            android:background="@drawable/yellow_button"
+            android:drawableRight="@android:drawable/ic_menu_help"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/moreinfo"
+            android:textSize="12.5sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view10" />
+
         <Button
             android:id="@+id/login_back"
-            android:layout_width="450px"
-            android:layout_height="80px"
-            android:layout_marginTop="10dp"
+            android:layout_width="380px"
+            android:layout_height="120px"
             android:alpha="0.85"
             android:background="@drawable/red_button"
             android:text="@string/goback"
-            android:textAllCaps="false"
             android:textSize="35px"
-            app:layout_constraintEnd_toEndOf="@+id/login_why"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/login_why"
-            app:layout_constraintTop_toBottomOf="@+id/login_why" />
+            app:layout_constraintBottom_toBottomOf="@+id/login_hook"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view10" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/footer"

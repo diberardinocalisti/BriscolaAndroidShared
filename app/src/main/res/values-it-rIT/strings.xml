@@ -59,7 +59,7 @@
     <string name="youleft">Hai abbandonato la partita!</string>
     <string name="enemyleft">Il tuo avversario ha abbandonato la partita!</string>
     <string name="unknownerror">Oops! Qualcosa è andato storto!</string>
-    <string name="whylogintext">Se collegherai il tuo account social al gioco sbloccherai l\'accesso al multigiocatore e avrai la possibilità di sfidare i tuoi amici in ogni momento!</string>
+    <string name="whylogintext">Se ti registrerai o accederai al tuo account social sbloccherai l\'accesso al multigiocatore e avrai la possibilità di sfidare i tuoi amici in ogni momento!</string>
     <string name="roomnotexisting">La stanza non esiste o il tuo avversario è al momento inattivo.</string>
     <string name="roomfull">La stanza è piena!</string>
     <string name="tuoturno">è il tuo turno!</string>
@@ -110,5 +110,19 @@
     <string name="difficultysetto">Difficoltà impostata a {difficulty}!</string>
     <string name="pointswvalue">{points} punti</string>
     <string name="nocardscollected">Nessuna carta ottenuta.</string>
+    <string name="login_page">Pagina di accesso</string>
+    <string name="facebook">Facebook</string>
+    <string name="email">Email</string>
+    <string name="login_method">Scegli il tuo metodo di accesso preferito</string>
+    <string name="moreinfo">Più info</string>
+    <string name="password">Password</string>
+    <string name="register">Registrati</string>
+    <string name="login">Accedi</string>
+    <string name="register_page">Pagina di registrazione</string>
+    <string name="confirmpassword">Conferma password</string>
+    <string name="easy">Principiante</string>
+    <string name="hard">Esperto</string>
+    <string name="username">Username</string>
+    <string name="password_recovery">Password dimenticata?</string>
 
 </resources>

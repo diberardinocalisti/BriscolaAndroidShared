@@ -1,8 +1,13 @@
 package Login;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,6 +33,7 @@ import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 
 import Home.MainActivity;
@@ -71,16 +77,26 @@ public class LoginActivity extends AppCompatActivity {
 
         callbackManager = CallbackManager.Factory.create();
 
-        LoginButton l = findViewById(R.id.login_button);
         //l.setPermissions("user_friends");
 
-        Button why = findViewById(R.id.login_why);
-        why.setOnClickListener(v -> Utility.createDialog(this, why.getText().toString(), this.getString(R.string.whylogintext)));
-
+        Button loginHelp = findViewById(R.id.login_help);
+        Button loginFacebook = findViewById(R.id.login_facebook);
+        Button loginUsername = findViewById(R.id.login_username);
+        LoginButton loginFacebookHook = findViewById(R.id.login_hook);
         Button back = findViewById(R.id.login_back);
+
+        loginFacebook.setOnClickListener(v -> loginFacebookHook.performClick());
+        loginUsername.setOnClickListener(v -> loginDialog());
+
+        loginHelp.setOnClickListener(v -> {
+            String title = this.getString(R.string.whylogin);
+            String description = this.getString(R.string.whylogintext);
+            Utility.createDialog(this, title, description);
+        });
+
         back.setOnClickListener(v -> super.onBackPressed());
 
-        l.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        loginFacebookHook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 AccessToken token = loginResult.getAccessToken();
@@ -117,6 +133,65 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
+    protected void loginDialog(){
+        Dialog dialog = new Dialog(this);
+
+        dialog.setContentView(R.layout.login_username_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextInputEditText usernameInput = dialog.findViewById(R.id.loginUsernameInput);
+        TextInputEditText passwordInput = dialog.findViewById(R.id.loginPasswordInput);
+        Button login = dialog.findViewById(R.id.loginConfirm);
+        Button register = dialog.findViewById(R.id.loginRegister);
+        TextView forgotPassword = dialog.findViewById(R.id.recoverPassword);
+
+        ImageView close = dialog.findViewById(R.id.loginClose);
+
+        login.setOnClickListener(v -> {
+            String username = usernameInput.getText().toString();
+            String password = passwordInput.getText().toString();
+
+            // Accedi all'account già esistente;
+        });
+
+        register.setOnClickListener(v -> {
+            dialog.dismiss();
+            registerDialog();
+        });
+
+        forgotPassword.setPaintFlags(forgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        forgotPassword.setOnClickListener(v -> {
+            // Recupera password;
+        });
+
+        close.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
+
+    protected void registerDialog(){
+        Dialog dialog = new Dialog(this);
+
+        dialog.setContentView(R.layout.register_username_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextInputEditText usernameInput = dialog.findViewById(R.id.registerUsernameInput);
+        TextInputEditText passwordInput = dialog.findViewById(R.id.registerPasswordInput);
+        Button register = dialog.findViewById(R.id.registerConfirm);
+        ImageView close = dialog.findViewById(R.id.registerClose);
+
+        register.setOnClickListener(v -> {
+            String username = usernameInput.getText().toString();
+            String password = passwordInput.getText().toString();
+
+            // Registra un nuovo utente;
+        });
+
+        close.setOnClickListener(v -> dialog.dismiss());
+
+        dialog.show();
+    }
 
     protected void loginMsg(CharSequence msg){
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
