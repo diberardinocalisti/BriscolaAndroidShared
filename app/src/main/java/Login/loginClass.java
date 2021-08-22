@@ -24,6 +24,7 @@ import java.security.NoSuchAlgorithmException;
 
 import firebase.FirebaseClass;
 import gameEngine.Game;
+import gameEngine.SharedPref;
 
 public class loginClass {
 
@@ -35,6 +36,10 @@ public class loginClass {
     {
         AccessToken accessToken = AccessToken.getCurrentAccessToken();
         return accessToken != null && !accessToken.isExpired();
+    }
+
+    public static boolean isUsernameLoggedIn(AppCompatActivity c){
+        return !SharedPref.getUsername().equals("null");
     }
 
     public static String getFBUserId()
@@ -110,6 +115,9 @@ public class loginClass {
 
     public static boolean isUsernameOk(String username)
     {
+        if(username.equals("null"))
+            return false;
+
         if(username.contains(".") || username.contains("#") || username.contains("$") || username.contains("[") || username.contains("]"))
             return false;
         else

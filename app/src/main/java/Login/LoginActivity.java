@@ -35,6 +35,7 @@ import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.Share;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,6 +48,7 @@ import java.util.Arrays;
 
 import Home.MainActivity;
 import firebase.FirebaseClass;
+import gameEngine.SharedPref;
 import gameEngine.Utility;
 import multiplayer.EmailUser;
 import multiplayer.User;
@@ -167,10 +169,9 @@ public class LoginActivity extends AppCompatActivity {
             String password = passwordInput.getText().toString().trim();
             String hashPassword = loginClass.getMd5(password);
 
-            if(!loginClass.isUsernameOk(username))
-                Toast.makeText(getApplicationContext(),"La stringa non deve contenere i seguenti caratteri\n'.', '#', '$', '[', ']'",Toast.LENGTH_LONG).show();
-            else
-            {
+            if(!loginClass.isUsernameOk(username)){
+                Utility.oneLineDialog(this, this.getString(R.string.usernameerror), null);
+            }else {
                 // Accedi all'account già esistente;
                 FirebaseClass.getFbRef().child(username).get().addOnCompleteListener(task -> {
                     if(task.isSuccessful()){
@@ -183,16 +184,13 @@ public class LoginActivity extends AppCompatActivity {
                             Object value = d.getValue();
                             Object key = d.getKey();
 
-                            if(key.equals("password"))
-                            {
-                                if(hashPassword.equals(value))
-                                {
-                                    Toast.makeText(getApplicationContext(),"Loggato con successo",Toast.LENGTH_LONG).show();
+                            if(key.equals("password")){
+                                if(hashPassword.equals(value)){
+                                    Utility.oneLineDialog(this, this.getString(R.string.loginsuccess), null);
                                     metodoLogin = "username";
                                     dialog.dismiss();
-                                }else
-                                {
-                                    Toast.makeText(getApplicationContext(),"Credenziali errate ",Toast.LENGTH_LONG).show();
+                                }else{
+                                    Utility.oneLineDialog(this, this.getString(R.string.loginerror), null);
                                 }
                             }
                         }
@@ -237,25 +235,24 @@ public class LoginActivity extends AppCompatActivity {
             String hashPassword = loginClass.getMd5(password);
 
             //Controllo se lo username è tutto ok
-            if(!loginClass.isUsernameOk(username))
-                Toast.makeText(getApplicationContext(),"La stringa non deve contenere i seguenti caratteri\n'.', '#', '$', '[', ']'",Toast.LENGTH_LONG).show();
-            else
-            {
+            if(!loginClass.isUsernameOk(username)){
+                Utility.oneLineDialog(this, this.getString(R.string.usernameerror), null);
+            }else{
                 //Controllo se lo username già esiste
                 FirebaseClass.getFbRef().addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot snapshot) {
-                        if (snapshot.hasChild(username)) {
-                            Toast.makeText(getApplicationContext(),"Lo username scelto già esiste, prova con un nuovo username",Toast.LENGTH_LONG).show();
-                        }else
-                        {
+                        if(snapshot.hasChild(username)){
+                            Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
+                        }else{
                             // Registra un nuovo utente;
                             EmailUser eU = new EmailUser(0,0, hashPassword);
                             FirebaseClass.addUserToFirebase(eU,username);
 
                             dialog.dismiss();
 
-                            //@TODO Una volta registrato l'utente inserisco le sue credenziali nelle sharedPref in modo da ricordarlo quando si logga
+                            SharedPref.setUsername(username);
+                            SharedPref.setPassword(hashPassword);
                         }
                     }
 
