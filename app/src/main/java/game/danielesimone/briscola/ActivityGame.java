@@ -96,7 +96,7 @@ public class ActivityGame extends AppCompatActivity {
         ImageView picHost = findViewById(R.id.icon);
         Button chiudi = findViewById(R.id.chiudisala);
 
-        nomeHost.setText(getFullFBName());
+        nomeHost.setText(loginClass.getName());
         codice.setText(this.getString(R.string.code) + codiceStanza);
         stato.setText(this.getString(R.string.state) + this.getString(R.string.waiting));
         loginClass.setImgProfile(this, getFBUserId(), picHost);

@@ -15,12 +15,14 @@ public class SharedPref {
     private static final String CPU_SKILL_ID = "SKILL_CPU";
     private static final String USERNAME_ID = "USERNAME";
     private static final String PASSWORD_ID = "PASSWORD";
+    private static final String EMAIL_ID = "EMAIL";
 
     private static final String CARTE_DEFAULT = "null";
     private static final boolean SCOPERTE_DEFAULT = false;
     private static final int CPU_SKILL_DEFAULT = -1;
     private static final String USERNAME_DEFAULT = "null";
     private static final String PASSWORD_DEFAULT = "null";
+    private static final String EMAIL_DEFAULT = "null";
 
     public static boolean getCarteScoperte(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -67,6 +69,20 @@ public class SharedPref {
 
         editor.putString(USERNAME_ID, username);
         editor.apply();
+    }
+
+    public static void setEmail(String email)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(EMAIL_ID, email);
+        editor.apply();
+    }
+
+    public static String getEmail() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        return sharedPreferences.getString(EMAIL_ID, EMAIL_DEFAULT);
     }
 
     public static String getUsername(){

@@ -32,6 +32,7 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.Profile;
+import com.facebook.login.Login;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -70,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Utility.enableTopBar(this);
 
-        if(!loginClass.isFacebookLoggedIn()){
+        if(!loginClass.isLoggedIn()){
             loginPage();
         }else{
             accountPage();
@@ -188,11 +189,22 @@ public class LoginActivity extends AppCompatActivity {
                                 if(hashPassword.equals(value)){
                                     Utility.oneLineDialog(this, this.getString(R.string.loginsuccess), null);
                                     metodoLogin = "username";
+
+                                    SharedPref.setUsername(username);
+                                    SharedPref.setPassword(hashPassword);
+
+                                    Utility.goTo(LoginActivity.this,MainActivity.class);
+
+                                    LoginActivity.fbUID = username;
+
+                                    loginClass.setEmailUser();
+
                                     dialog.dismiss();
                                 }else{
                                     Utility.oneLineDialog(this, this.getString(R.string.loginerror), null);
                                 }
                             }
+
                         }
 
                         if(!entrato)
@@ -226,7 +238,7 @@ public class LoginActivity extends AppCompatActivity {
 
         TextInputEditText usernameInput = dialog.findViewById(R.id.registerUsernameInput);
         TextInputEditText passwordInput = dialog.findViewById(R.id.registerPasswordInput);
-        //TextInputEditText emailInput = dialog.findViewById(R.id.)
+        TextInputEditText emailInput = dialog.findViewById(R.id.registerEmailInput);
         Button register = dialog.findViewById(R.id.registerConfirm);
         ImageView close = dialog.findViewById(R.id.registerClose);
 
@@ -234,6 +246,7 @@ public class LoginActivity extends AppCompatActivity {
             String username = usernameInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
             String hashPassword = loginClass.getMd5(password);
+            String email = emailInput.getText().toString().trim();
 
             //Controllo se lo username è tutto ok
             if(!loginClass.isUsernameOk(username)){
@@ -247,13 +260,19 @@ public class LoginActivity extends AppCompatActivity {
                             Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
                         }else{
                             // Registra un nuovo utente;
-                            EmailUser eU = new EmailUser(0,0, hashPassword,"");
+                            EmailUser eU = new EmailUser(0,0, email,hashPassword);
                             FirebaseClass.addUserToFirebase(eU,username);
 
                             dialog.dismiss();
 
                             SharedPref.setUsername(username);
                             SharedPref.setPassword(hashPassword);
+                            SharedPref.setEmail(email);
+
+                            LoginActivity.fbUID = username;
+
+                            Toast.makeText(getApplicationContext(),LoginActivity.this.getString(R.string.loginsuccess),Toast.LENGTH_SHORT).show();
+                            Utility.goTo(LoginActivity.this,MainActivity.class);
                         }
                     }
 
@@ -281,16 +300,34 @@ public class LoginActivity extends AppCompatActivity {
         Utility.ridimensionamento(this, findViewById(R.id.parent));
         Utility.showAd(this);
 
+        Button logout = findViewById(R.id.logoutB);
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(loginClass.isUsernameLoggedIn())
+                {
+                    SharedPref.setUsername("null");
+                    SharedPref.setPassword("null");
+                    Toast.makeText(getApplicationContext(), getString(R.string.logoutsuccess), Toast.LENGTH_SHORT).show();
+                    Utility.goTo(LoginActivity.this, MainActivity.class);
+                }
+            }
+        });
+
         final int refreshRate = 100;
 
         // Dato che il listener onSuccess viene eseguito nonostante le informazioni del profilo non siano ancora state ancora
         // lette, aspetto finché getCurrentProfile restituisce il profilo dell'utente;
         new Thread(() -> {
-            while(Profile.getCurrentProfile() == null) {
-                try {
-                    Thread.sleep(refreshRate);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            if(loginClass.isFacebookLoggedIn())
+            {
+                while(Profile.getCurrentProfile() == null) {
+                    try {
+                        Thread.sleep(refreshRate);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -312,11 +349,26 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void setStatistiche(){
+        System.out.println("statistiche");
         TextView nome = findViewById(R.id.nome);
-        nome.setText(loginClass.getFullFBName());
-
         TextView accountId = findViewById(R.id.idValore);
-        accountId.setText(loginClass.getFBUserId());
+        TextView idTesto = findViewById(R.id.idTesto);
+
+        String nomeProfilo = loginClass.isFacebookLoggedIn() ? loginClass.getFullFBName() : loginClass.getName();
+
+        nome.setText(nomeProfilo);
+
+        if(loginClass.isUsernameLoggedIn())
+        {
+            idTesto.setText(this.getString(R.string.email));
+            accountId.setText(SharedPref.getEmail());
+        }else if (loginClass.isFacebookLoggedIn())
+        {
+            idTesto.setText(this.getString(R.string.accountid));
+            accountId.setText(loginClass.getFBUserId());
+        }
+
+
 
         ImageView imgProfile = findViewById(R.id.friendProfilePicture);
         loginClass.setImgProfile(this, loginClass.getFBUserId(), imgProfile);
@@ -366,6 +418,9 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(browserIntent);
         });
 
+        if(!loginClass.isFacebookLoggedIn())
+            modificaProfilo.setVisibility(View.INVISIBLE);
+
         View.OnClickListener doLogout = (v) -> findViewById(R.id.logoutHook).performClick();
 
         findViewById(R.id.logout).setOnClickListener(doLogout);
@@ -374,17 +429,20 @@ public class LoginActivity extends AppCompatActivity {
 
     protected void handleLogout(){
         // Creo un nuovo tracker solamente nel caso in cui non ne esista già uno;
-        if(logoutTraker == null){
-            logoutTraker = new AccessTokenTracker() {
-                @Override
-                protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-                    if(currentAccessToken == null){
-                        LoginManager.getInstance().logOut();
-                        Toast.makeText(getApplicationContext(), getString(R.string.logoutsuccess), Toast.LENGTH_SHORT).show();
-                        Utility.goTo(LoginActivity.this,MainActivity.class);
+        if(loginClass.isFacebookLoggedIn())
+        {
+            if(logoutTraker == null) {
+                logoutTraker = new AccessTokenTracker() {
+                    @Override
+                    protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+                        if (currentAccessToken == null) {
+                            LoginManager.getInstance().logOut();
+                            Toast.makeText(getApplicationContext(), getString(R.string.logoutsuccess), Toast.LENGTH_SHORT).show();
+                            Utility.goTo(LoginActivity.this, MainActivity.class);
+                        }
                     }
-                }
-            };
+                };
+            }
         }
     }
 }

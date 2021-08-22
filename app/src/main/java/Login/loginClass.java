@@ -5,15 +5,20 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
 import com.facebook.Profile;
 import com.facebook.login.widget.ProfilePictureView;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.math.BigInteger;
@@ -22,9 +27,13 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+import Home.MainActivity;
 import firebase.FirebaseClass;
+import game.danielesimone.briscola.R;
 import gameEngine.Game;
 import gameEngine.SharedPref;
+import gameEngine.Utility;
+import multiplayer.EmailUser;
 
 public class loginClass {
 
@@ -38,13 +47,27 @@ public class loginClass {
         return accessToken != null && !accessToken.isExpired();
     }
 
-    public static boolean isUsernameLoggedIn(AppCompatActivity c){
+    /**
+     *
+     * @return true se l'utente è loggato con un metodo di accesso, false altrimenti
+     */
+    public static boolean isLoggedIn()
+    {
+        return loginClass.isFacebookLoggedIn() || loginClass.isUsernameLoggedIn();
+    }
+
+    public static String getName()
+    {
+         return (isFacebookLoggedIn() ? getFBNome() : SharedPref.getUsername());
+    }
+
+    public static boolean isUsernameLoggedIn(){
         return !SharedPref.getUsername().equals("null");
     }
 
     public static String getFBUserId()
     {
-        return isFacebookLoggedIn() ? AccessToken.getCurrentAccessToken().getUserId() : null;
+        return isFacebookLoggedIn() ? AccessToken.getCurrentAccessToken().getUserId() : "null";
     }
 
     public static void setImgProfile(AppCompatActivity activity, String userId, ImageView imageIcon) {
@@ -124,4 +147,25 @@ public class loginClass {
             return true;
     }
 
+    public static void setEmailUser() {
+
+        FirebaseClass.getFbRef().child(LoginActivity.fbUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                    for(DataSnapshot d : snapshot.getChildren())
+                    {
+                        if(d.getKey().equals("email"))
+                        {
+                            SharedPref.setEmail(String.valueOf(d.getValue()));
+                            break;
+                        }
+                    }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
 }

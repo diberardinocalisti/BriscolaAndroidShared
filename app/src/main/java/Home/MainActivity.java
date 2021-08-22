@@ -19,6 +19,7 @@ import firebase.FirebaseClass;
 import game.danielesimone.briscola.ActivityGame;
 import game.danielesimone.briscola.R;
 import com.facebook.AccessToken;
+import com.facebook.login.Login;
 
 import Login.LoginActivity;
 import Login.loginClass;
@@ -31,6 +32,7 @@ import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
 
 import static Home.LoadingScreen.gameRunning;
+import static Login.loginClass.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        SharedPref.setContext(this);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -49,14 +53,19 @@ public class MainActivity extends AppCompatActivity {
 
         gameRunning = true;
 
-        if(loginClass.isFacebookLoggedIn()){
+
+        if(isFacebookLoggedIn()) {
             AccessToken accessToken = AccessToken.getCurrentAccessToken();
             LoginActivity.fbUID = accessToken.getUserId();
+        }else if(isUsernameLoggedIn())
+        {
+            LoginActivity.fbUID = SharedPref.getUsername();
+            loginClass.setEmailUser();
         }
+
 
         ActivityMultiplayerGame.onStop = false;
         Game.terminata = true;
-        SharedPref.setContext(this);
 
         setListeners();
 
@@ -92,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         multiplayer.setOnClickListener(v -> {
-            if(loginClass.isFacebookLoggedIn()){
+            if(isLoggedIn()){
                 Intent i = new Intent(this, MultiplayerActivity.class);
                 this.startActivity(i);
             }else{
@@ -134,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         if(ActivityGame.multiplayer && ActivityMultiplayerGame.onStop)
             ActivityMultiplayerGame.onStop = false;
 
-        if(LoginActivity.login){
+        if(LoginActivity.login && isFacebookLoggedIn()){
             FirebaseClass.editFieldFirebase(LoginActivity.fbUID,"nome", loginClass.getFBNome());
             FirebaseClass.editFieldFirebase(LoginActivity.fbUID,"cognome", loginClass.getFBCognome());
             LoginActivity.login = false;

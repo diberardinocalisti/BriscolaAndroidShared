@@ -31,20 +31,20 @@
                 app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
             <ImageView
-                android:id="@+id/passwordIcon"
+                android:id="@+id/emailIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/registerPasswordField"
                 app:layout_constraintStart_toStartOf="@+id/loginUsernameIcon"
                 app:layout_constraintTop_toTopOf="@+id/registerPasswordField"
-                app:srcCompat="@drawable/ic_baseline_lock_24" />
+                app:srcCompat="@drawable/ic_baseline_email_24" />
 
             <ImageView
                 android:id="@+id/confirmPasswordIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/registerConfirmPasswordField"
-                app:layout_constraintStart_toStartOf="@+id/passwordIcon"
+                app:layout_constraintStart_toStartOf="@+id/emailIcon"
                 app:layout_constraintTop_toTopOf="@+id/registerConfirmPasswordField"
                 app:srcCompat="@drawable/ic_baseline_lock_24" />
 
@@ -78,10 +78,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/registerUsernameField">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registerPasswordInput"
+                    android:id="@+id/registerEmailInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/password"
+                    android:hint="@string/email"
                     android:password="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,10 +95,10 @@
                 app:layout_constraintTop_toBottomOf="@+id/registerPasswordField">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registerConfirmPasswordInput"
+                    android:id="@+id/registerPasswordInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/confirmpassword"
+                    android:hint="@string/password"
                     android:password="true" />
             </com.google.android.material.textfield.TextInputLayout>
 
