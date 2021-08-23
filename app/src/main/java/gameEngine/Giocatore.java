@@ -48,6 +48,8 @@ public class Giocatore {
 
     public View mazzo;
 
+    public boolean pescato = false;
+    
     public Giocatore(String nome, String userId, Integer index) {
         this(nome, index, userId, false);
         Game.user = this;
@@ -218,6 +220,8 @@ public class Giocatore {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void pesca(){
+        this.pescato = false;
+        
         if(!isLastManche())
             this.prendi(Game.mazzo.get(0), () -> {
                 if(isLastManche() && lastManche == 0)
@@ -264,7 +268,7 @@ public class Giocatore {
                     activity.runOnUiThread(() -> {
                         Giocatore.this.carte[indice].abilita();
 
-                        if(Game.CPU != this){
+                        if(!this.isCPU()){
                             if(Game.user == this)
                                 Giocatore.this.carte[indice].mostra();
                             else
@@ -276,6 +280,13 @@ public class Giocatore {
                                 this.carte[indice].nascondi();
                         }
 
+                        if(!this.isCPU()){
+                            synchronized (this) {
+                                this.notifyAll();
+                            }
+                        }
+
+                        this.pescato = true;
                         callback.run();
                     });
 

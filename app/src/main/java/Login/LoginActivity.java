@@ -49,13 +49,17 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import Home.MainActivity;
 import firebase.FirebaseClass;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
 import multiplayer.EmailUser;
+import multiplayer.RoomList;
 import multiplayer.User;
+
+import static multiplayer.GameRoom.isGameRoom;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -92,8 +96,6 @@ public class LoginActivity extends AppCompatActivity {
         Utility.showAd(this);
 
         callbackManager = CallbackManager.Factory.create();
-
-        //l.setPermissions("user_friends");
 
         Button loginHelp = findViewById(R.id.login_help);
         Button loginFacebook = findViewById(R.id.login_facebook);
@@ -138,14 +140,15 @@ public class LoginActivity extends AppCompatActivity {
 
                 accountPage();
             }
+
             @Override
             public void onCancel() {
-                loginMsg(LoginActivity.this.getString(R.string.unknownerror));
+                loginError(LoginActivity.this.getString(R.string.unknownerror));
             }
 
             @Override
             public void onError(FacebookException e) {
-                loginMsg(LoginActivity.this.getString(R.string.unknownerror));
+                loginError(LoginActivity.this.getString(R.string.unknownerror));
             }
         });
     }
@@ -213,7 +216,7 @@ public class LoginActivity extends AppCompatActivity {
 
         forgotPassword.setPaintFlags(forgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         forgotPassword.setOnClickListener(v -> {
-            // Recupera password;
+            // TODO: Recupera password;
         });
 
         close.setOnClickListener(v -> dialog.dismiss());
@@ -266,32 +269,49 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            FirebaseClass.getFbRef().addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    if(snapshot.hasChild(username)){
-                        Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
-                    }else{
-                        // TODO: Controllare se l'email è già stata registrata;
+            FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
+                boolean emailExists = false;
 
-                        EmailUser eU = new EmailUser(0,0, email,hashPassword);
-                        FirebaseClass.addUserToFirebase(eU,username);
-
-                        SharedPref.setUsername(username);
-                        SharedPref.setPassword(hashPassword);
-                        SharedPref.setEmail(email);
-                        LoginActivity.fbUID = username;
-
-                        Toast.makeText(getApplicationContext(), LoginActivity.this.getString(R.string.registersuccess),Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                        accountPage();
+                outerLoop: for(DataSnapshot d: task.getResult().getChildren()){
+                    for(DataSnapshot row : d.getChildren()){
+                        if(row.getKey().equals("email")){
+                            String emailChecked = String.valueOf(row.getValue());
+                            if(emailChecked.equals(email)) {
+                                emailExists = true;
+                                break outerLoop;
+                            }
+                        }
                     }
                 }
 
-                @Override
-                public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
+                if(emailExists){
+                    String message = this.getString(R.string.emailexisting);
+                    Utility.oneLineDialog(this, message, null);
+                    return;
                 }
+
+                FirebaseClass.getFbRef().addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        if(snapshot.hasChild(username)){
+                            Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
+                        }else{
+                            EmailUser emailUser = new EmailUser(0,0, email,hashPassword);
+                            FirebaseClass.addUserToFirebase(emailUser, username);
+
+                            SharedPref.setUsername(username);
+                            SharedPref.setPassword(hashPassword);
+                            SharedPref.setEmail(email);
+                            LoginActivity.fbUID = username;
+
+                            Toast.makeText(getApplicationContext(), LoginActivity.this.getString(R.string.registersuccess),Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            accountPage();
+                        }
+                    }
+
+                    @Override public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+                });
             });
         });
 
@@ -300,7 +320,7 @@ public class LoginActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    protected void loginMsg(CharSequence msg){
+    protected void loginError(CharSequence msg){
         Intent i = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(i);
         Toast.makeText(getBaseContext(),msg,Toast.LENGTH_LONG).show();
@@ -316,8 +336,7 @@ public class LoginActivity extends AppCompatActivity {
         // Dato che il listener onSuccess viene eseguito nonostante le informazioni del profilo non siano ancora state ancora
         // lette, aspetto finché getCurrentProfile restituisce il profilo dell'utente;
         new Thread(() -> {
-            if(loginClass.isFacebookLoggedIn())
-            {
+            if(loginClass.isFacebookLoggedIn()){
                 while(Profile.getCurrentProfile() == null) {
                     try {
                         Thread.sleep(refreshRate);

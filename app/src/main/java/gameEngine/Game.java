@@ -49,7 +49,6 @@ public class Game {
     public static Giocatore giocante, ultimoVincitore;
     public static boolean canPlay, terminata = true, cartaGiocata, difficoltàScelta = false;
     public static short lastManche = 0;
-
     public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;
     public static final int[][] I_CAMPO_GIOCO = new int[][]{
             {8,9},

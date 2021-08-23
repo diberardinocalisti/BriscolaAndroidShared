@@ -124,8 +124,6 @@ public class RoomList extends AppCompatActivity {
                             case "idHost": idHost = String.valueOf(row.getValue()); break;
                             case "gameCode": gameCode = String.valueOf(row.getValue()); break;
                         }
-                        /*if(row.getKey().equals("gameCode"))
-                            FirebaseClass.deleteFieldFirebase(null, row.getValue().toString());*/
                     }
 
                     boolean isFull = !nomeEnemy.equals("null");

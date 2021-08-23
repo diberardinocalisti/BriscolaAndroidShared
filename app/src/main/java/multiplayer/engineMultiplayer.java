@@ -217,20 +217,37 @@ public class engineMultiplayer extends Engine{
 
         Object event = new Object();
 
-        if(c.getPortatore() == null)
-            return;
+        /*if(c.getPortatore() == null)
+            return;*/
 
-        View daMuovere = c.getPortatore().bottoni[indice];
+        new Thread(() -> {
+            // se, a causa del ritardo dovuto dalla connessione, l'avversario lancia una carta prima che abbia effettivamente
+            // pescato in entrambe le istanze, gioca la carta dopo che è stata effettivamente effettuata la presa;
+            if(!giocante.pescato) {
+                try {
+                    synchronized (giocante) {
+                        giocante.wait();
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
-        if(!daMuovere.isEnabled())
-            return;
+            activity.runOnUiThread(() -> {
+                View daMuovere = c.getPortatore().bottoni[indice];
 
-        c.setButton(daMuovere);
+                if(!daMuovere.isEnabled())
+                    return;
 
-        clearText(centerText);
+                c.setButton(daMuovere);
 
-        muoviCarta(daMuovere, Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[lastManche][0]], c,false, true, false, event);
-        giocaCarta(c, event);
+                clearText(centerText);
+
+                muoviCarta(daMuovere, Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[lastManche][0]], c,false, true, false, event);
+                giocaCarta(c, event);
+            });
+        }).start();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -239,6 +256,7 @@ public class engineMultiplayer extends Engine{
             try {
                 synchronized (event){
                     event.wait();
+
                     activity.runOnUiThread(() -> {
                         Game.canPlay = true;
 
