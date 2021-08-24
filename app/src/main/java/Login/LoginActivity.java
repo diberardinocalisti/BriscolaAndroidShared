@@ -128,6 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                                 esiste = true;
                                 break;
                             }
+
                         }
 
                         if(!esiste) {
