@@ -91,9 +91,11 @@ public class Engine{
 
         Carta.nascondi(carte[I_MAZZO]);
 
+        final String tipo = Game.tipoCarte;
+
         for(String seme : semi)
             for(int i = 1; i <= dimensioneMazzo/semi.length; i++)
-                mazzo.add(new Carta(i, seme));
+                mazzo.add(new Carta(i, seme, tipo));
 
         Collections.shuffle(mazzo);
         mazzoIniziale = mazzo.toArray(new Carta[0]);
