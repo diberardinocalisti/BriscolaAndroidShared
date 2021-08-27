@@ -22,33 +22,33 @@ import static gameEngine.Engine.isLastManche;
 import static gameEngine.Game.*;
 
 public class Giocatore {
-    public Button[] bottoni;
+    protected Button[] bottoni;
 
     // Array contenente le carte che il giocatore ha in mano;
-    public Carta[] carte;
+    protected Carta[] carte;
 
     // ArrayList contenente le carte prese;
-    public ArrayList<Carta> prese;
+    protected ArrayList<Carta> prese;
 
     // Nome del giocatore;
-    public String nome;
+    protected String nome;
 
     // Se il giocatore è controllato dalla CPU o no;
-    public boolean CPU;
+    protected boolean CPU;
 
-    public Integer punteggioCarte = 0;
+    protected Integer punteggioCarte = 0;
 
-    public Integer index;
+    protected Integer index;
 
-    public View prendi;
+    protected View prendi;
 
-    public ImageView userIcon;
+    protected ImageView userIcon;
 
-    public String id;
+    protected String id;
 
-    public View mazzo;
+    protected View mazzo;
 
-    public boolean pescato = false;
+    protected boolean pescato = false;
     
     public Giocatore(String nome, String userId, Integer index) {
         this(nome, index, userId, false);
@@ -80,20 +80,75 @@ public class Giocatore {
 
         this.id = userId;
 
-        if(this.id != null)
-            this.updateIcon();
+        this.updateIcon();
     }
 
-    public void setNome(String nome){
-        this.nome = nome;
+    public Button[] getBottoni() {
+        return bottoni;
+    }
+
+    public void setBottoni(Button[] bottoni) {
+        this.bottoni = bottoni;
+    }
+
+    public Carta[] getCarte() {
+        return carte;
+    }
+
+    public void setCarte(Carta[] carte) {
+        this.carte = carte;
+    }
+
+    public ArrayList<Carta> getPrese() {
+        return prese;
+    }
+
+    public void setPrese(ArrayList<Carta> prese) {
+        this.prese = prese;
     }
 
     public String getNome() {
         return nome;
     }
 
-    public boolean isCPU(){
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public boolean isCPU() {
         return CPU;
+    }
+
+    public void setCPU(boolean CPU) {
+        this.CPU = CPU;
+    }
+
+    public void setPunteggioCarte(Integer punteggioCarte) {
+        this.punteggioCarte = punteggioCarte;
+    }
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
+
+    public View getPrendi() {
+        return prendi;
+    }
+
+    public void setPrendi(View prendi) {
+        this.prendi = prendi;
+    }
+
+    public ImageView getUserIcon() {
+        return userIcon;
+    }
+
+    public void setUserIcon(ImageView userIcon) {
+        this.userIcon = userIcon;
     }
 
     public String getId() {
@@ -102,6 +157,22 @@ public class Giocatore {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public View getMazzo() {
+        return mazzo;
+    }
+
+    public void setMazzo(View mazzo) {
+        this.mazzo = mazzo;
+    }
+
+    public boolean isPescato() {
+        return pescato;
+    }
+
+    public void setPescato(boolean pescato) {
+        this.pescato = pescato;
     }
 
     public Bitmap getIcon(){

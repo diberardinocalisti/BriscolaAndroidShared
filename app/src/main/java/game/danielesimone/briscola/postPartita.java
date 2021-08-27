@@ -116,8 +116,8 @@ public class postPartita extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void mostraMazzo(){
-        ordinaMazzo(Game.user.prese);
-        Carta[] cartePrese = Game.user.prese.toArray(new Carta[]{});
+        ordinaMazzo(Game.user.getPrese());
+        Carta[] cartePrese = Game.user.getPrese().toArray(new Carta[]{});
 
         LinearLayout gallery = this.findViewById(R.id.cardsCollected);
         LayoutInflater inflater = LayoutInflater.from(this);

@@ -7,18 +7,19 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import UI.UiColor;
 import game.danielesimone.briscola.R;
 
 import com.facebook.AccessToken;
@@ -34,12 +36,9 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.Profile;
-import com.facebook.appevents.suggestedevents.ViewOnClickListener;
-import com.facebook.login.Login;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.facebook.share.Share;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,18 +47,19 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.Random;
 
 import Home.MainActivity;
 import firebase.FirebaseClass;
+import gameEngine.Carta;
+import gameEngine.Game;
+import gameEngine.RunnablePar;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
 import multiplayer.EmailUser;
-import multiplayer.RoomList;
 import multiplayer.User;
 
-import static multiplayer.GameRoom.isGameRoom;
+import static java.lang.String.*;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -67,6 +67,7 @@ public class LoginActivity extends AppCompatActivity {
     public static String fbUID;
     public CallbackManager callbackManager;
     public static boolean login = false;
+    public static Avatar selectedAvatar;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -155,6 +156,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void loginDialog(){
         Dialog dialog = new Dialog(this);
 
@@ -191,8 +193,9 @@ public class LoginActivity extends AppCompatActivity {
                                 SharedPref.setUsername(username);
                                 SharedPref.setPassword(hashPassword);
                                 loginClass.updateEmail();
+                                loginClass.updateAvatar();
 
-                                Toast.makeText(getApplicationContext(), LoginActivity.this.getString(R.string.registersuccess),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), LoginActivity.this.getString(R.string.registersuccess), Toast.LENGTH_SHORT).show();
                                 accountPage();
                                 break;
                             }else{
@@ -225,6 +228,7 @@ public class LoginActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void registerDialog(){
         Dialog dialog = new Dialog(this);
 
@@ -236,6 +240,41 @@ public class LoginActivity extends AppCompatActivity {
         TextInputEditText emailInput = dialog.findViewById(R.id.registerEmailInput);
         Button register = dialog.findViewById(R.id.registerConfirm);
         ImageView close = dialog.findViewById(R.id.registerClose);
+
+        selectedAvatar = null;
+        LinearLayout gallery = dialog.findViewById(R.id.avatarScrollLayout);
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        ArrayList<Avatar> avatars = new ArrayList<>(Avatar.N_AVATAR);
+
+        for (int i = 0; i < Avatar.N_AVATAR; i++) {
+            String avatarIdStr = "avatar_" + (i + 1);
+            int avatarId = this.getResources().getIdentifier(avatarIdStr, "drawable", this.getPackageName());
+
+            Drawable avatarDrawable = this.getDrawable(avatarId);
+            View view = inflater.inflate(R.layout.singleavatar, gallery, false);
+
+            TextView avatarNameTextView = view.findViewById(R.id.avatarName);
+            ImageView avatarImage = view.findViewById(R.id.avatarImage);
+            String avatarNameString = format("Avatar %d", i);
+
+            avatarNameTextView.setText(avatarNameString);
+            avatarImage.setImageDrawable(avatarDrawable);
+
+            Avatar avatar = new Avatar(avatarNameString, avatarIdStr, avatarNameTextView, avatarImage);
+
+            avatars.add(avatar);
+
+            avatarImage.setOnClickListener(v -> {
+                for(Avatar a : avatars)
+                    a.getTextViewAvatar().setTextColor(Color.WHITE);
+
+                avatar.getTextViewAvatar().setTextColor(UiColor.YELLOW);
+                selectedAvatar = avatar;
+            });
+
+            gallery.addView(view);
+        }
 
         register.setOnClickListener(v -> {
             String username = usernameInput.getText().toString().trim();
@@ -270,13 +309,19 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
+            if(selectedAvatar == null){
+                String message = this.getString(R.string.erroravatar);
+                Utility.oneLineDialog(this, message, null);
+                return;
+            }
+
             FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
                 boolean emailExists = false;
 
                 outerLoop: for(DataSnapshot d: task.getResult().getChildren()){
                     for(DataSnapshot row : d.getChildren()){
                         if(row.getKey().equals("email")){
-                            String emailChecked = String.valueOf(row.getValue());
+                            String emailChecked = valueOf(row.getValue());
                             if(emailChecked.equals(email)) {
                                 emailExists = true;
                                 break outerLoop;
@@ -297,12 +342,14 @@ public class LoginActivity extends AppCompatActivity {
                         if(snapshot.hasChild(username)){
                             Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
                         }else{
-                            EmailUser emailUser = new EmailUser(0,0, email,hashPassword);
+                            EmailUser emailUser = new EmailUser(0,0, selectedAvatar.getIdAvatar(), email,hashPassword);
                             FirebaseClass.addUserToFirebase(emailUser, username);
 
                             SharedPref.setUsername(username);
                             SharedPref.setPassword(hashPassword);
                             SharedPref.setEmail(email);
+                            SharedPref.setAvatar(selectedAvatar.getIdAvatar());
+
                             LoginActivity.fbUID = username;
 
                             Toast.makeText(getApplicationContext(), LoginActivity.this.getString(R.string.registersuccess),Toast.LENGTH_SHORT).show();
@@ -327,6 +374,7 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getBaseContext(),msg,Toast.LENGTH_LONG).show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void accountPage(){
         setContentView(R.layout.fb_profile);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
@@ -364,6 +412,7 @@ public class LoginActivity extends AppCompatActivity {
         applyOverrideConfiguration(override);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void setStatistiche(){
         TextView nome = findViewById(R.id.nome);
         TextView accountId = findViewById(R.id.idValore);
@@ -372,14 +421,15 @@ public class LoginActivity extends AppCompatActivity {
 
         nome.setText(nomeProfilo);
 
+        ImageView imgProfile = findViewById(R.id.friendProfilePicture);
+
         if(loginClass.isUsernameLoggedIn()){
             accountId.setText(SharedPref.getEmail().split("@")[0]);
+            loginClass.getDrawableAvatar(par -> imgProfile.setImageDrawable((Drawable) par), this);
         }else if (loginClass.isFacebookLoggedIn()) {
             accountId.setText(loginClass.getFBUserId());
+            loginClass.setImgProfile(this, loginClass.getFBUserId(), imgProfile);
         }
-
-        ImageView imgProfile = findViewById(R.id.friendProfilePicture);
-        loginClass.setImgProfile(this, loginClass.getFBUserId(), imgProfile);
 
         TextView nVittorie = findViewById(R.id.vittorieValore);
         TextView nSconfitte = findViewById(R.id.sconfitteValore);
@@ -393,15 +443,15 @@ public class LoginActivity extends AppCompatActivity {
                 for(DataSnapshot d: task.getResult().getChildren())
                 {
                     if(d.getKey().equals("perse")){
-                        perse = String.valueOf(d.getValue());
+                        perse = valueOf(d.getValue());
                         perseF = Float.parseFloat(perse);
-                        nSconfitte.setText(String.valueOf(d.getValue()));
+                        nSconfitte.setText(valueOf(d.getValue()));
                     }
 
                     if(d.getKey().equals("vinte")) {
-                        vinte = String.valueOf(d.getValue());
+                        vinte = valueOf(d.getValue());
                         vinteF = Float.parseFloat(vinte);
-                        nVittorie.setText(String.valueOf(d.getValue()));
+                        nVittorie.setText(valueOf(d.getValue()));
                     }
                 }
 
@@ -413,7 +463,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 rateo = (float) (Math.round(rateo*100.0)/100.0);
 
-                nRateo.setText(String.valueOf(rateo));
+                nRateo.setText(valueOf(rateo));
             }
         });
     }

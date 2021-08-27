@@ -35,6 +35,7 @@ import multiplayer.engineMultiplayer;
 
 import static Login.loginClass.getFBUserId;
 import static Login.loginClass.getFullFBName;
+import static Login.loginClass.getImageId;
 import static Login.loginClass.isFacebookLoggedIn;
 import static gameEngine.Game.I_BRISCOLA;
 import static gameEngine.Game.I_CAMPO_GIOCO;
@@ -132,7 +133,7 @@ public class Engine{
                 if(isFacebookLoggedIn())
                     username = getFullFBName();
 
-                giocatori[i] = new Giocatore(username, getFBUserId(), i);
+                giocatori[i] = new Giocatore(username, getImageId(), i);
             }else{
                 giocatori[i] = new CPU("CPU", i);
             }
@@ -285,7 +286,7 @@ public class Engine{
     public static void setOnCLickListener(){
         View.OnClickListener onClickListener = Engine::onClick;
 
-        for(Button b : Game.user.bottoni)
+        for(Button b : Game.user.getBottoni())
             b.setOnClickListener(onClickListener);
     }
 
@@ -499,7 +500,7 @@ public class Engine{
         ArrayList<Carta> carte = new ArrayList<>();
 
         for(Giocatore p : giocatori)
-            for(Carta c : p.carte)
+            for(Carta c : p.getCarte())
                 if(c != null)
                     carte.add(c);
 

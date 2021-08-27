@@ -142,5 +142,9 @@
     <string name="emailnotvalid">Please enter a valid email.</string>
     <string name="registersuccess">Registered with success!</string>
     <string name="emailexisting">This email is already registered.</string>
+    <string name="ranking">Ranking</string>
+    <string name="avatarname">Avatar name</string>
+    <string name="chooseavatar">Choose an avatar</string>
+    <string name="erroravatar">You must choose an avatar.</string>
 
 </resources>

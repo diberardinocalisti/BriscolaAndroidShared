@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton info = findViewById(R.id.info);
         ImageButton contact = findViewById(R.id.contact);
         ImageButton history = findViewById(R.id.history);
+        //ImageButton ranking = findViewById(R.id.ranking);
 
         singleplayer.setOnClickListener(v -> {
             Intent intent = new Intent(this, ActivityGame.class);
@@ -124,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
             Utility.createDialog(this, title, msg);
         });
 
+        //ranking.setOnClickListener(v -> new Ranking(this));
         history.setOnClickListener(v -> Utility.goTo(this, Storico.class));
         closeGame.setOnClickListener(v -> this.onBackPressed());
     }
@@ -161,5 +163,4 @@ public class MainActivity extends AppCompatActivity {
         override.fontScale = 1.0f;
         applyOverrideConfiguration(override);
     }
-
 }

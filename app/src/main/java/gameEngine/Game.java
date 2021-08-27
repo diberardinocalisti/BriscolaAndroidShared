@@ -28,6 +28,12 @@ public class Game {
     public static final Integer intermezzoManche = 100;
     public static final Integer nGiocatori = 2, nCarte = 3, maxPunti = 120, dimensioneMazzo = 40;
     public static final String[] semi = {"bastoni", "denara", "spade", "coppe"};
+    public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;
+    public static final int[][] I_CAMPO_GIOCO = new int[][]{
+            {8,9},
+            {10,11}
+    };
+
     public static String tipoCarte;
     public static Carta briscola;
     public static TextView centerText;
@@ -49,11 +55,6 @@ public class Game {
     public static Giocatore giocante, ultimoVincitore;
     public static boolean canPlay, terminata = true, cartaGiocata, difficoltàScelta = false;
     public static short lastManche = 0;
-    public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;
-    public static final int[][] I_CAMPO_GIOCO = new int[][]{
-            {8,9},
-            {10,11}
-    };
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initialize(AppCompatActivity activity){

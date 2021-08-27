@@ -16,6 +16,7 @@ public class SharedPref {
     private static final String USERNAME_ID = "USERNAME";
     private static final String PASSWORD_ID = "PASSWORD";
     private static final String EMAIL_ID = "EMAIL";
+    private static final String AVATAR_ID = "avatar_1";
 
     private static final String CARTE_DEFAULT = "null";
     private static final boolean SCOPERTE_DEFAULT = false;
@@ -23,6 +24,7 @@ public class SharedPref {
     private static final String USERNAME_DEFAULT = "null";
     private static final String PASSWORD_DEFAULT = "null";
     private static final String EMAIL_DEFAULT = "null";
+    private static final String AVATAR_DEFAULT = "null";
 
     public static boolean getCarteScoperte(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -71,6 +73,14 @@ public class SharedPref {
         editor.apply();
     }
 
+    public static void setAvatar(String avatar){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(AVATAR_ID, avatar);
+        editor.apply();
+    }
+
     public static void setEmail(String email)
     {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -83,6 +93,11 @@ public class SharedPref {
     public static String getEmail() {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
         return sharedPreferences.getString(EMAIL_ID, EMAIL_DEFAULT);
+    }
+
+    public static String getAvatar() {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        return sharedPreferences.getString(AVATAR_ID, AVATAR_DEFAULT);
     }
 
     public static String getUsername(){

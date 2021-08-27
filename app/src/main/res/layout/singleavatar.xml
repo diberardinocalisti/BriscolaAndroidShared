@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/avatarlayout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/avatarName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/carter_one"
+        android:paddingRight="2dp"
+        android:shadowColor="#000"
+        android:shadowDx="2"
+        android:shadowDy="5"
+        android:shadowRadius="1.5"
+        android:text="@string/avatarname"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="@+id/avatarFrameLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/avatarFrameLayout" />
+
+    <FrameLayout
+        android:id="@+id/avatarFrameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/avatarImage"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:srcCompat="@drawable/avatar_1" />
+
+        <ImageView
+            android:id="@+id/subtracted_circle"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:contentDescription="@null"
+            android:src="@drawable/subtracted_circle" />
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

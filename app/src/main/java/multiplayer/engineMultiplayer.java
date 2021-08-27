@@ -76,7 +76,7 @@ public class engineMultiplayer extends Engine{
 
 
     public static void accediHost(AppCompatActivity c, String gameCode){
-        GameRoom g = new GameRoom(gameCode, loginClass.getName(), "null", loginClass.getFBUserId(), "null","null","null","null", "null");
+        GameRoom g = new GameRoom(gameCode, loginClass.getName(), "null", loginClass.getImageId(), "null","null","null","null", "null");
         FirebaseClass.addToFirebase(g);
 
         Intent i = new Intent(c, ActivityGame.class);
@@ -90,7 +90,7 @@ public class engineMultiplayer extends Engine{
         engineMultiplayer.role = "NOTHOST";
         ActivityGame.multiplayer = true;
         FirebaseClass.editFieldFirebase(input,"enemy", loginClass.getName());
-        FirebaseClass.editFieldFirebase(input,"idEnemy", loginClass.getFBUserId());
+        FirebaseClass.editFieldFirebase(input,"idEnemy", loginClass.getImageId());
         Utility.goTo(c, ActivityMultiplayerGame.class);
     }
 
@@ -223,7 +223,7 @@ public class engineMultiplayer extends Engine{
         new Thread(() -> {
             // se, a causa del ritardo dovuto dalla connessione, l'avversario lancia una carta prima che abbia effettivamente
             // pescato in entrambe le istanze, gioca la carta dopo che è stata effettivamente effettuata la presa;
-            if(!giocante.pescato) {
+            if(!giocante.isPescato()) {
                 try {
                     synchronized (giocante) {
                         giocante.wait();
@@ -234,7 +234,7 @@ public class engineMultiplayer extends Engine{
             }
 
             activity.runOnUiThread(() -> {
-                View daMuovere = c.getPortatore().bottoni[indice];
+                View daMuovere = c.getPortatore().getBottoni()[indice];
 
                 if(!daMuovere.isEnabled())
                     return;
@@ -243,7 +243,7 @@ public class engineMultiplayer extends Engine{
 
                 clearText(centerText);
 
-                muoviCarta(daMuovere, Game.carte[c.getPortatore().index + I_CAMPO_GIOCO[lastManche][0]], c,false, true, false, event);
+                muoviCarta(daMuovere, Game.carte[c.getPortatore().getIndex() + I_CAMPO_GIOCO[lastManche][0]], c,false, true, false, event);
                 giocaCarta(c, event);
             });
         }).start();
@@ -328,7 +328,7 @@ public class engineMultiplayer extends Engine{
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void setOnCLickListener(){
-        for(Button b : Game.user.bottoni)
+        for(Button b : Game.user.getBottoni())
             b.setOnClickListener(engineMultiplayer::onClick);
     }
 

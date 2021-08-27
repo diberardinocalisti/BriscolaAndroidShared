@@ -135,5 +135,9 @@
     <string name="emailnotvalid">Inserisci una email valida.</string>
     <string name="registersuccess">Registrazione effettuata correttamente!</string>
     <string name="emailexisting">Questa mail è già stata registrata.</string>
+    <string name="ranking">Classifica</string>
+    <string name="avatarname">Nome avatar</string>
+    <string name="chooseavatar">Scegli un avatar</string>
+    <string name="erroravatar">Scegli un avatar.</string>
 
 </resources>

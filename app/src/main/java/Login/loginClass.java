@@ -1,21 +1,21 @@
 package Login;
 
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
 import com.facebook.Profile;
-import com.facebook.login.widget.ProfilePictureView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -27,13 +27,10 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import Home.MainActivity;
 import firebase.FirebaseClass;
-import game.danielesimone.briscola.R;
-import gameEngine.Game;
+import gameEngine.RunnablePar;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
-import multiplayer.EmailUser;
 
 public class loginClass {
 
@@ -65,19 +62,32 @@ public class loginClass {
         return !SharedPref.getUsername().equals("null");
     }
 
+    public static String getImageId(){
+        return isFacebookLoggedIn() ? AccessToken.getCurrentAccessToken().getUserId() : SharedPref.getAvatar();
+    }
+
     public static String getFBUserId()
     {
         return isFacebookLoggedIn() ? AccessToken.getCurrentAccessToken().getUserId() : "null";
     }
 
-    public static void setImgProfile(AppCompatActivity activity, String userId, ImageView imageIcon) {
-        if(userId.equals("null"))
-            return;
+    @SuppressLint("UseCompatLoadingForDrawables")
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static void setImgProfile(AppCompatActivity activity, String imageId, ImageView imageIcon) {
+        if(imageId == null)
+            imageId = "avatar_" + Utility.randomIntRange(1, Avatar.N_AVATAR);
 
+        // Se l'utente non è registrato a facebook userà l'avatar selezionato durante la registrazione;
+        if(imageId.startsWith("avatar")){
+            imageIcon.setImageDrawable(getAvatarByString(imageId, activity));
+            return;
+        }
+
+        String finalImageId = imageId;
         new Thread(() -> {
             URL imageURL = null;
             try {
-                imageURL = new URL("https://graph.facebook.com/" + userId + "/picture?type=large");
+                imageURL = new URL("https://graph.facebook.com/" + finalImageId + "/picture?type=large");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -92,6 +102,34 @@ public class loginClass {
             activity.runOnUiThread(() -> imageIcon.setImageBitmap(finalBitmap));
         }).start();
 
+    }
+
+    public static void getStringAvatar(RunnablePar callback){
+        FirebaseClass.getFbRef().child(LoginActivity.fbUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for(DataSnapshot d : snapshot.getChildren()){
+                    if(d.getKey().equals("avatar")){
+                        callback.run(String.valueOf(d.getValue()));
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error){}
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public static void getDrawableAvatar(RunnablePar callback, AppCompatActivity appCompatActivity){
+        getStringAvatar(par -> callback.run(getAvatarByString((String) par, appCompatActivity)));
+    }
+
+    public static Drawable getAvatarByString(String avatarName, AppCompatActivity appCompatActivity){
+        int avatarId = appCompatActivity.getResources().getIdentifier(avatarName, "drawable", appCompatActivity.getPackageName());
+        return appCompatActivity.getDrawable(avatarId);
     }
 
     public static String getFBCognome()
@@ -146,6 +184,27 @@ public class loginClass {
             return true;
     }
 
+    public static void updateAvatar(){
+        FirebaseClass.getFbRef().child(LoginActivity.fbUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for(DataSnapshot d : snapshot.getChildren())
+                {
+                    if(d.getKey().equals("avatar"))
+                    {
+                        SharedPref.setAvatar(String.valueOf(d.getValue()));
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
+
     public static void updateEmail() {
         FirebaseClass.getFbRef().child(LoginActivity.fbUID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -165,5 +224,17 @@ public class loginClass {
 
             }
         });
+    }
+
+    public static boolean isUser(DataSnapshot d){
+        return isFacebookUser(d) || isEmailUser(d);
+    }
+
+    public static boolean isFacebookUser(DataSnapshot d){
+        return d.hasChild("nome");
+    }
+
+    public static boolean isEmailUser(DataSnapshot d){
+        return d.hasChild("username");
     }
 }

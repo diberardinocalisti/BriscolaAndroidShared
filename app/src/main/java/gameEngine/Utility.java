@@ -46,6 +46,10 @@ import static gameEngine.Game.activity;
 import static gameEngine.Game.textAnimDuration;
 
 public class Utility{
+    public static int randomIntRange(int startNum, int endNum){
+        return (int) ((Math.random() * (endNum - startNum)) + startNum);
+    }
+
     public static boolean isNumber(String number){
         try{
             Integer.parseInt(number);

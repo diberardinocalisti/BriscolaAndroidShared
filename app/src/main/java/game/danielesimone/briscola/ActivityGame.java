@@ -38,6 +38,7 @@ import multiplayer.MultiplayerActivity;
 
 import static Login.loginClass.getFBUserId;
 import static Login.loginClass.getFullFBName;
+import static Login.loginClass.getImageId;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class ActivityGame extends AppCompatActivity {
@@ -99,7 +100,7 @@ public class ActivityGame extends AppCompatActivity {
         nomeHost.setText(loginClass.getName());
         codice.setText(this.getString(R.string.code) + codiceStanza);
         stato.setText(this.getString(R.string.state) + this.getString(R.string.waiting));
-        loginClass.setImgProfile(this, getFBUserId(), picHost);
+        loginClass.setImgProfile(this, getImageId(), picHost);
 
         chiudi.setOnClickListener(v -> ActivityGame.this.onBackPressed());
 

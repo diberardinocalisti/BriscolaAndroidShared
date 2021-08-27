@@ -5,12 +5,22 @@ public class EmailUser {
     private int perse;
     private String email;
     private String password;
+    private String avatar;
 
-    public EmailUser(int vinte, int perse, String email, String password) {
+    public EmailUser(int vinte, int perse, String avatar, String email, String password) {
         this.vinte = vinte;
         this.perse = perse;
         this.email = email;
         this.password = password;
+        this.avatar = avatar;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public int getVinte() {
