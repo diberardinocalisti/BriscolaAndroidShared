@@ -219,8 +219,13 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         register.setOnClickListener(v -> {
+            // Nel caso in cui un utente ha inserito i dati di accesso nella pagina di login ma deve ancora registrarsi,
+            // ricordiamo i dati inseriti nella pagina di register in modo tale che non dovrà reinserirli nuovamente;
+            String previousUsernameInput = usernameInput.getText().toString().trim();
+            String previousPasswordInput = passwordInput.getText().toString().trim();
+
             dialog.dismiss();
-            registerDialog();
+            registerDialog(previousUsernameInput, previousPasswordInput);
         });
 
         forgotPassword.setPaintFlags(forgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -234,7 +239,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    protected void registerDialog(){
+    protected void registerDialog(String previousUsernameInput, String previousPasswordInput){
         Dialog dialog = new Dialog(this);
 
         dialog.setContentView(R.layout.register_username_dialog);
@@ -245,6 +250,9 @@ public class LoginActivity extends AppCompatActivity {
         TextInputEditText emailInput = dialog.findViewById(R.id.registerEmailInput);
         Button register = dialog.findViewById(R.id.registerConfirm);
         ImageView close = dialog.findViewById(R.id.registerClose);
+
+        usernameInput.setText(previousUsernameInput);
+        passwordInput.setText(previousPasswordInput);
 
         selectedAvatar = null;
         ArrayList<Avatar> avatars = new ArrayList<>(Avatar.N_AVATAR);
