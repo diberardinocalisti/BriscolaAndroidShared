@@ -16,13 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import game.danielesimone.briscola.R;
-
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.initialization.InitializationStatus;
-import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -36,10 +29,7 @@ import gameEngine.Utility;
 import multiplayer.ActivityMultiplayerGame;
 import multiplayer.MultiplayerActivity;
 
-import static Login.loginClass.getFBUserId;
-import static Login.loginClass.getFullFBName;
 import static Login.loginClass.getId;
-import static Login.loginClass.getImageId;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class ActivityGame extends AppCompatActivity {

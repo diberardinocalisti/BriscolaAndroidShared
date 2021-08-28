@@ -141,5 +141,7 @@
     <string name="erroravatar">Scegli un avatar.</string>
     <string name="editavatar">Modifica il tuo avatar</string>
     <string name="editusername">Modifica il tuo username</string>
+    <string name="cantfindaccount">Impossibile trovare il tuo account.</string>
+    <string name="logoutbtn">Logout</string>
 
 </resources>

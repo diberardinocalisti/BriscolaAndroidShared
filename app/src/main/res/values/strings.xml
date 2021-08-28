@@ -148,5 +148,7 @@
     <string name="erroravatar">You must choose an avatar.</string>
     <string name="editavatar">Edit your avatar</string>
     <string name="editusername">Edit your username</string>
+    <string name="cantfindaccount">Something went wrong with your account, you will be disconnected.</string>
+    <string name="logoutbtn">Logout</string>
 
 </resources>

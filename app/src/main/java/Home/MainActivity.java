@@ -32,6 +32,7 @@ import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
 
 import static Home.LoadingScreen.gameRunning;
+import static Login.LoginActivity.fbUID;
 import static Login.loginClass.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,14 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
         gameRunning = true;
 
-        if(isFacebookLoggedIn()) {
-            AccessToken accessToken = AccessToken.getCurrentAccessToken();
-            LoginActivity.fbUID = accessToken.getUserId();
-        }else if(isUsernameLoggedIn()){
-            LoginActivity.fbUID = SharedPref.getUsername();
-            loginClass.updateEmail();
-        }
-
         ActivityMultiplayerGame.onStop = false;
         Game.terminata = true;
 
@@ -74,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void rateApp(){
+    protected void rateApp(){
         Utility.oneLineDialog(this, this.getString(R.string.rateapptitle), () -> {
             final String link = "https://play.google.com/store/apps/details?id=%s";
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(String.format(link, getPackageName())));
@@ -143,8 +136,8 @@ public class MainActivity extends AppCompatActivity {
             ActivityMultiplayerGame.onStop = false;
 
         if(LoginActivity.login && isFacebookLoggedIn()){
-            FirebaseClass.editFieldFirebase(LoginActivity.fbUID,"nome", loginClass.getFBNome());
-            FirebaseClass.editFieldFirebase(LoginActivity.fbUID,"cognome", loginClass.getFBCognome());
+            FirebaseClass.editFieldFirebase(fbUID,"nome", loginClass.getFBNome());
+            FirebaseClass.editFieldFirebase(fbUID,"cognome", loginClass.getFBCognome());
             LoginActivity.login = false;
         }
 

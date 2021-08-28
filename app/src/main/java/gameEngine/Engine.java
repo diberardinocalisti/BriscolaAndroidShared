@@ -36,7 +36,6 @@ import multiplayer.engineMultiplayer;
 import static Login.loginClass.getFBUserId;
 import static Login.loginClass.getFullFBName;
 import static Login.loginClass.getId;
-import static Login.loginClass.getImageId;
 import static Login.loginClass.isFacebookLoggedIn;
 import static gameEngine.Game.I_BRISCOLA;
 import static gameEngine.Game.I_CAMPO_GIOCO;

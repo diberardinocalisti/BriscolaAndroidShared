@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import Login.LoginActivity;
 import game.danielesimone.briscola.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,6 +22,8 @@ import com.google.firebase.database.annotations.NotNull;
 
 import firebase.FirebaseClass;
 import gameEngine.Utility;
+
+import static Login.LoginActivity.fbUID;
 
 public class MultiplayerActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -46,15 +49,6 @@ public class MultiplayerActivity extends AppCompatActivity {
         joinRoom.setOnClickListener(v -> createInputDialog());
         roomList.setOnClickListener(v -> Utility.goTo(this, RoomList.class));
         goBack.setOnClickListener(v -> MultiplayerActivity.super.onBackPressed());
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(newBase);
-        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
     }
 
     public void createInputDialog(){
@@ -105,5 +99,14 @@ public class MultiplayerActivity extends AppCompatActivity {
 
             @Override public void onCancelled(@NonNull @NotNull DatabaseError databaseError){}
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
     }
 }

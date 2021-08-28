@@ -13,12 +13,20 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.AccessToken;
 import com.google.android.gms.ads.MobileAds;
 
+import Login.LoginActivity;
+import Login.loginClass;
+import firebase.FirebaseClass;
 import game.danielesimone.briscola.R;
 
 import gameEngine.SharedPref;
 import gameEngine.Utility;
+
+import static Login.LoginActivity.fbUID;
+import static Login.loginClass.isFacebookLoggedIn;
+import static Login.loginClass.isUsernameLoggedIn;
 
 public class LoadingScreen extends AppCompatActivity {
     public static boolean gameRunning = false;
@@ -43,6 +51,15 @@ public class LoadingScreen extends AppCompatActivity {
 
         MobileAds.initialize(this, initializationStatus -> {});
 
+        if(isFacebookLoggedIn()) {
+            AccessToken accessToken = AccessToken.getCurrentAccessToken();
+            fbUID = accessToken.getUserId();
+        }else if(isUsernameLoggedIn()){
+            fbUID = SharedPref.getUsername();
+            loginClass.updateEmail();
+            checkIfAccountExists();
+        }
+
         if(!gameRunning){
             new Handler().postDelayed(() -> {
                 findViewById(R.id.parent).setOnClickListener(v -> {
@@ -59,5 +76,18 @@ public class LoadingScreen extends AppCompatActivity {
         }else{
             LoadingScreen.this.startActivity(new Intent(LoadingScreen.this, destination));
         }
+    }
+
+    protected void checkIfAccountExists(){
+        if (!Utility.isNetworkAvailable(this)) {
+            LoginActivity.doLogout();
+            return;
+        }
+
+        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+            if (!task.isSuccessful() || task.isCanceled() || task.getResult().getValue() == null) {
+                LoginActivity.doLogout();
+            }
+        });
     }
 }

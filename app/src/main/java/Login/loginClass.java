@@ -67,10 +67,6 @@ public class loginClass {
         return !SharedPref.getUsername().equals("null");
     }
 
-    public static String getImageId(){
-        return isFacebookLoggedIn() ? AccessToken.getCurrentAccessToken().getUserId() : SharedPref.getAvatar();
-    }
-
     public static String getFBUserId()
     {
         return isFacebookLoggedIn() ? AccessToken.getCurrentAccessToken().getUserId() : "null";

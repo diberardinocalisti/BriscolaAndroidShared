@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -40,12 +42,20 @@ import java.util.Date;
 import java.util.Locale;
 
 import Home.MainActivity;
+import Login.LoginActivity;
 import game.danielesimone.briscola.R;
 
 import static gameEngine.Game.activity;
 import static gameEngine.Game.textAnimDuration;
 
 public class Utility{
+    public static boolean isNetworkAvailable(AppCompatActivity appCompatActivity) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) appCompatActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
     public static int randomIntRange(int startNum, int endNum){
         return (int) ((Math.random() * (endNum - startNum)) + startNum);
     }

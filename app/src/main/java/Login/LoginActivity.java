@@ -40,6 +40,7 @@ import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.Share;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,11 +60,13 @@ import gameEngine.SharedPref;
 import gameEngine.Utility;
 import multiplayer.EmailUser;
 import multiplayer.User;
+import okhttp3.internal.Util;
 
 import static Login.loginClass.getFBUserId;
 import static Login.loginClass.isFacebookLoggedIn;
 import static java.lang.String.*;
 import static multiplayer.ActivityMultiplayerGame.mazzoOnline;
+import static multiplayer.engineMultiplayer.codiceStanza;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -389,50 +392,46 @@ public class LoginActivity extends AppCompatActivity {
     protected void setStatistiche(){
         TextView nome = findViewById(R.id.nome);
         TextView accountId = findViewById(R.id.idValore);
-
-        String nomeProfilo = isFacebookLoggedIn() ? loginClass.getFullFBName() : loginClass.getName();
-        nome.setText(nomeProfilo);
-
-        String accountIdText = isFacebookLoggedIn() ? getFBUserId() : SharedPref.getEmail().split("@")[0];
-        accountId.setText(accountIdText);
-
-        ImageView imgProfile = findViewById(R.id.profilePicture);
-        loginClass.setImgProfile(this, fbUID, imgProfile);
-
         TextView nVittorie = findViewById(R.id.vittorieValore);
         TextView nSconfitte = findViewById(R.id.sconfitteValore);
         TextView nRateo = findViewById(R.id.rateoValore);
+        ImageView imgProfile = findViewById(R.id.profilePicture);
 
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
-            if(task.isSuccessful()){
-                String vinte, perse;
-                float rateo, vinteF = 0.0f, perseF = 0.0f;
+            String nomeProfilo = isFacebookLoggedIn() ? loginClass.getFullFBName() : loginClass.getName();
+            String accountIdText = isFacebookLoggedIn() ? getFBUserId() : SharedPref.getEmail().split("@")[0];
 
-                for(DataSnapshot d: task.getResult().getChildren())
-                {
-                    if(d.getKey().equals("perse")){
-                        perse = valueOf(d.getValue());
-                        perseF = Float.parseFloat(perse);
-                        nSconfitte.setText(valueOf(d.getValue()));
-                    }
+            nome.setText(nomeProfilo);
+            accountId.setText(accountIdText);
+            loginClass.setImgProfile(this, fbUID, imgProfile);
 
-                    if(d.getKey().equals("vinte")) {
-                        vinte = valueOf(d.getValue());
-                        vinteF = Float.parseFloat(vinte);
-                        nVittorie.setText(valueOf(d.getValue()));
-                    }
+            String vinte, perse;
+            float rateo, vinteF = 0.0f, perseF = 0.0f;
+
+            for(DataSnapshot d: task.getResult().getChildren())
+            {
+                if(d.getKey().equals("perse")){
+                    perse = valueOf(d.getValue());
+                    perseF = Float.parseFloat(perse);
+                    nSconfitte.setText(valueOf(d.getValue()));
                 }
 
-
-                rateo = (vinteF != 0.0 && perseF != 0.0 ? vinteF/perseF : 0);
-
-                if(perseF == 0.0)
-                    rateo = vinteF;
-
-                rateo = (float) (Math.round(rateo*100.0)/100.0);
-
-                nRateo.setText(valueOf(rateo));
+                if(d.getKey().equals("vinte")) {
+                    vinte = valueOf(d.getValue());
+                    vinteF = Float.parseFloat(vinte);
+                    nVittorie.setText(valueOf(d.getValue()));
+                }
             }
+
+
+            rateo = (vinteF != 0.0 && perseF != 0.0 ? vinteF/perseF : 0);
+
+            if(perseF == 0.0)
+                rateo = vinteF;
+
+            rateo = (float) (Math.round(rateo*100.0)/100.0);
+
+            nRateo.setText(valueOf(rateo));
         });
     }
 
@@ -444,7 +443,7 @@ public class LoginActivity extends AppCompatActivity {
         if(isFacebookLoggedIn()){
             doLogout = (v) -> findViewById(R.id.logoutHook).performClick();
         }else if(loginClass.isUsernameLoggedIn()){
-            doLogout = (v) -> doLogout();
+            doLogout = (v) -> logoutDialog();
         }
 
         findViewById(R.id.logout).setOnClickListener(doLogout);
@@ -492,8 +491,47 @@ public class LoginActivity extends AppCompatActivity {
                 loginClass.getDrawableAvatar(fbUID, drawableAvatar -> imgProfile.setImageDrawable((Drawable) drawableAvatar), this);
             }
 
-            if(!editUsernameInput.getText().toString().equals(SharedPref.getUsername())){
-                Toast.makeText(this, "Bisogna trovare un modo per modificare il nome di un utente.", Toast.LENGTH_LONG).show();
+            TextView nomeProfilo = findViewById(R.id.nome);
+            String newUsername = editUsernameInput.getText().toString();
+
+            if(!newUsername.equals(SharedPref.getUsername())){
+                FirebaseClass.getFbRef().addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        // Se esiste esiste già un utente con il nuovo nome inserito;
+                        if(snapshot.hasChild(newUsername)){
+                            Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
+                        }else{
+                            FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+                                if(task.isSuccessful()) {
+                                    EmailUser emailUser = new EmailUser();
+
+                                    for (DataSnapshot d : task.getResult().getChildren()) {
+                                        String key = String.valueOf(d.getKey());
+                                        String value = String.valueOf(d.getValue());
+
+                                        switch(key){
+                                            case "vinte": emailUser.setVinte(Integer.parseInt(value)); break;
+                                            case "perse": emailUser.setPerse(Integer.parseInt(value)); break;
+                                            case "avatar": emailUser.setAvatar(value); break;
+                                            case "email": emailUser.setEmail(value); break;
+                                            case "password": emailUser.setPassword(value); break;
+                                        }
+                                    }
+
+                                    FirebaseClass.deleteFieldFirebase(null, fbUID);
+
+                                    fbUID = newUsername;
+                                    SharedPref.setUsername(newUsername);
+                                    FirebaseClass.addUserToFirebase(emailUser, newUsername);
+                                    nomeProfilo.setText(newUsername);
+                                }
+                            });
+                        }
+                    }
+
+                    @Override public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+                });
             }
 
             dialog.dismiss();
@@ -536,13 +574,25 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    protected void doLogout(){
-        Utility.oneLineDialog(this, this.getString(R.string.confirmlogout), () -> {
-            SharedPref.setUsername("null");
-            SharedPref.setPassword("null");
-            Toast.makeText(getApplicationContext(), getString(R.string.logoutsuccess), Toast.LENGTH_SHORT).show();
-            Utility.goTo(LoginActivity.this, MainActivity.class);
-        });
+    protected void logoutDialog(){
+        Utility.oneLineDialog(this, this.getString(R.string.confirmlogout), this::logout);
+    }
+
+    protected void logout(){
+        doLogout();
+        logoutMsg();
+    }
+
+    public static void doLogout(){
+        SharedPref.setUsername("null");
+        SharedPref.setPassword("null");
+        SharedPref.setEmail("null");
+        SharedPref.setAvatar("null");
+    }
+
+    public void logoutMsg(){
+        Toast.makeText(this, this.getString(R.string.logoutsuccess), Toast.LENGTH_SHORT).show();
+        Utility.goTo(this, MainActivity.class);
     }
 
     protected void handleLogout(){
