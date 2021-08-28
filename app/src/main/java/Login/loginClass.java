@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
 import com.facebook.Profile;
+import com.facebook.share.Share;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -58,6 +59,10 @@ public class loginClass {
          return (isFacebookLoggedIn() ? getFBNome() : SharedPref.getUsername());
     }
 
+    public static String getId(){
+        return isFacebookLoggedIn() ? getFBUserId() : SharedPref.getUsername();
+    }
+
     public static boolean isUsernameLoggedIn(){
         return !SharedPref.getUsername().equals("null");
     }
@@ -73,13 +78,26 @@ public class loginClass {
 
     @SuppressLint("UseCompatLoadingForDrawables")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void setImgProfile(AppCompatActivity activity, String imageId, ImageView imageIcon) {
-        if(imageId == null)
-            imageId = "avatar_" + Utility.randomIntRange(1, Avatar.N_AVATAR);
+    public static void setImgProfile(AppCompatActivity activity, String userId, ImageView imageIcon) {
+        String finalUserId = userId;
+        facebookUserCallbacks(userId,
+                // Se l'utente è registrato a facebook
+                () -> {
+                getDrawableAvatar(finalUserId, par -> {
+                    imageIcon.setImageDrawable();
+                }, activity);
+        },
+                // Se l'utente è registrato con email;
+                () -> {
+
+        });
+
+        if(userId == null)
+            userId = "avatar_" + Utility.randomIntRange(1, Avatar.N_AVATAR);
 
         // Se l'utente non è registrato a facebook userà l'avatar selezionato durante la registrazione;
-        if(imageId.startsWith("avatar")){
-            imageIcon.setImageDrawable(getAvatarByString(imageId, activity));
+        if(userId.startsWith("avatar")){
+            imageIcon.setImageDrawable(getAvatarByString(userId, activity));
             return;
         }
 
@@ -101,11 +119,10 @@ public class loginClass {
             Bitmap finalBitmap = bitmap;
             activity.runOnUiThread(() -> imageIcon.setImageBitmap(finalBitmap));
         }).start();
-
     }
 
-    public static void getStringAvatar(RunnablePar callback){
-        FirebaseClass.getFbRef().child(LoginActivity.fbUID).addListenerForSingleValueEvent(new ValueEventListener() {
+    public static void getStringAvatar(String userId, RunnablePar callback){
+        FirebaseClass.getFbRef().child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -123,8 +140,8 @@ public class loginClass {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public static void getDrawableAvatar(RunnablePar callback, AppCompatActivity appCompatActivity){
-        getStringAvatar(par -> callback.run(getAvatarByString((String) par, appCompatActivity)));
+    public static void getDrawableAvatar(String userId, RunnablePar callback, AppCompatActivity appCompatActivity){
+        getStringAvatar(userId, par -> callback.run(getAvatarByString((String) par, appCompatActivity)));
     }
 
     public static Drawable getAvatarByString(String avatarName, AppCompatActivity appCompatActivity){
@@ -202,6 +219,29 @@ public class loginClass {
             public void onCancelled(@NonNull @NotNull DatabaseError error) {
 
             }
+        });
+    }
+
+    public static void facebookUserCallbacks(String userId, Runnable onConfirmCallback, Runnable onDenyCallback){
+        if(userId == null){
+            onDenyCallback.run();
+            return;
+        }
+
+        FirebaseClass.getFbRef().child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                // Se è un utente Facebook;
+                if(snapshot.hasChild("nome") && snapshot.hasChild("cognome")) {
+                    onConfirmCallback.run();
+                }else {
+                    onDenyCallback.run();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error){}
         });
     }
 

@@ -76,7 +76,7 @@ public class engineMultiplayer extends Engine{
 
 
     public static void accediHost(AppCompatActivity c, String gameCode){
-        GameRoom g = new GameRoom(gameCode, loginClass.getName(), "null", loginClass.getImageId(), "null","null","null","null", "null");
+        GameRoom g = new GameRoom(gameCode, loginClass.getName(), "null", loginClass.getId(), "null","null","null","null", "null");
         FirebaseClass.addToFirebase(g);
 
         Intent i = new Intent(c, ActivityGame.class);
@@ -90,7 +90,7 @@ public class engineMultiplayer extends Engine{
         engineMultiplayer.role = "NOTHOST";
         ActivityGame.multiplayer = true;
         FirebaseClass.editFieldFirebase(input,"enemy", loginClass.getName());
-        FirebaseClass.editFieldFirebase(input,"idEnemy", loginClass.getImageId());
+        FirebaseClass.editFieldFirebase(input,"idEnemy", loginClass.getId());
         Utility.goTo(c, ActivityMultiplayerGame.class);
     }
 

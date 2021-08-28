@@ -425,7 +425,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(loginClass.isUsernameLoggedIn()){
             accountId.setText(SharedPref.getEmail().split("@")[0]);
-            loginClass.getDrawableAvatar(par -> imgProfile.setImageDrawable((Drawable) par), this);
+            loginClass.getDrawableAvatar(LoginActivity.fbUID, par -> imgProfile.setImageDrawable((Drawable) par), this);
         }else if (loginClass.isFacebookLoggedIn()) {
             accountId.setText(loginClass.getFBUserId());
             loginClass.setImgProfile(this, loginClass.getFBUserId(), imgProfile);

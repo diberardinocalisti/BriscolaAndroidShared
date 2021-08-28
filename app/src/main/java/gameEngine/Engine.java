@@ -35,6 +35,7 @@ import multiplayer.engineMultiplayer;
 
 import static Login.loginClass.getFBUserId;
 import static Login.loginClass.getFullFBName;
+import static Login.loginClass.getId;
 import static Login.loginClass.getImageId;
 import static Login.loginClass.isFacebookLoggedIn;
 import static gameEngine.Game.I_BRISCOLA;
@@ -133,7 +134,7 @@ public class Engine{
                 if(isFacebookLoggedIn())
                     username = getFullFBName();
 
-                giocatori[i] = new Giocatore(username, getImageId(), i);
+                giocatori[i] = new Giocatore(username, getId(), i);
             }else{
                 giocatori[i] = new CPU("CPU", i);
             }
