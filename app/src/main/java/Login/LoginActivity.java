@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -59,7 +60,10 @@ import gameEngine.Utility;
 import multiplayer.EmailUser;
 import multiplayer.User;
 
+import static Login.loginClass.getFBUserId;
+import static Login.loginClass.isFacebookLoggedIn;
 import static java.lang.String.*;
+import static multiplayer.ActivityMultiplayerGame.mazzoOnline;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -116,6 +120,7 @@ public class LoginActivity extends AppCompatActivity {
         back.setOnClickListener(v -> super.onBackPressed());
 
         loginFacebookHook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onSuccess(LoginResult loginResult) {
                 AccessToken token = loginResult.getAccessToken();
@@ -195,7 +200,7 @@ public class LoginActivity extends AppCompatActivity {
                                 loginClass.updateEmail();
                                 loginClass.updateAvatar();
 
-                                Toast.makeText(getApplicationContext(), LoginActivity.this.getString(R.string.registersuccess), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), LoginActivity.this.getString(R.string.loginsuccess), Toast.LENGTH_SHORT).show();
                                 accountPage();
                                 break;
                             }else{
@@ -242,39 +247,8 @@ public class LoginActivity extends AppCompatActivity {
         ImageView close = dialog.findViewById(R.id.registerClose);
 
         selectedAvatar = null;
-        LinearLayout gallery = dialog.findViewById(R.id.avatarScrollLayout);
-        LayoutInflater inflater = LayoutInflater.from(this);
-
         ArrayList<Avatar> avatars = new ArrayList<>(Avatar.N_AVATAR);
-
-        for (int i = 0; i < Avatar.N_AVATAR; i++) {
-            String avatarIdStr = "avatar_" + (i + 1);
-            int avatarId = this.getResources().getIdentifier(avatarIdStr, "drawable", this.getPackageName());
-
-            Drawable avatarDrawable = this.getDrawable(avatarId);
-            View view = inflater.inflate(R.layout.singleavatar, gallery, false);
-
-            TextView avatarNameTextView = view.findViewById(R.id.avatarName);
-            ImageView avatarImage = view.findViewById(R.id.avatarImage);
-            String avatarNameString = format("Avatar %d", i);
-
-            avatarNameTextView.setText(avatarNameString);
-            avatarImage.setImageDrawable(avatarDrawable);
-
-            Avatar avatar = new Avatar(avatarNameString, avatarIdStr, avatarNameTextView, avatarImage);
-
-            avatars.add(avatar);
-
-            avatarImage.setOnClickListener(v -> {
-                for(Avatar a : avatars)
-                    a.getTextViewAvatar().setTextColor(Color.WHITE);
-
-                avatar.getTextViewAvatar().setTextColor(UiColor.YELLOW);
-                selectedAvatar = avatar;
-            });
-
-            gallery.addView(view);
-        }
+        showAvatars(dialog.findViewById(R.id.avatarScrollLayout), avatars);
 
         register.setOnClickListener(v -> {
             String username = usernameInput.getText().toString().trim();
@@ -385,7 +359,7 @@ public class LoginActivity extends AppCompatActivity {
         // Dato che il listener onSuccess viene eseguito nonostante le informazioni del profilo non siano ancora state ancora
         // lette, aspetto finché getCurrentProfile restituisce il profilo dell'utente;
         new Thread(() -> {
-            if(loginClass.isFacebookLoggedIn()){
+            if(isFacebookLoggedIn()){
                 while(Profile.getCurrentProfile() == null) {
                     try {
                         Thread.sleep(refreshRate);
@@ -403,33 +377,19 @@ public class LoginActivity extends AppCompatActivity {
         }).start();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Override
-    protected void attachBaseContext(Context newBase) {
-        super.attachBaseContext(newBase);
-        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
-        override.fontScale = 1.0f;
-        applyOverrideConfiguration(override);
-    }
-
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void setStatistiche(){
         TextView nome = findViewById(R.id.nome);
         TextView accountId = findViewById(R.id.idValore);
 
-        String nomeProfilo = loginClass.isFacebookLoggedIn() ? loginClass.getFullFBName() : loginClass.getName();
-
+        String nomeProfilo = isFacebookLoggedIn() ? loginClass.getFullFBName() : loginClass.getName();
         nome.setText(nomeProfilo);
 
-        ImageView imgProfile = findViewById(R.id.friendProfilePicture);
+        String accountIdText = isFacebookLoggedIn() ? getFBUserId() : SharedPref.getEmail().split("@")[0];
+        accountId.setText(accountIdText);
 
-        if(loginClass.isUsernameLoggedIn()){
-            accountId.setText(SharedPref.getEmail().split("@")[0]);
-            loginClass.getDrawableAvatar(LoginActivity.fbUID, par -> imgProfile.setImageDrawable((Drawable) par), this);
-        }else if (loginClass.isFacebookLoggedIn()) {
-            accountId.setText(loginClass.getFBUserId());
-            loginClass.setImgProfile(this, loginClass.getFBUserId(), imgProfile);
-        }
+        ImageView imgProfile = findViewById(R.id.profilePicture);
+        loginClass.setImgProfile(this, fbUID, imgProfile);
 
         TextView nVittorie = findViewById(R.id.vittorieValore);
         TextView nSconfitte = findViewById(R.id.sconfitteValore);
@@ -470,37 +430,115 @@ public class LoginActivity extends AppCompatActivity {
 
     protected void setListeners(){
         Button modificaProfilo = findViewById(R.id.editB);
-        modificaProfilo.setOnClickListener(v -> {
-            if(loginClass.isFacebookLoggedIn()){
-                final String editProfileUrl = "https://www.facebook.com/profile.php";
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(editProfileUrl));
-                startActivity(browserIntent);
-            }else{
-                String message = this.getString(R.string.erroredit);
-                Utility.oneLineDialog(this, message, null);
-            }
-        });
+        modificaProfilo.setOnClickListener(v -> modificaProfilo());
 
         View.OnClickListener doLogout = null;
-        if(loginClass.isFacebookLoggedIn()){
+        if(isFacebookLoggedIn()){
             doLogout = (v) -> findViewById(R.id.logoutHook).performClick();
         }else if(loginClass.isUsernameLoggedIn()){
-            doLogout = (v) -> {
-                Utility.oneLineDialog(this, this.getString(R.string.confirmlogout), () -> {
-                    SharedPref.setUsername("null");
-                    SharedPref.setPassword("null");
-                    Toast.makeText(getApplicationContext(), getString(R.string.logoutsuccess), Toast.LENGTH_SHORT).show();
-                    Utility.goTo(LoginActivity.this, MainActivity.class);
-                });
-            };
+            doLogout = (v) -> doLogout();
         }
 
         findViewById(R.id.logout).setOnClickListener(doLogout);
         findViewById(R.id.logoutB).setOnClickListener(doLogout);
     }
 
+    private void modificaProfilo() {
+        if(isFacebookLoggedIn()) {
+            final String editProfileUrl = "https://www.facebook.com/profile.php";
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(editProfileUrl));
+            startActivity(browserIntent);
+            return;
+        }
+
+        Dialog dialog = new Dialog(this);
+
+        dialog.setContentView(R.layout.edit_profile);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        TextInputEditText editUsernameInput = dialog.findViewById(R.id.editUsernameInput);
+        Button editProfileConfirm = dialog.findViewById(R.id.editProfileConfirm);
+        ImageView editProfileClose = dialog.findViewById(R.id.editProfileClose);
+
+        editUsernameInput.setText(SharedPref.getUsername());
+        ArrayList<Avatar> avatars = new ArrayList<>(Avatar.N_AVATAR);
+
+        selectedAvatar = null;
+
+        showAvatars(dialog.findViewById(R.id.editAvatarScrollLayout), avatars);
+
+        for(Avatar avatar : avatars){
+            if(avatar.getIdAvatar().equals(SharedPref.getAvatar())){
+                avatar.getTextViewAvatar().setTextColor(UiColor.YELLOW);
+                selectedAvatar = avatar;
+                break;
+            }
+        }
+
+        editProfileConfirm.setOnClickListener(v2 -> {
+            if(!selectedAvatar.getIdAvatar().equals(SharedPref.getAvatar())) {
+                FirebaseClass.editFieldFirebase(fbUID, "avatar", selectedAvatar.getIdAvatar());
+                SharedPref.setAvatar(selectedAvatar.getIdAvatar());
+
+                ImageView imgProfile = findViewById(R.id.profilePicture);
+                loginClass.getDrawableAvatar(fbUID, drawableAvatar -> imgProfile.setImageDrawable((Drawable) drawableAvatar), this);
+            }
+
+            if(!editUsernameInput.getText().toString().equals(SharedPref.getUsername())){
+                Toast.makeText(this, "Bisogna trovare un modo per modificare il nome di un utente.", Toast.LENGTH_LONG).show();
+            }
+
+            dialog.dismiss();
+        });
+
+        editProfileClose.setOnClickListener(v3 -> dialog.dismiss());
+        dialog.show();
+    }
+
+    protected void showAvatars(ViewGroup gallery, ArrayList<Avatar> avatars){
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        for (int i = 0; i < Avatar.N_AVATAR; i++) {
+            String avatarIdStr = "avatar_" + (i + 1);
+            int avatarId = this.getResources().getIdentifier(avatarIdStr, "drawable", this.getPackageName());
+
+            Drawable avatarDrawable = this.getDrawable(avatarId);
+            View view = inflater.inflate(R.layout.singleavatar, gallery, false);
+
+            TextView avatarNameTextView = view.findViewById(R.id.avatarName);
+            ImageView avatarImage = view.findViewById(R.id.avatarImage);
+            String avatarNameString = format("Avatar %d", (i + 1));
+
+            avatarNameTextView.setText(avatarNameString);
+            avatarImage.setImageDrawable(avatarDrawable);
+
+            Avatar avatar = new Avatar(avatarNameString, avatarIdStr, avatarNameTextView, avatarImage);
+
+            avatars.add(avatar);
+
+            avatarImage.setOnClickListener(v1 -> {
+                for(Avatar a : avatars)
+                    a.getTextViewAvatar().setTextColor(Color.WHITE);
+
+                avatar.getTextViewAvatar().setTextColor(UiColor.YELLOW);
+                selectedAvatar = avatar;
+            });
+
+            gallery.addView(view);
+        }
+    }
+
+    protected void doLogout(){
+        Utility.oneLineDialog(this, this.getString(R.string.confirmlogout), () -> {
+            SharedPref.setUsername("null");
+            SharedPref.setPassword("null");
+            Toast.makeText(getApplicationContext(), getString(R.string.logoutsuccess), Toast.LENGTH_SHORT).show();
+            Utility.goTo(LoginActivity.this, MainActivity.class);
+        });
+    }
+
     protected void handleLogout(){
-        if(loginClass.isFacebookLoggedIn()){
+        if(isFacebookLoggedIn()){
             // Creo un nuovo tracker solamente nel caso in cui non ne esista già uno;
             if(logoutTraker == null) {
                 logoutTraker = new AccessTokenTracker() {
@@ -515,5 +553,14 @@ public class LoginActivity extends AppCompatActivity {
                 };
             }
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
+        final Configuration override = new Configuration(newBase.getResources().getConfiguration());
+        override.fontScale = 1.0f;
+        applyOverrideConfiguration(override);
     }
 }

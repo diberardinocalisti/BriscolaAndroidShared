@@ -14,6 +14,7 @@ import game.danielesimone.briscola.R;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Objects;
 
 import Login.loginClass;
 
@@ -80,7 +81,9 @@ public class Giocatore {
 
         this.id = userId;
 
-        this.updateIcon();
+        // Se è stato passato "null" come parametro all'id del giocatore, manterremo momentaneamente l'immagine di default;
+        if(!"null".equals(this.id)) // Condizione invertita per evitare NullPointerException;
+            this.updateIcon();
     }
 
     public Button[] getBottoni() {

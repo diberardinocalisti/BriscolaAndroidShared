@@ -8,7 +8,7 @@ public class GiocatoreMP extends Giocatore {
     public String ruolo;
 
     public GiocatoreMP(String player, int i) {
-        super(player, null, i);
+        super(player, "null", i);
     }
 
     public String getRuolo(){

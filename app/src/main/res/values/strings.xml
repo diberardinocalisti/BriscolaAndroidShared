@@ -146,5 +146,7 @@
     <string name="avatarname">Avatar name</string>
     <string name="chooseavatar">Choose an avatar</string>
     <string name="erroravatar">You must choose an avatar.</string>
+    <string name="editavatar">Edit your avatar</string>
+    <string name="editusername">Edit your username</string>
 
 </resources>

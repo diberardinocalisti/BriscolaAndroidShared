@@ -79,46 +79,39 @@ public class loginClass {
     @SuppressLint("UseCompatLoadingForDrawables")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static void setImgProfile(AppCompatActivity activity, String userId, ImageView imageIcon) {
-        String finalUserId = userId;
-        facebookUserCallbacks(userId,
-                // Se l'utente è registrato a facebook
-                () -> {
-                getDrawableAvatar(finalUserId, par -> {
-                    imageIcon.setImageDrawable();
-                }, activity);
-        },
-                // Se l'utente è registrato con email;
-                () -> {
-
-        });
-
-        if(userId == null)
-            userId = "avatar_" + Utility.randomIntRange(1, Avatar.N_AVATAR);
-
-        // Se l'utente non è registrato a facebook userà l'avatar selezionato durante la registrazione;
-        if(userId.startsWith("avatar")){
-            imageIcon.setImageDrawable(getAvatarByString(userId, activity));
+        if(userId == null) {
+            String imageId = "avatar_" + Utility.randomIntRange(1, Avatar.N_AVATAR);
+            imageIcon.setImageDrawable(getAvatarByString(imageId, activity));
             return;
         }
 
-        String finalImageId = imageId;
-        new Thread(() -> {
-            URL imageURL = null;
-            try {
-                imageURL = new URL("https://graph.facebook.com/" + finalImageId + "/picture?type=large");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-            Bitmap bitmap = null;
-            try {
-                bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        facebookUserCallbacks(userId,
+                // Se l'utente è registrato a facebook
+                () -> {
+                    new Thread(() -> {
+                        URL imageURL = null;
+                        try {
+                            imageURL = new URL("https://graph.facebook.com/" + userId + "/picture?type=large");
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
 
-            Bitmap finalBitmap = bitmap;
-            activity.runOnUiThread(() -> imageIcon.setImageBitmap(finalBitmap));
-        }).start();
+                        Bitmap finalBitmap = bitmap;
+                        activity.runOnUiThread(() -> imageIcon.setImageBitmap(finalBitmap));
+                    }).start();
+                },
+
+                // Se l'utente è registrato con email;
+                () -> {
+                    getDrawableAvatar(userId, drawableAvatar -> imageIcon.setImageDrawable((Drawable) drawableAvatar), activity);
+                }
+        );
     }
 
     public static void getStringAvatar(String userId, RunnablePar callback){
@@ -141,7 +134,13 @@ public class loginClass {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static void getDrawableAvatar(String userId, RunnablePar callback, AppCompatActivity appCompatActivity){
-        getStringAvatar(userId, par -> callback.run(getAvatarByString((String) par, appCompatActivity)));
+        // Ottiene la stringa dell'avatar memorizzata nel database;
+        getStringAvatar(userId, par -> {
+            callback.run(
+                    // Ottiene il drawable dalla stringa memorizzata nel database e la passa come parametro alla callback;
+                    getAvatarByString((String) par, appCompatActivity)
+            );
+        });
     }
 
     public static Drawable getAvatarByString(String avatarName, AppCompatActivity appCompatActivity){
