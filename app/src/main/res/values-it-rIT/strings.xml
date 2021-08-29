@@ -124,7 +124,7 @@
     <string name="hard">Esperto</string>
     <string name="username">Username</string>
     <string name="password_recovery">Password dimenticata?</string>
-    <string name="loginerror">Credenziali errate</string>
+    <string name="loginerror">Credenziali errate.</string>
     <string name="loginsuccess">Accesso effettuato correttamente!</string>
     <string name="usernameerror">Il tuo username non è valido.</string>
     <string name="usernameexisting">Questo username è già stato registrato.</string>

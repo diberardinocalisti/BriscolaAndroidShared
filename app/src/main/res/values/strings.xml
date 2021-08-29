@@ -131,7 +131,7 @@
     <string name="confirmpassword">Confirm password</string>
     <string name="username">Username</string>
     <string name="password_recovery">Forgot your password?</string>
-    <string name="loginerror">Wrong login details</string>
+    <string name="loginerror">Wrong login details.</string>
     <string name="loginsuccess">Logged in with success!</string>
     <string name="usernameerror">Your username is not valid.</string>
     <string name="usernameexisting">This username is already registered.</string>
