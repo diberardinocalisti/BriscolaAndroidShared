@@ -37,6 +37,7 @@ public class MultiplayerActivity extends AppCompatActivity {
 
         Utility.enableTopBar(this);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
+        Utility.showAd(this);
 
         ActivityMultiplayerGame.onStop = false;
 

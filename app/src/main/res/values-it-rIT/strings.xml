@@ -8,8 +8,8 @@
     <string name="app_name">Briscola</string>
     <string name="facebook_application_id" translatable="false">603960137243421</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb603960137243421</string>
-    <string name="singleplayer">Giocatore singolo</string>
-    <string name="multiplayer">Multigiocatore</string>
+    <string name="singleplayer">Singleplayer</string>
+    <string name="multiplayer">Gioca online</string>
     <string name="myprofile">Il mio profilo</string>
     <string name="briscola">Briscola</string>
     <string name="createroom">Crea stanza</string>
@@ -34,7 +34,7 @@
     <string name="guest">Ospite</string>
     <string name="cpu">Computer</string>
     <string name="bestcards">Le tue migliori carte</string>
-    <string name="playagain">Gioca di nuovo</string>
+    <string name="playagain">Gioca ancora</string>
     <string name="backtomenu">Torna al menu</string>
     <string name="cartescoperte">Carte scoperte</string>
     <string name="settings">Impostazioni</string>
@@ -53,7 +53,7 @@
     <string name="trovato">Trovato</string>
     <string name="waiting">Attesa</string>
     <string name="sessionclosed">La sessione è stata interrotta!\nCrea una nuova stanza per giocare di nuovo.</string>
-    <string name="leavegame">Abbandona partita</string>
+    <string name="leavegame">Abbandona</string>
     <string name="confirmleavegame">Abbandonare la partita?</string>
     <string name="typecard">Carte</string>
     <string name="youleft">Hai abbandonato la partita!</string>
@@ -81,7 +81,7 @@
     <string name="welcomechat">» Benvenuto nella chat di gioco!</string>
     <string name="touchtostart">Tocca per iniziare!</string>
     <string name="joinfriend">Unisciti a un amico</string>
-    <string name="accessviacode">Accedi via codice</string>
+    <string name="accessviacode">Usa codice</string>
     <string name="roomlist">Lista stanze</string>
     <string name="refresh">Aggiorna</string>
     <string name="noavailableroom">Ooops! Nessuna stanza trovata.</string>

@@ -34,10 +34,21 @@
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
             android:alpha="0.85"
-            android:background="@drawable/yellow_button"
+            android:background="@drawable/yellow_btn_icon"
+
+            android:drawableRight="@drawable/ic_baseline_account_circle_25"
+            android:fontFamily="@font/carter_one"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:shadowColor="@color/black"
+            android:shadowDx="2"
+            android:shadowDy="5"
+            android:shadowRadius="1.5"
             android:text="@string/singleplayer"
+            android:textColor="@color/white"
             android:textSize="12.5sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toStartOf="@+id/view"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -45,10 +56,21 @@
             android:id="@+id/mioprofilo"
             android:layout_width="450px"
             android:layout_height="120px"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:alpha="0.85"
-            android:background="@drawable/yellow_button"
+            android:background="@drawable/yellow_btn_icon"
+            android:drawableRight="@drawable/ic_baseline_account_circle_25"
+
+            android:fontFamily="@font/carter_one"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:shadowColor="@color/black"
+            android:shadowDx="2"
+            android:shadowDy="5"
+            android:shadowRadius="1.5"
             android:text="@string/myprofile"
+            android:textColor="@color/white"
             android:textSize="12.5sp"
             app:layout_constraintEnd_toEndOf="@+id/multiplayer"
             app:layout_constraintStart_toStartOf="@+id/singleplayer"
@@ -59,11 +81,24 @@
             android:id="@+id/closegame"
             android:layout_width="400px"
             android:layout_height="120px"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
             android:alpha="0.85"
-            android:background="@drawable/red_button"
+            android:background="@drawable/red_button_icon"
+            android:drawableRight="@drawable/ic_baseline_exit_to_app_24"
+            android:fontFamily="@font/carter_one"
+
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:shadowColor="@color/black"
+            android:shadowDx="2"
+            android:shadowDy="5"
+            android:shadowRadius="1.5"
             android:text="@string/closegame"
+            android:textColor="@color/white"
             android:textSize="12.5sp"
-            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintBottom_toTopOf="@+id/history"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mioprofilo" />
@@ -75,10 +110,10 @@
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
-            android:background="@drawable/round_button"
 
+            android:background="@drawable/round_button"
             android:src="@android:drawable/ic_menu_help"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/footer"
             app:layout_constraintEnd_toEndOf="parent"
             tools:ignore="MissingConstraints">
 
@@ -91,8 +126,19 @@
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
             android:alpha="0.85"
-            android:background="@drawable/yellow_button"
+            android:background="@drawable/yellow_btn_icon"
+            android:drawableRight="@drawable/ic_baseline_supervisor_account_24"
+            android:fontFamily="@font/carter_one"
+
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:shadowColor="@color/black"
+            android:shadowDx="2"
+            android:shadowDy="5"
+            android:shadowRadius="1.5"
             android:text="@string/multiplayer"
+            android:textColor="@color/white"
             android:textSize="12.5sp"
             app:layout_constraintStart_toEndOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/singleplayer" />
@@ -117,7 +163,7 @@
             android:background="@drawable/round_button"
             android:src="@android:drawable/stat_notify_chat"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/footer"
             app:layout_constraintStart_toStartOf="parent"></ImageButton>
 
         <ImageButton
@@ -129,9 +175,27 @@
             android:background="@drawable/round_button"
             android:src="@drawable/book"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintBottom_toTopOf="@+id/footer"
             app:layout_constraintEnd_toStartOf="@+id/info"
             app:layout_constraintStart_toEndOf="@+id/contact"></ImageButton>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/topbar"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/adView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                ads:adSize="BANNER"
+                ads:adUnitId="ca-app-pub-9833115755260479/9941848012"></com.google.android.gms.ads.AdView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
