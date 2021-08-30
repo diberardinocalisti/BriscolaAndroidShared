@@ -47,6 +47,7 @@ import static gameEngine.Game.activity;
 import static gameEngine.Game.maxPunti;
 import static gameEngine.Game.nGiocatori;
 import static gameEngine.Game.timer;
+import static java.lang.String.*;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class postPartita extends AppCompatActivity {
@@ -71,6 +72,7 @@ public class postPartita extends AppCompatActivity {
         setButtons();
     }
 
+    @SuppressLint("DefaultLocale")
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void esitoPartita(){
         int punteggio = Game.user.getPunteggioCarte();
@@ -102,7 +104,7 @@ public class postPartita extends AppCompatActivity {
         esito.setText(stato);
 
         // Scrive i punti ottenuti;
-        punti.setText("+" + punteggio);
+        punti.setText(format("+%d", punteggio));
     }
 
     private void durataPartita(){
@@ -195,11 +197,12 @@ public class postPartita extends AppCompatActivity {
         restartBtn.setOnClickListener(restartAction);
         exitBtn.setOnClickListener(closeAction);
     }
+
     public void partitaPersa(){
         background = "sconfitta";
-        stato = this.getResources().getString(R.string.lost);
+        stato = this.getString(R.string.lost);
 
-        if(!loginClass.isFacebookLoggedIn())
+        if(!loginClass.isLoggedIn())
             return;
 
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
@@ -220,9 +223,9 @@ public class postPartita extends AppCompatActivity {
 
     public void partitaVinta(){
         background = "vittoria";
-        stato = this.getResources().getString(R.string.win);
+        stato = this.getString(R.string.win);
 
-        if(!loginClass.isFacebookLoggedIn())
+        if(!loginClass.isLoggedIn())
             return;
 
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
@@ -242,7 +245,7 @@ public class postPartita extends AppCompatActivity {
 
     public void pareggio(){
         background = "pareggio";
-        stato = this.getResources().getString(R.string.tie);
+        stato = this.getString(R.string.tie);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
