@@ -102,7 +102,7 @@
             android:shadowDx="2"
             android:shadowDy="5"
             android:shadowRadius="1.5"
-            android:text="@string/closegame"
+            android:text="@string/goback"
             android:textColor="@color/white"
             android:textSize="12.5sp"
             app:layout_constraintBottom_toTopOf="@+id/footer"

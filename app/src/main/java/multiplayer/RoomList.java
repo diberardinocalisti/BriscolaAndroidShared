@@ -2,6 +2,9 @@ package multiplayer;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -18,14 +22,21 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import firebase.FirebaseClass;
 import game.danielesimone.briscola.R;
+import gameEngine.Engine;
+import gameEngine.Game;
+import gameEngine.SharedPref;
 import gameEngine.Utility;
 
 import static Login.loginClass.setImgProfile;
@@ -57,40 +68,53 @@ public class RoomList extends AppCompatActivity {
         Utility.showAd(this);
 
         ProgressBar progressBar = findViewById(R.id.loadingBar);
-
-        View refreshBtn = findViewById(R.id.refresh);
         View settingsBtn = findViewById(R.id.roomSettings);
-
-        refreshBtn.setOnClickListener(v -> {
-            if(progressBar.getVisibility() == View.VISIBLE)
-                return;
-
-            refreshRooms();
-        });
 
         filterOptions = new String[]{RoomList.this.getString(R.string.showall), RoomList.this.getString(R.string.shownotempty)};
         selectedItem = 0;
 
-        settingsBtn.setOnClickListener(v -> {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(RoomList.this);
-            LayoutInflater inflater = (LayoutInflater) RoomList.this.getSystemService( LAYOUT_INFLATER_SERVICE );
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+        ScrollView scrollView = findViewById(R.id.scrollView);
 
-            View roomSettings = inflater.inflate(R.layout.room_settings, null);
-            Spinner filterSpinner = roomSettings.findViewById(R.id.filterSpinner);
+        swipeRefreshLayout.setEnabled(true);
+        scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            swipeRefreshLayout.setEnabled(scrollY == 0);
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(() -> {
+            swipeRefreshLayout.setRefreshing(false);
+            refreshRooms();
+        });
+
+        settingsBtn.setOnClickListener(v -> {
+            Dialog dialog = new Dialog(this);
+
+            dialog.setContentView(R.layout.room_settings);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+            Spinner filterSpinner = dialog.findViewById(R.id.room_settings_filterSpinner);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<>(RoomList.this, android.R.layout.simple_spinner_item, filterOptions);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             filterSpinner.setAdapter(adapter);
             filterSpinner.setSelection(selectedItem);
 
-            dialog.setPositiveButton(RoomList.this.getString(R.string.confirm), (dialog1, which) -> {
+            View confirmButton = dialog.findViewById(R.id.room_settings_accept);
+            View closeButton = dialog.findViewById(R.id.room_settings_close);
+            View cancelButton = dialog.findViewById(R.id.room_settings_cancel);
+            View.OnClickListener closeAction = v2 -> dialog.dismiss();
+
+            confirmButton.setOnClickListener(v1 -> {
                 selectedItem = filterSpinner.getSelectedItemPosition();
+                dialog.dismiss();
                 refreshRooms();
             });
 
-            dialog.setNegativeButton(RoomList.this.getString(R.string.cancel), null);
-            dialog.setView(roomSettings);
-            dialog.create().show();
+            closeButton.setOnClickListener(closeAction);
+            cancelButton.setOnClickListener(closeAction);
+
+            dialog.create();
+            dialog.show();
         });
     }
 
@@ -101,12 +125,15 @@ public class RoomList extends AppCompatActivity {
         showRooms();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void showRooms(){
         ProgressBar progressBar = findViewById(R.id.loadingBar);
         progressBar.setVisibility(View.VISIBLE);
 
         TextView alert = findViewById(R.id.alert);
         alert.setText(new String());
+
+        boolean showAll = filterOptions[selectedItem].equals(this.getString(R.string.showall));
 
         FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
             Iterable<DataSnapshot> result = task.getResult().getChildren();
@@ -127,7 +154,9 @@ public class RoomList extends AppCompatActivity {
                     }
 
                     boolean isFull = !nomeEnemy.equals("null");
-                    rooms.add(new Room(nomeHost, idHost, gameCode, isFull));
+
+                    if(!isFull || showAll)
+                        rooms.add(new Room(nomeHost, idHost, gameCode, isFull));
                 }
             }
 
@@ -143,13 +172,9 @@ public class RoomList extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void addRoomToList(String nomeHost, String idHost, String gameCode, boolean isFull){
         //FirebaseClass.deleteFieldFirebase(null, gameCode);
-
-        boolean showAll = filterOptions[selectedItem].equals(this.getString(R.string.showall));
-
-        if(isFull && !showAll)
-            return;
 
         LinearLayout scrollViewLayout = findViewById(R.id.scrollViewLayout);
 

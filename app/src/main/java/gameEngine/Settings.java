@@ -31,14 +31,10 @@ public class Settings {
     public void createSettingsMenu(Context c)
     {
         Dialog dialog = new Dialog(c);
-        LayoutInflater inflater = (LayoutInflater) c.getSystemService( LAYOUT_INFLATER_SERVICE );
 
         dialog.setContentView(R.layout.settings);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        // PARENT VIEW;
-        View settings = inflater.inflate(R.layout.settings, null);
-        
         // SPINNER TIPO CARTE;
         Spinner tipoCarte = dialog.findViewById(R.id.settings_typeCardSpinner);
         ArrayAdapter<String> adapterTipo = new ArrayAdapter<>(c, android.R.layout.simple_spinner_item, c.getResources().getStringArray(R.array.tipoCarte));
@@ -62,8 +58,12 @@ public class Settings {
         skillCpu.setAdapter(adapterSkill);
         skillCpu.setSelection(SharedPref.getCPUSkill());
 
-        // CONFIRM BUTTON;
+        // BUTTONS;
         View confirmButton = dialog.findViewById(R.id.settings_accept);
+        View closeButton = dialog.findViewById(R.id.settings_close);
+        View cancelButton = dialog.findViewById(R.id.settings_cancel);
+        View.OnClickListener closeAction = v -> dialog.dismiss();
+
         confirmButton.setOnClickListener(v -> {
             if(carteScoperte.isChecked()){
                 SharedPref.setCarteScoperte(true);
@@ -85,11 +85,6 @@ public class Settings {
 
             dialog.dismiss();
         });
-        
-        View closeButton = dialog.findViewById(R.id.settings_close);
-        View cancelButton = dialog.findViewById(R.id.settings_cancel);
-        
-        View.OnClickListener closeAction = v -> dialog.dismiss();
 
         closeButton.setOnClickListener(closeAction);
         cancelButton.setOnClickListener(closeAction);
