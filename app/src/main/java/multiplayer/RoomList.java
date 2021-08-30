@@ -161,6 +161,18 @@ public class RoomList extends AppCompatActivity {
             }
 
             Collections.sort(rooms, (room1, room2) -> room1.getNomeHost().toLowerCase().compareTo(room2.getNomeHost().toLowerCase()));
+            rooms.add(new Room("AAAA", "AAAA", "AAAA", false));
+            rooms.add(new Room("AAAA", "AAAA", "AAAA", false));
+            rooms.add(new Room("AAAA", "AAAA", "AAAA", false));
+            rooms.add(new Room("AAAA", "AAAA", "AAAA", false));
+            rooms.add(new Room("AAAA", "AAAA", "AAAA", false));
+            rooms.add(new Room("AAAA", "AAAA", "AAAA", false));
+            rooms.add(new Room("AAAA", "AAAA", "AAAA", false));
+            rooms.add(new Room("AAAA", "AAAA", "AAAA", false));
+            rooms.add(new Room("AAAA", "AAAA", "AAAA", false));
+            rooms.add(new Room("AAAA", "AAAA", "AAAA", false));
+            rooms.add(new Room("AAAA", "AAAA", "AAAA", false));
+            rooms.add(new Room("AAAA", "AAAA", "AAAA", false));
 
             if(rooms.size() > 0){
                 for(Room room : rooms)
