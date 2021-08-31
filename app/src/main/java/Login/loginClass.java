@@ -72,6 +72,10 @@ public class loginClass {
         return isFacebookLoggedIn() ? AccessToken.getCurrentAccessToken().getUserId() : "null";
     }
 
+    public static String getUsernameId(){
+        return SharedPref.getUsername();
+    }
+
     @SuppressLint("UseCompatLoadingForDrawables")
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static void setImgProfile(AppCompatActivity activity, String userId, ImageView imageIcon) {
@@ -270,6 +274,6 @@ public class loginClass {
     }
 
     public static boolean isEmailUser(DataSnapshot d){
-        return d.hasChild("username");
+        return d.hasChild("email");
     }
 }

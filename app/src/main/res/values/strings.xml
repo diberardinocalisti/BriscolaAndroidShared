@@ -142,7 +142,7 @@
     <string name="emailnotvalid">Please enter a valid email.</string>
     <string name="registersuccess">Registered with success!</string>
     <string name="emailexisting">This email is already registered.</string>
-    <string name="ranking">Ranking</string>
+    <string name="ranking">Ranking Top 50</string>
     <string name="avatarname">Avatar name</string>
     <string name="chooseavatar">Choose an avatar</string>
     <string name="erroravatar">You must choose an avatar.</string>
@@ -150,5 +150,6 @@
     <string name="editusername">Edit your username</string>
     <string name="cantfindaccount">Something went wrong with your account, you will be disconnected.</string>
     <string name="logoutbtn">Logout</string>
+    <string name="invalidusername">Invalid username</string>
 
 </resources>

@@ -7,6 +7,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import Login.loginClass;
 import multiplayer.EmailUser;
 import multiplayer.GameRoom;
+import multiplayer.FbUser;
 import multiplayer.User;
 
 import static multiplayer.engineMultiplayer.codiceStanza;
@@ -28,12 +29,12 @@ public class FirebaseClass {
         getFbRef().child(g.getGameCode()).setValue(g);
     }
 
-    public static void addUserToFirebase(User u, String uid)
+    public static void addUserToFirebase(FbUser u, String uid)
     {
         getFbRef().child(uid).setValue(u);
     }
 
-    public static void addUserToFirebase(EmailUser u,String username)
+    public static void addUserToFirebase(EmailUser u, String username)
     {
         getFbRef().child(username).setValue(u);
     }

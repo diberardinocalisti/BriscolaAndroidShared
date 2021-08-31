@@ -171,13 +171,30 @@
             android:layout_width="125px"
             android:layout_height="125px"
 
+            android:layout_marginStart="6dp"
+            android:layout_marginLeft="6dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/round_button"
             android:src="@drawable/book"
             android:visibility="visible"
             app:layout_constraintBottom_toTopOf="@+id/footer"
-            app:layout_constraintEnd_toStartOf="@+id/info"
+            app:layout_constraintEnd_toStartOf="@+id/view"
             app:layout_constraintStart_toEndOf="@+id/contact"></ImageButton>
+
+        <ImageButton
+            android:id="@+id/ranking"
+            android:layout_width="125px"
+            android:layout_height="125px"
+
+            android:layout_marginEnd="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/round_button"
+            android:src="@drawable/ic_baseline_assessment_24"
+            android:visibility="visible"
+            app:layout_constraintBottom_toTopOf="@+id/footer"
+            app:layout_constraintEnd_toStartOf="@+id/info"
+            app:layout_constraintStart_toEndOf="@+id/view"></ImageButton>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/footer"

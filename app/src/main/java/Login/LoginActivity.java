@@ -59,6 +59,7 @@ import gameEngine.RunnablePar;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
 import multiplayer.EmailUser;
+import multiplayer.FbUser;
 import multiplayer.User;
 import okhttp3.internal.Util;
 
@@ -142,7 +143,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if(!esiste) {
                             login = true;
-                            User user = new User(0,0,"","");
+                            FbUser user = new FbUser(0,0,"","");
                             FirebaseClass.addUserToFirebase(user, fbUID);
                         }
                     }

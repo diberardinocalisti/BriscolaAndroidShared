@@ -1,16 +1,14 @@
 package multiplayer;
 
 public class User {
-    private int vinte;
-    private int perse;
-    private String nome;
-    private String cognome;
+    protected int vinte;
+    protected int perse;
 
-    public User(int vinte, int perse, String nome, String cognome) {
+    public User(){}
+
+    public User(int vinte, int perse){
         this.vinte = vinte;
         this.perse = perse;
-        this.nome = nome;
-        this.cognome = cognome;
     }
 
     public int getVinte() {
@@ -28,22 +26,4 @@ public class User {
     public void setPerse(int perse) {
         this.perse = perse;
     }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCognome() {
-        return cognome;
-    }
-
-    public void setCognome(String cognome) {
-        this.cognome = cognome;
-    }
 }
-
-
