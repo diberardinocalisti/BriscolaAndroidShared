@@ -39,11 +39,11 @@ import gameEngine.Utility;
 import static game.danielesimone.briscola.ActivityGame.leftGame;
 import static gameEngine.Game.I_CAMPO_GIOCO;
 import static gameEngine.Game.activity;
-import static gameEngine.Game.canPlay;
 import static gameEngine.Game.centerText;
 import static gameEngine.Game.giocante;
 import static gameEngine.Game.giocatori;
 import static gameEngine.Game.intermezzo;
+import static gameEngine.Game.areActionsDisabled;
 import static gameEngine.Game.lastManche;
 import static multiplayer.ActivityMultiplayerGame.mazzoOnline;
 import static multiplayer.ActivityMultiplayerGame.onStop;
@@ -198,13 +198,14 @@ public class engineMultiplayer extends Engine{
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void checkIfCartaGiocata(){
         new Thread(() -> {
-            // Ad ora non ho trovato una soluzione migliore per far aspettare che tutte le animazioni siano
-            // terminate prima di eseguire il listener di firebase;
-            while(!canPlay) {
-                try {
-                    Thread.sleep(100);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            // Aspetta fin quando canPlay non viene impostato a true;
+            if(Game.areActionsDisabled()){
+                synchronized (Game.gameLocker){
+                    try {
+                        Game.gameLocker.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -222,9 +223,6 @@ public class engineMultiplayer extends Engine{
 
             View daMuovere = c.getPortatore().getBottoni()[indice];
 
-/*            if(!daMuovere.isEnabled())
-                return;*/
-
             c.setButton(daMuovere);
 
             Object event = new Object();
@@ -238,7 +236,7 @@ public class engineMultiplayer extends Engine{
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void giocaCarta(Carta c, Object event){
-        Game.canPlay = false;
+        Game.disableActions();
         Game.cartaGiocata = true;
 
         new Thread(() -> {
@@ -321,7 +319,7 @@ public class engineMultiplayer extends Engine{
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void onClick(View v){
-        if(!Game.canPlay)
+        if(Game.areActionsDisabled())
             return;
 
         if(Game.user != giocante)
@@ -331,8 +329,6 @@ public class engineMultiplayer extends Engine{
         final Carta carta = Engine.getCartaFromButton(bottone);
 
         int index = Game.user.getIndexFromCarta(carta);
-
-        //Game.canPlay = false;
 
         if(role.equals("HOST")){
             FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",carta.getNome()+"#"+index);

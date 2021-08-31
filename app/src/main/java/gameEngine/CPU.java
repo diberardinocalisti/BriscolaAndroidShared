@@ -48,7 +48,7 @@ public class CPU extends Giocatore {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void toccaA() throws InterruptedException {
-        Game.canPlay = false;
+        Game.disableActions();
 
         super.toccaA();
 
@@ -75,7 +75,7 @@ public class CPU extends Giocatore {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Carta algoHard(){
-        Game.canPlay = true;
+        Game.enableActions();
 
         Carta[] sulTavolo = Engine.getCarteGiocate();
         Carta[] mieCarte = this.carte;
@@ -192,7 +192,7 @@ public class CPU extends Giocatore {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public Carta algoEasy(){
-        Game.canPlay = true;
+        Game.enableActions();
 
         Carta[] sulTavolo = Engine.getCarteGiocate();
         Carta[] mieCarte = this.carte;

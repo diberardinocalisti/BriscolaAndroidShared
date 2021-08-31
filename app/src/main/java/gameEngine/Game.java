@@ -21,6 +21,8 @@ import static game.danielesimone.briscola.ActivityGame.leftGame;
 import static gameEngine.Game.activity;
 
 public class Game {
+    private static boolean canPlay;
+
     public static AppCompatActivity activity;
     public static final Integer viewAnimDuration = 350, accelMultip = 2, textAnimDuration = 250, fadeAnimDuration = 1000;
     public static final Integer intermezzo = 750;
@@ -53,8 +55,9 @@ public class Game {
     public static Carta[] mazzoIniziale;
 
     public static Giocatore giocante, ultimoVincitore;
-    public static boolean canPlay, terminata = true, cartaGiocata, difficoltàScelta = false;
+    public static boolean terminata = true, cartaGiocata, difficoltàScelta = false;
     public static short lastManche = 0;
+    public final static Object gameLocker = new Object();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initialize(AppCompatActivity activity){
@@ -120,5 +123,20 @@ public class Game {
     public static void startGame(AppCompatActivity activity) {
         initialize(activity);
         Engine.inizializza();
+    }
+
+    public static void disableActions(){
+        canPlay = false;
+    }
+
+    public static void enableActions(){
+        canPlay = true;
+        synchronized (gameLocker){
+            gameLocker.notifyAll();
+        }
+    }
+
+    public static boolean areActionsDisabled(){
+        return !canPlay;
     }
 }

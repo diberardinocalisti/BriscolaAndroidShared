@@ -14,6 +14,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import Login.LoginActivity;
+import Login.loginClass;
 import game.danielesimone.briscola.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,6 +25,7 @@ import firebase.FirebaseClass;
 import gameEngine.Utility;
 
 import static Login.LoginActivity.fbUID;
+import static firebase.FirebaseClass.isFirebaseStringValid;
 
 public class MultiplayerActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -65,6 +67,11 @@ public class MultiplayerActivity extends AppCompatActivity {
     public static void joinRoomByCode(AppCompatActivity context, String gameCode, Runnable onRoomAvailableCallback, Runnable onRoomNotExistingCallback, Runnable onRoomFullCallback){
         if(gameCode.isEmpty())
             return;
+
+        if(!isFirebaseStringValid(gameCode)){
+            onRoomNotExistingCallback.run();
+            return;
+        }
 
         FirebaseClass.getFbRefSpeicific(gameCode).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

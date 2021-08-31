@@ -190,16 +190,6 @@ public class loginClass {
         }
     }
 
-    public static boolean isFirebaseStringValid(String string)
-    {
-        string = string.trim();
-
-        if(string.equals("null") || string.isEmpty() || string.contains(".")  || string.contains("#") || string.contains("$") || string.contains("[") || string.contains("]"))
-            return false;
-        else
-            return true;
-    }
-
     public static void updateAvatar(){
         FirebaseClass.getFbRef().child(LoginActivity.fbUID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

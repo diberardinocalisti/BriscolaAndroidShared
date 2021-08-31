@@ -22,10 +22,10 @@ public class onClick implements View.OnClickListener {
         if(carta.getPortatore() != giocante)
             return;
 
-        if(!Game.canPlay || terminata)
+        if(Game.areActionsDisabled() || terminata)
             return;
 
-        Game.canPlay = false;
+        Game.disableActions();
         Game.cartaGiocata = true;
 
         Object event = new Object();
@@ -43,7 +43,7 @@ public class onClick implements View.OnClickListener {
                         if(giocante == null)
                             return;
 
-                        Game.canPlay = true;
+                        Game.enableActions();
 
                         giocante.lancia(carta);
                         final Giocatore vincente = doLogic(carta, getOtherCarta(carta));

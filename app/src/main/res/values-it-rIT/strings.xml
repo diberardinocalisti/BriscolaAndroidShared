@@ -144,5 +144,6 @@
     <string name="cantfindaccount">Impossibile trovare il tuo account.</string>
     <string name="logoutbtn">Logout</string>
     <string name="invalidusername">Username non valido</string>
+    <string name="invalidcharacters">Hai inserito dei caratteri non validi, riprovare.</string>
 
 </resources>

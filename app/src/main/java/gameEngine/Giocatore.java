@@ -367,7 +367,7 @@ public class Giocatore {
     }
 
     public void toccaA() throws InterruptedException {
-        canPlay = true;
+        Game.enableActions();
         giocante = this;
     }
 }

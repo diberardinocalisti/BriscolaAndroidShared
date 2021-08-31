@@ -13,6 +13,15 @@ import multiplayer.User;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class FirebaseClass {
+    public static boolean isFirebaseStringValid(String string)
+    {
+        string = string.trim();
+
+        if(string.equals("null") || string.isEmpty() || string.contains(".")  || string.contains("#") || string.contains("$") || string.contains("[") || string.contains("]"))
+            return false;
+        else
+            return true;
+    }
 
     public static DatabaseReference getFbRef()
     {

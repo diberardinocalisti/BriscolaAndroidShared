@@ -44,7 +44,6 @@ import static gameEngine.Game.accelMultip;
 import static gameEngine.Game.activity;
 import static gameEngine.Game.bottoneBriscola;
 import static gameEngine.Game.briscola;
-import static gameEngine.Game.canPlay;
 import static gameEngine.Game.cartaGiocata;
 import static gameEngine.Game.carte;
 import static gameEngine.Game.centerText;
@@ -82,7 +81,7 @@ public class Engine{
     }
 
     static void inizia(){
-        canPlay = false;
+        Game.disableActions();
         terminata = false;
     }
 
@@ -300,10 +299,10 @@ public class Engine{
         if(carta.getPortatore() != giocante)
             return;
 
-        if(!Game.canPlay || terminata)
+        if(Game.areActionsDisabled() || terminata)
             return;
 
-        Game.canPlay = false;
+        Game.disableActions();
 
         Object event = new Object();
 
@@ -320,7 +319,7 @@ public class Engine{
                         if(giocante == null)
                             return;
 
-                        Game.canPlay = true;
+                        Game.enableActions();
 
                         giocante.lancia(carta);
                         final Giocatore vincente = doLogic(carta, getOtherCarta(carta));
@@ -394,7 +393,7 @@ public class Engine{
     }
 
     static void terminaPartita(){
-        canPlay = false;
+        Game.disableActions();
         terminata = true;
 
         Intent i = new Intent(activity, postPartita.class);

@@ -151,5 +151,6 @@
     <string name="cantfindaccount">Something went wrong with your account, you will be disconnected.</string>
     <string name="logoutbtn">Logout</string>
     <string name="invalidusername">Invalid username</string>
+    <string name="invalidcharacters">You entered invalid characters, please retry.</string>
 
 </resources>

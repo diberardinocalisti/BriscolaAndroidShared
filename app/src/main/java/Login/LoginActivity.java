@@ -65,6 +65,7 @@ import okhttp3.internal.Util;
 
 import static Login.loginClass.getFBUserId;
 import static Login.loginClass.isFacebookLoggedIn;
+import static firebase.FirebaseClass.isFirebaseStringValid;
 import static java.lang.String.*;
 import static multiplayer.ActivityMultiplayerGame.mazzoOnline;
 import static multiplayer.engineMultiplayer.codiceStanza;
@@ -138,7 +139,6 @@ public class LoginActivity extends AppCompatActivity {
                                 esiste = true;
                                 break;
                             }
-
                         }
 
                         if(!esiste) {
@@ -184,6 +184,11 @@ public class LoginActivity extends AppCompatActivity {
             String username = usernameInput.getText().toString().trim();
             String password = passwordInput.getText().toString().trim();
             String hashPassword = loginClass.getMd5(password);
+
+            if(!isFirebaseStringValid(username)){
+                Utility.oneLineDialog(this, this.getString(R.string.loginerror), null);
+                return;
+            }
 
             // Accedi all'account già esistente;
             FirebaseClass.getFbRef().child(username).get().addOnCompleteListener(task -> {
@@ -275,14 +280,14 @@ public class LoginActivity extends AppCompatActivity {
                 return;
             }
 
-            if(!loginClass.isFirebaseStringValid(username)){
+            if(!isFirebaseStringValid(username)){
                 Utility.oneLineDialog(this, this.getString(R.string.usernameerror), null);
                 return;
             }
 
             String tempEmail = email.replace("_", ".");
             boolean isValidEmail = (!TextUtils.isEmpty(tempEmail) && Patterns.EMAIL_ADDRESS.matcher(tempEmail).matches());
-            if(!isValidEmail || !loginClass.isFirebaseStringValid(email)){
+            if(!isValidEmail || !isFirebaseStringValid(email)){
                 String message = this.getString(R.string.emailnotvalid);
                 Utility.oneLineDialog(this, message, null);
                 return;
