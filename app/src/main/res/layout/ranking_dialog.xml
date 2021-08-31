@@ -2,24 +2,63 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent"
+    android:id="@+id/ranking_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout2"
-        android:layout_width="350dp"
+        android:id="@+id/ranking_constraintLayout"
+        android:layout_width="1000px"
         android:layout_height="1000px"
         android:background="@drawable/round_box"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.508"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.242">
+        app:layout_constraintVertical_bias="0.008">
+
+        <View
+            android:id="@+id/ranking_helper"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/ranking_helper1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.455" />
+
+        <View
+            android:id="@+id/ranking_helper6"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="#039846"
+            app:layout_constraintBottom_toTopOf="@+id/ranking_helper"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ranking_titolo"
+            app:layout_constraintVertical_bias="0.733" />
+
+        <View
+            android:id="@+id/ranking_helper1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/ranking_helper3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/ranking_helper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/titoloRanking"
+            android:id="@+id/ranking_titolo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
@@ -33,83 +72,57 @@
             android:textAllCaps="true"
             android:textColor="#039846"
             android:textSize="26sp"
-            app:layout_constraintBottom_toBottomOf="@+id/helperRanking3"
+            app:layout_constraintBottom_toBottomOf="@+id/ranking_helper3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/helperRanking3" />
-
-        <View
-            android:id="@+id/helperRanking"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            app:layout_constraintBottom_toBottomOf="@+id/helperRanking1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.695"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/helperRanking6"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:background="#039846"
-            app:layout_constraintBottom_toTopOf="@+id/helperRanking"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/titoloRanking"
+            app:layout_constraintTop_toTopOf="@+id/ranking_helper3"
             app:layout_constraintVertical_bias="0.4" />
-
-        <View
-            android:id="@+id/helperRanking1"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <View
-            android:id="@+id/helperRanking3"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            app:layout_constraintBottom_toTopOf="@+id/helperRanking"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/helperRanking">
+            app:layout_constraintEnd_toEndOf="@+id/ranking_helper1"
+            app:layout_constraintStart_toStartOf="@+id/ranking_helper1"
+            app:layout_constraintTop_toBottomOf="@+id/ranking_helper">
 
             <ProgressBar
-                android:id="@+id/loadingBarRanking"
+                android:id="@+id/ranking_loadingBar"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                app:layout_constraintBottom_toBottomOf="@+id/scrollViewRanking"
-                app:layout_constraintEnd_toEndOf="@+id/scrollViewRanking"
-                app:layout_constraintStart_toStartOf="@+id/scrollViewRanking"
-                app:layout_constraintTop_toTopOf="@+id/scrollViewRanking" />
+                app:layout_constraintBottom_toBottomOf="@+id/ranking_scrollView"
+                app:layout_constraintEnd_toEndOf="@+id/ranking_scrollView"
+                app:layout_constraintStart_toStartOf="@+id/ranking_scrollView"
+                app:layout_constraintTop_toTopOf="@+id/ranking_scrollView" />
+
+            <TextView
+                android:id="@+id/ranking_alert"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/ranking_scrollView"
+                app:layout_constraintEnd_toEndOf="@+id/ranking_scrollView"
+                app:layout_constraintStart_toStartOf="@+id/ranking_scrollView"
+                app:layout_constraintTop_toTopOf="@+id/ranking_scrollView" />
 
             <ScrollView
-                android:id="@+id/scrollViewRanking"
+                android:id="@+id/ranking_scrollView"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_marginBottom="24dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="16dp"
                 android:fillViewport="true"
                 android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <LinearLayout
-                    android:id="@+id/scrollViewLayoutRanking"
+                    android:id="@+id/ranking_scrollViewLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
@@ -120,16 +133,17 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="350dp"
+        android:id="@+id/ranking_constraintLayout2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:background="@drawable/round_box"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
+        app:layout_constraintEnd_toEndOf="@+id/ranking_constraintLayout"
+        app:layout_constraintStart_toStartOf="@+id/ranking_constraintLayout"
+        app:layout_constraintTop_toBottomOf="@+id/ranking_constraintLayout">
 
         <LinearLayout
-            android:id="@+id/scrollViewLayoutPersonalRanking"
+            android:id="@+id/ranking_scrollViewLayoutPersonal"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"

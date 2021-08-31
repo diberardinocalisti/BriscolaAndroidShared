@@ -13,32 +13,20 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.function.Predicate;
 
-import Login.LoginActivity;
 import UI.UiColor;
 import firebase.FirebaseClass;
 import game.danielesimone.briscola.R;
-import gameEngine.SharedPref;
 import multiplayer.FbUser;
 import multiplayer.User;
 
-import static Login.LoginActivity.fbUID;
 import static Login.loginClass.getFBUserId;
 import static Login.loginClass.getUsernameId;
 import static Login.loginClass.isEmailUser;
@@ -81,10 +69,10 @@ public class Ranking extends Dialog {
     private void setListeners(){
         //Utility.showAd(this);
 
-        ScrollView scrollView = findViewById(R.id.scrollViewRanking);
+        ScrollView scrollView = findViewById(R.id.ranking_scrollView);
 
         scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            View view = (View) scrollView.getChildAt(scrollView.getChildCount()-1);
+            View view = scrollView.getChildAt(scrollView.getChildCount()-1);
             int difference = (view.getBottom()-(scrollView.getHeight()+scrollView.getScrollY()));
             boolean isAtBottom = difference == 0;
 
@@ -94,15 +82,14 @@ public class Ranking extends Dialog {
     }
 
     private void mostraUtentePrincipale(){
-        if(isLoggedIn()){
-            utentePrincipale.setPlacement(getPlacementById(utentePrincipale.getID()));
-            mostraUtente(utentePrincipale, R.id.scrollViewLayoutPersonalRanking, appCompatActivity);
-            mostraUtente(utentePrincipale, R.id.scrollViewLayoutRanking, appCompatActivity);
-        }
+        utentePrincipale.setPlacement(getPlacementById(utentePrincipale.getID()));
+
+        if(isLoggedIn())
+            mostraUtente(utentePrincipale, R.id.ranking_scrollViewLayoutPersonal, appCompatActivity);
     }
 
     private void ottieniUtenti(Runnable callback){
-        ProgressBar progressBar = this.findViewById(R.id.loadingBarRanking);
+        ProgressBar progressBar = this.findViewById(R.id.ranking_loadingBar);
         progressBar.setVisibility(View.VISIBLE);
 
         FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
@@ -113,6 +100,8 @@ public class Ranking extends Dialog {
                     String nomeUtente;
                     String idUtente = d.getKey();
                     boolean isSelf = false;
+
+                    int vinte = d.getValue(User.class).getVinte();
 
                     if(isEmailUser(d)){
                         nomeUtente = d.getKey();
@@ -129,12 +118,14 @@ public class Ranking extends Dialog {
                                 isSelf = true;
                     }
 
-                    int vinte = d.getValue(User.class).getVinte();
-
                     if(nomeUtente.length() <= 1)
                         nomeUtente = appCompatActivity.getString(R.string.invalidusername);
 
-                    utentiTotali.add(new RankingUtente(nomeUtente, idUtente, vinte, isSelf));
+                    RankingUtente utenteDaAggiungere =  new RankingUtente(nomeUtente, idUtente, vinte);
+                    if(isSelf)
+                        utentePrincipale = utenteDaAggiungere;
+
+                    utentiTotali.add(utenteDaAggiungere);
                 }
             }
 
@@ -162,10 +153,11 @@ public class Ranking extends Dialog {
             RankingUtente utenteDaMostrare = utentiTotali.get(i);
             utenteDaMostrare.setPlacement(i);
 
-            mostraUtente(utentiTotali.get(i), R.id.scrollViewLayoutRanking, appCompatActivity);
+            mostraUtente(utentiTotali.get(i), R.id.ranking_scrollViewLayout, appCompatActivity);
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void mostraUtente(RankingUtente utente, int parentLayout, AppCompatActivity appCompatActivity){
         LayoutInflater inflater = LayoutInflater.from(appCompatActivity);
 
@@ -184,13 +176,13 @@ public class Ranking extends Dialog {
         playerPlacement.setText(String.valueOf(utente.getPlacement()));
         setImgProfile(appCompatActivity, utente.getID(), playerIcon);
 
-        if(utente.isSelf()) {
+        if(utente == utentePrincipale)
             playerName.setTextColor(UiColor.GREEN);
-        }
 
         gallery.addView(view);
 
-        utentiMostrati.add(utente);
+        if(parentLayout == R.id.ranking_scrollViewLayout)
+            utentiMostrati.add(utente);
     }
 
     private int getPlacementById(String ID){
@@ -206,16 +198,11 @@ public class Ranking extends Dialog {
         private final String ID;
         private final int vinte;
         private int placement;
-        private boolean isSelf;
 
-        private RankingUtente(String name, String ID, int vinte, boolean isSelf){
+        private RankingUtente(String name, String ID, int vinte){
             this.name = name;
             this.ID = ID;
             this.vinte = vinte;
-            this.isSelf = isSelf;
-
-            if(isSelf)
-                Ranking.utentePrincipale = this;
         }
 
         public String getName() {
@@ -236,10 +223,6 @@ public class Ranking extends Dialog {
 
         public int getPlacement(){
             return placement;
-        }
-
-        public boolean isSelf(){
-            return isSelf;
         }
     }
 }

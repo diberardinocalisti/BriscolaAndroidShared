@@ -223,7 +223,7 @@ public class engineMultiplayer extends Engine{
         new Thread(() -> {
             // se, a causa del ritardo dovuto dalla connessione, l'avversario lancia una carta prima che abbia effettivamente
             // pescato in entrambe le istanze, gioca la carta dopo che è stata effettivamente effettuata la presa;
-            if(!giocante.isPescato() || !Game.canPlay) {
+            if(!giocante.isPescato()) {
                 try {
                     synchronized (giocante) {
                         giocante.wait();
