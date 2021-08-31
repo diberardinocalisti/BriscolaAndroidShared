@@ -71,7 +71,7 @@ public class Game {
         giocante = null;
         ultimoVincitore = null;
         CPU = null;
-        canPlay = true;
+        canPlay = false;
         lastManche = 0;
         terminata = false;
         carte = new View[12];
