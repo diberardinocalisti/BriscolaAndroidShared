@@ -21,7 +21,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.sql.Time;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import Login.loginClass;
 import firebase.FirebaseClass;
@@ -37,6 +39,7 @@ import gameEngine.Utility;
 import static game.danielesimone.briscola.ActivityGame.leftGame;
 import static gameEngine.Game.I_CAMPO_GIOCO;
 import static gameEngine.Game.activity;
+import static gameEngine.Game.canPlay;
 import static gameEngine.Game.centerText;
 import static gameEngine.Game.giocante;
 import static gameEngine.Game.giocatori;
@@ -197,69 +200,56 @@ public class engineMultiplayer extends Engine{
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void checkIfCartaGiocata(){
-        if(giocante == null)
-            giocante = host;
-
-        String turno = ((GiocatoreMP) giocante).getRuolo();
-        String app = (turno.equals("enemy") ? snapshot.getGiocataDaEnemy() : snapshot.getGiocataDaHost());
-
-        if(app.equals("null"))
-            return;
-
-        final String separator = "#";
-        String nome = app.split(separator)[0];
-        int indice = Integer.parseInt(app.split(separator)[1]);
-
-        Carta c = Engine.getCartaFromName(nome);
-
-        Game.canPlay = false;
-        Game.cartaGiocata = true;
-
-        Object event = new Object();
-
-        /*if(c.getPortatore() == null)
-            return;*/
-
         new Thread(() -> {
-            // se, a causa del ritardo dovuto dalla connessione, l'avversario lancia una carta prima che abbia effettivamente
-            // pescato in entrambe le istanze, gioca la carta dopo che è stata effettivamente effettuata la presa;
-            if(!giocante.isPescato()) {
+            // Ad ora non ho trovato una soluzione migliore per far aspettare che tutte le animazioni siano
+            // terminate prima di eseguire il listener di firebase;
+            while(!canPlay) {
                 try {
-                    synchronized (giocante) {
-                        giocante.wait();
-                    }
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
 
+            String turno = ((GiocatoreMP) giocante).getRuolo();
+            String app = (turno.equals("enemy") ? snapshot.getGiocataDaEnemy() : snapshot.getGiocataDaHost());
+
+            if(app.equals("null"))
+                return;
+
+            final String separator = "#";
+            String nome = app.split(separator)[0];
+            int indice = Integer.parseInt(app.split(separator)[1]);
+
+            Carta c = Engine.getCartaFromName(nome);
+
+            View daMuovere = c.getPortatore().getBottoni()[indice];
+
+/*            if(!daMuovere.isEnabled())
+                return;*/
+
+            c.setButton(daMuovere);
+
+            Object event = new Object();
             activity.runOnUiThread(() -> {
-                View daMuovere = c.getPortatore().getBottoni()[indice];
-
-                if(!daMuovere.isEnabled())
-                    return;
-
-                c.setButton(daMuovere);
-
                 clearText(centerText);
-
                 muoviCarta(daMuovere, Game.carte[c.getPortatore().getIndex() + I_CAMPO_GIOCO[lastManche][0]], c,false, true, false, event);
                 giocaCarta(c, event);
             });
         }).start();
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void giocaCarta(Carta c, Object event){
+        Game.canPlay = false;
+        Game.cartaGiocata = true;
+
         new Thread(() -> {
             try {
                 synchronized (event){
                     event.wait();
 
                     activity.runOnUiThread(() -> {
-                        Game.canPlay = true;
-
                         c.getPortatore().lancia(c);
 
                         final Giocatore vincente = doLogic(c, getOtherCarta(c));
@@ -345,7 +335,7 @@ public class engineMultiplayer extends Engine{
 
         int index = Game.user.getIndexFromCarta(carta);
 
-        Game.canPlay = false;
+        //Game.canPlay = false;
 
         if(role.equals("HOST")){
             FirebaseClass.editFieldFirebase(codiceStanza,"giocataDaHost",carta.getNome()+"#"+index);

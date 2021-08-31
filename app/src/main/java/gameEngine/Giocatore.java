@@ -49,8 +49,6 @@ public class Giocatore {
 
     protected View mazzo;
 
-    protected boolean pescato = false;
-    
     public Giocatore(String nome, String userId, Integer index) {
         this(nome, index, userId, false);
         Game.user = this;
@@ -170,14 +168,6 @@ public class Giocatore {
         this.mazzo = mazzo;
     }
 
-    public boolean isPescato() {
-        return pescato;
-    }
-
-    public void setPescato(boolean pescato) {
-        this.pescato = pescato;
-    }
-
     public Bitmap getIcon(){
         BitmapDrawable drawable = (BitmapDrawable) this.userIcon.getDrawable();
         return drawable.getBitmap();
@@ -294,8 +284,6 @@ public class Giocatore {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void pesca(){
-        this.pescato = false;
-        
         if(!isLastManche())
             this.prendi(Game.mazzo.get(0), () -> {
                 if(isLastManche() && lastManche == 0)
@@ -360,7 +348,6 @@ public class Giocatore {
                             }
                         }
 
-                        this.pescato = true;
                         callback.run();
                     });
 
