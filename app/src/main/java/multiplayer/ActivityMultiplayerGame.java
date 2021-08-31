@@ -36,8 +36,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
     public static boolean onStop = false;
     public static String mazzoOnline = new String();
     public static GameRoom snapshot;
-    public static boolean distribuisci = false;
-    public static String idHost = "", idEnemy = "";
+    public static boolean initPartita = false;
     public static ValueEventListener valueEventListener;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -48,12 +47,10 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        onStop = distribuisci = false;
+        onStop = initPartita = false;
 
         roleId = (role.equals("HOST") ? "host" : "enemy");
-
-        Game.canPlay = roleId.equals("host");
-
+        
         Game.initialize(this);
 
         valueEventListener = new ValueEventListener() {
@@ -71,10 +68,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
                 }
 
                 if(!onStop){
-                    if(!distribuisci){
-                        idHost = snapshot.getIdHost();
-                        idEnemy = snapshot.getIdEnemy();
-
+                    if(!initPartita){
                         if(roleId.equals("host")) {
                             initHost();
                         }else if(!snapshot.getMazzo().equals("null")) {
@@ -99,6 +93,7 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
         leftGame = true;
         onStop = true;
+        
         FirebaseClass.editFieldFirebase(codiceStanza, roleId, "null");
         FirebaseClass.deleteFieldFirebase(null, codiceStanza);
 

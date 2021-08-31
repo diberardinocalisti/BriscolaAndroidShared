@@ -45,9 +45,6 @@ import static gameEngine.Game.giocante;
 import static gameEngine.Game.giocatori;
 import static gameEngine.Game.intermezzo;
 import static gameEngine.Game.lastManche;
-import static multiplayer.ActivityMultiplayerGame.distribuisci;
-import static multiplayer.ActivityMultiplayerGame.idEnemy;
-import static multiplayer.ActivityMultiplayerGame.idHost;
 import static multiplayer.ActivityMultiplayerGame.mazzoOnline;
 import static multiplayer.ActivityMultiplayerGame.onStop;
 import static multiplayer.ActivityMultiplayerGame.snapshot;
@@ -278,7 +275,7 @@ public class engineMultiplayer extends Engine{
 
         Engine.distribuisciCarte(new Giocatore[]{host, enemy});
 
-        distribuisci = true;
+        ActivityMultiplayerGame.initPartita = true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -291,7 +288,7 @@ public class engineMultiplayer extends Engine{
 
         Engine.distribuisciCarte(new Giocatore[]{host, enemy});
 
-        distribuisci = true;
+        ActivityMultiplayerGame.initPartita = true;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
