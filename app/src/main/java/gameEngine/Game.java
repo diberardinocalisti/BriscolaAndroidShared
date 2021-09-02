@@ -21,14 +21,16 @@ import static game.danielesimone.briscola.ActivityGame.leftGame;
 import static gameEngine.Game.activity;
 
 public class Game {
-    private static boolean canPlay;
+    public final static Object gameLocker = new Object();
 
     public static AppCompatActivity activity;
+
     public static final Integer viewAnimDuration = 350, accelMultip = 2, textAnimDuration = 250, fadeAnimDuration = 1000;
-    public static final Integer intermezzo = 750;
-    public static final Integer intermezzoCPU = 650;
-    public static final Integer intermezzoManche = 100;
+    public static final Integer intermezzo = 750, intermezzoCPU = 650, intermezzoManche = 100;
     public static final Integer nGiocatori = 2, nCarte = 3, maxPunti = 120, dimensioneMazzo = 40;
+    public static short lastManche = 0;
+
+    public static String tipoCarte;
     public static final String[] semi = {"bastoni", "denara", "spade", "coppe"};
     public static final Integer I_BRISCOLA = 6, I_MAZZO = 7;
     public static final int[][] I_CAMPO_GIOCO = new int[][]{
@@ -36,28 +38,22 @@ public class Game {
             {10,11}
     };
 
-    public static String tipoCarte;
-    public static Carta briscola;
-    public static TextView centerText;
-    public static Giocatore[] giocatori;
-    public static CPU CPU;
-    public static Giocatore user, opp;
-    public static Timer timer;
-
-    // Tutte le carte presenti nel campo di gioco;
-    public static View[] carte;
-
-    // Tutte le carte dei giocatori (quelle che possono essere giocate);
-    public static Button[] carteBottoni;
-    public static View bottoneBriscola;
-
     public static ArrayList<Carta> mazzo;
     public static Carta[] mazzoIniziale;
+    public static Carta briscola;
+    public static Timer timer;
 
-    public static Giocatore giocante, ultimoVincitore;
+    public static TextView centerText;
+    public static View[] carte;
+    public static View bottoneBriscola;
+    public static Button[] carteBottoni;
+
+    public static Giocatore[] giocatori;
+    public static Giocatore user, opp, giocante, ultimoVincitore;
+    public static CPU CPU;
+
     public static boolean terminata = true, cartaGiocata, difficoltàScelta = false;
-    public static short lastManche = 0;
-    public final static Object gameLocker = new Object();
+    private static boolean canPlay;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void initialize(AppCompatActivity activity){
@@ -71,21 +67,26 @@ public class Game {
 
         giocatori = new Giocatore[nGiocatori];
         mazzo = new ArrayList<>();
+        mazzoIniziale = new Carta[dimensioneMazzo];
+        carte = new View[12];
+        carteBottoni = new Button[nCarte * 2];
+        tipoCarte = SharedPref.getTipoCarte().toLowerCase();
+
+        centerText = activity.findViewById(R.id.avviso);
+        bottoneBriscola = activity.findViewById(R.id.showbriscola);
+
         giocante = null;
         ultimoVincitore = null;
         CPU = null;
+
         canPlay = false;
-        lastManche = 0;
         terminata = false;
-        carte = new View[12];
-        carteBottoni = new Button[nCarte * 2];
-        mazzoIniziale = new Carta[dimensioneMazzo];
-        tipoCarte = SharedPref.getTipoCarte().toLowerCase();
-        centerText = activity.findViewById(R.id.avviso);
         leftGame = false;
         cartaGiocata = false;
-        bottoneBriscola = activity.findViewById(R.id.showbriscola);
-        timer = new Timer(); timer.start();
+        lastManche = 0;
+
+        timer = new Timer();
+        timer.start();
 
         Engine.aggiornaNCarte(mazzoIniziale.length);
 

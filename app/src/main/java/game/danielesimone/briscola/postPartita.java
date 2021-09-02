@@ -1,20 +1,16 @@
 package game.danielesimone.briscola;
 
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -22,20 +18,16 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import Home.Storico;
 import Login.loginClass;
 
 import com.google.firebase.database.DataSnapshot;
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import Home.MainActivity;
 import firebase.FirebaseClass;
 import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
-import gameEngine.SharedPref;
 import gameEngine.Utility;
 import multiplayer.GiocatoreMP;
 import multiplayer.MultiplayerActivity;

@@ -108,7 +108,7 @@
                 android:shadowRadius="1.5"
                 android:text="@string/login_page"
                 android:textAllCaps="false"
-                android:textColor="#039846"
+                android:textColor="@color/green"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

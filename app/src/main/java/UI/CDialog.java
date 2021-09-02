@@ -62,6 +62,7 @@ public class CDialog extends Dialog implements android.view.View.OnClickListener
         TextView title = this.findViewById(R.id.title);
         Button btn1 = this.findViewById(R.id.btn1);
         Button btn2 = this.findViewById(R.id.btn2);
+        View btnClose = this.findViewById(R.id.dialogClose);
 
         title.setText(this.title);
 
@@ -72,6 +73,11 @@ public class CDialog extends Dialog implements android.view.View.OnClickListener
         btn2.setText(this.option2);
 
         this.setOnDismissListener(dialog -> {
+            if(this.dismissCallback != null)
+                this.dismissCallback.run();
+        });
+
+        btnClose.setOnClickListener(v -> {
             if(this.dismissCallback != null)
                 this.dismissCallback.run();
         });

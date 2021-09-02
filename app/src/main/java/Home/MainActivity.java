@@ -4,27 +4,37 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.login.widget.LoginButton;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+
+import java.util.ArrayList;
+
+import UI.BottomDialog;
 import firebase.FirebaseClass;
 import game.danielesimone.briscola.ActivityGame;
 import game.danielesimone.briscola.R;
-import com.facebook.AccessToken;
-import com.facebook.login.Login;
 
 import Login.LoginActivity;
 import Login.loginClass;
 import gameEngine.Game;
-import game.danielesimone.briscola.Storico;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
 import multiplayer.ActivityMultiplayerGame;
@@ -76,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     protected void setListeners(){
         Button singleplayer = findViewById(R.id.singleplayer);
         Button multiplayer = findViewById(R.id.multiplayer);
@@ -85,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton contact = findViewById(R.id.contact);
         ImageButton history = findViewById(R.id.history);
         ImageButton ranking = findViewById(R.id.ranking);
+        ImageButton friends = findViewById(R.id.friends);
 
         singleplayer.setOnClickListener(v -> {
             Intent intent = new Intent(this, ActivityGame.class);
@@ -120,7 +132,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
         ranking.setOnClickListener(v -> new Ranking(this));
-        history.setOnClickListener(v -> Utility.goTo(this, Storico.class));
+        history.setOnClickListener(v -> new Storico(this));
+        friends.setOnClickListener(v -> {
+            if(isFacebookLoggedIn()){
+                new Friends(this);
+            }else{
+                String message = this.getString(R.string.mustbeloggedwithfacebook);
+                Utility.oneLineDialog(this, message, () -> {
+                    LoginActivity.doLogout();
+                    Utility.goTo(this, LoginActivity.class);
+                });
+            }
+        });
         closeGame.setOnClickListener(v -> this.onBackPressed());
     }
 

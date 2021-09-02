@@ -7,7 +7,7 @@
                 android:angle="45"
                 android:centerX="35%"
                 android:startColor="#47A891"
-                android:endColor="#039846"
+                android:endColor="@color/green"
                 android:type="linear"
                 />
             <stroke
@@ -28,7 +28,7 @@
                 android:angle="45"
                 android:centerX="35%"
                 android:startColor="#47A891"
-                android:endColor="#039846"
+                android:endColor="@color/green"
                 android:type="linear"
                 />
             <stroke

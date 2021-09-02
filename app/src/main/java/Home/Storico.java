@@ -1,7 +1,10 @@
-package game.danielesimone.briscola;
+package Home;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -41,32 +45,34 @@ import static gameEngine.Game.activity;
 import static gameEngine.Game.maxPunti;
 import static gameEngine.Game.nGiocatori;
 
-public class Storico extends AppCompatActivity {
+public class Storico extends Dialog{
     private static final String fileName = "storico.json";
     private static final String fileDir = "data";
+    private AppCompatActivity context;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    public Storico(@NonNull AppCompatActivity context){
+        super(context);
+        this.context = context;
 
-        setContentView(R.layout.storico_partite);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
-        Utility.enableTopBar(this);
+        this.setContentView(R.layout.storico_partite);
+        this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         initializeLayout();
         refreshMatches();
+
+       // Utility.ridimensionamento(context, this.findViewById(R.id.storico_parent));
+
+        this.create();
+        this.show();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     protected void refreshMatches(){
-        TextView alert = findViewById(R.id.alertStorico);
+        TextView alert = findViewById(R.id.storico_alertStorico);
         alert.setText(new String());
 
-        ViewGroup scrollView = findViewById(R.id.scrollPartiteLayout);
+        ViewGroup scrollView = findViewById(R.id.storico_scrollPartiteLayout);
         scrollView.removeAllViews();
 
         showMatches();
@@ -74,47 +80,43 @@ public class Storico extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     protected void resetMatches(){
-        Utility.writeFile(this, new String(), fileDir, fileName);
+        Utility.writeFile(context, new String(), fileDir, fileName);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     protected void initializeLayout(){
-        Utility.showAd(this);
-
-        TextView alert = findViewById(R.id.alertStorico);
+        TextView alert = findViewById(R.id.storico_alertStorico);
         alert.setText(new String());
 
-        Button resetBtn = findViewById(R.id.reset);
+/*        Button resetBtn = findViewById(R.id.storico_reset);
 
         resetBtn.setOnClickListener(v -> {
-            if(!getMatches(this).isEmpty()){
-                Utility.oneLineDialog(this, this.getString(R.string.resetconfirm), () -> {
+            if(!getMatches(context).isEmpty()){
+                Utility.oneLineDialog(context, context.getString(R.string.resetconfirm), () -> {
                     resetMatches();
                     refreshMatches();
                 });
             }
-        });
+        });*/
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     protected void showMatches(){
-        TextView alert = findViewById(R.id.alertStorico);
+        TextView alert = findViewById(R.id.storico_alertStorico);
 
-        ArrayList<Partita> partite = getMatches(this);
+        ArrayList<Partita> partite = getMatches(context);
         Collections.reverse(partite);
 
-        if(!partite.isEmpty()){
-            for(Partita p : partite)
-                addMatchToList(p.getPunti(), p.getNomeAvversario(), p.getIdAvversario(), p.getData());
-        }else{
-            alert.setText(this.getString(R.string.nomatchfound));
-        }
+        if(!partite.isEmpty()) for(Partita p : partite)
+            addMatchToList(p.getPunti(), p.getNomeAvversario(), p.getIdAvversario(), p.getData());
+        else alert.setText(context.getString(R.string.nomatchfound));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void addMatchToList(int punti, String nomeAvversario, String idAvversario, String dataString){
-        LinearLayout scrollViewLayout = findViewById(R.id.scrollPartiteLayout);
+        LinearLayout scrollViewLayout = findViewById(R.id.storico_scrollPartiteLayout);
 
-        LayoutInflater inflater = LayoutInflater.from(this);
+        LayoutInflater inflater = LayoutInflater.from(context);
         View parentView = inflater.inflate(R.layout.singlematch, null);
 
         TextView description = parentView.findViewById(R.id.description);
@@ -124,22 +126,19 @@ public class Storico extends AppCompatActivity {
 
         ImageView oppIcon = parentView.findViewById(R.id.oppIcon);
 
-        String punteggio = punti + " " + this.getString(R.string.points);
-        description.setText(MessageFormat.format("{0}: {1}", nomeAvversario, punteggio));
+        @SuppressLint("DefaultLocale") String punteggio = String.format("%d %s", punti, context.getString(R.string.points));
+        description.setText(String.format("%s: %s", nomeAvversario, punteggio));
 
-        setImgProfile(this, idAvversario, oppIcon);
+        setImgProfile(context, idAvversario, oppIcon);
 
-        boolean isVittoria = punti > maxPunti/nGiocatori;
-        boolean isSconfitta = punti < maxPunti/nGiocatori;
-        boolean isPareggio = punti == maxPunti/nGiocatori;
+        boolean isVittoria = punti > maxPunti / nGiocatori;
+        boolean isSconfitta = punti < maxPunti / nGiocatori;
+        boolean isPareggio = punti == maxPunti / nGiocatori;
 
         int color = 0;
-        if(isVittoria)
-            color = UiColor.GREEN;
-        else if(isSconfitta)
-            color = UiColor.RED;
-        else if(isPareggio)
-            color = UiColor.YELLOW;
+        if(isVittoria) color = UiColor.GREEN;
+        else if(isSconfitta) color = UiColor.RED;
+        else if(isPareggio) color = UiColor.YELLOW;
 
         description.setTextColor(color);
 
@@ -175,15 +174,15 @@ public class Storico extends AppCompatActivity {
 
                 partite.add(new Partita(punti, nomeAvversario, idAvversario, data));
             }
-
-        }catch(JSONException e) {
+        }
+        catch(JSONException e){
             e.printStackTrace();
         }
 
         return partite;
     }
 
-    public static class Partita {
+    public static class Partita{
         private final Integer punti;
         private final String nomeAvversario, idAvversario;
         private final String data;
@@ -195,19 +194,19 @@ public class Storico extends AppCompatActivity {
             this.data = data;
         }
 
-        public String getNomeAvversario() {
+        public String getNomeAvversario(){
             return nomeAvversario;
         }
 
-        public String getIdAvversario() {
+        public String getIdAvversario(){
             return idAvversario;
         }
 
-        public Integer getPunti() {
+        public Integer getPunti(){
             return punti;
         }
 
-        public String getData() {
+        public String getData(){
             return data;
         }
     }

@@ -67,8 +67,6 @@ public class Ranking extends Dialog {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void setListeners(){
-        //Utility.showAd(this);
-
         ScrollView scrollView = findViewById(R.id.ranking_scrollView);
 
         scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
@@ -82,10 +80,11 @@ public class Ranking extends Dialog {
     }
 
     private void mostraUtentePrincipale(){
-        utentePrincipale.setPlacement(getPlacementById(utentePrincipale.getID()));
+        if(!isLoggedIn())
+            return;
 
-        if(isLoggedIn())
-            mostraUtente(utentePrincipale, R.id.ranking_scrollViewLayoutPersonal, appCompatActivity);
+        utentePrincipale.setPlacement(getPlacementById(utentePrincipale.getID()));
+        mostraUtente(utentePrincipale, R.id.ranking_scrollViewLayoutPersonal, appCompatActivity);
     }
 
     private void ottieniUtenti(Runnable callback){

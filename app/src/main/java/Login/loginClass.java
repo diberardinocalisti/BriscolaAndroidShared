@@ -59,6 +59,10 @@ public class loginClass {
          return (isFacebookLoggedIn() ? getFBNome() : SharedPref.getUsername());
     }
 
+    public static String getFullName(){
+        return (isFacebookLoggedIn() ? getFullFBName() : SharedPref.getUsername());
+    }
+
     public static String getId(){
         return isFacebookLoggedIn() ? getFBUserId() : SharedPref.getUsername();
     }
@@ -87,25 +91,25 @@ public class loginClass {
 
         facebookUserCallbacks(userId,
                 // Se l'utente è registrato a facebook
-                () -> {
-                    new Thread(() -> {
-                        URL imageURL = null;
-                        try {
-                            imageURL = new URL("https://graph.facebook.com/" + userId + "/picture?type=large");
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
-                        Bitmap bitmap = null;
-                        try {
-                            bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                new Thread(() -> {
+                    URL imageURL = null;
+                    try{
+                        imageURL = new URL("https://graph.facebook.com/" + userId + "/picture?type=large");
+                    }
+                    catch(MalformedURLException e){
+                        e.printStackTrace();
+                    }
+                    Bitmap bitmap = null;
+                    try{
+                        bitmap = BitmapFactory.decodeStream(imageURL.openConnection().getInputStream());
+                    }
+                    catch(IOException e){
+                        e.printStackTrace();
+                    }
 
-                        Bitmap finalBitmap = bitmap;
-                        activity.runOnUiThread(() -> imageIcon.setImageBitmap(finalBitmap));
-                    }).start();
-                },
+                    Bitmap finalBitmap = bitmap;
+                    activity.runOnUiThread(() -> imageIcon.setImageBitmap(finalBitmap));
+                })::start,
 
                 // Se l'utente è registrato con email;
                 () -> {

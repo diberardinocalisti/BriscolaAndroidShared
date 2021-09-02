@@ -145,5 +145,8 @@
     <string name="logoutbtn">Logout</string>
     <string name="invalidusername">Username non valido</string>
     <string name="invalidcharacters">Hai inserito dei caratteri non validi, riprovare.</string>
+    <string name="yourfriends">I tuoi amici</string>
+    <string name="visitprofile">Cerca su Facebook</string>
+    <string name="mustbeloggedwithfacebook">È necessario aver effettuato l\'accesso a Facebook per vedere i tuoi amici. Vuoi accedere ora? Verrai renderizzato alla pagina di accesso e eventualmente disconnesso dall\'account attuale.</string>
 
 </resources>

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Uso un relative layout per poter piazzare dei bottoni sopra l'immagine-->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="0.99"
@@ -12,170 +13,119 @@
     tools:context="Home.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/parent"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background">
+        android:id="@+id/storico_constraintLayout"
+        android:layout_width="1000px"
+        android:layout_height="1000px"
+        android:background="@drawable/round_box"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="91dp">
 
-        <Button
-            android:id="@+id/reset"
-            android:layout_width="440px"
-            android:layout_height="120px"
-            android:alpha="0.85"
-            android:background="@drawable/red_button_icon"
-            android:drawableRight="@drawable/ic_baseline_delete_forever_24"
-            android:fontFamily="@font/carter_one"
-
-            android:gravity="center|left"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:shadowColor="@color/black"
-            android:shadowDx="2"
-            android:shadowDy="5"
-            android:shadowRadius="1.5"
-            android:text="@string/resethistory"
-            android:textColor="@color/white"
-            android:textSize="12.5sp"
-            app:layout_constraintBottom_toTopOf="@+id/footer"
+        <View
+            android:id="@+id/storico_helper"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/storico_helper1"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.431" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="870px"
-            android:layout_height="1000px"
-            android:background="@drawable/round_box"
+        <View
+            android:id="@+id/storico_helper6"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/green"
+            app:layout_constraintBottom_toTopOf="@+id/storico_helper"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/storico_storico"
+            app:layout_constraintVertical_bias="0.617" />
+
+        <View
+            android:id="@+id/storico_helper1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.325">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <View
-                android:id="@+id/helper"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                app:layout_constraintBottom_toBottomOf="@+id/helper1"
+        <View
+            android:id="@+id/storico_helper3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/storico_helper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/storico_storico"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/carter_one"
+            android:paddingRight="2dp"
+            android:shadowColor="#000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1.5"
+            android:text="@string/storico"
+            android:textAllCaps="true"
+            android:textColor="@color/green"
+            android:textSize="26sp"
+            app:layout_constraintBottom_toBottomOf="@+id/storico_helper3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/storico_helper3"
+            app:layout_constraintVertical_bias="0.4" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/storico_constraintLayout4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/storico_helper">
+
+            <TextView
+                android:id="@+id/storico_alertStorico"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/storico_scrollPartite"
+                app:layout_constraintEnd_toEndOf="@+id/storico_scrollPartite"
+                app:layout_constraintStart_toStartOf="@+id/storico_scrollPartite"
+                app:layout_constraintTop_toTopOf="@+id/storico_scrollPartite" />
+
+            <ScrollView
+                android:id="@+id/storico_scrollPartite"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="24dp"
+                android:fillViewport="true"
+                android:scrollbars="none"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.431" />
+                app:layout_constraintVertical_bias="0.0">
 
-            <View
-                android:id="@+id/helper6"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="#039846"
-                app:layout_constraintBottom_toTopOf="@+id/helper"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/storico"
-                app:layout_constraintVertical_bias="0.617" />
-
-            <View
-                android:id="@+id/helper1"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/helper3"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                app:layout_constraintBottom_toTopOf="@+id/helper"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/storico"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:fontFamily="@font/carter_one"
-                android:paddingRight="2dp"
-                android:shadowColor="#000"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="1.5"
-                android:text="@string/storico"
-                android:textAllCaps="true"
-                android:textColor="#039846"
-                android:textSize="26sp"
-                app:layout_constraintBottom_toBottomOf="@+id/helper3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/helper3"
-                app:layout_constraintVertical_bias="0.4" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/helper">
-
-                <TextView
-                    android:id="@+id/alertStorico"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/storico_scrollPartiteLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/scrollPartite"
-                    app:layout_constraintEnd_toEndOf="@+id/scrollPartite"
-                    app:layout_constraintStart_toStartOf="@+id/scrollPartite"
-                    app:layout_constraintTop_toTopOf="@+id/scrollPartite" />
+                    android:orientation="vertical" />
+            </ScrollView>
 
-                <ScrollView
-                    android:id="@+id/scrollPartite"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginBottom="24dp"
-                    android:fillViewport="true"
-                    android:scrollbars="none"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0">
-
-                    <LinearLayout
-                        android:id="@+id/scrollPartiteLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical" />
-                </ScrollView>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/footer"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/topbar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/adView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                ads:adSize="BANNER"
-                ads:adUnitId="ca-app-pub-9833115755260479/9941848012"></com.google.android.gms.ads.AdView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

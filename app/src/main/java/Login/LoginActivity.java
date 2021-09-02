@@ -64,7 +64,9 @@ import multiplayer.User;
 import okhttp3.internal.Util;
 
 import static Login.loginClass.getFBUserId;
+import static Login.loginClass.getFullName;
 import static Login.loginClass.isFacebookLoggedIn;
+import static Login.loginClass.isUsernameLoggedIn;
 import static firebase.FirebaseClass.isFirebaseStringValid;
 import static java.lang.String.*;
 import static multiplayer.ActivityMultiplayerGame.mazzoOnline;
@@ -404,7 +406,7 @@ public class LoginActivity extends AppCompatActivity {
         ImageView imgProfile = findViewById(R.id.profilePicture);
 
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
-            String nomeProfilo = isFacebookLoggedIn() ? loginClass.getFullFBName() : loginClass.getName();
+            String nomeProfilo = getFullName();
             String accountIdText = isFacebookLoggedIn() ? getFBUserId() : SharedPref.getEmail().split("@")[0];
 
             nome.setText(nomeProfilo);
@@ -585,15 +587,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     protected void logout(){
-        doLogout();
-        logoutMsg();
+        if(isUsernameLoggedIn()){
+            doLogout();
+            logoutMsg();
+        }
     }
 
     public static void doLogout(){
-        SharedPref.setUsername("null");
-        SharedPref.setPassword("null");
-        SharedPref.setEmail("null");
-        SharedPref.setAvatar("null");
+        if(isUsernameLoggedIn()){
+            SharedPref.setUsername("null");
+            SharedPref.setPassword("null");
+            SharedPref.setEmail("null");
+            SharedPref.setAvatar("null");
+        }
     }
 
     public void logoutMsg(){

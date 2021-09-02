@@ -21,15 +21,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.sql.Time;
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 import Login.loginClass;
 import firebase.FirebaseClass;
 import game.danielesimone.briscola.ActivityGame;
 import game.danielesimone.briscola.R;
-import game.danielesimone.briscola.Storico;
 import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
@@ -43,7 +40,6 @@ import static gameEngine.Game.centerText;
 import static gameEngine.Game.giocante;
 import static gameEngine.Game.giocatori;
 import static gameEngine.Game.intermezzo;
-import static gameEngine.Game.areActionsDisabled;
 import static gameEngine.Game.lastManche;
 import static multiplayer.ActivityMultiplayerGame.mazzoOnline;
 import static multiplayer.ActivityMultiplayerGame.onStop;

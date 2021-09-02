@@ -152,5 +152,8 @@
     <string name="logoutbtn">Logout</string>
     <string name="invalidusername">Invalid username</string>
     <string name="invalidcharacters">You entered invalid characters, please retry.</string>
+    <string name="yourfriends">Your friends</string>
+    <string name="visitprofile">Search on Facebook</string>
+    <string name="mustbeloggedwithfacebook">You must be logged with Facebook if you want to show your friends. Confirm if you want to go to your Facebook login page. Note: if you\'re registered with your username, you will be disconnected.</string>
 
 </resources>
