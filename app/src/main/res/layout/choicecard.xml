@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent"
+    android:id="@+id/init_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="0.99"
@@ -11,23 +11,23 @@
     tools:context="Home.MainActivity">
 
     <Button
-        android:id="@+id/random"
+        android:id="@+id/init_random"
         android:layout_width="450px"
         android:layout_height="120px"
         android:layout_marginTop="20dp"
         android:alpha="0.85"
         android:background="@drawable/yellow_button"
         android:text="@string/randomcard"
-        android:textSize="12.5sp"
+        android:textSize="35px"
         app:layout_constraintEnd_toEndOf="parent"
 
 
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sottotitolo2" />
+        app:layout_constraintTop_toBottomOf="@+id/init_sottotitolo2" />
 
     <TextView
-        android:id="@+id/esito"
+        android:id="@+id/init_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/carter_one"
@@ -39,15 +39,15 @@
         android:text="@string/init"
         android:textAllCaps="true"
         android:textColor="#fff"
-        android:textSize="29sp"
-        app:layout_constraintBottom_toTopOf="@+id/sottotitolo"
+        android:textSize="80px"
+        app:layout_constraintBottom_toTopOf="@+id/init_sottotitolo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/sottotitolo"
+        android:id="@+id/init_sottotitolo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/carter_one"
@@ -60,7 +60,7 @@
         android:text="@string/choosecard"
         android:textAllCaps="true"
         android:textColor="#fff"
-        android:textSize="15sp"
+        android:textSize="40px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.509"
@@ -70,7 +70,7 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/sottotitolo2"
+        android:id="@+id/init_sottotitolo2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/carter_one"
@@ -83,43 +83,43 @@
         android:text="@string/notsure"
         android:textAllCaps="true"
         android:textColor="#fff"
-        android:textSize="15sp"
+        android:textSize="40px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardScrollView"
+        app:layout_constraintTop_toBottomOf="@+id/init_cardScrollView"
         tools:ignore="MissingConstraints" />
 
     <ImageView
-        android:id="@+id/scrollLeft"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/cardScrollView"
+        android:id="@+id/init_scrollLeft"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintBottom_toBottomOf="@+id/init_cardScrollView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/cardScrollView"
+        app:layout_constraintTop_toTopOf="@+id/init_cardScrollView"
         app:srcCompat="@drawable/ic_baseline_arrow_left_24" />
 
     <ImageView
-        android:id="@+id/scrollRight"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="@+id/scrollLeft"
+        android:id="@+id/init_scrollRight"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintBottom_toBottomOf="@+id/init_scrollLeft"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/scrollLeft"
+        app:layout_constraintTop_toTopOf="@+id/init_scrollLeft"
         app:srcCompat="@drawable/ic_baseline_arrow_right_24" />
 
     <HorizontalScrollView
-        android:id="@+id/cardScrollView"
+        android:id="@+id/init_cardScrollView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fillViewport="true"
         android:scrollbars="none"
-        app:layout_constraintEnd_toStartOf="@+id/scrollRight"
-        app:layout_constraintStart_toEndOf="@+id/scrollLeft"
-        app:layout_constraintTop_toBottomOf="@+id/sottotitolo">
+        app:layout_constraintEnd_toStartOf="@+id/init_scrollRight"
+        app:layout_constraintStart_toEndOf="@+id/init_scrollLeft"
+        app:layout_constraintTop_toBottomOf="@+id/init_sottotitolo">
 
         <LinearLayout
-            android:id="@+id/cardGallery"
+            android:id="@+id/init_cardGallery"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="horizontal" />

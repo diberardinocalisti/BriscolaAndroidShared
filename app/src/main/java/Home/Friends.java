@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import Login.loginClass;
 import UI.BottomDialog;
 import game.danielesimone.briscola.R;
+import gameEngine.Utility;
 
 import static Login.LoginActivity.fbUID;
 import static Login.loginClass.getFullName;
@@ -42,6 +44,7 @@ public class Friends extends Dialog{
         this.context = context;
         this.setContentView(R.layout.friends_dialog);
         this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Utility.ridimensionamento(context, this.findViewById(R.id.friend_parent));
 
         inizializza();
 
@@ -82,10 +85,11 @@ public class Friends extends Dialog{
 
         View view = inflater.inflate(layoutToAdd, gallery, false);
 
-        TextView nameView = view.findViewById(R.id.friend_playerName);
-        TextView vittorieView = view.findViewById(R.id.friend_nVittorie);
-        ImageView playerImage = view.findViewById(R.id.friend_playerIcon);
-        ImageView moreInfo = view.findViewById(R.id.friend_playerInfo);
+        ViewGroup parentView = view.findViewById(R.id.singlefriend_parent);
+        TextView nameView = view.findViewById(R.id.singlefriend_playerName);
+        TextView vittorieView = view.findViewById(R.id.singlefriend_nVittorie);
+        ImageView playerImage = view.findViewById(R.id.singlefriend_playerIcon);
+        ImageView moreInfo = view.findViewById(R.id.singlefriend_playerInfo);
 
         nameView.setText(playerName);
         setImgProfile(context, playerId, playerImage);
@@ -118,6 +122,7 @@ public class Friends extends Dialog{
             new BottomDialog(playerName, buttonsToAdd, context);
         });
 
+        Utility.ridimensionamento(context, parentView);
         gallery.addView(view);
     }
 }

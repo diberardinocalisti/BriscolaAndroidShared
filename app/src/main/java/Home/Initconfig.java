@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
@@ -33,10 +34,13 @@ public class Initconfig extends AppCompatActivity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.choicecard);
 
-        LinearLayout gallery = this.findViewById(R.id.cardGallery);
+        Utility.enableTopBar(this);
+        Utility.ridimensionamento(this, findViewById(R.id.actionbar));
+        Utility.ridimensionamento(this, findViewById(R.id.init_parent));
+
+        LinearLayout gallery = this.findViewById(R.id.init_cardGallery);
         LayoutInflater inflater = LayoutInflater.from(this);
 
         String[] tipoArray = this.getResources().getStringArray(R.array.tipoCarte);
@@ -48,9 +52,9 @@ public class Initconfig extends AppCompatActivity {
             Carta c = new Carta(numCarta, randomSeme, tipoCarte);
 
             View view = inflater.inflate(R.layout.singlecard, gallery, false);
-            TextView cardTitle = view.findViewById(R.id.cardTitle);
-
-            View cardImage = view.findViewById(R.id.cardImage);
+            ViewGroup parentView = view.findViewById(R.id.singlecard_parent);
+            TextView cardTitle = view.findViewById(R.id.singlecard_cardTitle);
+            View cardImage = view.findViewById(R.id.singlecard_cardImage);
 
             cardTitle.setText(c.getTipo());
             cardImage.setBackground(c.getImage());
@@ -59,13 +63,14 @@ public class Initconfig extends AppCompatActivity {
                 this.startActivity(new Intent(this, MainActivity.class));
             });
 
+            Utility.ridimensionamento(this, parentView);
             gallery.addView(view);
         }
 
-        HorizontalScrollView cardScrollView = findViewById(R.id.cardScrollView);
-        View randomBtn = findViewById(R.id.random);
-        View scrollLeftBtn = findViewById(R.id.scrollLeft);
-        View scrollRightBtn = findViewById(R.id.scrollRight);
+        HorizontalScrollView cardScrollView = findViewById(R.id.init_cardScrollView);
+        View randomBtn = findViewById(R.id.init_random);
+        View scrollLeftBtn = findViewById(R.id.init_scrollLeft);
+        View scrollRightBtn = findViewById(R.id.init_scrollRight);
 
         randomBtn.setOnClickListener(v -> {
             SharedPref.setTipoCarte(randomTipo);
@@ -79,9 +84,5 @@ public class Initconfig extends AppCompatActivity {
         scrollRightBtn.setOnClickListener(v -> {
             cardScrollView.post(() -> cardScrollView.fullScroll(View.FOCUS_RIGHT));
         });
-
-        Utility.enableTopBar(this);
-        Utility.ridimensionamento(this, findViewById(R.id.actionbar));
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
     }
 }

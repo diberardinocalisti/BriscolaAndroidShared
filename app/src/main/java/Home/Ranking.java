@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +25,7 @@ import java.util.Collections;
 import UI.UiColor;
 import firebase.FirebaseClass;
 import game.danielesimone.briscola.R;
+import gameEngine.Utility;
 import multiplayer.FbUser;
 import multiplayer.User;
 
@@ -47,6 +49,8 @@ public class Ranking extends Dialog {
         super(appCompatActivity);
         this.setContentView(R.layout.ranking_dialog);
         this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Utility.ridimensionamento(appCompatActivity, this.findViewById(R.id.ranking_parent));
 
         inizializza(appCompatActivity);
         setListeners();
@@ -137,6 +141,7 @@ public class Ranking extends Dialog {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void mostraUtenti(){
         final int N_UTENTI = 5, N_MAX_UTENTI = 50;
 
@@ -165,10 +170,11 @@ public class Ranking extends Dialog {
 
         View view = inflater.inflate(layoutToAdd, gallery, false);
 
-        ImageView playerIcon = view.findViewById(R.id.ranking_playerIcon);
-        TextView playerName = view.findViewById(R.id.ranking_playerName);
-        Button playerPlacement = view.findViewById(R.id.ranking_playerPlacement);
-        TextView nVittorie = view.findViewById(R.id.ranking_nVittorie);
+        ViewGroup parentView = view.findViewById(R.id.singleranking_parent);
+        ImageView playerIcon = view.findViewById(R.id.singleranking_playerIcon);
+        TextView playerName = view.findViewById(R.id.singleranking_playerName);
+        Button playerPlacement = view.findViewById(R.id.singleranking_playerPlacement);
+        TextView nVittorie = view.findViewById(R.id.singleranking_nVittorie);
 
         playerName.setText(utente.getName());
         nVittorie.setText(String.valueOf(utente.getVinte()));
@@ -178,6 +184,7 @@ public class Ranking extends Dialog {
         if(utente == utentePrincipale)
             playerName.setTextColor(UiColor.GREEN);
 
+        Utility.ridimensionamento(appCompatActivity, parentView);
         gallery.addView(view);
 
         if(parentLayout == R.id.ranking_scrollViewLayout)

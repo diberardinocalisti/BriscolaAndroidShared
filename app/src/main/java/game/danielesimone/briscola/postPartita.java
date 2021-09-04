@@ -56,12 +56,13 @@ public class postPartita extends AppCompatActivity {
         getSupportActionBar().hide();
 
         setContentView(R.layout.postpartita);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         esitoPartita();
         durataPartita();
         mostraMazzo();
         setButtons();
+
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
     }
 
     @SuppressLint("DefaultLocale")
@@ -118,8 +119,8 @@ public class postPartita extends AppCompatActivity {
 
         for(Carta carta : cartePrese){
             View view = inflater.inflate(R.layout.singlecard, gallery, false);
-            TextView cardTitle = view.findViewById(R.id.cardTitle);
-            View cardImage = view.findViewById(R.id.cardImage);
+            TextView cardTitle = view.findViewById(R.id.singlecard_cardTitle);
+            View cardImage = view.findViewById(R.id.singlecard_cardImage);
 
             Integer valoreCarta = carta.getValore();
             String cardDescription = activity.getString(R.string.pointswvalue).replace("{points}", valoreCarta.toString());

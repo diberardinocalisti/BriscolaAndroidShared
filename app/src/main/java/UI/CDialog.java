@@ -5,11 +5,15 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import game.danielesimone.briscola.R;
+import gameEngine.Utility;
 
 public class CDialog extends Dialog implements android.view.View.OnClickListener {
     public Activity c;
@@ -59,10 +63,11 @@ public class CDialog extends Dialog implements android.view.View.OnClickListener
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog);
 
-        TextView title = this.findViewById(R.id.title);
-        Button btn1 = this.findViewById(R.id.btn1);
-        Button btn2 = this.findViewById(R.id.btn2);
-        View btnClose = this.findViewById(R.id.dialogClose);
+        ViewGroup parentView = this.findViewById(R.id.dialog_parent);
+        TextView title = this.findViewById(R.id.dialog_title);
+        Button btn1 = this.findViewById(R.id.dialog_btn1);
+        Button btn2 = this.findViewById(R.id.dialog_btn2);
+        View btnClose = this.findViewById(R.id.dialog_close);
 
         title.setText(this.title);
 
@@ -81,6 +86,8 @@ public class CDialog extends Dialog implements android.view.View.OnClickListener
             if(this.dismissCallback != null)
                 this.dismissCallback.run();
         });
+
+        Utility.ridimensionamento((AppCompatActivity) c, parentView);
     }
 
     @Override public void onClick(View v){}

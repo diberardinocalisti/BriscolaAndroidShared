@@ -76,17 +76,17 @@ public class ActivityGame extends AppCompatActivity {
         }
 
         setContentView(R.layout.stanza_di_attesa);
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
+        Utility.ridimensionamento(this, findViewById(R.id.waitroom_parent));
 
         Utility.showAd(this);
 
         attesa = true;
 
-        TextView codice = findViewById(R.id.codice);
-        TextView stato = findViewById(R.id.stato);
-        TextView nomeHost = findViewById(R.id.nome1);
-        ImageView picHost = findViewById(R.id.icon);
-        Button chiudi = findViewById(R.id.chiudisala);
+        TextView codice = findViewById(R.id.waitroom_codice);
+        TextView stato = findViewById(R.id.waitroom_stato);
+        TextView nomeHost = findViewById(R.id.waitroom_nome1);
+        ImageView picHost = findViewById(R.id.waitroom_icon);
+        Button chiudi = findViewById(R.id.waitroom_chiudisala);
 
         nomeHost.setText(loginClass.getName());
         codice.setText(this.getString(R.string.code) + codiceStanza);

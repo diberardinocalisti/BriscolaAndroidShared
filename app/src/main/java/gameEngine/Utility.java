@@ -20,6 +20,7 @@ import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -161,22 +162,23 @@ public class Utility{
         dialog.setContentView(R.layout.input_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        TextView dialogTitle = dialog.findViewById(R.id.titleDialog);
+        TextView dialogTitle = dialog.findViewById(R.id.input_titleDialog);
         dialogTitle.setText(title);
 
-        TextView dialogInput = dialog.findViewById(R.id.inputDialog);
+        TextView dialogInput = dialog.findViewById(R.id.input_inputDialog);
 
         Runnable action = () -> {
             callback.run(dialogInput.getText().toString());
             dialog.dismiss();
         };
 
-        Button dialogOk = dialog.findViewById(R.id.okDialog);
+        Button dialogOk = dialog.findViewById(R.id.input_okDialog);
         dialogOk.setOnClickListener(v -> action.run());
 
-        ImageView dialogClose = dialog.findViewById(R.id.closeDialog);
+        ImageView dialogClose = dialog.findViewById(R.id.input_closeDialog);
         dialogClose.setOnClickListener(v -> dialog.dismiss());
 
+        Utility.ridimensionamento((AppCompatActivity) c, dialog.findViewById(R.id.input_parent));
         dialog.show();
     }
 
@@ -193,18 +195,20 @@ public class Utility{
         dialog.setContentView(R.layout.text_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        TextView dialogTitle = dialog.findViewById(R.id.titleDialog);
-        TextView dialogText = dialog.findViewById(R.id.textDialog);
+        ViewGroup dialogParent = dialog.findViewById(R.id.txt_dialog_parent);
+        TextView dialogTitle = dialog.findViewById(R.id.txt_dialog_titleDialog);
+        TextView dialogText = dialog.findViewById(R.id.txt_dialog_textDialog);
 
         dialogTitle.setText(title);
         dialogText.setText(msg);
 
-        Button dialogOk = dialog.findViewById(R.id.okDialog);
+        Button dialogOk = dialog.findViewById(R.id.txt_dialog_okDialog);
         dialogOk.setOnClickListener(v -> dialog.dismiss());
 
-        ImageView dialogClose = dialog.findViewById(R.id.closeDialog);
+        ImageView dialogClose = dialog.findViewById(R.id.txt_dialog_closeDialog);
         dialogClose.setOnClickListener(v -> dialog.dismiss());
 
+        Utility.ridimensionamento((AppCompatActivity) c, dialogParent);
         dialog.show();
     }
 

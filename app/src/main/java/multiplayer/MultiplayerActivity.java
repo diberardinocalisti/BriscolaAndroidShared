@@ -50,7 +50,10 @@ public class MultiplayerActivity extends AppCompatActivity {
 
         createRoom.setOnClickListener(v -> engineMultiplayer.creaStanza(MultiplayerActivity.this));
         joinRoom.setOnClickListener(v -> createInputDialog());
-        roomList.setOnClickListener(v -> Utility.goTo(this, RoomList.class));
+        roomList.setOnClickListener(v -> {
+            Utility.goTo(this, RoomList.class);
+            this.finish();
+        });
         goBack.setOnClickListener(v -> MultiplayerActivity.super.onBackPressed());
     }
 

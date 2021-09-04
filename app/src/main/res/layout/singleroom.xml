@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/roomlayout"
+    android:id="@+id/singleroom_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/joinIcon"
+            android:id="@+id/singleroom_joinIcon"
             android:layout_width="30dp"
             android:layout_height="30dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -26,44 +26,45 @@
             app:srcCompat="@drawable/ic_baseline_play_arrow_24" />
 
         <TextView
-            android:id="@+id/nPlayers"
+            android:id="@+id/singleroom_nPlayers"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1/2"
             android:textAllCaps="true"
+            android:textSize="35px"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/joinIcon"
+            app:layout_constraintEnd_toStartOf="@+id/singleroom_joinIcon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/hostName"
+            android:id="@+id/singleroom_hostName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:fontFamily="@font/carter_one"
             android:paddingLeft="3dp"
             android:text="host name"
-            android:textSize="14sp"
+            android:textSize="35px"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/nPlayers"
-            app:layout_constraintStart_toEndOf="@+id/frameLayout3"
-            app:layout_constraintTop_toTopOf="@+id/frameLayout3" />
+            app:layout_constraintEnd_toStartOf="@+id/singleroom_nPlayers"
+            app:layout_constraintStart_toEndOf="@+id/singleroom_frameLayout3"
+            app:layout_constraintTop_toTopOf="@+id/singleroom_frameLayout3" />
 
         <FrameLayout
-            android:id="@+id/frameLayout3"
+            android:id="@+id/singleroom_frameLayout3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#FFFFFF">
 
             <ImageView
-                android:id="@+id/hostIcon"
+                android:id="@+id/singleroom_hostIcon"
                 android:layout_width="100px"
                 android:layout_height="100px"
                 app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
             <ImageView
-                android:id="@+id/android1"
+                android:id="@+id/singleroom_android1"
                 android:layout_width="100px"
                 android:layout_height="100px"
                 android:contentDescription="@null"

@@ -12,13 +12,13 @@
     tools:context="Home.MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/parent"
+        android:id="@+id/waitroom_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
+            android:id="@+id/waitroom_constraintLayout"
             android:layout_width="870px"
             android:layout_height="1000px"
             android:background="@drawable/round_box"
@@ -29,23 +29,23 @@
             app:layout_constraintVertical_bias="0.325">
 
             <FrameLayout
-                android:id="@+id/frameLayout3"
+                android:id="@+id/waitroom_frameLayout3"
                 android:layout_width="100px"
                 android:layout_height="100px"
                 android:layout_marginStart="25dp"
                 android:layout_marginLeft="25dp"
                 android:background="#FFFFFF"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/helper">
+                app:layout_constraintTop_toBottomOf="@+id/waitroom_helper">
 
                 <ImageView
-                    android:id="@+id/icon"
+                    android:id="@+id/waitroom_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
                 <ImageView
-                    android:id="@+id/android1"
+                    android:id="@+id/waitroom_android1"
                     android:layout_width="100px"
                     android:layout_height="100px"
                     android:contentDescription="@null"
@@ -54,21 +54,21 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/frameLayout4"
+                android:id="@+id/waitroom_frameLayout4"
                 android:layout_width="100px"
                 android:layout_height="100px"
                 android:background="#FFFFFF"
-                app:layout_constraintBottom_toTopOf="@+id/helper1"
-                app:layout_constraintStart_toStartOf="@+id/frameLayout3">
+                app:layout_constraintBottom_toTopOf="@+id/waitroom_helper1"
+                app:layout_constraintStart_toStartOf="@+id/waitroom_frameLayout3">
 
                 <ImageView
-                    android:id="@+id/friendProfilePicture2"
+                    android:id="@+id/waitroom_friendProfilePicture2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
                 <ImageView
-                    android:id="@+id/android2"
+                    android:id="@+id/waitroom_android2"
                     android:layout_width="100px"
                     android:layout_height="100px"
                     android:contentDescription="@null"
@@ -76,26 +76,26 @@
             </FrameLayout>
 
             <View
-                android:id="@+id/helper"
+                android:id="@+id/waitroom_helper"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                app:layout_constraintBottom_toBottomOf="@+id/helper1"
+                app:layout_constraintBottom_toBottomOf="@+id/waitroom_helper1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.695"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:id="@+id/helper6"
+                android:id="@+id/waitroom_helper6"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="@color/green"
-                app:layout_constraintBottom_toTopOf="@+id/helper"
+                app:layout_constraintBottom_toTopOf="@+id/waitroom_helper"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titolo" />
+                app:layout_constraintTop_toBottomOf="@+id/waitroom_titolo" />
 
             <View
-                android:id="@+id/helper1"
+                android:id="@+id/waitroom_helper1"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -104,44 +104,44 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <View
-                android:id="@+id/helper7"
+                android:id="@+id/waitroom_helper7"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="@color/green"
-                app:layout_constraintBottom_toTopOf="@+id/helper4"
+                app:layout_constraintBottom_toTopOf="@+id/waitroom_helper4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/helper1" />
+                app:layout_constraintTop_toBottomOf="@+id/waitroom_helper1" />
 
             <View
-                android:id="@+id/helper4"
+                android:id="@+id/waitroom_helper4"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                app:layout_constraintBottom_toTopOf="@+id/helper2"
+                app:layout_constraintBottom_toTopOf="@+id/waitroom_helper2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/helper1" />
+                app:layout_constraintTop_toBottomOf="@+id/waitroom_helper1" />
 
             <View
-                android:id="@+id/helper2"
+                android:id="@+id/waitroom_helper2"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
                 android:background="@color/green"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/helper1" />
+                app:layout_constraintTop_toBottomOf="@+id/waitroom_helper1" />
 
             <View
-                android:id="@+id/helper3"
+                android:id="@+id/waitroom_helper3"
                 android:layout_width="0dp"
                 android:layout_height="1dp"
-                app:layout_constraintBottom_toTopOf="@+id/helper"
+                app:layout_constraintBottom_toTopOf="@+id/waitroom_helper"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/titolo"
+                android:id="@+id/waitroom_titolo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
@@ -154,36 +154,36 @@
                 android:text="@string/waitroom"
                 android:textAllCaps="true"
                 android:textColor="@color/green"
-                android:textSize="26sp"
-                app:layout_constraintBottom_toBottomOf="@+id/helper3"
+                android:textSize="70px"
+                app:layout_constraintBottom_toBottomOf="@+id/waitroom_helper3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/helper3" />
+                app:layout_constraintTop_toTopOf="@+id/waitroom_helper3" />
 
             <TextView
-                android:id="@+id/nome1"
+                android:id="@+id/waitroom_nome1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginLeft="15dp"
                 android:text="Nome host"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="@+id/frameLayout3"
-                app:layout_constraintStart_toEndOf="@+id/frameLayout3"
-                app:layout_constraintTop_toBottomOf="@+id/helper" />
+                android:textSize="35px"
+                app:layout_constraintBottom_toBottomOf="@+id/waitroom_frameLayout3"
+                app:layout_constraintStart_toEndOf="@+id/waitroom_frameLayout3"
+                app:layout_constraintTop_toBottomOf="@+id/waitroom_helper" />
 
             <TextView
-                android:id="@+id/nome2"
+                android:id="@+id/waitroom_nome2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/waitopponent"
-                android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="@+id/frameLayout4"
-                app:layout_constraintStart_toStartOf="@+id/nome1"
-                app:layout_constraintTop_toTopOf="@+id/frameLayout4" />
+                android:textSize="35px"
+                app:layout_constraintBottom_toBottomOf="@+id/waitroom_frameLayout4"
+                app:layout_constraintStart_toStartOf="@+id/waitroom_nome1"
+                app:layout_constraintTop_toTopOf="@+id/waitroom_frameLayout4" />
 
             <TextView
-                android:id="@+id/codice"
+                android:id="@+id/waitroom_codice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/carter_one"
@@ -195,14 +195,14 @@
                 android:text="@string/code"
                 android:textAllCaps="true"
                 android:textColor="@color/green"
-                android:textSize="22sp"
+                android:textSize="60px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/helper2" />
+                app:layout_constraintTop_toBottomOf="@+id/waitroom_helper2" />
 
             <TextView
-                android:id="@+id/stato"
+                android:id="@+id/waitroom_stato"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/carter_one"
@@ -214,27 +214,27 @@
                 android:text="@string/state"
                 android:textAllCaps="true"
                 android:textColor="@color/green"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toTopOf="@+id/helper2"
+                android:textSize="60px"
+                app:layout_constraintBottom_toTopOf="@+id/waitroom_helper2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/helper7" />
+                app:layout_constraintTop_toBottomOf="@+id/waitroom_helper7" />
 
             <ProgressBar
-                android:id="@+id/progressBar2"
+                android:id="@+id/waitroom_progressBar2"
                 style="?android:attr/progressBarStyle"
                 android:layout_width="50px"
                 android:layout_height="0dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                app:layout_constraintBottom_toBottomOf="@+id/nome2"
-                app:layout_constraintStart_toEndOf="@+id/nome2"
-                app:layout_constraintTop_toTopOf="@+id/nome2" />
+                app:layout_constraintBottom_toBottomOf="@+id/waitroom_nome2"
+                app:layout_constraintStart_toEndOf="@+id/waitroom_nome2"
+                app:layout_constraintTop_toTopOf="@+id/waitroom_nome2" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
-            android:id="@+id/chiudisala"
+            android:id="@+id/waitroom_chiudisala"
             android:layout_width="440px"
             android:layout_height="120px"
             android:layout_marginStart="5dp"
@@ -253,16 +253,16 @@
             android:shadowRadius="1.5"
             android:text="@string/leavegame"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
-            app:layout_constraintBottom_toTopOf="@+id/footer"
+            android:textSize="35px"
+            app:layout_constraintBottom_toTopOf="@+id/waitroom_footer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/waitroom_constraintLayout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/footer"
+            android:id="@+id/waitroom_footer"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="150px"
             android:background="@drawable/topbar"
             app:layout_constraintBottom_toBottomOf="parent">
 

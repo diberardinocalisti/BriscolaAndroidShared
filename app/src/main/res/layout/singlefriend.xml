@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/singlefriend_parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="5dp"
@@ -16,30 +17,31 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/friend_winIcon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:id="@+id/singlefriend_winIcon"
+            android:layout_width="80px"
+            android:layout_height="80px"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/friend_playerInfo"
+            app:layout_constraintEnd_toStartOf="@+id/singlefriend_playerInfo"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/trophy" />
 
         <TextView
-            android:id="@+id/friend_nVittorie"
+            android:id="@+id/singlefriend_nVittorie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="4dp"
             android:layout_marginRight="4dp"
             android:text="0"
             android:textAllCaps="true"
+            android:textSize="35px"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/friend_winIcon"
+            app:layout_constraintEnd_toStartOf="@+id/singlefriend_winIcon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/friend_playerName"
+            android:id="@+id/singlefriend_playerName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
@@ -48,26 +50,25 @@
             android:fontFamily="@font/carter_one"
             android:paddingLeft="3dp"
             android:text="Player name"
-            android:textSize="14sp"
+            android:textSize="35px"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/friend_playerIconLayout"
-            app:layout_constraintTop_toTopOf="@+id/friend_playerIconLayout" />
+            app:layout_constraintStart_toEndOf="@+id/singlefriend_playerIconLayout"
+            app:layout_constraintTop_toTopOf="@+id/singlefriend_playerIconLayout" />
 
         <ImageView
-            android:id="@+id/friend_playerInfo"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:id="@+id/singlefriend_playerInfo"
+            android:layout_width="80px"
+            android:layout_height="80px"
 
             android:background="@drawable/round_button"
-            android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_baseline_more_horiz_24"></ImageView>
 
         <FrameLayout
-            android:id="@+id/friend_playerIconLayout"
+            android:id="@+id/singlefriend_playerIconLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="#FFFFFF"
@@ -75,13 +76,13 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/friend_playerIcon"
+                android:id="@+id/singlefriend_playerIcon"
                 android:layout_width="100px"
                 android:layout_height="100px"
                 app:srcCompat="@drawable/com_facebook_profile_picture_blank_square" />
 
             <ImageView
-                android:id="@+id/friend_substractedCircle"
+                android:id="@+id/singlefriend_substractedCircle"
                 android:layout_width="100px"
                 android:layout_height="100px"
                 android:contentDescription="@null"

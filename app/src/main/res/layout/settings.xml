@@ -2,12 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/settings_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="350dp"
+        android:layout_width="900px"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,15 +38,15 @@
                 android:text="@string/settings"
                 android:textAllCaps="false"
                 android:textColor="@color/green"
-                android:textSize="20sp"
+                android:textSize="55px"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Spinner
                 android:id="@+id/settings_typeCardSpinner"
-                android:layout_width="150dp"
-                android:layout_height="35dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/settings_settings">
@@ -60,7 +61,7 @@
                 android:layout_marginLeft="16dp"
                 android:text="@string/typecard"
                 android:textColor="#000000"
-                android:textSize="17sp"
+                android:textSize="45px"
                 app:layout_constraintBottom_toBottomOf="@+id/settings_typeCardSpinner"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/settings_typeCardSpinner" />
@@ -72,14 +73,14 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/cpuskill"
                 android:textColor="#000000"
-                android:textSize="17sp"
+                android:textSize="45px"
                 app:layout_constraintStart_toStartOf="@+id/settings_typeCards"
                 app:layout_constraintTop_toBottomOf="@+id/settings_typeCards" />
 
             <Spinner
                 android:id="@+id/settings_cpuSkillSpinner"
-                android:layout_width="150dp"
-                android:layout_height="35dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/settings_cpuSkill"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/settings_cpuSkill">
@@ -106,7 +107,7 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/cartescoperte"
                 android:textColor="#000000"
-                android:textSize="17sp"
+                android:textSize="45px"
                 app:layout_constraintStart_toStartOf="@+id/settings_typeCards"
                 app:layout_constraintTop_toBottomOf="@+id/settings_cpuSkill" />
 
@@ -127,7 +128,7 @@
                 android:alpha="0.85"
                 android:background="@drawable/green_button"
                 android:text="@string/confirm"
-                android:textSize="12.5sp"
+                android:textSize="35px"
                 app:layout_constraintEnd_toStartOf="@+id/settings_view12"
                 app:layout_constraintTop_toBottomOf="@+id/settings_showCardCheckbox" />
 
@@ -140,7 +141,7 @@
                 android:alpha="0.85"
                 android:background="@drawable/green_button"
                 android:text="@string/cancel"
-                android:textSize="12.5sp"
+                android:textSize="35px"
                 app:layout_constraintStart_toEndOf="@+id/settings_view12"
                 app:layout_constraintTop_toTopOf="@+id/settings_accept" />
 

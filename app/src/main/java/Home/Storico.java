@@ -39,6 +39,7 @@ import game.danielesimone.briscola.R;
 import gameEngine.Utility;
 import multiplayer.RoomList;
 import multiplayer.engineMultiplayer;
+import okhttp3.internal.Util;
 
 import static Login.loginClass.setImgProfile;
 import static gameEngine.Game.activity;
@@ -57,6 +58,7 @@ public class Storico extends Dialog{
 
         this.setContentView(R.layout.storico_partite);
         this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        Utility.ridimensionamento(context, this.findViewById(R.id.storico_parent));
 
         initializeLayout();
         refreshMatches();
@@ -117,14 +119,14 @@ public class Storico extends Dialog{
         LinearLayout scrollViewLayout = findViewById(R.id.storico_scrollPartiteLayout);
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View parentView = inflater.inflate(R.layout.singlematch, null);
+        View view = inflater.inflate(R.layout.singlematch, null);
 
-        TextView description = parentView.findViewById(R.id.description);
+        ViewGroup parentView = view.findViewById(R.id.singlematch_parent);
+        TextView description = view.findViewById(R.id.singlematch_description);
+        TextView data = view.findViewById(R.id.singlematch_data);
+        ImageView oppIcon = view.findViewById(R.id.singlematch_oppIcon);
 
-        TextView data = parentView.findViewById(R.id.data);
         data.setText(dataString);
-
-        ImageView oppIcon = parentView.findViewById(R.id.oppIcon);
 
         @SuppressLint("DefaultLocale") String punteggio = String.format("%d %s", punti, context.getString(R.string.points));
         description.setText(String.format("%s: %s", nomeAvversario, punteggio));
@@ -142,7 +144,8 @@ public class Storico extends Dialog{
 
         description.setTextColor(color);
 
-        scrollViewLayout.addView(parentView);
+        Utility.ridimensionamento(context, parentView);
+        scrollViewLayout.addView(view);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
@@ -38,6 +39,7 @@ import gameEngine.Engine;
 import gameEngine.Game;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
+import okhttp3.internal.Util;
 
 import static Login.loginClass.setImgProfile;
 import static multiplayer.GameRoom.isGameRoom;
@@ -47,34 +49,32 @@ public class RoomList extends AppCompatActivity {
     private int selectedItem;
     private String[] filterOptions;
 
-    @SuppressLint("ResourceType")
-    @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        setContentView(R.layout.room_list);
-
-        Utility.ridimensionamento(this, findViewById(R.id.parent));
         Utility.enableTopBar(this);
+        setContentView(R.layout.room_list);
 
         initializeLayout();
         refreshRooms();
+
+        Utility.ridimensionamento(this, findViewById(R.id.room_list_parent));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     protected void initializeLayout(){
         Utility.showAd(this);
 
-        ProgressBar progressBar = findViewById(R.id.loadingBar);
-        View settingsBtn = findViewById(R.id.roomSettings);
+        View settingsBtn = findViewById(R.id.room_list_roomSettings);
 
         filterOptions = new String[]{RoomList.this.getString(R.string.showall), RoomList.this.getString(R.string.shownotempty)};
         selectedItem = 0;
 
-        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
-        ScrollView scrollView = findViewById(R.id.scrollView);
+        SwipeRefreshLayout swipeRefreshLayout = findViewById(R.id.room_list_swipeRefreshLayout);
+        ScrollView scrollView = findViewById(R.id.room_list_scrollView);
 
         swipeRefreshLayout.setEnabled(true);
         scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
@@ -92,6 +92,7 @@ public class RoomList extends AppCompatActivity {
             dialog.setContentView(R.layout.room_settings);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
+            ViewGroup parentView = dialog.findViewById(R.id.room_settings_parent);
             Spinner filterSpinner = dialog.findViewById(R.id.room_settings_filterSpinner);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<>(RoomList.this, android.R.layout.simple_spinner_item, filterOptions);
@@ -114,12 +115,13 @@ public class RoomList extends AppCompatActivity {
             cancelButton.setOnClickListener(closeAction);
 
             dialog.create();
+            Utility.ridimensionamento(this, parentView);
             dialog.show();
         });
     }
 
     protected void refreshRooms(){
-        LinearLayout scrollViewLayout = findViewById(R.id.scrollViewLayout);
+        LinearLayout scrollViewLayout = findViewById(R.id.room_list_scrollViewLayout);
         scrollViewLayout.removeAllViews();
 
         showRooms();
@@ -127,10 +129,10 @@ public class RoomList extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void showRooms(){
-        ProgressBar progressBar = findViewById(R.id.loadingBar);
+        ProgressBar progressBar = findViewById(R.id.room_list_loadingBar);
         progressBar.setVisibility(View.VISIBLE);
 
-        TextView alert = findViewById(R.id.alert);
+        TextView alert = findViewById(R.id.room_list_alert);
         alert.setText(new String());
 
         boolean showAll = filterOptions[selectedItem].equals(this.getString(R.string.showall));
@@ -176,22 +178,24 @@ public class RoomList extends AppCompatActivity {
     protected void addRoomToList(String nomeHost, String idHost, String gameCode, boolean isFull){
         //FirebaseClass.deleteFieldFirebase(null, gameCode);
 
-        LinearLayout scrollViewLayout = findViewById(R.id.scrollViewLayout);
+        LinearLayout scrollViewLayout = findViewById(R.id.room_list_scrollViewLayout);
 
         LayoutInflater inflater = LayoutInflater.from(this);
-        View parentView = inflater.inflate(R.layout.singleroom, null);
+        View view = inflater.inflate(R.layout.singleroom, null);
 
-        TextView hostName = parentView.findViewById(R.id.hostName);
-        ImageView hostImage = parentView.findViewById(R.id.hostIcon);
-        View joinBtn = parentView.findViewById(R.id.joinIcon);
-        TextView nPlayers = parentView.findViewById(R.id.nPlayers);
+        ViewGroup parentView = view.findViewById(R.id.singleroom_parent);
+        TextView hostName = view.findViewById(R.id.singleroom_hostName);
+        ImageView hostImage = view.findViewById(R.id.singleroom_hostIcon);
+        View joinBtn = view.findViewById(R.id.singleroom_joinIcon);
+        TextView nPlayers = view.findViewById(R.id.singleroom_nPlayers);
 
         hostName.setText(nomeHost);
         setImgProfile(this, idHost, hostImage);
 
-        scrollViewLayout.addView(parentView);
+        Utility.ridimensionamento(this, parentView);
+        scrollViewLayout.addView(view);
 
-        ProgressBar progressBar = findViewById(R.id.loadingBar);
+        ProgressBar progressBar = findViewById(R.id.room_list_loadingBar);
         progressBar.setVisibility(View.INVISIBLE);
 
         if(isFull)

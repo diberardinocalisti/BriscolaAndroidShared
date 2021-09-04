@@ -48,6 +48,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/carter_one"
                         android:text="@string/welcomechat"
+                        android:textSize="35px"
                         android:textStyle="bold" />
                 </LinearLayout>
             </ScrollView>
@@ -75,7 +76,7 @@
                 android:shadowRadius="1.5"
                 android:text="@string/sendamessage"
                 android:textColor="@color/green"
-                android:textSize="20sp"
+                android:textSize="55px"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

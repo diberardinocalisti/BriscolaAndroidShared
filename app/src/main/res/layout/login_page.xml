@@ -48,7 +48,7 @@
             android:text="@string/login_page"
             android:textAllCaps="true"
             android:textColor="#fff"
-            android:textSize="29sp"
+            android:textSize="80px"
             app:layout_constraintBottom_toTopOf="@+id/login_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -71,7 +71,7 @@
             android:text="@string/login_method"
             android:textAllCaps="true"
             android:textColor="#fff"
-            android:textSize="14sp"
+            android:textSize="40px"
             app:layout_constraintBottom_toTopOf="@+id/login_facebook"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -98,7 +98,7 @@
             android:shadowRadius="1.5"
             android:text="@string/facebook"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
+            android:textSize="35px"
             app:layout_constraintBottom_toTopOf="@+id/login_help"
             app:layout_constraintEnd_toStartOf="@+id/view10" />
 
@@ -122,7 +122,7 @@
             android:shadowRadius="1.5"
             android:text="@string/username"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
+            android:textSize="35px"
             app:layout_constraintBottom_toBottomOf="@+id/login_facebook"
             app:layout_constraintStart_toEndOf="@+id/view10"
             app:layout_constraintTop_toTopOf="@+id/login_facebook" />
@@ -145,7 +145,7 @@
             android:shadowRadius="1.5"
             android:text="@string/moreinfo"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
+            android:textSize="35px"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view10" />
@@ -170,7 +170,7 @@
             android:shadowRadius="1.5"
             android:text="@string/goback"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
+            android:textSize="35px"
             app:layout_constraintBottom_toBottomOf="@+id/login_hook"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -179,7 +179,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/footer"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="150px"
             android:background="@drawable/topbar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">

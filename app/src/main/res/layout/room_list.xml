@@ -1,204 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Uso un relative layout per poter piazzare dei bottoni sopra l'immagine-->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/room_list_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="0.99"
+    android:background="@drawable/background"
     android:gravity="center"
     android:orientation="vertical"
     app:barrierMargin="10dp"
     tools:context="Home.MainActivity">
 
+    <Button
+        android:id="@+id/room_list_roomSettings"
+        android:layout_width="380px"
+        android:layout_height="120px"
+        android:alpha="0.85"
+        android:background="@drawable/yellow_btn_icon"
+
+        android:drawableRight="@drawable/ic_baseline_settings_24"
+        android:fontFamily="@font/carter_one"
+        android:gravity="center|left"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:shadowColor="@color/black"
+        android:shadowDx="2"
+        android:shadowDy="5"
+        android:shadowRadius="1.5"
+        android:text="@string/settings"
+        android:textColor="@color/white"
+        android:textSize="35px"
+        app:layout_constraintBottom_toTopOf="@+id/room_list_footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/room_list_constraintLayout" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/parent"
+        android:id="@+id/room_list_footer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/background">
+        android:layout_height="150px"
+        android:background="@drawable/topbar"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/constraintLayout"
-            android:layout_width="870px"
-            android:layout_height="1000px"
-            android:background="@drawable/round_box"
-            app:layout_constraintBottom_toTopOf="@+id/footer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.325">
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            app:adSize="BANNER"
+            app:adUnitId="ca-app-pub-9833115755260479/9941848012" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <View
-                android:id="@+id/helper"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                app:layout_constraintBottom_toBottomOf="@+id/helper1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.455" />
-
-            <View
-                android:id="@+id/helper6"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/green"
-                app:layout_constraintBottom_toTopOf="@+id/helper"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titolo"
-                app:layout_constraintVertical_bias="0.733" />
-
-            <View
-                android:id="@+id/helper1"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <View
-                android:id="@+id/helper3"
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                app:layout_constraintBottom_toTopOf="@+id/helper"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/titolo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:fontFamily="@font/carter_one"
-                android:paddingRight="2dp"
-                android:shadowColor="#000"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:shadowRadius="1.5"
-                android:text="@string/roomlist"
-                android:textAllCaps="true"
-                android:textColor="@color/green"
-                android:textSize="26sp"
-                app:layout_constraintBottom_toBottomOf="@+id/helper3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/helper3"
-                app:layout_constraintVertical_bias="0.4" />
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefreshLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/helper">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="0dp"
-                    android:layout_height="0dp">
-
-                    <ProgressBar
-                        android:id="@+id/loadingBar"
-                        style="?android:attr/progressBarStyle"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        app:layout_constraintBottom_toBottomOf="@+id/scrollView"
-                        app:layout_constraintEnd_toEndOf="@+id/scrollView"
-                        app:layout_constraintStart_toStartOf="@+id/scrollView"
-                        app:layout_constraintTop_toTopOf="@+id/scrollView" />
-
-                    <TextView
-                        android:id="@+id/alert"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintBottom_toBottomOf="@+id/scrollView"
-                        app:layout_constraintEnd_toEndOf="@+id/scrollView"
-                        app:layout_constraintStart_toStartOf="@+id/scrollView"
-                        app:layout_constraintTop_toTopOf="@+id/scrollView" />
-
-                    <ScrollView
-                        android:id="@+id/scrollView"
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="16dp"
-                        android:fillViewport="true"
-                        android:scrollbars="none"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <LinearLayout
-                            android:id="@+id/scrollViewLayout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical" />
-                    </ScrollView>
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <Button
-            android:id="@+id/roomSettings"
-            android:layout_width="380px"
-            android:layout_height="120px"
-            android:alpha="0.85"
-            android:background="@drawable/yellow_btn_icon"
-
-            android:drawableRight="@drawable/ic_baseline_settings_24"
-            android:fontFamily="@font/carter_one"
-            android:gravity="center|left"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:shadowColor="@color/black"
-            android:shadowDx="2"
-            android:shadowDy="5"
-            android:shadowRadius="1.5"
-            android:text="@string/settings"
-            android:textColor="@color/white"
-            android:textSize="12.5sp"
-            app:layout_constraintBottom_toTopOf="@+id/footer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/room_list_constraintLayout"
+        android:layout_width="870px"
+        android:layout_height="1000px"
+        android:background="@drawable/round_box"
+        app:layout_constraintBottom_toTopOf="@+id/room_list_footer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <View
-            android:id="@+id/view6"
-            android:layout_width="1dp"
+            android:id="@+id/room_list_helper"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="@+id/room_list_helper1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.455" />
+
+        <View
+            android:id="@+id/room_list_helper6"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:background="@color/green"
+            app:layout_constraintBottom_toTopOf="@+id/room_list_helper"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/room_list_titolo"
+            app:layout_constraintVertical_bias="0.733" />
+
+        <View
+            android:id="@+id/room_list_helper1"
+            android:layout_width="0dp"
             android:layout_height="1dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/footer"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@drawable/topbar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+        <View
+            android:id="@+id/room_list_helper3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toTopOf="@+id/room_list_helper"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/adView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                ads:adSize="BANNER"
-                ads:adUnitId="ca-app-pub-9833115755260479/9941848012"></com.google.android.gms.ads.AdView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/room_list_titolo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:fontFamily="@font/carter_one"
+            android:paddingRight="2dp"
+            android:shadowColor="#000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="1.5"
+            android:text="@string/roomlist"
+            android:textAllCaps="true"
+            android:textColor="@color/green"
+            android:textSize="70px"
+            app:layout_constraintBottom_toBottomOf="@+id/room_list_helper3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/room_list_helper3"
+            app:layout_constraintVertical_bias="0.4" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/room_list_swipeRefreshLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/room_list_helper"
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp">
+
+                <ProgressBar
+                    android:id="@+id/room_list_loadingBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/room_list_scrollView"
+                    app:layout_constraintEnd_toEndOf="@+id/room_list_scrollView"
+                    app:layout_constraintStart_toStartOf="@+id/room_list_scrollView"
+                    app:layout_constraintTop_toTopOf="@+id/room_list_scrollView" />
+
+                <TextView
+                    android:id="@+id/room_list_alert"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@+id/room_list_scrollView"
+                    app:layout_constraintEnd_toEndOf="@+id/room_list_scrollView"
+                    app:layout_constraintStart_toStartOf="@+id/room_list_scrollView"
+                    app:layout_constraintTop_toTopOf="@+id/room_list_scrollView" />
+
+                <ScrollView
+                    android:id="@+id/room_list_scrollView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:fillViewport="true"
+                    android:scrollbars="none"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <LinearLayout
+                        android:id="@+id/room_list_scrollViewLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </ScrollView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

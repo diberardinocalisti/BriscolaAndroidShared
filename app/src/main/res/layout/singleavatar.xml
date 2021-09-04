@@ -5,13 +5,15 @@
     android:id="@+id/avatarlayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="5dp">
 
     <TextView
         android:id="@+id/avatarName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/carter_one"
+        android:gravity="center"
+        android:paddingLeft="2dp"
         android:paddingRight="2dp"
         android:shadowColor="#000"
         android:shadowDx="2"
@@ -20,7 +22,7 @@
         android:text="@string/avatarname"
         android:textAllCaps="true"
         android:textColor="#FFFFFF"
-        android:textSize="13sp"
+        android:textSize="35px"
         app:layout_constraintEnd_toEndOf="@+id/avatarFrameLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/avatarFrameLayout" />
@@ -30,7 +32,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="#FFFFFF"
-        app:layout_constraintStart_toStartOf="parent">
+        android:padding="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="10dp">
 
         <ImageView
             android:id="@+id/avatarImage"

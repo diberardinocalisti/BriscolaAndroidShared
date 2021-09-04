@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 import game.danielesimone.briscola.R;
+import gameEngine.Utility;
 
 public class BottomDialog extends BottomSheetDialog{
     public BottomDialog(String title, ArrayList<Button> buttons, @NonNull @NotNull Context context){
@@ -49,6 +51,7 @@ public class BottomDialog extends BottomSheetDialog{
             gallery.addView(view);
         }
 
+        Utility.ridimensionamento((AppCompatActivity) context, findViewById(R.id.bottom_dialog_parent));
         this.show();
     }
 }

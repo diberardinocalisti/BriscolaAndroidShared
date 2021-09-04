@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent"
+    android:id="@+id/register_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="350dp"
+        android:layout_width="900px"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,36 +20,36 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/loginUsernameIcon"
+                android:id="@+id/register_loginUsernameIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/registerUsernameField"
+                app:layout_constraintBottom_toBottomOf="@+id/register_UsernameField"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/registerUsernameField"
+                app:layout_constraintTop_toTopOf="@+id/register_UsernameField"
                 app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
             <ImageView
-                android:id="@+id/emailIcon"
+                android:id="@+id/register_emailIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/registerPasswordField"
-                app:layout_constraintStart_toStartOf="@+id/loginUsernameIcon"
-                app:layout_constraintTop_toTopOf="@+id/registerPasswordField"
+                app:layout_constraintBottom_toBottomOf="@+id/register_PasswordField"
+                app:layout_constraintStart_toStartOf="@+id/register_loginUsernameIcon"
+                app:layout_constraintTop_toTopOf="@+id/register_PasswordField"
                 app:srcCompat="@drawable/ic_baseline_email_24" />
 
             <ImageView
-                android:id="@+id/confirmPasswordIcon"
+                android:id="@+id/register_confirmPasswordIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="@+id/registerConfirmPasswordField"
-                app:layout_constraintStart_toStartOf="@+id/emailIcon"
-                app:layout_constraintTop_toTopOf="@+id/registerConfirmPasswordField"
+                app:layout_constraintBottom_toBottomOf="@+id/register_ConfirmPasswordField"
+                app:layout_constraintStart_toStartOf="@+id/register_emailIcon"
+                app:layout_constraintTop_toTopOf="@+id/register_ConfirmPasswordField"
                 app:srcCompat="@drawable/ic_baseline_lock_24" />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/registerUsernameField"
+                android:id="@+id/register_UsernameField"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -58,27 +58,27 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/loginUsernameIcon"
-                app:layout_constraintTop_toBottomOf="@+id/registerTitle">
+                app:layout_constraintStart_toEndOf="@+id/register_loginUsernameIcon"
+                app:layout_constraintTop_toBottomOf="@+id/register_Title">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registerUsernameInput"
+                    android:id="@+id/register_UsernameInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/username" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/registerPasswordField"
+                android:id="@+id/register_PasswordField"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/registerUsernameField"
-                app:layout_constraintStart_toStartOf="@+id/registerUsernameField"
-                app:layout_constraintTop_toBottomOf="@+id/registerUsernameField">
+                app:layout_constraintEnd_toEndOf="@+id/register_UsernameField"
+                app:layout_constraintStart_toStartOf="@+id/register_UsernameField"
+                app:layout_constraintTop_toBottomOf="@+id/register_UsernameField">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registerEmailInput"
+                    android:id="@+id/register_EmailInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
@@ -86,16 +86,16 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/registerConfirmPasswordField"
+                android:id="@+id/register_ConfirmPasswordField"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/registerUsernameField"
-                app:layout_constraintStart_toStartOf="@+id/registerUsernameField"
-                app:layout_constraintTop_toBottomOf="@+id/registerPasswordField">
+                app:layout_constraintEnd_toEndOf="@+id/register_UsernameField"
+                app:layout_constraintStart_toStartOf="@+id/register_UsernameField"
+                app:layout_constraintTop_toBottomOf="@+id/register_PasswordField">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/registerPasswordInput"
+                    android:id="@+id/register_PasswordInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
@@ -103,7 +103,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/registerTitle"
+                android:id="@+id/register_Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -115,13 +115,13 @@
                 android:text="@string/register_page"
                 android:textAllCaps="false"
                 android:textColor="@color/green"
-                android:textSize="20sp"
+                android:textSize="55px"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/registerAvatar"
+                android:id="@+id/register_Avatar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -133,13 +133,13 @@
                 android:text="@string/chooseavatar"
                 android:textAllCaps="false"
                 android:textColor="@color/green"
-                android:textSize="20sp"
+                android:textSize="55px"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registerConfirmPasswordField" />
+                app:layout_constraintTop_toBottomOf="@+id/register_ConfirmPasswordField" />
 
             <Button
-                android:id="@+id/registerConfirm"
+                android:id="@+id/register_Confirm"
                 android:layout_width="300px"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -147,14 +147,14 @@
                 android:alpha="0.85"
                 android:background="@drawable/green_button"
                 android:text="@string/register"
-                android:textSize="12.5sp"
+                android:textSize="35px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/avatarScrollView" />
+                app:layout_constraintTop_toBottomOf="@+id/register_avatarScrollView" />
 
             <ImageView
-                android:id="@+id/registerClose"
+                android:id="@+id/register_Close"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -165,7 +165,7 @@
                 app:srcCompat="@drawable/ic_close" />
 
             <HorizontalScrollView
-                android:id="@+id/avatarScrollView"
+                android:id="@+id/register_avatarScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
@@ -176,10 +176,10 @@
                 android:scrollbars="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/registerAvatar">
+                app:layout_constraintTop_toBottomOf="@+id/register_Avatar">
 
                 <LinearLayout
-                    android:id="@+id/avatarScrollLayout"
+                    android:id="@+id/register_avatarScrollLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </HorizontalScrollView>

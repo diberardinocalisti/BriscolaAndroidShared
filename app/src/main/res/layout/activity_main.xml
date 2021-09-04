@@ -47,7 +47,7 @@
             android:shadowRadius="1.5"
             android:text="@string/singleplayer"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
+            android:textSize="35px"
             app:layout_constraintBottom_toBottomOf="@+id/view"
             app:layout_constraintEnd_toStartOf="@+id/view"
             app:layout_constraintTop_toTopOf="parent" />
@@ -71,7 +71,7 @@
             android:shadowRadius="1.5"
             android:text="@string/myprofile"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
+            android:textSize="35px"
             app:layout_constraintEnd_toEndOf="@+id/multiplayer"
             app:layout_constraintStart_toStartOf="@+id/singleplayer"
             app:layout_constraintTop_toBottomOf="@+id/singleplayer" />
@@ -97,7 +97,7 @@
             android:shadowRadius="1.5"
             android:text="@string/closegame"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
+            android:textSize="35px"
             app:layout_constraintBottom_toTopOf="@+id/history"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +139,7 @@
             android:shadowRadius="1.5"
             android:text="@string/multiplayer"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
+            android:textSize="35px"
             app:layout_constraintStart_toEndOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/singleplayer" />
 
@@ -223,7 +223,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/footer"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="150px"
             android:background="@drawable/topbar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">

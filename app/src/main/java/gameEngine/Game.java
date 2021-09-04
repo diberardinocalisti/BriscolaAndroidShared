@@ -60,7 +60,7 @@ public class Game {
         activity.setContentView(R.layout.campo_da_gioco);
 
         Utility.enableTopBar(activity);
-        Utility.ridimensionamento(activity, activity.findViewById(R.id.campogioco));
+        Utility.ridimensionamento(activity, activity.findViewById(R.id.campo_parent));
 
         Game.activity = activity;
         gameEngine.CPU.difficulties = activity.getResources().getStringArray(R.array.difficulties);

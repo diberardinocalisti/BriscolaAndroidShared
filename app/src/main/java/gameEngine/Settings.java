@@ -10,11 +10,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.Spinner;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import game.danielesimone.briscola.R;
 
@@ -34,6 +36,8 @@ public class Settings {
 
         dialog.setContentView(R.layout.settings);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ViewGroup parentView = dialog.findViewById(R.id.settings_parent);
 
         // SPINNER TIPO CARTE;
         Spinner tipoCarte = dialog.findViewById(R.id.settings_typeCardSpinner);
@@ -88,8 +92,8 @@ public class Settings {
 
         closeButton.setOnClickListener(closeAction);
         cancelButton.setOnClickListener(closeAction);
-        
-        dialog.create();
+
+        Utility.ridimensionamento((AppCompatActivity) c, parentView);
         dialog.show();
     }
 }

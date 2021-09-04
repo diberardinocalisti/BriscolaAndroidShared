@@ -48,7 +48,6 @@ public class LoadingScreen extends AppCompatActivity {
         Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         Class destination = SharedPref.getTipoCarte().equals("null") ? Initconfig.class : MainActivity.class;
-
         MobileAds.initialize(this, initializationStatus -> {});
 
         if(isFacebookLoggedIn()) {

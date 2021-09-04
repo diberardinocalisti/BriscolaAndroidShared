@@ -53,7 +53,7 @@
             android:shadowRadius="1.5"
             android:text="@string/createroom"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
+            android:textSize="35px"
             app:layout_constraintBottom_toTopOf="@+id/footer"
             app:layout_constraintEnd_toEndOf="@+id/view2"
             app:layout_constraintTop_toTopOf="parent"
@@ -79,7 +79,7 @@
             android:shadowRadius="1.5"
             android:text="@string/accessviacode"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
+            android:textSize="35px"
             app:layout_constraintStart_toStartOf="@+id/view2"
             app:layout_constraintTop_toTopOf="@+id/createroom" />
 
@@ -104,7 +104,7 @@
             android:shadowRadius="1.5"
             android:text="@string/goback"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
+            android:textSize="35px"
             app:layout_constraintBottom_toTopOf="@+id/footer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +132,7 @@
             android:shadowRadius="1.5"
             android:text="@string/roomlist"
             android:textColor="@color/white"
-            android:textSize="12.5sp"
+            android:textSize="35px"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -141,7 +141,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/footer"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="150px"
             android:background="@drawable/topbar"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent">

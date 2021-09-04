@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent"
+    android:id="@+id/txt_dialog_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
     <androidx.cardview.widget.CardView
-        android:layout_width="350dp"
+        android:layout_width="900px"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <ScrollView
-                android:id="@+id/scrollView"
+                android:id="@+id/txt_dialog_scrollView"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
@@ -31,21 +31,22 @@
                 android:layout_marginBottom="16dp"
                 android:fillViewport="true"
                 android:scrollbars="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/okDialog"
+                app:layout_constraintBottom_toTopOf="@+id/txt_dialog_okDialog"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHeight_max="200dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titleDialog">
+                app:layout_constraintTop_toBottomOf="@+id/txt_dialog_titleDialog">
 
                 <TextView
-                    android:id="@+id/textDialog"
+                    android:id="@+id/txt_dialog_textDialog"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textSize="35px" />
             </ScrollView>
 
             <ImageView
-                android:id="@+id/closeDialog"
+                android:id="@+id/txt_dialog_closeDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -56,7 +57,7 @@
                 app:srcCompat="@drawable/ic_close" />
 
             <TextView
-                android:id="@+id/titleDialog"
+                android:id="@+id/txt_dialog_titleDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -67,20 +68,20 @@
                 android:shadowRadius="1.5"
                 android:text="Titolo Dialog"
                 android:textColor="@color/green"
-                android:textSize="20sp"
+                android:textSize="55px"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/okDialog"
+                android:id="@+id/txt_dialog_okDialog"
                 android:layout_width="250px"
                 android:layout_height="120px"
                 android:layout_marginBottom="20dp"
                 android:alpha="0.85"
                 android:background="@drawable/green_button"
                 android:text="@string/confirm"
-                android:textSize="12.5sp"
+                android:textSize="35px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

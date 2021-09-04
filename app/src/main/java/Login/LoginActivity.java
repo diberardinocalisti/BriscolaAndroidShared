@@ -65,6 +65,7 @@ import okhttp3.internal.Util;
 
 import static Login.loginClass.getFBUserId;
 import static Login.loginClass.getFullName;
+import static Login.loginClass.getId;
 import static Login.loginClass.isFacebookLoggedIn;
 import static Login.loginClass.isUsernameLoggedIn;
 import static firebase.FirebaseClass.isFirebaseStringValid;
@@ -174,13 +175,13 @@ public class LoginActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.login_username_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        TextInputEditText usernameInput = dialog.findViewById(R.id.loginUsernameInput);
-        TextInputEditText passwordInput = dialog.findViewById(R.id.loginPasswordInput);
-        Button login = dialog.findViewById(R.id.loginConfirm);
-        Button register = dialog.findViewById(R.id.loginRegister);
-        TextView forgotPassword = dialog.findViewById(R.id.recoverPassword);
-
-        ImageView close = dialog.findViewById(R.id.loginClose);
+        ViewGroup parentView = dialog.findViewById(R.id.login_parent);
+        TextInputEditText usernameInput = dialog.findViewById(R.id.login_UsernameInput);
+        TextInputEditText passwordInput = dialog.findViewById(R.id.login_PasswordInput);
+        Button login = dialog.findViewById(R.id.login_Confirm);
+        Button register = dialog.findViewById(R.id.login_Register);
+        TextView forgotPassword = dialog.findViewById(R.id.login_recoverPassword);
+        ImageView close = dialog.findViewById(R.id.login_Close);
 
         login.setOnClickListener(v -> {
             String username = usernameInput.getText().toString().trim();
@@ -246,6 +247,7 @@ public class LoginActivity extends AppCompatActivity {
 
         close.setOnClickListener(v -> dialog.dismiss());
 
+        Utility.ridimensionamento(this, parentView);
         dialog.show();
     }
 
@@ -256,18 +258,19 @@ public class LoginActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.register_username_dialog);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        TextInputEditText usernameInput = dialog.findViewById(R.id.registerUsernameInput);
-        TextInputEditText passwordInput = dialog.findViewById(R.id.registerPasswordInput);
-        TextInputEditText emailInput = dialog.findViewById(R.id.registerEmailInput);
-        Button register = dialog.findViewById(R.id.registerConfirm);
-        ImageView close = dialog.findViewById(R.id.registerClose);
+        ViewGroup parentView = dialog.findViewById(R.id.register_parent);
+        TextInputEditText usernameInput = dialog.findViewById(R.id.register_UsernameInput);
+        TextInputEditText passwordInput = dialog.findViewById(R.id.register_PasswordInput);
+        TextInputEditText emailInput = dialog.findViewById(R.id.register_EmailInput);
+        Button register = dialog.findViewById(R.id.register_Confirm);
+        ImageView close = dialog.findViewById(R.id.register_Close);
 
         usernameInput.setText(previousUsernameInput);
         passwordInput.setText(previousPasswordInput);
 
         selectedAvatar = null;
         ArrayList<Avatar> avatars = new ArrayList<>(Avatar.N_AVATAR);
-        showAvatars(dialog.findViewById(R.id.avatarScrollLayout), avatars);
+        showAvatars(dialog.findViewById(R.id.register_avatarScrollLayout), avatars);
 
         register.setOnClickListener(v -> {
             String username = usernameInput.getText().toString().trim();
@@ -358,6 +361,7 @@ public class LoginActivity extends AppCompatActivity {
 
         close.setOnClickListener(v -> dialog.dismiss());
 
+        Utility.ridimensionamento(this, parentView);
         dialog.show();
     }
 
@@ -405,13 +409,13 @@ public class LoginActivity extends AppCompatActivity {
         TextView nRateo = findViewById(R.id.rateoValore);
         ImageView imgProfile = findViewById(R.id.profilePicture);
 
-        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+        FirebaseClass.getFbRef().child(getId()).get().addOnCompleteListener(task -> {
             String nomeProfilo = getFullName();
             String accountIdText = isFacebookLoggedIn() ? getFBUserId() : SharedPref.getEmail().split("@")[0];
 
             nome.setText(nomeProfilo);
             accountId.setText(accountIdText);
-            loginClass.setImgProfile(this, fbUID, imgProfile);
+            loginClass.setImgProfile(this, getId(), imgProfile);
 
             String vinte, perse;
             float rateo, vinteF = 0.0f, perseF = 0.0f;
@@ -492,11 +496,11 @@ public class LoginActivity extends AppCompatActivity {
 
         editProfileConfirm.setOnClickListener(v2 -> {
             if(!selectedAvatar.getIdAvatar().equals(SharedPref.getAvatar())) {
-                FirebaseClass.editFieldFirebase(fbUID, "avatar", selectedAvatar.getIdAvatar());
+                FirebaseClass.editFieldFirebase(getId(), "avatar", selectedAvatar.getIdAvatar());
                 SharedPref.setAvatar(selectedAvatar.getIdAvatar());
 
                 ImageView imgProfile = findViewById(R.id.profilePicture);
-                loginClass.getDrawableAvatar(fbUID, drawableAvatar -> imgProfile.setImageDrawable((Drawable) drawableAvatar), this);
+                loginClass.getDrawableAvatar(getId(), drawableAvatar -> imgProfile.setImageDrawable((Drawable) drawableAvatar), this);
             }
 
             TextView nomeProfilo = findViewById(R.id.nome);
@@ -510,7 +514,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(snapshot.hasChild(newUsername)){
                             Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
                         }else{
-                            FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+                            FirebaseClass.getFbRef().child(getId()).get().addOnCompleteListener(task -> {
                                 if(task.isSuccessful()) {
                                     EmailUser emailUser = new EmailUser();
 
@@ -527,7 +531,7 @@ public class LoginActivity extends AppCompatActivity {
                                         }
                                     }
 
-                                    FirebaseClass.deleteFieldFirebase(null, fbUID);
+                                    FirebaseClass.deleteFieldFirebase(null, getId());
 
                                     fbUID = newUsername;
                                     SharedPref.setUsername(newUsername);

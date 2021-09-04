@@ -15,12 +15,12 @@
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/campo_parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/parent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/campo_gioco">
@@ -367,21 +367,19 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/footer"
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
+                    android:layout_height="150px"
                     android:background="@drawable/topbar"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent">
 
-                    <com.google.android.gms.ads.AdView
-                        xmlns:ads="http://schemas.android.com/apk/res-auto"
+                    <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/adView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_centerHorizontal="true"
                         android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
                         ads:adSize="BANNER"
-                        ads:adUnitId="ca-app-pub-9833115755260479/9941848012">
-                    </com.google.android.gms.ads.AdView>
+                        ads:adUnitId="ca-app-pub-9833115755260479/9941848012"></com.google.android.gms.ads.AdView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
