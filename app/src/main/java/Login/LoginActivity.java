@@ -180,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
         TextInputEditText passwordInput = dialog.findViewById(R.id.login_PasswordInput);
         Button login = dialog.findViewById(R.id.login_Confirm);
         Button register = dialog.findViewById(R.id.login_Register);
-        TextView forgotPassword = dialog.findViewById(R.id.login_recoverPassword);
+        //TextView forgotPassword = dialog.findViewById(R.id.login_recoverPassword);
         ImageView close = dialog.findViewById(R.id.login_Close);
 
         login.setOnClickListener(v -> {
@@ -240,10 +240,10 @@ public class LoginActivity extends AppCompatActivity {
             registerDialog(previousUsernameInput, previousPasswordInput);
         });
 
-        forgotPassword.setPaintFlags(forgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+/*        forgotPassword.setPaintFlags(forgotPassword.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         forgotPassword.setOnClickListener(v -> {
             // TODO: Recupera password;
-        });
+        });*/
 
         close.setOnClickListener(v -> dialog.dismiss());
 
@@ -475,16 +475,17 @@ public class LoginActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.edit_profile);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        TextInputEditText editUsernameInput = dialog.findViewById(R.id.editUsernameInput);
-        Button editProfileConfirm = dialog.findViewById(R.id.editProfileConfirm);
-        ImageView editProfileClose = dialog.findViewById(R.id.editProfileClose);
+        ViewGroup parentView = dialog.findViewById(R.id.edit_parent);
+        TextInputEditText editUsernameInput = dialog.findViewById(R.id.edit_UsernameInput);
+        Button editProfileConfirm = dialog.findViewById(R.id.edit_ProfileConfirm);
+        ImageView editProfileClose = dialog.findViewById(R.id.edit_ProfileClose);
 
         editUsernameInput.setText(SharedPref.getUsername());
         ArrayList<Avatar> avatars = new ArrayList<>(Avatar.N_AVATAR);
 
         selectedAvatar = null;
 
-        showAvatars(dialog.findViewById(R.id.editAvatarScrollLayout), avatars);
+        showAvatars(dialog.findViewById(R.id.edit_AvatarScrollLayout), avatars);
 
         for(Avatar avatar : avatars){
             if(avatar.getIdAvatar().equals(SharedPref.getAvatar())){
@@ -550,6 +551,8 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         editProfileClose.setOnClickListener(v3 -> dialog.dismiss());
+
+        Utility.ridimensionamento(this, parentView);
         dialog.show();
     }
 

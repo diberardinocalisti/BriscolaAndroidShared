@@ -71,7 +71,7 @@
             android:text="@string/login_method"
             android:textAllCaps="true"
             android:textColor="#fff"
-            android:textSize="40px"
+            android:textSize="35px"
             app:layout_constraintBottom_toTopOf="@+id/login_facebook"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

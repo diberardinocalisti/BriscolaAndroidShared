@@ -46,19 +46,6 @@
                 app:layout_constraintTop_toTopOf="@+id/login_PasswordField"
                 app:srcCompat="@drawable/ic_baseline_lock_24" />
 
-            <TextView
-                android:id="@+id/login_recoverPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:linksClickable="false"
-                android:text="@string/password_recovery"
-                android:textColor="#4CAF50"
-                android:visibility="invisible"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/login_PasswordField" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/login_UsernameField"
                 android:layout_width="0dp"
@@ -94,6 +81,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
                     android:password="true" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
@@ -118,7 +106,7 @@
                 android:id="@+id/login_Confirm"
                 android:layout_width="250px"
                 android:layout_height="120px"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:layout_marginEnd="4dp"
                 android:layout_marginRight="4dp"
                 android:layout_marginBottom="16dp"
@@ -128,7 +116,7 @@
                 android:textSize="35px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/login_view11"
-                app:layout_constraintTop_toBottomOf="@+id/login_recoverPassword" />
+                app:layout_constraintTop_toBottomOf="@+id/login_PasswordField" />
 
             <Button
                 android:id="@+id/login_Register"

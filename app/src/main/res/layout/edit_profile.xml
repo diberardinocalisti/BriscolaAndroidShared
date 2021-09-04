@@ -2,12 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent"
+    android:id="@+id/edit_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="350dp"
+        android:layout_width="900px"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/editUsernameTitle"
+                android:id="@+id/edit_UsernameTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -33,12 +33,12 @@
                 android:textAllCaps="false"
                 android:textColor="@color/green"
                 android:textSize="60px"
-                app:layout_constraintEnd_toEndOf="@+id/editProfileClose"
+                app:layout_constraintEnd_toEndOf="@+id/edit_ProfileClose"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editAvatarScrollView" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_AvatarScrollView" />
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editUsernameInput"
+                android:id="@+id/edit_UsernameInput"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -48,22 +48,22 @@
                 android:layout_marginRight="16dp"
                 android:hint="@string/username"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/editUsernameIcon"
-                app:layout_constraintTop_toBottomOf="@+id/editUsernameTitle" />
+                app:layout_constraintStart_toEndOf="@+id/edit_UsernameIcon"
+                app:layout_constraintTop_toBottomOf="@+id/edit_UsernameTitle" />
 
             <ImageView
-                android:id="@+id/editUsernameIcon"
+                android:id="@+id/edit_UsernameIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                app:layout_constraintBottom_toBottomOf="@+id/editUsernameInput"
+                app:layout_constraintBottom_toBottomOf="@+id/edit_UsernameInput"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/editUsernameInput"
+                app:layout_constraintTop_toTopOf="@+id/edit_UsernameInput"
                 app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
             <TextView
-                android:id="@+id/editAvatarTitle"
+                android:id="@+id/edit_AvatarTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -81,7 +81,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/editProfileClose"
+                android:id="@+id/edit_ProfileClose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -92,7 +92,7 @@
                 app:srcCompat="@drawable/ic_close" />
 
             <Button
-                android:id="@+id/editProfileConfirm"
+                android:id="@+id/edit_ProfileConfirm"
                 android:layout_width="250px"
                 android:layout_height="120px"
                 android:layout_marginTop="16dp"
@@ -100,14 +100,14 @@
                 android:alpha="0.85"
                 android:background="@drawable/green_button"
                 android:text="@string/confirm"
-                android:textSize="12.5sp"
+                android:textSize="35px"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editUsernameInput" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_UsernameInput" />
 
             <HorizontalScrollView
-                android:id="@+id/editAvatarScrollView"
+                android:id="@+id/edit_AvatarScrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="16dp"
@@ -118,10 +118,10 @@
                 android:scrollbars="none"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editAvatarTitle">
+                app:layout_constraintTop_toBottomOf="@+id/edit_AvatarTitle">
 
                 <LinearLayout
-                    android:id="@+id/editAvatarScrollLayout"
+                    android:id="@+id/edit_AvatarScrollLayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </HorizontalScrollView>
