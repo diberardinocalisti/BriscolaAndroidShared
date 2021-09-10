@@ -156,5 +156,6 @@
     <string name="visitprofile">Search on Facebook</string>
     <string name="mustbeloggedwithfacebook">You must be logged with Facebook if you want to show your friends. Confirm if you want to go to your Facebook login page. Note: if you\'re registered with your username, you will be disconnected.</string>
     <string name="roomnolongeravailable">This room is no longer available.</string>
-
+    <string name="appupdated">App updated! What\'s new?</string>
+    <string name="latestupdate">- GUI updated;\n- You can now choose an avatar as your profile picture;\n- Top 50 ranking added;\n- Multiplayer crashes fixed;\n- New ads added;</string>
 </resources>

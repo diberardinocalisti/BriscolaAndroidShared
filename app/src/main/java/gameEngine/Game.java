@@ -21,8 +21,8 @@ import static game.danielesimone.briscola.ActivityGame.leftGame;
 import static gameEngine.Game.activity;
 
 public class Game {
+    public final static String GAME_VERSION = "1.4";
     public final static Object gameLocker = new Object();
-
     public static AppCompatActivity activity;
 
     public static final Integer viewAnimDuration = 350, accelMultip = 2, textAnimDuration = 250, fadeAnimDuration = 1000;

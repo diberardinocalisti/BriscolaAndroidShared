@@ -149,5 +149,6 @@
     <string name="visitprofile">Cerca su Facebook</string>
     <string name="mustbeloggedwithfacebook">È necessario aver effettuato l\'accesso a Facebook per vedere i tuoi amici. Vuoi accedere ora? Verrai renderizzato alla pagina di accesso e eventualmente disconnesso dall\'account attuale.</string>
     <string name="roomnolongeravailable">Questa stanza non è più disponibile.</string>
-
+    <string name="appupdated">App aggiornata!</string>
+    <string name="latestupdate">- Restyling dell\'app: i bottoni e le dialog hanno ora un look più ricercato;\n- Aggiunta la possibilità di impostare un avatar personalizzato al proprio account;\n- Aggiunta la classifica globale Top 50;\n- Risolto un problema che causava il crash dell\'app durante le partite multigiocatore;\n- Nuove pubblicità aggiunte;</string>
 </resources>

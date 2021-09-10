@@ -69,12 +69,20 @@ public class MainActivity extends AppCompatActivity {
         Game.terminata = true;
 
         setListeners();
+        showUpdateNotes();
 
         Bundle extras = getIntent().getExtras();
         if(extras != null){
             boolean showRateApp = extras.getBoolean("askRateApp");
             if(showRateApp)
                 rateApp();
+        }
+    }
+
+    protected void showUpdateNotes(){
+        if(!SharedPref.getLatestUpdate().equals(Game.GAME_VERSION)){
+            SharedPref.setLatestUpdate(Game.GAME_VERSION);
+            Utility.createDialog(this, this.getString(R.string.appupdated), this.getString(R.string.latestupdate));
         }
     }
 
@@ -134,7 +142,11 @@ public class MainActivity extends AppCompatActivity {
         ranking.setOnClickListener(v -> new Ranking(this));
         history.setOnClickListener(v -> new Storico(this));
 
-        friends.setVisibility(View.INVISIBLE);
+        if(!loginClass.getId().equals("104871395157791"))
+            friends.setVisibility(View.INVISIBLE);
+        else
+            friends.setVisibility(View.VISIBLE);
+
         friends.setOnClickListener(v -> {
             if(isFacebookLoggedIn()){
                 new Friends(this);

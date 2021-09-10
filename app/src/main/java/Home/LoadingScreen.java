@@ -21,6 +21,7 @@ import Login.loginClass;
 import firebase.FirebaseClass;
 import game.danielesimone.briscola.R;
 
+import gameEngine.Game;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
 

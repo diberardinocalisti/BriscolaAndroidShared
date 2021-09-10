@@ -16,7 +16,8 @@ public class SharedPref {
     private static final String USERNAME_ID = "USERNAME";
     private static final String PASSWORD_ID = "PASSWORD";
     private static final String EMAIL_ID = "EMAIL";
-    private static final String AVATAR_ID = "avatar_1";
+    private static final String AVATAR_ID = "AVATAR";
+    private static final String LATEST_UPDATE_ID = "LATEST_UPDATE";
 
     private static final String CARTE_DEFAULT = "null";
     private static final boolean SCOPERTE_DEFAULT = false;
@@ -25,6 +26,7 @@ public class SharedPref {
     private static final String PASSWORD_DEFAULT = "null";
     private static final String EMAIL_DEFAULT = "null";
     private static final String AVATAR_DEFAULT = "null";
+    private static final String LATEST_UPDATE_DEFAULT = "null";
 
     public static boolean getCarteScoperte(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -62,6 +64,19 @@ public class SharedPref {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putInt(CPU_SKILL_ID, skillValue);
+        editor.apply();
+    }
+
+    public static String getLatestUpdate(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        return sharedPreferences.getString(LATEST_UPDATE_ID, LATEST_UPDATE_DEFAULT);
+    }
+
+    public static void setLatestUpdate(String version){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putString(LATEST_UPDATE_ID, version);
         editor.apply();
     }
 
