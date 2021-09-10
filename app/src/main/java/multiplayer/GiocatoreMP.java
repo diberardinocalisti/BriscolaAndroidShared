@@ -11,6 +11,10 @@ public class GiocatoreMP extends Giocatore {
         super(player, "null", i);
     }
 
+    public boolean isHost(){
+        return this.ruolo.equals("host");
+    }
+
     public String getRuolo(){
         return ruolo;
     }

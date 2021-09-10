@@ -50,6 +50,8 @@ import static gameEngine.Game.activity;
 import static gameEngine.Game.textAnimDuration;
 
 public class Utility{
+    public static String INTERSTITIAL_ID = "ca-app-pub-9833115755260479/9941848012";
+
     public static boolean isNetworkAvailable(AppCompatActivity appCompatActivity) {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) appCompatActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -212,10 +214,15 @@ public class Utility{
         dialog.show();
     }
 
+    public static void returnToMainMenu(AppCompatActivity c){
+        goTo(c, MainActivity.class);
+    }
+
     public static void goTo(AppCompatActivity c, Class cl){
         Intent i = new Intent(c,cl);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         c.startActivity(i);
+        c.finish();
     }
 
     public static void mainMenu(AppCompatActivity c){

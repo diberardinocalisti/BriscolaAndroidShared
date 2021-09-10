@@ -148,5 +148,6 @@
     <string name="yourfriends">I tuoi amici</string>
     <string name="visitprofile">Cerca su Facebook</string>
     <string name="mustbeloggedwithfacebook">È necessario aver effettuato l\'accesso a Facebook per vedere i tuoi amici. Vuoi accedere ora? Verrai renderizzato alla pagina di accesso e eventualmente disconnesso dall\'account attuale.</string>
+    <string name="roomnolongeravailable">Questa stanza non è più disponibile.</string>
 
 </resources>

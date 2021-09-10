@@ -71,7 +71,7 @@ public class ActivityGame extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     protected void startMultiPlayer() {
         if(ActivityMultiplayerGame.onStop){
-            Utility.goTo(ActivityGame.this, MainActivity.class);
+            Utility.returnToMainMenu(ActivityGame.this);
             ActivityMultiplayerGame.onStop = false;
         }
 
@@ -122,7 +122,7 @@ public class ActivityGame extends AppCompatActivity {
         super.onResume();
 
         if(multiplayer && ActivityMultiplayerGame.onStop){
-           Utility.goTo(ActivityGame.this, MainActivity.class);
+           Utility.returnToMainMenu(ActivityGame.this);
            ActivityMultiplayerGame.onStop = false;
         }
     }

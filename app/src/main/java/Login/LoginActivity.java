@@ -611,7 +611,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void logoutMsg(){
         Toast.makeText(this, this.getString(R.string.logoutsuccess), Toast.LENGTH_SHORT).show();
-        Utility.goTo(this, MainActivity.class);
+        Utility.returnToMainMenu(this);
     }
 
     protected void handleLogout(){

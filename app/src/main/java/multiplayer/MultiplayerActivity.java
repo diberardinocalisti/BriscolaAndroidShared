@@ -7,14 +7,11 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import Login.LoginActivity;
-import Login.loginClass;
 import game.danielesimone.briscola.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +21,6 @@ import com.google.firebase.database.annotations.NotNull;
 import firebase.FirebaseClass;
 import gameEngine.Utility;
 
-import static Login.LoginActivity.fbUID;
 import static firebase.FirebaseClass.isFirebaseStringValid;
 
 public class MultiplayerActivity extends AppCompatActivity {
@@ -67,7 +63,7 @@ public class MultiplayerActivity extends AppCompatActivity {
         });
     }
 
-    public static void joinRoomByCode(AppCompatActivity context, String gameCode, Runnable onRoomAvailableCallback, Runnable onRoomNotExistingCallback, Runnable onRoomFullCallback){
+    public static void callbackOnRoomAvailable(String gameCode, Runnable onRoomAvailableCallback, Runnable onRoomNotExistingCallback, Runnable onRoomFullCallback){
         if(gameCode.isEmpty())
             return;
 
@@ -99,8 +95,6 @@ public class MultiplayerActivity extends AppCompatActivity {
                     }else{
                         if(onRoomAvailableCallback != null)
                             onRoomAvailableCallback.run();
-
-                        engineMultiplayer.accediGuest(context, gameCode);
                     }
                 }else{
                     if(onRoomNotExistingCallback != null)
@@ -110,6 +104,24 @@ public class MultiplayerActivity extends AppCompatActivity {
 
             @Override public void onCancelled(@NonNull @NotNull DatabaseError databaseError){}
         });
+    }
+    public static void joinRoomByCode(AppCompatActivity context, String gameCode, Runnable onRoomAvailableCallback, Runnable onRoomNotExistingCallback, Runnable onRoomFullCallback){
+        callbackOnRoomAvailable(gameCode,
+                // On room available;
+                () -> {
+                    if(onRoomAvailableCallback != null) onRoomAvailableCallback.run();
+                    engineMultiplayer.accediGuest(context, gameCode);
+                },
+
+                // On room not existing;
+                () -> {
+                    if(onRoomNotExistingCallback != null) onRoomNotExistingCallback.run();
+                },
+
+                // On room full;
+                () -> {
+                    if(onRoomFullCallback != null) onRoomFullCallback.run();
+                });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)

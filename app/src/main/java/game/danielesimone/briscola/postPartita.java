@@ -14,6 +14,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -21,6 +22,12 @@ import androidx.core.content.ContextCompat;
 import Home.Storico;
 import Login.loginClass;
 
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.firebase.database.DataSnapshot;
 
 import Home.MainActivity;
@@ -31,6 +38,8 @@ import gameEngine.Game;
 import gameEngine.Utility;
 import multiplayer.GiocatoreMP;
 import multiplayer.MultiplayerActivity;
+import multiplayer.RoomList;
+import multiplayer.User;
 import multiplayer.engineMultiplayer;
 
 import static Login.LoginActivity.fbUID;
@@ -43,7 +52,8 @@ import static java.lang.String.*;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 public class postPartita extends AppCompatActivity {
-    public String background, stato;
+    private String background, stato;
+    private InterstitialAd interstitialAd;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
@@ -57,6 +67,7 @@ public class postPartita extends AppCompatActivity {
 
         setContentView(R.layout.postpartita);
 
+        initializeInterstitialAd();
         esitoPartita();
         durataPartita();
         mostraMazzo();
@@ -141,8 +152,6 @@ public class postPartita extends AppCompatActivity {
     }
 
     private void setButtons(){
-        View.OnClickListener restartAction, closeAction;
-
         HorizontalScrollView cardsScrollView = findViewById(R.id.cardsCollectedScrollView);
         View scrollLeftBtn = findViewById(R.id.scrollCardLeft);
         View scrollRightBtn = findViewById(R.id.scrollCardRight);
@@ -157,41 +166,60 @@ public class postPartita extends AppCompatActivity {
             cardsScrollView.post(() -> cardsScrollView.fullScroll(View.FOCUS_RIGHT));
         });
 
-        if(!ActivityGame.multiplayer){
-            restartAction = v -> {
-                Intent i = new Intent(this, ActivityGame.class);
-                i.putExtra("multiplayer", ActivityGame.multiplayer);
-                this.startActivity(i);
-            };
-        }else{
-            restartAction = v -> {
-                GiocatoreMP giocatore = (GiocatoreMP) Game.user;
-                if(giocatore.getRuolo().equals("host")){
-                    engineMultiplayer.accediHost(this, codiceStanza);
-                }else{
-                    MultiplayerActivity.joinRoomByCode(this, engineMultiplayer.codiceStanza,
-                            // On complete callback;
-                            () -> Utility.goTo(this, MultiplayerActivity.class),
-                            // On room not existing callback;
-                            () -> Utility.oneLineDialog(this, (String) this.getText(R.string.waithost), null),
-                            // On room full callback;
-                            () -> Utility.oneLineDialog(this, (String) this.getText(R.string.roomfull), null));
-                }
-            };
-        }
-
-        closeAction = v -> {
-            Intent i = new Intent(this, MainActivity.class);
-            final int percentageShowDialog = 50;
-            Utility.runnablePercentage(percentageShowDialog, () -> i.putExtra("askRateApp", true));
-            this.startActivity(i);
-        };
-
-        restartBtn.setOnClickListener(restartAction);
-        exitBtn.setOnClickListener(closeAction);
+        restartBtn.setOnClickListener(v -> showInterstitialAd(this::restartaPartita));
+        exitBtn.setOnClickListener(v -> onBackPressed());
     }
 
-    public void partitaPersa(){
+    private void initializeInterstitialAd(){
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(this, Utility.INTERSTITIAL_ID, adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd p_interstitialAd) {
+                        interstitialAd = p_interstitialAd;
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+                        interstitialAd = null;
+                    }
+                });
+    }
+
+    private void showInterstitialAd(Runnable callback){
+        interstitialAd.show(this);
+        interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+            @Override
+            public void onAdDismissedFullScreenContent() {
+                callback.run();
+            }
+
+            @Override
+            public void onAdShowedFullScreenContent() {
+                interstitialAd = null;
+            }
+
+            @Override public void onAdFailedToShowFullScreenContent(AdError adError){}
+        });
+    }
+
+    private void restartaPartita(){
+        if(!ActivityGame.multiplayer){
+            Intent i = new Intent(this, ActivityGame.class);
+            i.putExtra("multiplayer", ActivityGame.multiplayer);
+            this.startActivity(i);
+        }else{
+            GiocatoreMP giocatore = (GiocatoreMP) Game.user;
+            if(giocatore.isHost()){
+                engineMultiplayer.accediHost(this, codiceStanza);
+            }else{
+                Utility.goTo(this, RoomList.class);
+            }
+        }
+    }
+
+    private void partitaPersa(){
         background = "sconfitta";
         stato = this.getString(R.string.lost);
 
@@ -200,21 +228,15 @@ public class postPartita extends AppCompatActivity {
 
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                long perse;
-                for(DataSnapshot d: task.getResult().getChildren())
-                {
-                    if(d.getKey().equals("perse"))
-                    {
-                        perse = (long) d.getValue();
-                        FirebaseClass.editFieldFirebase(fbUID,"perse",perse+1);
-                        break;
-                    }
+                if(task.isSuccessful()){
+                    int perse = task.getResult().getValue(User.class).getPerse();
+                    FirebaseClass.editFieldFirebase(fbUID,"perse",perse+1);
                 }
             }
         });
     }
 
-    public void partitaVinta(){
+    private void partitaVinta(){
         background = "vittoria";
         stato = this.getString(R.string.win);
 
@@ -223,22 +245,27 @@ public class postPartita extends AppCompatActivity {
 
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
-                long vinte;
-
-                for(DataSnapshot d: task.getResult().getChildren()){
-                    if(d.getKey().equals("vinte")){
-                        vinte = (long) d.getValue();
-                        FirebaseClass.editFieldFirebase(fbUID,"vinte",vinte+1);
-                        break;
-                    }
-                }
+                int vinte = task.getResult().getValue(User.class).getVinte();
+                FirebaseClass.editFieldFirebase(fbUID,"vinte",vinte+1);
             }
         });
     }
 
-    public void pareggio(){
+    private void pareggio(){
         background = "pareggio";
         stato = this.getString(R.string.tie);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), () -> {
+            showInterstitialAd(() -> {
+                Intent i = new Intent(this, MainActivity.class);
+                final int percentageShowDialog = 50;
+                Utility.runnablePercentage(percentageShowDialog, () -> i.putExtra("askRateApp", true));
+                this.startActivity(i);
+            });
+        });
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
