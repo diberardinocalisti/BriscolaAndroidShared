@@ -133,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
 
         ranking.setOnClickListener(v -> new Ranking(this));
         history.setOnClickListener(v -> new Storico(this));
+
+        friends.setVisibility(View.INVISIBLE);
         friends.setOnClickListener(v -> {
             if(isFacebookLoggedIn()){
                 new Friends(this);
