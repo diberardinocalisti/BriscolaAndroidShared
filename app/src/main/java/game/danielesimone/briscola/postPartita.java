@@ -41,6 +41,7 @@ import multiplayer.MultiplayerActivity;
 import multiplayer.RoomList;
 import multiplayer.User;
 import multiplayer.engineMultiplayer;
+import okhttp3.internal.Util;
 
 import static Login.LoginActivity.fbUID;
 import static gameEngine.Engine.ordinaMazzo;
@@ -188,20 +189,29 @@ public class postPartita extends AppCompatActivity {
     }
 
     private void showInterstitialAd(Runnable callback){
-        interstitialAd.show(this);
-        interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
-            @Override
-            public void onAdDismissedFullScreenContent() {
+        if(interstitialAd == null){
+            callback.run();
+        }else{
+            int percentageShowAd = 33;
+            Utility.runnablePercentage(percentageShowAd, () -> {
+                interstitialAd.show(this);
+                interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+                    @Override
+                    public void onAdDismissedFullScreenContent(){
+                        callback.run();
+                    }
+
+                    @Override
+                    public void onAdShowedFullScreenContent(){
+                        interstitialAd = null;
+                    }
+
+                    @Override public void onAdFailedToShowFullScreenContent(AdError adError){}
+                });
+            }, () -> {
                 callback.run();
-            }
-
-            @Override
-            public void onAdShowedFullScreenContent() {
-                interstitialAd = null;
-            }
-
-            @Override public void onAdFailedToShowFullScreenContent(AdError adError){}
-        });
+            });
+        }
     }
 
     private void restartaPartita(){

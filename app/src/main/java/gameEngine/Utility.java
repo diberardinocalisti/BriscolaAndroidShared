@@ -50,7 +50,7 @@ import static gameEngine.Game.activity;
 import static gameEngine.Game.textAnimDuration;
 
 public class Utility{
-    public static String INTERSTITIAL_ID = "ca-app-pub-9833115755260479/9941848012";
+    public static String INTERSTITIAL_ID = "ca-app-pub-9833115755260479/3735951172";
 
     public static boolean isNetworkAvailable(AppCompatActivity appCompatActivity) {
         ConnectivityManager connectivityManager
@@ -82,6 +82,20 @@ public class Utility{
 
         if(numberPicked <= percentage)
             callback.run();
+    }
+
+    public static void runnablePercentage(int percentage, Runnable confirm, Runnable deny){
+        if(percentage > 100)
+            percentage = 100;
+        else if(percentage < 0)
+            percentage = 0;
+
+        final int numberPicked = (int) (Math.random() * 100);
+
+        if(numberPicked <= percentage)
+            confirm.run();
+        else
+            deny.run();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
