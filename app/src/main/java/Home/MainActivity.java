@@ -47,8 +47,10 @@ import static Login.loginClass.*;
 
 public class MainActivity extends AppCompatActivity {
 
+    public ImageButton friends;
+
     @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
+        friends = findViewById(R.id.friends);
+
         Utility.enableTopBar(this);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
         Utility.showAd(this);
@@ -67,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityMultiplayerGame.onStop = false;
         Game.terminata = true;
+
+
+        if(!loginClass.getId().equals("104871395157791"))
+            friends.setVisibility(View.INVISIBLE);
+        else
+            friends.setVisibility(View.VISIBLE);
 
         setListeners();
         showUpdateNotes();
@@ -104,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
         ImageButton contact = findViewById(R.id.contact);
         ImageButton history = findViewById(R.id.history);
         ImageButton ranking = findViewById(R.id.ranking);
-        ImageButton friends = findViewById(R.id.friends);
 
         singleplayer.setOnClickListener(v -> {
             Intent intent = new Intent(this, ActivityGame.class);
@@ -142,10 +151,6 @@ public class MainActivity extends AppCompatActivity {
         ranking.setOnClickListener(v -> new Ranking(this));
         history.setOnClickListener(v -> new Storico(this));
 
-        if(!loginClass.getId().equals("104871395157791"))
-            friends.setVisibility(View.INVISIBLE);
-        else
-            friends.setVisibility(View.VISIBLE);
 
         friends.setOnClickListener(v -> {
             if(isFacebookLoggedIn()){
