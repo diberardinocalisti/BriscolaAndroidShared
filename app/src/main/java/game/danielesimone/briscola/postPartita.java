@@ -189,29 +189,39 @@ public class postPartita extends AppCompatActivity {
     }
 
     private void showInterstitialAd(Runnable callback){
+        // Per ora non mostreremo la pubblicità nel multigiocatore;
+        if(ActivityGame.multiplayer){
+            callback.run();
+            return;
+        }
+
         if(interstitialAd == null){
             callback.run();
-        }else{
-            int percentageShowAd = 33;
-            Utility.runnablePercentage(percentageShowAd, () -> {
-                interstitialAd.show(this);
-                interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
-                    @Override
-                    public void onAdDismissedFullScreenContent(){
-                        callback.run();
-                    }
-
-                    @Override
-                    public void onAdShowedFullScreenContent(){
-                        interstitialAd = null;
-                    }
-
-                    @Override public void onAdFailedToShowFullScreenContent(AdError adError){}
-                });
-            }, () -> {
-                callback.run();
-            });
+            return;
         }
+
+        int percentageShowAd = 50;
+        Utility.runnablePercentage(percentageShowAd, () -> {
+            if(interstitialAd == null)
+                return;
+
+            interstitialAd.show(this);
+            interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+                @Override
+                public void onAdDismissedFullScreenContent(){
+                    callback.run();
+                }
+
+                @Override
+                public void onAdShowedFullScreenContent(){
+                    interstitialAd = null;
+                }
+
+                @Override public void onAdFailedToShowFullScreenContent(AdError adError){}
+            });
+        }, () -> {
+            callback.run();
+        });
     }
 
     private void restartaPartita(){
