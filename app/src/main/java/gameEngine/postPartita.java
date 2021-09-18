@@ -162,7 +162,35 @@ public class postPartita extends AppCompatActivity {
             cardsScrollView.post(() -> cardsScrollView.fullScroll(View.FOCUS_RIGHT));
         });
 
-        restartBtn.setOnClickListener(v -> showInterstitialAd(this::restartaPartita));
+        restartBtn.setOnClickListener(v -> {
+            if(!ActivityGame.multiplayer){
+                showInterstitialAd(() -> {
+                    Intent i = new Intent(this, ActivityGame.class);
+                    i.putExtra("multiplayer", ActivityGame.multiplayer);
+                    this.startActivity(i);
+                });
+            }else{
+                GiocatoreMP giocatore = (GiocatoreMP) Game.user;
+                if(giocatore.isHost()){
+                    showInterstitialAd(() -> engineMultiplayer.creaStanza(this, codiceStanza));
+                }else{
+                    MultiplayerActivity.callbackOnRoomAvailable(codiceStanza,
+                            // Se la stanza è disponibile;
+                            () -> {
+                                showInterstitialAd(() -> {
+                                    // Se non si torna nella MainActivity prima di accedere a una nuova partita si riscontra un errore;
+                                    Utility.goTo(this, MainActivity.class);
+                                    engineMultiplayer.accediGuest(this, codiceStanza);
+                                });
+                            },
+                            // Se l'host ancora deve creare una nuova stanza;
+                            () -> Utility.oneLineDialog(this, this.getString(R.string.waithost), null),
+                            // Se un altro utente ha già occupato la nuova stanza;
+                            () -> Utility.oneLineDialog(this, this.getString(R.string.roomnolongeravailable), null));
+                }
+            }
+        });
+
         exitBtn.setOnClickListener(v -> onBackPressed());
     }
 
@@ -184,12 +212,6 @@ public class postPartita extends AppCompatActivity {
     }
 
     private void showInterstitialAd(Runnable callback){
-/*        // Per ora non mostreremo la pubblicità nel multigiocatore;
-        if(ActivityGame.multiplayer){
-            callback.run();
-            return;
-        }*/
-
         if(interstitialAd == null){
             callback.run();
             return;
@@ -209,31 +231,6 @@ public class postPartita extends AppCompatActivity {
 
             @Override public void onAdFailedToShowFullScreenContent(AdError adError){}
         });
-    }
-
-    private void restartaPartita(){
-        if(!ActivityGame.multiplayer){
-            Intent i = new Intent(this, ActivityGame.class);
-            i.putExtra("multiplayer", ActivityGame.multiplayer);
-            this.startActivity(i);
-        }else{
-            GiocatoreMP giocatore = (GiocatoreMP) Game.user;
-            if(giocatore.isHost()){
-                engineMultiplayer.creaStanza(this, codiceStanza);
-            }else{
-                MultiplayerActivity.callbackOnRoomAvailable(codiceStanza,
-                        // Se la stanza è disponibile;
-                        () -> {
-                            // Se non si torna nella MainActivity prima di accedere a una nuova partita si riscontra un errore;
-                            Utility.goTo(this, MainActivity.class);
-                            engineMultiplayer.accediGuest(this, codiceStanza);
-                        },
-                        // Se l'host ancora deve creare una nuova stanza;
-                        () -> Utility.oneLineDialog(this, this.getString(R.string.waithost), null),
-                        // Se un altro utente ha già occupato la nuova stanza;
-                        () -> Utility.oneLineDialog(this, this.getString(R.string.roomnolongeravailable), null));
-            }
-        }
     }
 
     private void partitaPersa(){

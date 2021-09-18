@@ -217,6 +217,9 @@ public class engineMultiplayer extends Engine{
             if(snapshot == null)
                 return;
 
+            if(!(giocante instanceof GiocatoreMP))
+                return;
+
             String turno = ((GiocatoreMP) giocante).getRuolo();
             String app = (turno.equals("enemy") ? snapshot.getGiocataDaEnemy() : snapshot.getGiocataDaHost());
 

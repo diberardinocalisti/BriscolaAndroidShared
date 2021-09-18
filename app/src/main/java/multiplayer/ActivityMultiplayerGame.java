@@ -56,28 +56,26 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot dataSnapshot) {
-                snapshot = dataSnapshot.getValue(GameRoom.class);
+                try{
+                    snapshot = dataSnapshot.getValue(GameRoom.class);
 
-                if(!onStop){
-                    try{
+                    if(!onStop){
                         checkIfSomeoneLeft();
-                    }catch(Exception e){
-                        return;
                     }
-                }
 
-                if(!onStop){
-                    if(!initPartita){
-                        if(roleId.equals("host")) {
-                            initHost();
-                        }else if(!snapshot.getMazzo().equals("null")) {
-                            initEnemy();
+                    if(!onStop){
+                        if(!initPartita){
+                            if(roleId.equals("host")) {
+                                initHost();
+                            }else if(!snapshot.getMazzo().equals("null")) {
+                                initEnemy();
+                            }
+                        }else{
+                            engineMultiplayer.updateChat();
+                            engineMultiplayer.checkIfCartaGiocata();
                         }
-                    }else{
-                        engineMultiplayer.updateChat();
-                        engineMultiplayer.checkIfCartaGiocata();
                     }
-                }
+                }catch(Exception ignored){}
             }
 
             @Override public void onCancelled(@NonNull @NotNull DatabaseError databaseError){}
