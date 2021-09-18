@@ -25,15 +25,15 @@ import java.util.Random;
 
 import Login.loginClass;
 import firebase.FirebaseClass;
-import game.danielesimone.briscola.ActivityGame;
 import game.danielesimone.briscola.R;
+import gameEngine.ActivityGame;
 import gameEngine.Carta;
 import gameEngine.Engine;
 import gameEngine.Game;
 import gameEngine.Giocatore;
 import gameEngine.Utility;
 
-import static game.danielesimone.briscola.ActivityGame.leftGame;
+import static gameEngine.ActivityGame.leftGame;
 import static gameEngine.Game.I_CAMPO_GIOCO;
 import static gameEngine.Game.activity;
 import static gameEngine.Game.centerText;
@@ -65,11 +65,14 @@ public class engineMultiplayer extends Engine{
         for (int i = 0; i < len; i++)
             sb.append(chars.charAt(rnd.nextInt(chars.length())));
 
-        role = "HOST";
-        codiceStanza = sb.toString();
-        accediHost(c, sb.toString());
+        creaStanza(c, sb.toString());
     }
 
+    public static void creaStanza(AppCompatActivity c, String gameCode){
+        role = "HOST";
+        codiceStanza = gameCode;
+        accediHost(c, gameCode);
+    }
 
     public static void accediHost(AppCompatActivity c, String gameCode){
         GameRoom g = new GameRoom(gameCode, loginClass.getName(), "null", loginClass.getId(), "null","null","null","null", "null");
@@ -85,8 +88,11 @@ public class engineMultiplayer extends Engine{
         engineMultiplayer.codiceStanza = input;
         engineMultiplayer.role = "NOTHOST";
         ActivityGame.multiplayer = true;
+        ActivityMultiplayerGame.resetAttributes();
+
         FirebaseClass.editFieldFirebase(input,"enemy", loginClass.getName());
         FirebaseClass.editFieldFirebase(input,"idEnemy", loginClass.getId());
+
         Utility.goTo(c, ActivityMultiplayerGame.class);
     }
 

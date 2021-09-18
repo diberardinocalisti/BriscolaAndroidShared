@@ -1,4 +1,4 @@
-package game.danielesimone.briscola;
+package gameEngine;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -24,8 +24,7 @@ import com.google.firebase.database.annotations.NotNull;
 import Home.MainActivity;
 import Login.loginClass;
 import firebase.FirebaseClass;
-import gameEngine.Game;
-import gameEngine.Utility;
+import game.danielesimone.briscola.R;
 import multiplayer.ActivityMultiplayerGame;
 import multiplayer.MultiplayerActivity;
 
@@ -48,8 +47,8 @@ public class ActivityGame extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         multiplayer = extras.getBoolean("multiplayer");
-        leftGame = false;
 
+        ActivityMultiplayerGame.resetAttributes();
         Utility.enableTopBar(this);
 
         if(multiplayer) {

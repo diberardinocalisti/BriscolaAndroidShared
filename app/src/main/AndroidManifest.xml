@@ -30,7 +30,7 @@
             android:name="game.danielesimone.briscola"
             android:value="ca-app-pub-9833115755260479~5712256132"/>
 
-        <activity android:name="game.danielesimone.briscola.ActivityGame"
+        <activity android:name="gameEngine.ActivityGame"
             android:noHistory="true"
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
@@ -38,7 +38,7 @@
             ><intent-filter>
             <action android:name="android.intent.action.VIEW" />
             </intent-filter>
-        </activity>        <activity android:name="game.danielesimone.briscola.postPartita"
+        </activity>        <activity android:name="gameEngine.postPartita"
             android:noHistory="true"
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"

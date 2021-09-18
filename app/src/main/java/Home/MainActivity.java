@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 import UI.BottomDialog;
 import firebase.FirebaseClass;
-import game.danielesimone.briscola.ActivityGame;
+import gameEngine.ActivityGame;
 import game.danielesimone.briscola.R;
 
 import Login.LoginActivity;
@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
 
         ActivityMultiplayerGame.onStop = false;
         Game.terminata = true;
-
 
         if(!loginClass.getId().equals("104871395157791"))
             friends.setVisibility(View.INVISIBLE);

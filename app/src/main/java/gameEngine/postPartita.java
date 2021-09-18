@@ -1,4 +1,4 @@
-package game.danielesimone.briscola;
+package gameEngine;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,20 +28,15 @@ import com.google.android.gms.ads.FullScreenContentCallback;
 import com.google.android.gms.ads.LoadAdError;
 import com.google.android.gms.ads.interstitial.InterstitialAd;
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
-import com.google.firebase.database.DataSnapshot;
 
 import Home.MainActivity;
 import firebase.FirebaseClass;
-import gameEngine.Carta;
-import gameEngine.Engine;
-import gameEngine.Game;
-import gameEngine.Utility;
+import game.danielesimone.briscola.R;
 import multiplayer.GiocatoreMP;
 import multiplayer.MultiplayerActivity;
 import multiplayer.RoomList;
 import multiplayer.User;
 import multiplayer.engineMultiplayer;
-import okhttp3.internal.Util;
 
 import static Login.LoginActivity.fbUID;
 import static gameEngine.Engine.ordinaMazzo;
@@ -189,38 +184,30 @@ public class postPartita extends AppCompatActivity {
     }
 
     private void showInterstitialAd(Runnable callback){
-        // Per ora non mostreremo la pubblicità nel multigiocatore;
+/*        // Per ora non mostreremo la pubblicità nel multigiocatore;
         if(ActivityGame.multiplayer){
             callback.run();
             return;
-        }
+        }*/
 
         if(interstitialAd == null){
             callback.run();
             return;
         }
 
-        int percentageShowAd = 50;
-        Utility.runnablePercentage(percentageShowAd, () -> {
-            if(interstitialAd == null)
-                return;
+        interstitialAd.show(this);
+        interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
+            @Override
+            public void onAdDismissedFullScreenContent(){
+                callback.run();
+            }
 
-            interstitialAd.show(this);
-            interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback(){
-                @Override
-                public void onAdDismissedFullScreenContent(){
-                    callback.run();
-                }
+            @Override
+            public void onAdShowedFullScreenContent(){
+                interstitialAd = null;
+            }
 
-                @Override
-                public void onAdShowedFullScreenContent(){
-                    interstitialAd = null;
-                }
-
-                @Override public void onAdFailedToShowFullScreenContent(AdError adError){}
-            });
-        }, () -> {
-            callback.run();
+            @Override public void onAdFailedToShowFullScreenContent(AdError adError){}
         });
     }
 
@@ -232,9 +219,19 @@ public class postPartita extends AppCompatActivity {
         }else{
             GiocatoreMP giocatore = (GiocatoreMP) Game.user;
             if(giocatore.isHost()){
-                engineMultiplayer.accediHost(this, codiceStanza);
+                engineMultiplayer.creaStanza(this, codiceStanza);
             }else{
-                Utility.goTo(this, RoomList.class);
+                MultiplayerActivity.callbackOnRoomAvailable(codiceStanza,
+                        // Se la stanza è disponibile;
+                        () -> {
+                            // Se non si torna nella MainActivity prima di accedere a una nuova partita si riscontra un errore;
+                            Utility.goTo(this, MainActivity.class);
+                            engineMultiplayer.accediGuest(this, codiceStanza);
+                        },
+                        // Se l'host ancora deve creare una nuova stanza;
+                        () -> Utility.oneLineDialog(this, this.getString(R.string.waithost), null),
+                        // Se un altro utente ha già occupato la nuova stanza;
+                        () -> Utility.oneLineDialog(this, this.getString(R.string.roomnolongeravailable), null));
             }
         }
     }

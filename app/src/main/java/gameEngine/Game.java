@@ -13,11 +13,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-import game.danielesimone.briscola.ActivityGame;
 import game.danielesimone.briscola.R;
 import multiplayer.engineMultiplayer;
 
-import static game.danielesimone.briscola.ActivityGame.leftGame;
+import static gameEngine.ActivityGame.*;
 import static gameEngine.Game.activity;
 
 public class Game {

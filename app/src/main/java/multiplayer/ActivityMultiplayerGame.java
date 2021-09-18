@@ -20,10 +20,11 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import firebase.FirebaseClass;
+import gameEngine.ActivityGame;
 import gameEngine.Game;
 import gameEngine.Utility;
 
-import static game.danielesimone.briscola.ActivityGame.leftGame;
+import static gameEngine.ActivityGame.leftGame;
 import static gameEngine.Game.terminata;
 import static multiplayer.engineMultiplayer.checkIfSomeoneLeft;
 import static multiplayer.engineMultiplayer.codiceStanza;
@@ -46,8 +47,6 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        onStop = initPartita = false;
 
         roleId = (role.equals("HOST") ? "host" : "enemy");
         
@@ -85,6 +84,11 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         };
 
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(valueEventListener);
+    }
+
+    public static void resetAttributes(){
+        onStop = initPartita = leftGame = false;
+        Game.terminata = true;
     }
 
     @Override

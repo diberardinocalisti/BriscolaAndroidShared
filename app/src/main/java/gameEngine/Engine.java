@@ -26,9 +26,9 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import firebase.FirebaseClass;
-import game.danielesimone.briscola.ActivityGame;
+import gameEngine.ActivityGame;
 import game.danielesimone.briscola.R;
-import game.danielesimone.briscola.postPartita;
+import gameEngine.postPartita;
 import multiplayer.ActivityMultiplayerGame;
 import multiplayer.GiocatoreMP;
 import multiplayer.engineMultiplayer;
