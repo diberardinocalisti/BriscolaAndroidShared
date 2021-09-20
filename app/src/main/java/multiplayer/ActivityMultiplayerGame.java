@@ -48,9 +48,13 @@ public class ActivityMultiplayerGame extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        roleId = (role.equals("HOST") ? "host" : "enemy");
-        
-        Game.initialize(this);
+        try{
+            roleId = (role.equals("HOST") ? "host" : "enemy");
+
+            Game.initialize(this);
+        }catch(Exception e){
+            return;
+        }
 
         valueEventListener = new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
