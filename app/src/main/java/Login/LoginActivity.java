@@ -133,16 +133,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
 
-                /*
-                *   Se l'utente si è registrato prima dell'aggiornamento non ha il campo monete nel db
-                *       creo il campo monete e ne aggiungo 50
-                *
-                *   Prendo quante monete ho
-                *   Imposto lo hsaredPref
-                *
-                *   Se posizioniamo le monete nella topBar, se l'utente non è loggato scriviamo 0 monete, altrimenti
-                *   interroghiamo le SharedPref e mostriamo le monete ottenute;
-                * */
+
                 AccessToken token = loginResult.getAccessToken();
                 fbUID = token.getUserId();
 
@@ -160,6 +151,11 @@ public class LoginActivity extends AppCompatActivity {
                             login = true;
                             FbUser user = new FbUser(0,0,50,"","");
                             FirebaseClass.addUserToFirebase(user, fbUID);
+                        }else
+                        {
+                            //Se l'utente c'è nel db ma non  ha il campo monete glielo aggiungo
+                            if(!task.getResult().hasChild("monete"))
+                                FirebaseClass.editFieldFirebase(fbUID,"monete",50);
                         }
                     }
                 });

@@ -10,11 +10,17 @@ import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.AccessToken;
 import com.google.android.gms.ads.MobileAds;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import Login.LoginActivity;
 import Login.loginClass;
@@ -24,6 +30,7 @@ import game.danielesimone.briscola.R;
 import gameEngine.Game;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
+import multiplayer.FbUser;
 
 import static Login.LoginActivity.fbUID;
 import static Login.loginClass.isFacebookLoggedIn;
@@ -62,7 +69,20 @@ public class LoadingScreen extends AppCompatActivity {
                 checkIfAccountExists();
             }
 
+            System.out.println("Loggato --> " + fbUID);
             // Controlliamo le monete e aggiorniamo le SharedPref;
+            FirebaseClass.getFbRefSpeicific(fbUID).get().addOnCompleteListener(task -> {
+                System.out.println("Task --> " + task);
+                if(task.isSuccessful()){
+                    System.out.println("Primo if");
+                    //Se l'utente c'è nel db ma non  ha il campo monete glielo aggiungo
+                    if(!task.getResult().hasChild("monete"))
+                    {
+                        System.out.println("Second if");
+                        FirebaseClass.editFieldFirebase(fbUID,"monete",50);
+                    }
+                }
+            });
         }
 
 
