@@ -7,8 +7,8 @@ public class EmailUser extends User{
 
     public EmailUser(){}
 
-    public EmailUser(int vinte, int perse, String avatar, String email, String password) {
-        super(vinte, perse);
+    public EmailUser(int vinte, int perse, int monete,String avatar, String email, String password) {
+        super(vinte, perse,monete);
         this.email = email;
         this.password = password;
         this.avatar = avatar;

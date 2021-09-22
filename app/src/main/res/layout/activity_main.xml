@@ -27,6 +27,17 @@
             app:layout_constraintTop_toTopOf="@+id/view"
             app:srcCompat="@drawable/logo" />
 
+        <ImageView
+            android:id="@+id/coinIcon"
+            android:layout_width="75px"
+            android:layout_height="75px"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/coin" />
+
         <Button
             android:id="@+id/singleplayer"
             android:layout_width="400px"
@@ -143,6 +154,25 @@
             app:layout_constraintStart_toEndOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/singleplayer" />
 
+
+        <TextView
+            android:id="@+id/coin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:fontFamily="@font/carter_one"
+            android:gravity="center"
+            android:shadowColor="@color/black"
+            android:shadowDx="2"
+            android:shadowDy="5"
+            android:shadowRadius="1.5"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="45px"
+            app:layout_constraintBottom_toBottomOf="@+id/coinIcon"
+            app:layout_constraintEnd_toStartOf="@+id/coinIcon"
+            app:layout_constraintTop_toTopOf="@+id/coinIcon" />
 
         <View
             android:id="@+id/view"

@@ -6,8 +6,8 @@ public class FbUser extends User {
 
     public FbUser(){}
 
-    public FbUser(int vinte, int perse, String nome, String cognome) {
-        super(vinte, perse);
+    public FbUser(int vinte, int perse,int monete, String nome, String cognome) {
+        super(vinte, perse,monete);
         this.nome = nome.trim();
         this.cognome = cognome.trim();
     }

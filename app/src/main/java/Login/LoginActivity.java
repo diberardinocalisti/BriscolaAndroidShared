@@ -103,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void loginPage(){
         setContentView(R.layout.login_page);
         Utility.ridimensionamento(this, findViewById(R.id.parent));
@@ -131,6 +132,17 @@ public class LoginActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onSuccess(LoginResult loginResult) {
+
+                /*
+                *   Se l'utente si è registrato prima dell'aggiornamento non ha il campo monete nel db
+                *       creo il campo monete e ne aggiungo 50
+                *
+                *   Prendo quante monete ho
+                *   Imposto lo hsaredPref
+                *
+                *   Se posizioniamo le monete nella topBar, se l'utente non è loggato scriviamo 0 monete, altrimenti
+                *   interroghiamo le SharedPref e mostriamo le monete ottenute;
+                * */
                 AccessToken token = loginResult.getAccessToken();
                 fbUID = token.getUserId();
 
@@ -146,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         if(!esiste) {
                             login = true;
-                            FbUser user = new FbUser(0,0,"","");
+                            FbUser user = new FbUser(0,0,50,"","");
                             FirebaseClass.addUserToFirebase(user, fbUID);
                         }
                     }
@@ -338,7 +350,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(snapshot.hasChild(username)){
                             Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
                         }else{
-                            EmailUser emailUser = new EmailUser(0,0, selectedAvatar.getIdAvatar(), email,hashPassword);
+                            EmailUser emailUser = new EmailUser(0,0,50, selectedAvatar.getIdAvatar(), email,hashPassword);
                             FirebaseClass.addUserToFirebase(emailUser, username);
 
                             SharedPref.setUsername(username);
@@ -556,6 +568,7 @@ public class LoginActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void showAvatars(ViewGroup gallery, ArrayList<Avatar> avatars){
         LayoutInflater inflater = LayoutInflater.from(this);
 

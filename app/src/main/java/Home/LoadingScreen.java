@@ -27,6 +27,7 @@ import gameEngine.Utility;
 
 import static Login.LoginActivity.fbUID;
 import static Login.loginClass.isFacebookLoggedIn;
+import static Login.loginClass.isLoggedIn;
 import static Login.loginClass.isUsernameLoggedIn;
 
 public class LoadingScreen extends AppCompatActivity {
@@ -51,14 +52,19 @@ public class LoadingScreen extends AppCompatActivity {
         Class destination = SharedPref.getTipoCarte().equals("null") ? Initconfig.class : MainActivity.class;
         MobileAds.initialize(this, initializationStatus -> {});
 
-        if(isFacebookLoggedIn()) {
-            AccessToken accessToken = AccessToken.getCurrentAccessToken();
-            fbUID = accessToken.getUserId();
-        }else if(isUsernameLoggedIn()){
-            fbUID = SharedPref.getUsername();
-            loginClass.updateEmail();
-            checkIfAccountExists();
+        if(isLoggedIn()){
+            if(isFacebookLoggedIn()) {
+                AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                fbUID = accessToken.getUserId();
+            }else if(isUsernameLoggedIn()){
+                fbUID = SharedPref.getUsername();
+                loginClass.updateEmail();
+                checkIfAccountExists();
+            }
+
+            // Controlliamo le monete e aggiorniamo le SharedPref;
         }
+
 
         if(!gameRunning){
             new Handler().postDelayed(() -> {
