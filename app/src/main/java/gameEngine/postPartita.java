@@ -31,6 +31,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 
 import Home.MainActivity;
 import firebase.FirebaseClass;
+import game.danielesimone.briscola.GameActivity;
 import game.danielesimone.briscola.R;
 import multiplayer.GiocatoreMP;
 import multiplayer.MultiplayerActivity;
@@ -47,7 +48,7 @@ import static gameEngine.Game.timer;
 import static java.lang.String.*;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
-public class postPartita extends AppCompatActivity {
+public class postPartita extends GameActivity{
     private String background, stato;
     private InterstitialAd interstitialAd;
 
@@ -237,8 +238,13 @@ public class postPartita extends AppCompatActivity {
         background = "sconfitta";
         stato = this.getString(R.string.lost);
 
-        if(!loginClass.isLoggedIn())
+        if(!loginClass.isLoggedIn(this))
             return;
+
+        int currentCoin = SharedPref.getCoin();
+        int nextCoin = currentCoin + loginClass.LOSE_COIN;
+
+        loginClass.setCoin(Math.max(nextCoin, 0));
 
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
@@ -254,8 +260,11 @@ public class postPartita extends AppCompatActivity {
         background = "vittoria";
         stato = this.getString(R.string.win);
 
-        if(!loginClass.isLoggedIn())
+        if(!loginClass.isLoggedIn(this))
             return;
+
+        int currentCoin = SharedPref.getCoin();
+        loginClass.setCoin(currentCoin + loginClass.WIN_COIN);
 
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){

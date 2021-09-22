@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,10 +26,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import UI.BottomDialog;
 import firebase.FirebaseClass;
+import game.danielesimone.briscola.GameActivity;
 import gameEngine.ActivityGame;
 import game.danielesimone.briscola.R;
 
@@ -40,12 +44,13 @@ import gameEngine.Utility;
 import multiplayer.ActivityMultiplayerGame;
 import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
+import okhttp3.internal.Util;
 
 import static Home.LoadingScreen.gameRunning;
 import static Login.LoginActivity.fbUID;
 import static Login.loginClass.*;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends GameActivity{
 
     public ImageButton friends;
 
@@ -88,6 +93,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    protected void updateCoins(){
+        loginClass.fetchAndUpdateCoins(this, () -> {
+            // La callback viene eseguita quando le Sharedprefs vengono aggiorante;
+            TextView coinView = this.findViewById(R.id.coin);
+            coinView.setText(String.valueOf(SharedPref.getCoin()));
+        });
+    }
+
     protected void showUpdateNotes(){
         if(!SharedPref.getLatestUpdate().equals(Game.GAME_VERSION)){
             SharedPref.setLatestUpdate(Game.GAME_VERSION);
@@ -113,6 +126,7 @@ public class MainActivity extends AppCompatActivity {
         ImageButton contact = findViewById(R.id.contact);
         ImageButton history = findViewById(R.id.history);
         ImageButton ranking = findViewById(R.id.ranking);
+        ImageView coin = findViewById(R.id.coinIcon);
 
         singleplayer.setOnClickListener(v -> {
             Intent intent = new Intent(this, ActivityGame.class);
@@ -121,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         multiplayer.setOnClickListener(v -> {
-            if(isLoggedIn()){
+            if(isLoggedIn(this)){
                 Intent i = new Intent(this, MultiplayerActivity.class);
                 this.startActivity(i);
             }else{
@@ -157,22 +171,35 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 String message = this.getString(R.string.mustbeloggedwithfacebook);
                 Utility.oneLineDialog(this, message, () -> {
-                    LoginActivity.doLogout();
+                    LoginActivity.doLogout(this);
                     Utility.goTo(this, LoginActivity.class);
                 });
             }
         });
+
+        coin.setOnClickListener(v -> {
+            if(!isLoggedIn(this)){
+                String message = this.getString(R.string.logintoearncoin);
+                Utility.oneLineDialog(this, message, null);
+            }else{
+                String message = this.getString(R.string.howtousecoin);
+                Utility.oneLineDialog(this, message, null);
+            }
+        });
+
         closeGame.setOnClickListener(v -> this.onBackPressed());
     }
 
     @Override
     public void onBackPressed() {
-        Utility.oneLineDialog(this, this.getString(R.string.confirmleave), MainActivity.super::onBackPressed);
+        Utility.oneLineDialog(this, this.getString(R.string.confirmleave), this::finishAffinity);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        updateCoins();
 
         if(ActivityGame.multiplayer && ActivityMultiplayerGame.onStop)
             ActivityMultiplayerGame.onStop = false;

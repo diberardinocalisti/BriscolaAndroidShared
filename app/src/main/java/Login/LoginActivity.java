@@ -29,6 +29,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import UI.UiColor;
+import game.danielesimone.briscola.GameActivity;
 import game.danielesimone.briscola.R;
 
 import com.facebook.AccessToken;
@@ -74,7 +75,7 @@ import static multiplayer.ActivityMultiplayerGame.mazzoOnline;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends GameActivity{
     public static AccessTokenTracker logoutTraker;
     public static String fbUID;
     public CallbackManager callbackManager;
@@ -90,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         Utility.enableTopBar(this);
 
-        if(!loginClass.isLoggedIn()){
+        if(!loginClass.isLoggedIn(this)){
             loginPage();
         }else{
             accountPage();
@@ -151,11 +152,10 @@ public class LoginActivity extends AppCompatActivity {
                             login = true;
                             FbUser user = new FbUser(0,0,50,"","");
                             FirebaseClass.addUserToFirebase(user, fbUID);
-                        }else
-                        {
+                        }else{
                             //Se l'utente c'è nel db ma non  ha il campo monete glielo aggiungo
                             if(!task.getResult().hasChild("monete"))
-                                FirebaseClass.editFieldFirebase(fbUID,"monete",50);
+                                loginClass.resetCoin();
                         }
                     }
                 });
@@ -470,6 +470,7 @@ public class LoginActivity extends AppCompatActivity {
         findViewById(R.id.logoutB).setOnClickListener(doLogout);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void modificaProfilo() {
         if(isFacebookLoggedIn()) {
             final String editProfileUrl = "https://www.facebook.com/profile.php";
@@ -604,17 +605,18 @@ public class LoginActivity extends AppCompatActivity {
 
     protected void logout(){
         if(isUsernameLoggedIn()){
-            doLogout();
+            doLogout(this);
             logoutMsg();
         }
     }
 
-    public static void doLogout(){
+    public static void doLogout(AppCompatActivity appCompatActivity){
         if(isUsernameLoggedIn()){
             SharedPref.setUsername("null");
             SharedPref.setPassword("null");
             SharedPref.setEmail("null");
             SharedPref.setAvatar("null");
+            loginClass.fetchAndUpdateCoins(appCompatActivity);
         }
     }
 

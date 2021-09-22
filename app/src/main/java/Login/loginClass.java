@@ -32,8 +32,14 @@ import firebase.FirebaseClass;
 import gameEngine.RunnablePar;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
+import multiplayer.User;
+
+import static Login.LoginActivity.fbUID;
 
 public class loginClass {
+    public static final int DEFAULT_COIN = 50;
+    public static final int WIN_COIN = 25;
+    public static final int LOSE_COIN = -10;
 
     /**
      *
@@ -49,9 +55,9 @@ public class loginClass {
      *
      * @return true se l'utente è loggato con un metodo di accesso, false altrimenti
      */
-    public static boolean isLoggedIn()
+    public static boolean isLoggedIn(AppCompatActivity appCompatActivity)
     {
-        return loginClass.isFacebookLoggedIn() || loginClass.isUsernameLoggedIn();
+        return (loginClass.isFacebookLoggedIn() || loginClass.isUsernameLoggedIn()) && Utility.isNetworkAvailable(appCompatActivity);
     }
 
     public static String getName()
@@ -215,6 +221,28 @@ public class loginClass {
         });
     }
 
+    public static void fetchAndUpdateCoins(AppCompatActivity appCompatActivity){
+        fetchAndUpdateCoins(appCompatActivity, () -> {});
+    }
+
+    public static void fetchAndUpdateCoins(AppCompatActivity appCompatActivity, Runnable callback){
+        if(!isLoggedIn(appCompatActivity)){
+            SharedPref.setCoin(0);
+            callback.run();
+        }else{
+            FirebaseClass.getFbRefSpeicific(fbUID).get().addOnCompleteListener(task -> {
+                if(!task.getResult().hasChild("monete")){
+                    loginClass.resetCoin();
+                }else{
+                    int coin = task.getResult().getValue(User.class).getMonete();
+                    SharedPref.setCoin(coin);
+                }
+                callback.run();
+            });
+        }
+
+    }
+
     public static void facebookUserCallbacks(String userId, Runnable onConfirmCallback, Runnable onDenyCallback){
         if(userId == null){
             onDenyCallback.run();
@@ -257,6 +285,15 @@ public class loginClass {
 
             }
         });
+    }
+
+    public static void resetCoin(){
+        setCoin(DEFAULT_COIN);
+    }
+
+    public static void setCoin(int coin){
+        FirebaseClass.editFieldFirebase(fbUID,"monete", coin);
+        SharedPref.setCoin(coin);
     }
 
     public static boolean isUser(DataSnapshot d){

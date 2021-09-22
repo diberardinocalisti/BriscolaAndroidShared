@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import firebase.FirebaseClass;
+import game.danielesimone.briscola.GameActivity;
 import game.danielesimone.briscola.R;
 import gameEngine.Engine;
 import gameEngine.Game;
@@ -45,7 +46,7 @@ import static Login.loginClass.setImgProfile;
 import static multiplayer.GameRoom.isGameRoom;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
-public class RoomList extends AppCompatActivity {
+public class RoomList extends GameActivity{
     private int selectedItem;
     private String[] filterOptions;
 

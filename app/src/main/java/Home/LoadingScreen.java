@@ -31,6 +31,7 @@ import gameEngine.Game;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
 import multiplayer.FbUser;
+import multiplayer.User;
 
 import static Login.LoginActivity.fbUID;
 import static Login.loginClass.isFacebookLoggedIn;
@@ -59,7 +60,7 @@ public class LoadingScreen extends AppCompatActivity {
         Class destination = SharedPref.getTipoCarte().equals("null") ? Initconfig.class : MainActivity.class;
         MobileAds.initialize(this, initializationStatus -> {});
 
-        if(isLoggedIn()){
+        if(isLoggedIn(this)){
             if(isFacebookLoggedIn()) {
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
                 fbUID = accessToken.getUserId();
@@ -68,21 +69,6 @@ public class LoadingScreen extends AppCompatActivity {
                 loginClass.updateEmail();
                 checkIfAccountExists();
             }
-
-            System.out.println("Loggato --> " + fbUID);
-            // Controlliamo le monete e aggiorniamo le SharedPref;
-            FirebaseClass.getFbRefSpeicific(fbUID).get().addOnCompleteListener(task -> {
-                System.out.println("Task --> " + task);
-                if(task.isSuccessful()){
-                    System.out.println("Primo if");
-                    //Se l'utente c'è nel db ma non  ha il campo monete glielo aggiungo
-                    if(!task.getResult().hasChild("monete"))
-                    {
-                        System.out.println("Second if");
-                        FirebaseClass.editFieldFirebase(fbUID,"monete",50);
-                    }
-                }
-            });
         }
 
 
@@ -106,13 +92,13 @@ public class LoadingScreen extends AppCompatActivity {
 
     protected void checkIfAccountExists(){
         if (!Utility.isNetworkAvailable(this)) {
-            LoginActivity.doLogout();
+            LoginActivity.doLogout(this);
             return;
         }
 
         FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful() || task.isCanceled() || task.getResult().getValue() == null) {
-                LoginActivity.doLogout();
+                LoginActivity.doLogout(this);
             }
         });
     }

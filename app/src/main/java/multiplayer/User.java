@@ -1,5 +1,10 @@
 package multiplayer;
 
+import firebase.FirebaseClass;
+import gameEngine.SharedPref;
+
+import static Login.LoginActivity.fbUID;
+
 public class User {
     protected int vinte;
     protected int perse;

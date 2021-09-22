@@ -158,4 +158,8 @@
     <string name="roomnolongeravailable">This room is no longer available.</string>
     <string name="appupdated">App updated! What\'s new?</string>
     <string name="latestupdate">- GUI updated;\n- You can now choose an avatar as your profile picture;\n- Top 50 ranking added;\n- Multiplayer crashes fixed;\n- New ads added;</string>
+    <string name="internetoffline">You aren\'t connected to Internet</string>
+    <string name="internetofflinereason">This app needs the access to the internet in order to work, the app will be closed.</string>
+    <string name="logintoearncoin">Register or login to earn coin and buy some new cool features!</string>
+    <string name="howtousecoin">Coins can be used to buy some premium features, beat your opponents or go to the store to earn some!</string>
 </resources>

@@ -151,4 +151,8 @@
     <string name="roomnolongeravailable">Questa stanza non è più disponibile.</string>
     <string name="appupdated">App aggiornata!</string>
     <string name="latestupdate">- Restyling dell\'app: i bottoni e le dialog hanno ora un look più ricercato;\n- Aggiunta la possibilità di impostare un avatar personalizzato al proprio account;\n- Aggiunta la classifica globale Top 50;\n- Risolto un problema che causava il crash dell\'app durante le partite multigiocatore;\n- Nuove pubblicità aggiunte;</string>
+    <string name="internetoffline">Non sei connesso ad Internet</string>
+    <string name="internetofflinereason">Questa app ha bisogno dell\'accesso alla rete per poter funzionare, l\'app verrà chiusa.</string>
+    <string name="logintoearncoin">Registrati o effettua il login per iniziare a guadagnare le monete e comprare nuove funzionalità!</string>
+    <string name="howtousecoin">Le monete possono essere utilizzate per acquistare delle funzionalità esclusive, batti i tuoi avversari o accedi allo store per guadagnarne qualcuna!</string>
 </resources>

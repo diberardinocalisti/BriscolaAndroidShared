@@ -3,6 +3,9 @@ package gameEngine;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import Login.loginClass;
+import multiplayer.User;
+import Login.loginClass.*;
 import static android.content.Context.MODE_PRIVATE;
 
 public class SharedPref {
@@ -18,6 +21,7 @@ public class SharedPref {
     private static final String EMAIL_ID = "EMAIL";
     private static final String AVATAR_ID = "AVATAR";
     private static final String LATEST_UPDATE_ID = "LATEST_UPDATE";
+    private static final String COIN_ID = "COIN";
 
     private static final String CARTE_DEFAULT = "null";
     private static final boolean SCOPERTE_DEFAULT = false;
@@ -27,6 +31,7 @@ public class SharedPref {
     private static final String EMAIL_DEFAULT = "null";
     private static final String AVATAR_DEFAULT = "null";
     private static final String LATEST_UPDATE_DEFAULT = "null";
+    private static final int COIN_DEFAULT = loginClass.DEFAULT_COIN;
 
     public static boolean getCarteScoperte(){
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
@@ -64,6 +69,19 @@ public class SharedPref {
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         editor.putInt(CPU_SKILL_ID, skillValue);
+        editor.apply();
+    }
+
+    public static int getCoin(){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        return sharedPreferences.getInt(COIN_ID, COIN_DEFAULT);
+    }
+
+    public static void setCoin(int coin){
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putInt(COIN_ID, coin);
         editor.apply();
     }
 

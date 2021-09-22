@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import game.danielesimone.briscola.GameActivity;
 import game.danielesimone.briscola.R;
 import com.google.android.gms.ads.AdView;
 import com.google.firebase.database.DataSnapshot;
@@ -32,7 +33,7 @@ import static multiplayer.engineMultiplayer.initEnemy;
 import static multiplayer.engineMultiplayer.initHost;
 import static multiplayer.engineMultiplayer.role;
 
-public class ActivityMultiplayerGame extends AppCompatActivity {
+public class ActivityMultiplayerGame extends GameActivity{
     public static String roleId;
     public static boolean onStop = false;
     public static String mazzoOnline = new String();

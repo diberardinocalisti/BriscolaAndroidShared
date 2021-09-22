@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import game.danielesimone.briscola.GameActivity;
 import game.danielesimone.briscola.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,7 +24,7 @@ import gameEngine.Utility;
 
 import static firebase.FirebaseClass.isFirebaseStringValid;
 
-public class MultiplayerActivity extends AppCompatActivity {
+public class MultiplayerActivity extends GameActivity{
     @RequiresApi(api = Build.VERSION_CODES.N)
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

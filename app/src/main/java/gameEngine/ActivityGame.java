@@ -24,6 +24,7 @@ import com.google.firebase.database.annotations.NotNull;
 import Home.MainActivity;
 import Login.loginClass;
 import firebase.FirebaseClass;
+import game.danielesimone.briscola.GameActivity;
 import game.danielesimone.briscola.R;
 import multiplayer.ActivityMultiplayerGame;
 import multiplayer.MultiplayerActivity;
@@ -31,7 +32,7 @@ import multiplayer.MultiplayerActivity;
 import static Login.loginClass.getId;
 import static multiplayer.engineMultiplayer.codiceStanza;
 
-public class ActivityGame extends AppCompatActivity {
+public class ActivityGame extends GameActivity{
     public static boolean multiplayer = false;
     public static boolean attesa = false;
     public static boolean finishAttesa = false;

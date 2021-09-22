@@ -47,6 +47,7 @@ public class Ranking extends Dialog {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public Ranking(AppCompatActivity appCompatActivity){
         super(appCompatActivity);
+
         this.setContentView(R.layout.ranking_dialog);
         this.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -84,7 +85,7 @@ public class Ranking extends Dialog {
     }
 
     private void mostraUtentePrincipale(){
-        if(!isLoggedIn())
+        if(!isLoggedIn(appCompatActivity))
             return;
 
         utentePrincipale.setPlacement(getPlacementById(utentePrincipale.getID()));
@@ -94,6 +95,9 @@ public class Ranking extends Dialog {
     private void ottieniUtenti(Runnable callback){
         ProgressBar progressBar = this.findViewById(R.id.ranking_loadingBar);
         progressBar.setVisibility(View.VISIBLE);
+
+        if(!Utility.isNetworkAvailable(appCompatActivity))
+            return;
 
         FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
             Iterable<DataSnapshot> result = task.getResult().getChildren();
