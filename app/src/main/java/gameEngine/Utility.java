@@ -236,7 +236,6 @@ public class Utility{
         Intent i = new Intent(c,cl);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         c.startActivity(i);
-        c.finish();
     }
 
     public static void mainMenu(AppCompatActivity c){

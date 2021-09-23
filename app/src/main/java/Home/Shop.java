@@ -1,5 +1,6 @@
 package Home;
 
+import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,9 +30,10 @@ import static Login.loginClass.setImgProfile;
 import static gameEngine.Game.activity;
 
 public class Shop extends GameActivity{
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @SuppressLint({"ResourceType", "UseCompatLoadingForDrawables"})
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -42,11 +44,17 @@ public class Shop extends GameActivity{
         Utility.ridimensionamento(this, findViewById(R.id.parent));
         Utility.showAd(this);
 
-        inizializzaLayout();
+        mostraProdotti();
+        setListeners();
+    }
+
+    protected void setListeners(){
+        Button btnBack = this.findViewById(R.id.shop_back);
+        btnBack.setOnClickListener(v -> this.onBackPressed());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    protected void inizializzaLayout(){
+    protected void mostraProdotti(){
         mostraAvatar("John Wick", "avatar_21", 150);
         mostraAvatar("Donald Trump", "avatar_22", 150);
 
@@ -134,4 +142,5 @@ public class Shop extends GameActivity{
         Utility.ridimensionamento(this, parentView);
         gallery.addView(view);
     }
+
 }

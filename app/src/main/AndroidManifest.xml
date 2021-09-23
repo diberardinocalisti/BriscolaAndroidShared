@@ -60,16 +60,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="Home.Shop"
-            android:parentActivityName = "Home.MainActivity"
-            android:screenOrientation="portrait"
-            android:launchMode="singleTop"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-            </intent-filter>
-        </activity>
-
         <activity android:name="multiplayer.RoomList"
             android:parentActivityName = "multiplayer.MultiplayerActivity"
             android:screenOrientation="portrait"
@@ -149,7 +139,15 @@
                 <data android:scheme="fb603960137243421" />
             </intent-filter>
         </activity>
-
+        <activity android:name="Home.Shop"
+            android:parentActivityName = "Home.MainActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
+        </activity>
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3432724503217594~8170298474"/>
