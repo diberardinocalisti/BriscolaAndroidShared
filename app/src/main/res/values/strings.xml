@@ -162,4 +162,5 @@
     <string name="internetofflinereason">This app needs the access to the internet in order to work, the app will be closed.</string>
     <string name="logintoearncoin">Register or login to earn coin and buy some new cool features!</string>
     <string name="howtousecoin">Coins can be used to buy some premium features, beat your opponents or go to the store to earn some!</string>
+    <string name="shop">Visit shop</string>
 </resources>

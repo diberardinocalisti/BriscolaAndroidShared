@@ -122,6 +122,7 @@ public class MainActivity extends GameActivity{
         Button multiplayer = findViewById(R.id.multiplayer);
         Button mioProfilo = findViewById(R.id.mioprofilo);
         Button closeGame = findViewById(R.id.closegame);
+        Button shop = findViewById(R.id.shop);
         ImageButton info = findViewById(R.id.info);
         ImageButton contact = findViewById(R.id.contact);
         ImageButton history = findViewById(R.id.history);

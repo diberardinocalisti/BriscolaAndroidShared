@@ -47,7 +47,7 @@
             android:alpha="0.85"
             android:background="@drawable/yellow_btn_icon"
 
-            android:drawableRight="@drawable/ic_baseline_account_circle_25"
+            android:drawableRight="@drawable/ic_baseline_person_24"
             android:fontFamily="@font/carter_one"
             android:gravity="center|left"
             android:paddingLeft="15dp"
@@ -65,7 +65,7 @@
 
         <Button
             android:id="@+id/mioprofilo"
-            android:layout_width="450px"
+            android:layout_width="0dp"
             android:layout_height="120px"
             android:layout_marginTop="8dp"
             android:alpha="0.85"
@@ -83,10 +83,34 @@
             android:text="@string/myprofile"
             android:textColor="@color/white"
             android:textSize="35px"
-            app:layout_constraintEnd_toEndOf="@+id/multiplayer"
+            app:layout_constraintEnd_toEndOf="@+id/singleplayer"
             app:layout_constraintStart_toStartOf="@+id/singleplayer"
             app:layout_constraintTop_toBottomOf="@+id/singleplayer" />
 
+
+        <Button
+            android:id="@+id/shop"
+            android:layout_width="0dp"
+            android:layout_height="120px"
+            android:layout_marginTop="8dp"
+            android:alpha="0.85"
+            android:background="@drawable/yellow_btn_icon"
+            android:drawableRight="@drawable/ic_baseline_shopping_cart_24"
+
+            android:fontFamily="@font/carter_one"
+            android:gravity="center|left"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:shadowColor="@color/black"
+            android:shadowDx="2"
+            android:shadowDy="5"
+            android:shadowRadius="1.5"
+            android:text="@string/shop"
+            android:textColor="@color/white"
+            android:textSize="35px"
+            app:layout_constraintEnd_toEndOf="@+id/multiplayer"
+            app:layout_constraintStart_toStartOf="@+id/multiplayer"
+            app:layout_constraintTop_toBottomOf="@+id/singleplayer" />
 
         <Button
             android:id="@+id/closegame"

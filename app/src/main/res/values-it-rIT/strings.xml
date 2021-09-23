@@ -155,4 +155,5 @@
     <string name="internetofflinereason">Questa app ha bisogno dell\'accesso alla rete per poter funzionare, l\'app verrà chiusa.</string>
     <string name="logintoearncoin">Registrati o effettua il login per iniziare a guadagnare le monete e comprare nuove funzionalità!</string>
     <string name="howtousecoin">Le monete possono essere utilizzate per acquistare delle funzionalità esclusive, batti i tuoi avversari o accedi allo store per guadagnarne qualcuna!</string>
+    <string name="shop">Negozio</string>
 </resources>
