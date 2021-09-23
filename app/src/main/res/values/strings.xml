@@ -167,5 +167,6 @@
     <string name="coins">coins</string>
     <string name="shoppage">Shop page</string>
     <string name="price">Price</string>
+    <string name="removeads">Remove ads</string>
 
 </resources>

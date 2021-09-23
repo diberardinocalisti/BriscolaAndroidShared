@@ -39,40 +39,32 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints" />
 
-            <Button
-                android:id="@+id/shop_back"
-                android:layout_width="400px"
-                android:layout_height="120px"
-                android:alpha="0.85"
-                android:background="@drawable/red_button_icon"
-                android:drawableRight="@drawable/ic_baseline_exit_to_app_24"
-                android:fontFamily="@font/carter_one"
-
-                android:gravity="center|left"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:shadowColor="@color/black"
-                android:shadowDx="2"
-                android:shadowDy="5"
-                android:shadowRadius="1.5"
-                android:text="@string/goback"
-                android:textColor="@color/white"
-                android:textSize="35px"
-                app:layout_constraintBottom_toTopOf="@+id/footer"
+            <HorizontalScrollView
+                android:id="@+id/shop_scrollAds"
+                android:layout_width="800px"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/shop_scrollAvatar" />
+                app:layout_constraintTop_toBottomOf="@+id/shop_scrollAvatar">
+
+                <LinearLayout
+                    android:id="@+id/shop_adsGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical" />
+            </HorizontalScrollView>
 
             <HorizontalScrollView
                 android:id="@+id/shop_scrollMonete"
                 android:layout_width="800px"
                 android:layout_height="wrap_content"
+                android:scrollbars="none"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:scrollbars="none"
-                app:layout_constraintVertical_bias="0.259">
+                app:layout_constraintVertical_bias="0.209">
 
                 <LinearLayout
                     android:id="@+id/shop_moneteGallery"

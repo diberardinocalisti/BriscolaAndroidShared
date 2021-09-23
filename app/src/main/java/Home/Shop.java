@@ -45,12 +45,6 @@ public class Shop extends GameActivity{
         Utility.showAd(this);
 
         mostraProdotti();
-        setListeners();
-    }
-
-    protected void setListeners(){
-        Button btnBack = this.findViewById(R.id.shop_back);
-        btnBack.setOnClickListener(v -> this.onBackPressed());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -61,7 +55,7 @@ public class Shop extends GameActivity{
         mostraMonete(150, 0.99);
         mostraMonete(500, 1.99);
         mostraMonete(1000, 3.99);
-        // Etc etc;
+        mostraAdRemover(0.99);
     }
 
     private void mostraAvatar(String avatarName, String avatarId, double avatarPrice){
@@ -102,6 +96,24 @@ public class Shop extends GameActivity{
                 onClick);
     }
 
+    private void mostraAdRemover(double price){
+        Runnable onClick = () -> {
+            // Elaborare il click del box delle monete;
+            Utility.oneLineDialog(this, "E' stato selezionato l'ad remover", null);
+        };
+
+        mostraProdotto(String.valueOf(price),
+                R.id.noadsshop_Price,
+                this.getDrawable(R.drawable.no_ads),
+                0,
+                price,
+                R.id.noadsshop_Price,
+                R.id.noadsshop_Parent,
+                R.id.shop_adsGallery,
+                R.layout.rimuoviads,
+                onClick);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void mostraProdotto(String productDescriptionStr,
                                 int productDescriptionView,
@@ -126,8 +138,10 @@ public class Shop extends GameActivity{
         TextView productDescription = view.findViewById(productDescriptionView);
         productDescription.setText(productDescriptionStr);
 
-        ImageView productIcon = view.findViewById(productIconId);
-        productIcon.setImageDrawable(productIconDrawable);
+        if(productIconId != 0){
+            ImageView productIcon = view.findViewById(productIconId);
+            productIcon.setImageDrawable(productIconDrawable);
+        }
 
         TextView productPrice = view.findViewById(productPriceId);
 
