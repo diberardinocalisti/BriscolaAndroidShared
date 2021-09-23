@@ -188,6 +188,10 @@ public class MainActivity extends GameActivity{
             }
         });
 
+        shop.setOnClickListener(v -> {
+            Utility.goTo(this, Shop.class);
+        });
+
         closeGame.setOnClickListener(v -> this.onBackPressed());
     }
 

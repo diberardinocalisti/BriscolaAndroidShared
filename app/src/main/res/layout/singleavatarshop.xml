@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/avatarshop_Parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingRight="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="320px"
+        android:layout_height="420px"
+        android:background="@drawable/avatar_shop_bg">
+
+        <TextView
+            android:id="@+id/avatarshop_Name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/carter_one"
+            android:shadowColor="#000"
+            android:shadowDx="2"
+            android:shadowDy="5"
+            android:shadowRadius="1.5"
+            android:text="@string/avatarname"
+            android:textColor="@color/white"
+            android:textSize="35px"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/avatarshop_Price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/carter_one"
+            android:shadowColor="#000"
+            android:shadowDx="2"
+            android:shadowDy="5"
+            android:shadowRadius="1.5"
+            android:text="0"
+            android:textColor="@color/white"
+            android:textSize="35px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.491"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ImageView
+            android:id="@+id/avatarshop_coins"
+            android:layout_width="35px"
+            android:layout_height="35px"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/avatarshop_Price"
+            app:layout_constraintStart_toEndOf="@+id/avatarshop_Price"
+            app:layout_constraintTop_toBottomOf="@+id/avatarshop_FrameLayout"
+            app:srcCompat="@drawable/coin" />
+
+        <FrameLayout
+            android:id="@+id/avatarshop_FrameLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="24dp"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_editor_absoluteY="10dp">
+
+            <ImageView
+                android:id="@+id/avatarshop_Image"
+                android:layout_width="200px"
+                android:layout_height="200px"
+                app:srcCompat="@drawable/avatar_1" />
+
+            <ImageView
+                android:id="@+id/avatarshop_subtracted_circle"
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:contentDescription="@null"
+                android:src="@drawable/substracted_circle_green" />
+
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

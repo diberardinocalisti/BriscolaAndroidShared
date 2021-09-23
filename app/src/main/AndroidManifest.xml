@@ -60,7 +60,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="Home.Storico"
+        <activity android:name="Home.Shop"
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
