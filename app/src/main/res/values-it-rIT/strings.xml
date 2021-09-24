@@ -160,5 +160,6 @@
     <string name="shoppage">Pagina shop</string>
     <string name="price">Costo</string>
     <string name="removeads">Rimuovi annunci</string>
+    <string name="verifiedConsume">Il tuo acquisto è andato a buon fine</string>
 
 </resources>
