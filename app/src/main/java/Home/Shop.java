@@ -175,9 +175,7 @@ public class Shop extends GameActivity{
                     public void onResponse(String response) {
                         try {
                             JSONObject purchaseInfoFromServer = new JSONObject(response);
-                            if(purchaseInfoFromServer.getBoolean("isValid"))
-                            {
-                                ConsumeParams consumeParams = ConsumeParams.newBuilder().setPurchaseToken(p.getPurchaseToken()).build();
+                                /*ConsumeParams consumeParams = ConsumeParams.newBuilder().setPurchaseToken(p.getPurchaseToken()).build();
                                 billingClient.consumeAsync(
                                         consumeParams,
                                         new ConsumeResponseListener() {
@@ -185,12 +183,23 @@ public class Shop extends GameActivity{
                                             public void onConsumeResponse(@NonNull BillingResult billingResult, @NonNull String s) {
                                                 if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK)
                                                 {
-                                                    Utility.oneLineDialog(getApplicationContext(), String.valueOf(R.string.verifiedConsume), null);
+                                                    //Utility.oneLineDialog(getApplicationContext(), String.valueOf(R.string.verifiedConsume), null);
+                                                }
+                                            }
+                                        }
+                                );*/
+                                AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder().setPurchaseToken(p.getPurchaseToken()).build();
+                                billingClient.acknowledgePurchase(
+                                        acknowledgePurchaseParams,
+                                        new AcknowledgePurchaseResponseListener() {
+                                            @Override
+                                            public void onAcknowledgePurchaseResponse(@NonNull BillingResult billingResult) {
+                                                if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                                                    Toast.makeText(activity, "Consumed!", Toast.LENGTH_LONG).show();
                                                 }
                                             }
                                         }
                                 );
-                            }
 
                         }catch (Exception e)
                         {
@@ -232,7 +241,7 @@ public class Shop extends GameActivity{
                     public void onSkuDetailsResponse(@NonNull BillingResult billingResult, @Nullable List<SkuDetails> list) {
                         if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && list != null)
                         {
-                            System.out.println(list);
+                            System.out.println("List --> " + list);
                             info = list;
                         }
                     }
