@@ -307,4 +307,28 @@ public class loginClass {
     public static boolean isEmailUser(DataSnapshot d){
         return d.hasChild("email");
     }
+
+    public static void showAds(Runnable callback, AppCompatActivity appCompatActivity)
+    {
+        if(!isLoggedIn(appCompatActivity)){
+            callback.run();
+            return;
+        }
+
+        FirebaseClass.getFbRef().child(LoginActivity.fbUID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for(DataSnapshot d : snapshot.getChildren())
+                {
+                    if(d.hasChild("removeAd"))
+                        callback.run();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
 }

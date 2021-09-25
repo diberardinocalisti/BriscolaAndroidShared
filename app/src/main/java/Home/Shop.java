@@ -96,33 +96,15 @@ public class Shop extends GameActivity{
                                     {
                                         for(Purchase p: list)
                                         {
-                                            if(p.getPurchaseState() == Purchase.PurchaseState.PURCHASED && !p.isAcknowledged())
+                                            if(p.getPurchaseState() == Purchase.PurchaseState.PURCHASED)
                                             {
-                                                verifyPurchase(p);
-
-                                                FirebaseClass.getFbRefSpeicific(fbUID).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                                                        if(task.isSuccessful())
-                                                        {
-                                                            for(DataSnapshot d: task.getResult().getChildren())
-                                                            {
-                                                                if(d.hasChild("monete"))
-                                                                {
-                                                                    if(d.getKey().equals("monete"))
-                                                                    {
-                                                                        int monete = (int) d.getValue();
-                                                                        FirebaseClass.editFieldFirebase(fbUID,"monete",(monete + coinShopped) );
-                                                                    }
-                                                                }
-                                                            }
-
-
-                                                        }
-                                                    }
-                                                });
-
-                                                SharedPref.setCoin(SharedPref.getCoin() + coinShopped);
+                                                //verifyPurchase(p);
+                                                if(coinShopped != -1)
+                                                {
+                                                    int moneteOttenute = SharedPref.getCoin() + coinShopped;
+                                                    loginClass.setCoin(moneteOttenute);
+                                                }else
+                                                    setRemoveAd();
 
 
                                                 Utility.goTo(Shop.this,MainActivity.class);
@@ -175,7 +157,9 @@ public class Shop extends GameActivity{
                     public void onResponse(String response) {
                         try {
                             JSONObject purchaseInfoFromServer = new JSONObject(response);
-                                /*ConsumeParams consumeParams = ConsumeParams.newBuilder().setPurchaseToken(p.getPurchaseToken()).build();
+                            if(purchaseInfoFromServer.getBoolean("isValid"))
+                            {
+                                ConsumeParams consumeParams = ConsumeParams.newBuilder().setPurchaseToken(p.getPurchaseToken()).build();
                                 billingClient.consumeAsync(
                                         consumeParams,
                                         new ConsumeResponseListener() {
@@ -187,7 +171,11 @@ public class Shop extends GameActivity{
                                                 }
                                             }
                                         }
-                                );*/
+                                );
+
+
+
+
                                 AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder().setPurchaseToken(p.getPurchaseToken()).build();
                                 billingClient.acknowledgePurchase(
                                         acknowledgePurchaseParams,
@@ -200,6 +188,8 @@ public class Shop extends GameActivity{
                                             }
                                         }
                                 );
+                            }
+
 
                         }catch (Exception e)
                         {
@@ -246,6 +236,7 @@ public class Shop extends GameActivity{
                         }
                     }
                 }
+
         );
     }
 
@@ -314,6 +305,7 @@ public class Shop extends GameActivity{
 
             billingClient.launchBillingFlow(this, BillingFlowParams.newBuilder().setSkuDetails(itemInfo).build());
 
+            coinShopped = -1;
         };
 
         mostraProdotto(String.valueOf(price),
@@ -371,4 +363,8 @@ public class Shop extends GameActivity{
         gallery.addView(view);
     }
 
+    private void setRemoveAd()
+    {
+        FirebaseClass.editFieldFirebase(fbUID,"removeAd","true");
+    }
 }

@@ -44,6 +44,7 @@ import java.util.Locale;
 
 import Home.MainActivity;
 import Login.LoginActivity;
+import Login.loginClass;
 import game.danielesimone.briscola.R;
 
 import static gameEngine.Game.activity;
@@ -166,9 +167,11 @@ public class Utility{
     }
 
     public static void showAd(AppCompatActivity appCompatActivity){
-        AdView mAdView = appCompatActivity.findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        loginClass.showAds(() -> {
+            AdView mAdView = appCompatActivity.findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
+        }, appCompatActivity);
     }
 
     // Input dialog;
