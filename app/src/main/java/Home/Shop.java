@@ -87,6 +87,7 @@ public class Shop extends GameActivity{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.shop);
 
+        coinShopped = 0;
         billingClient = BillingClient.newBuilder(this)
                             .enablePendingPurchases()
                             .setListener(new PurchasesUpdatedListener() {
@@ -102,9 +103,13 @@ public class Shop extends GameActivity{
                                                 if(coinShopped != -1)
                                                 {
                                                     int moneteOttenute = SharedPref.getCoin() + coinShopped;
+                                                    System.out.println("Monete attuali: " + SharedPref.getCoin() +
+                                                                        "\nMonete da aggiungere: " + coinShopped +
+                                                                        "\nMonete totali " + moneteOttenute);
                                                     loginClass.setCoin(moneteOttenute);
-                                                }else
+                                                }else {
                                                     setRemoveAd();
+                                                }
 
 
                                                 Utility.goTo(Shop.this,MainActivity.class);
@@ -121,6 +126,13 @@ public class Shop extends GameActivity{
         Utility.ridimensionamento(this, findViewById(R.id.parent));
         Utility.showAd(this);
         mostraProdotti();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        coinShopped = 0;
     }
 
     private void connectToGooglePlayBilling()
@@ -216,6 +228,7 @@ public class Shop extends GameActivity{
         productIds.add("remove_ads");
         productIds.add("monete_1");
         productIds.add("monete_2");
+        productIds.add("monete_3");
 
         SkuDetailsParams getProoductDetailsQuery = SkuDetailsParams
                             .newBuilder()
@@ -276,7 +289,7 @@ public class Shop extends GameActivity{
         Runnable onClick = () -> {
             // Elaborare il click del box delle monete;
             // Utility.oneLineDialog(this, "Sono state selezionate le monete --> " + nMonete, null);
-            SkuDetails itemInfo = (nMonete == 150 ? info.get(0) : nMonete == 500 ? info.get(1) : null);
+            SkuDetails itemInfo = (nMonete == 150 ? info.get(0) : nMonete == 500 ? info.get(1) : nMonete == 1000 ? info.get(2) : null);
 
             coinShopped = nMonete;
 
@@ -301,7 +314,7 @@ public class Shop extends GameActivity{
             // Elaborare il click del box delle monete;
             //Utility.oneLineDialog(this, "E' stato selezionato l'ad remover", null);
 
-            SkuDetails itemInfo = info.get(2);
+            SkuDetails itemInfo = info.get(3);
 
             billingClient.launchBillingFlow(this, BillingFlowParams.newBuilder().setSkuDetails(itemInfo).build());
 

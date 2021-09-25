@@ -318,10 +318,11 @@ public class loginClass {
         FirebaseClass.getFbRef().child(LoginActivity.fbUID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                for(DataSnapshot d : snapshot.getChildren())
+
+                System.out.println("condizione: " + snapshot.hasChild("removeAd"));
+                if(!snapshot.hasChild("removeAd"))
                 {
-                    if(d.hasChild("removeAd"))
-                        callback.run();
+                    callback.run();
                 }
             }
 
