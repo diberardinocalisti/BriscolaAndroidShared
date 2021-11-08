@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "game.danielesimone.briscola"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 30
         versionCode 10
         versionName "2.0"
@@ -61,6 +61,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:10.0.1'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
+    implementation "pl.droidsonroids.gif:android-gif-drawable:1.2.19"
     implementation 'androidx.multidex:multidex:2.0.1'
 
     def billing_version = "4.0.0"

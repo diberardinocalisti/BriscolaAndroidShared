@@ -154,12 +154,19 @@
     <string name="internetoffline">Non sei connesso ad Internet</string>
     <string name="internetofflinereason">Questa app ha bisogno dell\'accesso alla rete per poter funzionare, l\'app verrà chiusa.</string>
     <string name="logintoearncoin">Registrati o effettua il login per iniziare a guadagnare le monete e comprare nuove funzionalità!</string>
-    <string name="howtousecoin">Le monete possono essere utilizzate per acquistare delle funzionalità esclusive, batti i tuoi avversari o accedi allo store per guadagnarne qualcuna!</string>
+    <string name="howtousecoin">Le monete possono essere utilizzate per acquistare delle funzionalità esclusive, guarda degli annunci, batti i tuoi avversari o accedi allo store per guadagnarne qualcuna!</string>
     <string name="shop">Negozio</string>
     <string name="coins">monete</string>
     <string name="shoppage">Pagina shop</string>
     <string name="price">Costo</string>
     <string name="removeads">Rimuovi annunci</string>
     <string name="verifiedConsume">Il tuo acquisto è andato a buon fine</string>
-
+    <string name="featurenotavailable">Questa funzionalità sarà presto disponibile.</string>
+    <string name="watchads">Guardando un breve video guadagnerai {coins} monete che potrai utilizzare per acquistare degli avatar esclusivi. Procedere?</string>
+    <string name="earncoins">Ottieni monete</string>
+    <string name="adnotready">Nessun annuncio è attualmente disponibile, riprova tra qualche istante…</string>
+    <string name="rewardsuccess">Ricompensa ottenuta con successo!</string>
+    <string name="needmorecoins">Ti servono {coins} altre monete per poter acquistare questo oggetto!</string>
+    <string name="boughtsuccess">Prodotto acquistato con successo!</string>
+    <string name="buyconfirm">Sei sicuro di voler comprare questo oggetto?</string>
 </resources>

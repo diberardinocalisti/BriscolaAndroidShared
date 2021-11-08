@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/input_parent"
+    android:id="@+id/adv_dialog_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -19,17 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input_textInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-            </com.google.android.material.textfield.TextInputLayout>
-
             <ImageView
-                android:id="@+id/input_closeDialog"
+                android:id="@+id/adv_dialog_closeDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -39,8 +30,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_close" />
 
+            <pl.droidsonroids.gif.GifImageView
+                android:id="@+id/giftIcon"
+                android:layout_width="200px"
+                android:layout_height="200px"
+                android:src="@drawable/gift"
+                app:layout_constraintBottom_toTopOf="@+id/adv_dialog_okDialog"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/adv_dialog_description" />
+
             <TextView
-                android:id="@+id/input_titleDialog"
+                android:id="@+id/adv_dialog_titleDialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -49,15 +50,27 @@
                 android:shadowDx="2"
                 android:shadowDy="5"
                 android:shadowRadius="1.5"
-                android:text="Titolo Dialog"
+                android:text="@string/earncoins"
                 android:textColor="@color/green"
                 android:textSize="55px"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/adv_dialog_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/watchads"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/adv_dialog_titleDialog" />
+
             <Button
-                android:id="@+id/input_okDialog"
+                android:id="@+id/adv_dialog_okDialog"
                 android:layout_width="250px"
                 android:layout_height="120px"
                 android:layout_marginBottom="20dp"
@@ -68,25 +81,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_inputDialog"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginBottom="24dp"
-                android:hint="@string/inserttext"
-                android:inputType="textCapSentences"
-                android:textAllCaps="true"
-                app:layout_constraintBottom_toTopOf="@+id/input_okDialog"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/input_titleDialog" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,7 +14,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/storico_constraintLayout"
-        android:layout_width="900px"
+        android:layout_width="800px"
         android:layout_height="900px"
         android:background="@drawable/round_box"
         app:layout_constraintEnd_toEndOf="parent"

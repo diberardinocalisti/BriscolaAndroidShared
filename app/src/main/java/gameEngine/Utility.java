@@ -52,6 +52,8 @@ import static gameEngine.Game.textAnimDuration;
 
 public class Utility{
     public static String INTERSTITIAL_ID = "ca-app-pub-9833115755260479/3735951172";
+    //public static String REWARDED_ID = "ca-app-pub-9833115755260479/6113086470";
+    public static String REWARDED_ID = "ca-app-pub-3940256099942544/5354046379";
 
     public static boolean isNetworkAvailable(AppCompatActivity appCompatActivity) {
         ConnectivityManager connectivityManager

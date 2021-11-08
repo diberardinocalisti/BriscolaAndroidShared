@@ -21,17 +21,21 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import Login.LoginActivity;
 import Login.loginClass;
 import UI.UiColor;
 import firebase.FirebaseClass;
 import game.danielesimone.briscola.GameActivity;
 import game.danielesimone.briscola.R;
+import gameEngine.Game;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
+import multiplayer.EmailUser;
 import multiplayer.User;
 import okhttp3.internal.Util;
 
 import static Login.LoginActivity.fbUID;
+import static Login.loginClass.isUser;
 import static Login.loginClass.setImgProfile;
 import static gameEngine.Game.activity;
 
@@ -56,10 +60,15 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import multiplayer.User;
@@ -90,30 +99,27 @@ public class Shop extends GameActivity{
         coinShopped = 0;
         billingClient = BillingClient.newBuilder(this)
                             .enablePendingPurchases()
-                            .setListener(new PurchasesUpdatedListener() {
-                                @Override
-                                public void onPurchasesUpdated(@NonNull BillingResult billingResult, @Nullable List<Purchase> list) {
-                                    if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && list != null)
+                            .setListener((billingResult, list) -> {
+                                if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && list != null)
+                                {
+                                    for(Purchase p: list)
                                     {
-                                        for(Purchase p: list)
+                                        if(p.getPurchaseState() == Purchase.PurchaseState.PURCHASED)
                                         {
-                                            if(p.getPurchaseState() == Purchase.PurchaseState.PURCHASED)
+                                            //verifyPurchase(p);
+                                            if(coinShopped != -1)
                                             {
-                                                //verifyPurchase(p);
-                                                if(coinShopped != -1)
-                                                {
-                                                    int moneteOttenute = SharedPref.getCoin() + coinShopped;
-                                                    System.out.println("Monete attuali: " + SharedPref.getCoin() +
-                                                                        "\nMonete da aggiungere: " + coinShopped +
-                                                                        "\nMonete totali " + moneteOttenute);
-                                                    loginClass.setCoin(moneteOttenute);
-                                                }else {
-                                                    setRemoveAd();
-                                                }
-
-
-                                                Utility.goTo(Shop.this,MainActivity.class);
+                                                int moneteOttenute = SharedPref.getCoin() + coinShopped;
+                                                System.out.println("Monete attuali: " + SharedPref.getCoin() +
+                                                                    "\nMonete da aggiungere: " + coinShopped +
+                                                                    "\nMonete totali " + moneteOttenute);
+                                                loginClass.setCoin(moneteOttenute);
+                                            }else {
+                                                setRemoveAd();
                                             }
+
+
+                                            Utility.goTo(Shop.this, MainActivity.class);
                                         }
                                     }
                                 }
@@ -185,9 +191,6 @@ public class Shop extends GameActivity{
                                         }
                                 );
 
-
-
-
                                 AcknowledgePurchaseParams acknowledgePurchaseParams = AcknowledgePurchaseParams.newBuilder().setPurchaseToken(p.getPurchaseToken()).build();
                                 billingClient.acknowledgePurchase(
                                         acknowledgePurchaseParams,
@@ -218,9 +221,7 @@ public class Shop extends GameActivity{
         );
 
         Volley.newRequestQueue(this).add(stringRequest);
-
     }
-
 
     private void getProductDetails()
     {
@@ -244,7 +245,6 @@ public class Shop extends GameActivity{
                     public void onSkuDetailsResponse(@NonNull BillingResult billingResult, @Nullable List<SkuDetails> list) {
                         if(billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && list != null)
                         {
-                            System.out.println("List --> " + list);
                             info = list;
                         }
                     }
@@ -255,8 +255,11 @@ public class Shop extends GameActivity{
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void mostraProdotti(){
-        mostraAvatar("John Wick", "avatar_21", 150);
-        mostraAvatar("Donald Trump", "avatar_22", 150);
+        mostraAvatar("Maestro", "avatar_21", 150);
+        mostraAvatar("John Bick", "avatar_22", 150);
+        mostraAvatar("Lio Nessi", "avatar_23", 150);
+        mostraAvatar("Donald Brump", "avatar_24", 150);
+        mostraAvatar("Doge", "avatar_25", 150);
 
         mostraMonete(150, 0.99);
         mostraMonete(500, 1.99);
@@ -265,14 +268,44 @@ public class Shop extends GameActivity{
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void mostraAvatar(String avatarName, String avatarId, double avatarPrice){
-        Drawable avatarDrawable = getResources().getDrawable(getResources().getIdentifier(avatarId, "drawable", getPackageName()));
+    private void mostraAvatar(String avatarName, String avatarId, int avatarPrice){
+        int currCoins = SharedPref.getCoin();
 
         Runnable onClick = () -> {
-                // Elaborare il click del box degli avatar;
-                Utility.oneLineDialog(this, "E' stato selezionato un avatar", null);
-            };
+            Utility.oneLineDialog(this, this.getString(R.string.buyconfirm), () -> {
+                if(SharedPref.getCoin() >= avatarPrice){
+                    FirebaseClass.getFbRef().child(fbUID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot){
+                            EmailUser currUser = snapshot.getValue(EmailUser.class);
+                            Class<?> userClass = currUser.getClass();
 
+                            try{
+                                Field selectedAvatarField = userClass.getDeclaredField(avatarId);
+                                selectedAvatarField.set(currUser, true);
+
+                                loginClass.setCoin(SharedPref.getCoin() - avatarPrice);
+
+                                Utility.oneLineDialog(Shop.this, Shop.this.getString(R.string.boughtsuccess), null);
+                            }
+                            catch(NoSuchFieldException | IllegalAccessException e){
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error){}
+                    });
+                }else{
+                    int neededCoins = avatarPrice - currCoins;
+                    String message = this.getString(R.string.needmorecoins).replace("{coins}", String.valueOf(neededCoins));
+                    Utility.oneLineDialog(this, message, null);
+                }
+            });
+        };
+
+        Drawable avatarDrawable = getResources().getDrawable(getResources().getIdentifier(avatarId, "drawable", getPackageName()));
         mostraProdotto(avatarName,
                 R.id.avatarshop_Name,
                 avatarDrawable,
@@ -285,16 +318,15 @@ public class Shop extends GameActivity{
                 onClick);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void mostraMonete(int nMonete, double price){
         Runnable onClick = () -> {
-            // Elaborare il click del box delle monete;
-            // Utility.oneLineDialog(this, "Sono state selezionate le monete --> " + nMonete, null);
-            SkuDetails itemInfo = (nMonete == 150 ? info.get(0) : nMonete == 500 ? info.get(1) : nMonete == 1000 ? info.get(2) : null);
-
-            coinShopped = nMonete;
-
-            billingClient.launchBillingFlow(this, BillingFlowParams.newBuilder().setSkuDetails(itemInfo).build());
-
+//            SkuDetails itemInfo = (nMonete == 150 ? info.get(0) : nMonete == 500 ? info.get(1) : nMonete == 1000 ? info.get(2) : null);
+//
+//            coinShopped = nMonete;
+//
+//            billingClient.launchBillingFlow(this, BillingFlowParams.newBuilder().setSkuDetails(itemInfo).build());
+            Utility.oneLineDialog(this, this.getString(R.string.featurenotavailable), null);
         };
 
         mostraProdotto(String.valueOf(nMonete),
