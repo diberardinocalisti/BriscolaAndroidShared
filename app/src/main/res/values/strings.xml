@@ -177,4 +177,8 @@
     <string name="needmorecoins">You need {coins} more coins in order to buy this item!</string>
     <string name="boughtsuccess">Product bought with success!</string>
     <string name="buyconfirm">Are you sure you want to buy this item?</string>
+    <string name="itemalreadyunlocked">You already own this item!</string>
+    <string name="visitshop">Visit the shop to unlock this item!</string>
+    <string name="pageisloading">Page is loading, please be patient!</string>
+    <string name="cantstoploading">You can\'t interrupt the loading!</string>
 </resources>

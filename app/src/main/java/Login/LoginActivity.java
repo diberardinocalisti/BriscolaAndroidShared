@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -20,7 +19,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import Home.Shop;
 import UI.UiColor;
 import game.danielesimone.briscola.GameActivity;
 import game.danielesimone.briscola.R;
@@ -41,7 +40,6 @@ import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.facebook.share.Share;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,20 +47,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Random;
 
 import Home.MainActivity;
 import firebase.FirebaseClass;
-import gameEngine.Carta;
-import gameEngine.Game;
-import gameEngine.RunnablePar;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
 import multiplayer.EmailUser;
 import multiplayer.FbUser;
-import multiplayer.User;
-import okhttp3.internal.Util;
 
 import static Login.loginClass.getFBUserId;
 import static Login.loginClass.getFullName;
@@ -71,8 +64,6 @@ import static Login.loginClass.isFacebookLoggedIn;
 import static Login.loginClass.isUsernameLoggedIn;
 import static firebase.FirebaseClass.isFirebaseStringValid;
 import static java.lang.String.*;
-import static multiplayer.ActivityMultiplayerGame.mazzoOnline;
-import static multiplayer.engineMultiplayer.codiceStanza;
 
 
 public class LoginActivity extends GameActivity{
@@ -133,8 +124,6 @@ public class LoginActivity extends GameActivity{
             @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
             @Override
             public void onSuccess(LoginResult loginResult) {
-
-
                 AccessToken token = loginResult.getAccessToken();
                 fbUID = token.getUserId();
 
@@ -150,7 +139,7 @@ public class LoginActivity extends GameActivity{
 
                         if(!esiste) {
                             login = true;
-                            FbUser user = new FbUser(0,0,50,"","");
+                            FbUser user = new FbUser(0,0,25,"","");
                             FirebaseClass.addUserToFirebase(user, fbUID);
                         }else{
                             //Se l'utente c'è nel db ma non  ha il campo monete glielo aggiungo
@@ -278,99 +267,105 @@ public class LoginActivity extends GameActivity{
 
         selectedAvatar = null;
         ArrayList<Avatar> avatars = new ArrayList<>(Avatar.N_AVATAR);
-        showAvatars(dialog.findViewById(R.id.register_avatarScrollLayout), avatars);
 
-        register.setOnClickListener(v -> {
-            String username = usernameInput.getText().toString().trim();
-            String password = passwordInput.getText().toString().trim();
-            String hashPassword = loginClass.getMd5(password);
-            String email = emailInput.getText().toString().trim().replace(".", "_"); // Firebase non accetta punti;
+        new Thread(() -> {
+            showPremiumAvatars(dialog.findViewById(R.id.register_avatarScrollLayout), avatars);
+            showFreeAvatars(dialog.findViewById(R.id.register_avatarScrollLayout), avatars);
 
-            final Integer usernameRequiredLength = 3;
-            if(username.length() < usernameRequiredLength){
-                String message = this.getString(R.string.usernamelength).replace("{length}", usernameRequiredLength.toString());
-                Utility.oneLineDialog(this, message, null);
-                return;
-            }
+            runOnUiThread(() -> {
+                register.setOnClickListener(v -> {
+                    String username = usernameInput.getText().toString().trim();
+                    String password = passwordInput.getText().toString().trim();
+                    String hashPassword = loginClass.getMd5(password);
+                    String email = emailInput.getText().toString().trim().replace(".", "_"); // Firebase non accetta punti;
 
-            if(!isFirebaseStringValid(username)){
-                Utility.oneLineDialog(this, this.getString(R.string.usernameerror), null);
-                return;
-            }
+                    final Integer usernameRequiredLength = 3;
+                    if(username.length() < usernameRequiredLength){
+                        String message = this.getString(R.string.usernamelength).replace("{length}", usernameRequiredLength.toString());
+                        Utility.oneLineDialog(this, message, null);
+                        return;
+                    }
 
-            String tempEmail = email.replace("_", ".");
-            boolean isValidEmail = (!TextUtils.isEmpty(tempEmail) && Patterns.EMAIL_ADDRESS.matcher(tempEmail).matches());
-            if(!isValidEmail || !isFirebaseStringValid(email)){
-                String message = this.getString(R.string.emailnotvalid);
-                Utility.oneLineDialog(this, message, null);
-                return;
-            }
+                    if(!isFirebaseStringValid(username)){
+                        Utility.oneLineDialog(this, this.getString(R.string.usernameerror), null);
+                        return;
+                    }
 
-            final Integer passwordRequiredLength = 6;
-            if(password.length() < passwordRequiredLength){
-                String message = this.getString(R.string.passwordlength).replace("{length}", passwordRequiredLength.toString());
-                Utility.oneLineDialog(this, message, null);
-                return;
-            }
+                    String tempEmail = email.replace("_", ".");
+                    boolean isValidEmail = (!TextUtils.isEmpty(tempEmail) && Patterns.EMAIL_ADDRESS.matcher(tempEmail).matches());
+                    if(!isValidEmail || !isFirebaseStringValid(email)){
+                        String message = this.getString(R.string.emailnotvalid);
+                        Utility.oneLineDialog(this, message, null);
+                        return;
+                    }
 
-            if(selectedAvatar == null){
-                String message = this.getString(R.string.erroravatar);
-                Utility.oneLineDialog(this, message, null);
-                return;
-            }
+                    final Integer passwordRequiredLength = 6;
+                    if(password.length() < passwordRequiredLength){
+                        String message = this.getString(R.string.passwordlength).replace("{length}", passwordRequiredLength.toString());
+                        Utility.oneLineDialog(this, message, null);
+                        return;
+                    }
 
-            FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
-                boolean emailExists = false;
+                    if(selectedAvatar == null){
+                        String message = this.getString(R.string.erroravatar);
+                        Utility.oneLineDialog(this, message, null);
+                        return;
+                    }
 
-                outerLoop: for(DataSnapshot d: task.getResult().getChildren()){
-                    for(DataSnapshot row : d.getChildren()){
-                        if(row.getKey().equals("email")){
-                            String emailChecked = valueOf(row.getValue());
-                            if(emailChecked.equals(email)) {
-                                emailExists = true;
-                                break outerLoop;
+                    FirebaseClass.getFbRef().get().addOnCompleteListener(task -> {
+                        boolean emailExists = false;
+
+                        outerLoop: for(DataSnapshot d: task.getResult().getChildren()){
+                            for(DataSnapshot row : d.getChildren()){
+                                if(row.getKey().equals("email")){
+                                    String emailChecked = valueOf(row.getValue());
+                                    if(emailChecked.equals(email)) {
+                                        emailExists = true;
+                                        break outerLoop;
+                                    }
+                                }
                             }
                         }
-                    }
-                }
 
-                if(emailExists){
-                    String message = this.getString(R.string.emailexisting);
-                    Utility.oneLineDialog(this, message, null);
-                    return;
-                }
-
-                FirebaseClass.getFbRef().addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        if(snapshot.hasChild(username)){
-                            Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
-                        }else{
-                            EmailUser emailUser = new EmailUser(0,0,50, selectedAvatar.getIdAvatar(), email,hashPassword);
-                            FirebaseClass.addUserToFirebase(emailUser, username);
-
-                            SharedPref.setUsername(username);
-                            SharedPref.setPassword(hashPassword);
-                            SharedPref.setEmail(email);
-                            SharedPref.setAvatar(selectedAvatar.getIdAvatar());
-
-                            LoginActivity.fbUID = username;
-
-                            Toast.makeText(getApplicationContext(), LoginActivity.this.getString(R.string.registersuccess),Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                            accountPage();
+                        if(emailExists){
+                            String message = this.getString(R.string.emailexisting);
+                            Utility.oneLineDialog(this, message, null);
+                            return;
                         }
-                    }
 
-                    @Override public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+                        FirebaseClass.getFbRef().addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot snapshot) {
+                                if(snapshot.hasChild(username)){
+                                    Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
+                                }else{
+                                    EmailUser emailUser = new EmailUser(0,0,50, selectedAvatar.getIdAvatar(), email,hashPassword);
+                                    FirebaseClass.addUserToFirebase(emailUser, username);
+
+                                    SharedPref.setUsername(username);
+                                    SharedPref.setPassword(hashPassword);
+                                    SharedPref.setEmail(email);
+                                    SharedPref.setAvatar(selectedAvatar.getIdAvatar());
+
+                                    LoginActivity.fbUID = username;
+
+                                    Toast.makeText(getApplicationContext(), LoginActivity.this.getString(R.string.registersuccess),Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
+                                    accountPage();
+                                }
+                            }
+
+                            @Override public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+                        });
+                    });
                 });
+
+                close.setOnClickListener(v -> dialog.dismiss());
+
+                Utility.ridimensionamento(this, parentView);
+                dialog.show();
             });
-        });
-
-        close.setOnClickListener(v -> dialog.dismiss());
-
-        Utility.ridimensionamento(this, parentView);
-        dialog.show();
+        }).start();
     }
 
     protected void loginError(CharSequence msg){
@@ -494,109 +489,180 @@ public class LoginActivity extends GameActivity{
 
         selectedAvatar = null;
 
-        showAvatars(dialog.findViewById(R.id.edit_AvatarScrollLayout), avatars);
+        Dialog loadingDialog = Utility.createLoadingDialog(this);
 
-        for(Avatar avatar : avatars){
-            if(avatar.getIdAvatar().equals(SharedPref.getAvatar())){
-                avatar.getTextViewAvatar().setTextColor(UiColor.YELLOW);
-                selectedAvatar = avatar;
-                break;
-            }
-        }
+        new Thread(() -> {
+            showPremiumAvatars(dialog.findViewById(R.id.edit_AvatarScrollLayout), avatars);
+            showFreeAvatars(dialog.findViewById(R.id.edit_AvatarScrollLayout), avatars);
 
-        editProfileConfirm.setOnClickListener(v2 -> {
-            if(!selectedAvatar.getIdAvatar().equals(SharedPref.getAvatar())) {
-                FirebaseClass.editFieldFirebase(getId(), "avatar", selectedAvatar.getIdAvatar());
-                SharedPref.setAvatar(selectedAvatar.getIdAvatar());
+            runOnUiThread(() -> {
+                loadingDialog.dismiss();
 
-                ImageView imgProfile = findViewById(R.id.profilePicture);
-                loginClass.getDrawableAvatar(getId(), drawableAvatar -> imgProfile.setImageDrawable((Drawable) drawableAvatar), this);
-            }
+                for(Avatar avatar : avatars){
+                    if(avatar.getIdAvatar().equals(SharedPref.getAvatar())){
+                        avatar.getTextViewAvatar().setTextColor(UiColor.YELLOW);
+                        selectedAvatar = avatar;
+                        break;
+                    }
+                }
 
-            TextView nomeProfilo = findViewById(R.id.nome);
-            String newUsername = editUsernameInput.getText().toString();
+                editProfileConfirm.setOnClickListener(v2 -> {
+                    if(!selectedAvatar.getIdAvatar().equals(SharedPref.getAvatar())) {
+                        FirebaseClass.editFieldFirebase(getId(), "avatar", selectedAvatar.getIdAvatar());
+                        SharedPref.setAvatar(selectedAvatar.getIdAvatar());
 
-            if(!newUsername.equals(SharedPref.getUsername())){
-                FirebaseClass.getFbRef().addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot snapshot) {
-                        // Se esiste esiste già un utente con il nuovo nome inserito;
-                        if(snapshot.hasChild(newUsername)){
-                            Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
-                        }else{
-                            FirebaseClass.getFbRef().child(getId()).get().addOnCompleteListener(task -> {
-                                if(task.isSuccessful()) {
-                                    EmailUser emailUser = new EmailUser();
-
-                                    for (DataSnapshot d : task.getResult().getChildren()) {
-                                        String key = String.valueOf(d.getKey());
-                                        String value = String.valueOf(d.getValue());
-
-                                        switch(key){
-                                            case "vinte": emailUser.setVinte(Integer.parseInt(value)); break;
-                                            case "perse": emailUser.setPerse(Integer.parseInt(value)); break;
-                                            case "avatar": emailUser.setAvatar(value); break;
-                                            case "email": emailUser.setEmail(value); break;
-                                            case "password": emailUser.setPassword(value); break;
-                                        }
-                                    }
-
-                                    FirebaseClass.deleteFieldFirebase(null, getId());
-
-                                    fbUID = newUsername;
-                                    SharedPref.setUsername(newUsername);
-                                    FirebaseClass.addUserToFirebase(emailUser, newUsername);
-                                    nomeProfilo.setText(newUsername);
-                                }
-                            });
-                        }
+                        ImageView imgProfile = findViewById(R.id.profilePicture);
+                        loginClass.getDrawableAvatar(getId(), drawableAvatar -> imgProfile.setImageDrawable((Drawable) drawableAvatar), this);
                     }
 
-                    @Override public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+                    TextView nomeProfilo = findViewById(R.id.nome);
+                    String newUsername = editUsernameInput.getText().toString();
+
+                    if(!newUsername.equals(SharedPref.getUsername())){
+                        FirebaseClass.getFbRef().addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot snapshot) {
+                                // Se esiste esiste già un utente con il nuovo nome inserito;
+                                if(snapshot.hasChild(newUsername)){
+                                    Utility.oneLineDialog(LoginActivity.this, LoginActivity.this.getString(R.string.usernameexisting), null);
+                                }else{
+                                    FirebaseClass.getFbRef().child(getId()).get().addOnCompleteListener(task -> {
+                                        if(task.isSuccessful()) {
+                                            EmailUser emailUser = new EmailUser();
+
+                                            for (DataSnapshot d : task.getResult().getChildren()) {
+                                                String key = String.valueOf(d.getKey());
+                                                String value = String.valueOf(d.getValue());
+
+                                                switch(key){
+                                                    case "vinte": emailUser.setVinte(Integer.parseInt(value)); break;
+                                                    case "perse": emailUser.setPerse(Integer.parseInt(value)); break;
+                                                    case "avatar": emailUser.setAvatar(value); break;
+                                                    case "email": emailUser.setEmail(value); break;
+                                                    case "password": emailUser.setPassword(value); break;
+                                                }
+                                            }
+
+                                            FirebaseClass.deleteFieldFirebase(null, getId());
+
+                                            fbUID = newUsername;
+                                            SharedPref.setUsername(newUsername);
+                                            FirebaseClass.addUserToFirebase(emailUser, newUsername);
+                                            nomeProfilo.setText(newUsername);
+                                        }
+                                    });
+                                }
+                            }
+
+                            @Override public void onCancelled(@NonNull @NotNull DatabaseError error) {}
+                        });
+                    }
+
+                    dialog.dismiss();
                 });
-            }
 
-            dialog.dismiss();
-        });
+                editProfileClose.setOnClickListener(v3 -> dialog.dismiss());
 
-        editProfileClose.setOnClickListener(v3 -> dialog.dismiss());
-
-        Utility.ridimensionamento(this, parentView);
-        dialog.show();
+                Utility.ridimensionamento(this, parentView);
+                dialog.show();
+            });
+        }).start();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    protected void showAvatars(ViewGroup gallery, ArrayList<Avatar> avatars){
+    private void showPremiumAvatars(ViewGroup gallery, ArrayList<Avatar> avatars){
+        for(Avatar.PremiumAvatar avatar : Avatar.PREMIUM_AVATARS)
+            mostraAvatarPremium(avatar, avatars, gallery);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void mostraAvatarPremium(Avatar.PremiumAvatar avatar, ArrayList<Avatar> avatars, ViewGroup gallery){
+        String avatarName = avatar.getNomeAvatar();
+        String avatarId = avatar.getIdAvatar();
+
+        if(!isUsernameLoggedIn()){
+            showAvatar(gallery, avatars, avatarId, avatarName, false);
+        }else{
+            Object locker = new Object();
+
+            FirebaseClass.getFbRef().child(fbUID).addListenerForSingleValueEvent(new ValueEventListener(){
+                @Override
+                public void onDataChange(DataSnapshot snapshot){
+                    EmailUser currUser = snapshot.getValue(EmailUser.class);
+                    Class<?> userClass = currUser.getClass();
+
+                    try{
+                        Field selectedAvatarField = userClass.getDeclaredField(avatarId);
+                        boolean hasUnlockedAvatar = selectedAvatarField.getBoolean(currUser);
+
+                        showAvatar(gallery, avatars, avatarId, avatarName, hasUnlockedAvatar);
+
+                        synchronized (locker){
+                            locker.notifyAll();
+                        }
+                    }
+                    catch(NoSuchFieldException | IllegalAccessException e){
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull @NotNull DatabaseError error){}
+            });
+
+            try{
+                synchronized (locker){
+                    locker.wait();
+                }
+            }
+            catch(InterruptedException e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    protected void showFreeAvatars(ViewGroup gallery, ArrayList<Avatar> avatars){
+        for (int i = 0; i < Avatar.N_AVATAR; i++){
+            String avatarIdStr = "avatar_" + (i + 1);
+            showAvatar(gallery, avatars, avatarIdStr, format("Avatar %d", (i + 1)), true);
+        }
+    }
+
+    protected void showAvatar(ViewGroup gallery, ArrayList<Avatar> avatars, String avatarIdStr, String avatarName, boolean isItemUnlocked){
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        for (int i = 0; i < Avatar.N_AVATAR; i++) {
-            String avatarIdStr = "avatar_" + (i + 1);
-            int avatarId = this.getResources().getIdentifier(avatarIdStr, "drawable", this.getPackageName());
+        int avatarId = this.getResources().getIdentifier(avatarIdStr, "drawable", this.getPackageName());
 
-            Drawable avatarDrawable = this.getDrawable(avatarId);
-            View view = inflater.inflate(R.layout.singleavatar, gallery, false);
+        Drawable avatarDrawable = this.getDrawable(avatarId);
+        View view = inflater.inflate(R.layout.singleavatar, gallery, false);
 
-            TextView avatarNameTextView = view.findViewById(R.id.avatarName);
-            ImageView avatarImage = view.findViewById(R.id.avatarImage);
-            String avatarNameString = format("Avatar %d", (i + 1));
+        TextView avatarNameTextView = view.findViewById(R.id.avatarName);
+        ImageView avatarImage = view.findViewById(R.id.avatarImage);
 
-            avatarNameTextView.setText(avatarNameString);
-            avatarImage.setImageDrawable(avatarDrawable);
+        avatarNameTextView.setText(avatarName);
+        avatarImage.setImageDrawable(avatarDrawable);
 
-            Avatar avatar = new Avatar(avatarNameString, avatarIdStr, avatarNameTextView, avatarImage);
+        Avatar avatar = new Avatar(avatarName, avatarIdStr, avatarNameTextView, avatarImage);
 
-            avatars.add(avatar);
+        avatars.add(avatar);
 
-            avatarImage.setOnClickListener(v1 -> {
+        avatarImage.setOnClickListener(v1 -> {
+            if(isItemUnlocked){
                 for(Avatar a : avatars)
                     a.getTextViewAvatar().setTextColor(Color.WHITE);
 
                 avatar.getTextViewAvatar().setTextColor(UiColor.YELLOW);
                 selectedAvatar = avatar;
-            });
+            }else{
+                Utility.oneLineDialog(this, this.getString(R.string.visitshop), null);
+            }
+        });
 
-            gallery.addView(view);
-        }
+        ImageView itemLockedIcon = view.findViewById(R.id.avatarLocked);
+        itemLockedIcon.setVisibility(isItemUnlocked ? View.INVISIBLE : View.VISIBLE);
+
+        gallery.addView(view);
     }
 
     protected void logoutDialog(){

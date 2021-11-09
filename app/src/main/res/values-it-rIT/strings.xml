@@ -169,4 +169,8 @@
     <string name="needmorecoins">Ti servono {coins} altre monete per poter acquistare questo oggetto!</string>
     <string name="boughtsuccess">Prodotto acquistato con successo!</string>
     <string name="buyconfirm">Sei sicuro di voler comprare questo oggetto?</string>
+    <string name="itemalreadyunlocked">Possiedi già questo oggetto!</string>
+    <string name="visitshop">Visita lo shop per ottenere questo oggetto!</string>
+    <string name="pageisloading">La pagina si sta caricando, attendi un attimo!</string>
+    <string name="cantstoploading">Non puoi interrompere il caricamento!</string>
 </resources>

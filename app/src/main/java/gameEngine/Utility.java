@@ -176,6 +176,23 @@ public class Utility{
         }, appCompatActivity);
     }
 
+    public static Dialog createLoadingDialog(AppCompatActivity appCompatActivity){
+        Dialog dialog = new Dialog(appCompatActivity);
+
+        dialog.setContentView(R.layout.loading_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        ImageView closeDialog = dialog.findViewById(R.id.load_dialog_closeDialog);
+        closeDialog.setOnClickListener(v -> {
+            Utility.oneLineDialog(appCompatActivity, appCompatActivity.getString(R.string.cantstoploading), null);
+        });
+
+        dialog.setCancelable(false);
+        dialog.show();
+
+        return dialog;
+    }
+
     // Input dialog;
     public static void inputDialog(Context c, String title, RunnablePar callback){
         Dialog dialog = new Dialog(c);

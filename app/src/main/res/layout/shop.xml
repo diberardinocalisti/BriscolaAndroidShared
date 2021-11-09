@@ -19,10 +19,21 @@
             android:background="@drawable/background">
 
 
+            <ProgressBar
+                android:id="@+id/shop_loadingbar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:layout_constraintBottom_toTopOf="@+id/footer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/shop_title" />
+
             <TextView
                 android:id="@+id/shop_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
                 android:fontFamily="@font/carter_one"
                 android:paddingRight="2dp"
                 android:shadowColor="#000"
@@ -33,62 +44,70 @@
                 android:textAllCaps="true"
                 android:textColor="#fff"
                 android:textSize="80px"
-                app:layout_constraintBottom_toTopOf="@+id/shop_scrollMonete"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="MissingConstraints" />
 
-            <HorizontalScrollView
-                android:id="@+id/shop_scrollAds"
-                android:layout_width="800px"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/shop_subparent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/footer"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/shop_scrollAvatar">
+                app:layout_constraintTop_toBottomOf="@+id/shop_title">
 
-                <LinearLayout
-                    android:id="@+id/shop_adsGallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical" />
-            </HorizontalScrollView>
+                <HorizontalScrollView
+                    android:id="@+id/shop_scrollMonete"
+                    android:layout_width="800px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:scrollbars="none"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <HorizontalScrollView
-                android:id="@+id/shop_scrollMonete"
-                android:layout_width="800px"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.209">
+                    <LinearLayout
+                        android:id="@+id/shop_moneteGallery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal" />
+                </HorizontalScrollView>
 
-                <LinearLayout
-                    android:id="@+id/shop_moneteGallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal" />
-            </HorizontalScrollView>
+                <HorizontalScrollView
+                    android:id="@+id/shop_scrollAvatar"
+                    android:layout_width="800px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:scrollbars="none"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/shop_scrollMonete">
 
-            <HorizontalScrollView
-                android:id="@+id/shop_scrollAvatar"
-                android:layout_width="800px"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:scrollbars="none"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/shop_scrollMonete">
+                    <LinearLayout
+                        android:id="@+id/shop_avatarGallery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal" />
+                </HorizontalScrollView>
 
-                <LinearLayout
-                    android:id="@+id/shop_avatarGallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal" />
-            </HorizontalScrollView>
+                <HorizontalScrollView
+                    android:id="@+id/shop_scrollAds"
+                    android:layout_width="800px"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/shop_scrollAvatar">
+
+                    <LinearLayout
+                        android:id="@+id/shop_adsGallery"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical" />
+                </HorizontalScrollView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/footer"

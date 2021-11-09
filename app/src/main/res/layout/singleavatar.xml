@@ -51,4 +51,14 @@
 
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/avatarLocked"
+        android:layout_width="85px"
+        android:layout_height="85px"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/avatarName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/locked" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
