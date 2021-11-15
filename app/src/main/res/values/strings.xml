@@ -160,7 +160,7 @@
     <string name="latestupdate">- GUI updated;\n- You can now choose an avatar as your profile picture;\n- Top 50 ranking added;\n- Multiplayer crashes fixed;\n- New ads added;</string>
     <string name="internetoffline">You aren\'t connected to Internet</string>
     <string name="internetofflinereason">This app needs the access to the internet in order to work, the app will be closed.</string>
-    <string name="logintoearncoin">Register or login to earn coin and buy some new cool features!</string>
+    <string name="logintoearncoin">Register or login with an email to earn coin and buy some new cool features!</string>
     <string name="howtousecoin">Coins can be used to buy some premium features, watch some ads, beat your opponents or go to the store to earn some!</string>
     <string name="shop">Visit shop</string>
     <string name="price_placeholder" translatable="false">{price}€</string>
@@ -181,4 +181,5 @@
     <string name="visitshop">Visit the shop to unlock this item!</string>
     <string name="pageisloading">Page is loading, please be patient!</string>
     <string name="cantstoploading">You can\'t interrupt the loading!</string>
+    <string name="logintounlock">Register or login with an email to unlock this feature!</string>
 </resources>

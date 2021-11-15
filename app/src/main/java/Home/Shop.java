@@ -38,6 +38,7 @@ import okhttp3.internal.Util;
 
 import static Login.LoginActivity.fbUID;
 import static Login.loginClass.isUser;
+import static Login.loginClass.isUsernameLoggedIn;
 import static Login.loginClass.setImgProfile;
 import static gameEngine.Game.activity;
 
@@ -134,6 +135,12 @@ public class Shop extends GameActivity{
         int currCoins = SharedPref.getCoin();
 
         Runnable onClick = () -> {
+            if(!isUsernameLoggedIn()){
+                String message = this.getString(R.string.logintounlock);
+                Utility.oneLineDialog(this, message, null);
+                return;
+            }
+
             FirebaseClass.getFbRef().child(fbUID).addListenerForSingleValueEvent(new ValueEventListener(){
                 @Override
                 public void onDataChange(DataSnapshot snapshot){
@@ -228,11 +235,16 @@ public class Shop extends GameActivity{
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void mostraMonete(int nMonete, double price){
         Runnable onClick = () -> {
-//            SkuDetails itemInfo = (nMonete == 150 ? info.get(0) : nMonete == 500 ? info.get(1) : nMonete == 1000 ? info.get(2) : null);
-//
-//            coinShopped = nMonete;
-//
-//            billingClient.launchBillingFlow(this, BillingFlowParams.newBuilder().setSkuDetails(itemInfo).build());
+        /*if(!isUsernameLoggedIn()){
+                String message = this.getString(R.string.logintounlock);
+                Utility.oneLineDialog(this, message, null);
+                return;
+        }
+        SkuDetails itemInfo = (nMonete == 150 ? info.get(0) : nMonete == 500 ? info.get(1) : nMonete == 1000 ? info.get(2) : null);
+
+        coinShopped = nMonete;
+
+        billingClient.launchBillingFlow(this, BillingFlowParams.newBuilder().setSkuDetails(itemInfo).build*/
             Utility.oneLineDialog(this, this.getString(R.string.featurenotavailable), null);
         };
 

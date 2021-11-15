@@ -61,6 +61,7 @@ import static Login.loginClass.getFBUserId;
 import static Login.loginClass.getFullName;
 import static Login.loginClass.getId;
 import static Login.loginClass.isFacebookLoggedIn;
+import static Login.loginClass.isLoggedIn;
 import static Login.loginClass.isUsernameLoggedIn;
 import static firebase.FirebaseClass.isFirebaseStringValid;
 import static java.lang.String.*;

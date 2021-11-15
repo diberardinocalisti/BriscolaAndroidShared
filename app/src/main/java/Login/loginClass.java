@@ -292,8 +292,10 @@ public class loginClass {
     }
 
     public static void setCoin(int coin){
-        FirebaseClass.editFieldFirebase(fbUID,"monete", coin);
-        SharedPref.setCoin(coin);
+        if(isUsernameLoggedIn()){
+            FirebaseClass.editFieldFirebase(fbUID,"monete", coin);
+            SharedPref.setCoin(coin);
+        }
     }
 
     public static boolean isUser(DataSnapshot d){

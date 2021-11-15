@@ -153,7 +153,7 @@
     <string name="latestupdate">- Restyling dell\'app: i bottoni e le dialog hanno ora un look più ricercato;\n- Aggiunta la possibilità di impostare un avatar personalizzato al proprio account;\n- Aggiunta la classifica globale Top 50;\n- Risolto un problema che causava il crash dell\'app durante le partite multigiocatore;\n- Nuove pubblicità aggiunte;</string>
     <string name="internetoffline">Non sei connesso ad Internet</string>
     <string name="internetofflinereason">Questa app ha bisogno dell\'accesso alla rete per poter funzionare, l\'app verrà chiusa.</string>
-    <string name="logintoearncoin">Registrati o effettua il login per iniziare a guadagnare le monete e comprare nuove funzionalità!</string>
+    <string name="logintoearncoin">Registrati o effettua il login con un\'email per iniziare a guadagnare le monete e comprare nuove funzionalità!</string>
     <string name="howtousecoin">Le monete possono essere utilizzate per acquistare delle funzionalità esclusive, guarda degli annunci, batti i tuoi avversari o accedi allo store per guadagnarne qualcuna!</string>
     <string name="shop">Negozio</string>
     <string name="coins">monete</string>
@@ -173,4 +173,5 @@
     <string name="visitshop">Visita lo shop per ottenere questo oggetto!</string>
     <string name="pageisloading">La pagina si sta caricando, attendi un attimo!</string>
     <string name="cantstoploading">Non puoi interrompere il caricamento!</string>
+    <string name="logintounlock">Registrati o effettua l\'accesso con un\'email per sbloccare questa funzionalità!</string>
 </resources>

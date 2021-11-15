@@ -192,8 +192,8 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
         });
 
         gift.setOnClickListener(v -> {
-            if(!isLoggedIn(this)){
-                String message = this.getString(R.string.logintoearncoin);
+            if(!isUsernameLoggedIn()){
+                String message = this.getString(R.string.logintounlock);
                 Utility.oneLineDialog(this, message, null);
             }else{
                 watchAdDialog();
@@ -278,6 +278,9 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
         super.onResume();
 
         updateCoins();
+
+        if(isLoggedIn(this))
+            initializeAd();
 
         if(ActivityGame.multiplayer && ActivityMultiplayerGame.onStop)
             ActivityMultiplayerGame.onStop = false;
