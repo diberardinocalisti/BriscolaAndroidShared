@@ -225,7 +225,6 @@ public class LoginActivity extends GameActivity{
 
                 dialog.dismiss();
             });
-
         });
 
         register.setOnClickListener(v -> {

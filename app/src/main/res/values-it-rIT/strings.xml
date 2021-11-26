@@ -150,7 +150,7 @@
     <string name="mustbeloggedwithfacebook">È necessario aver effettuato l\'accesso a Facebook per vedere i tuoi amici. Vuoi accedere ora? Verrai renderizzato alla pagina di accesso e eventualmente disconnesso dall\'account attuale.</string>
     <string name="roomnolongeravailable">Questa stanza non è più disponibile.</string>
     <string name="appupdated">App aggiornata!</string>
-    <string name="latestupdate">- Restyling dell\'app: i bottoni e le dialog hanno ora un look più ricercato;\n- Aggiunta la possibilità di impostare un avatar personalizzato al proprio account;\n- Aggiunta la classifica globale Top 50;\n- Risolto un problema che causava il crash dell\'app durante le partite multigiocatore;\n- Nuove pubblicità aggiunte;</string>
+    <string name="latestupdate">• Negozio aggiunto;\n• Monete aggiunte: puoi guadagnarle guardando dei video pubblicitari o vincendo delle partite;\n• Avatar premium aggiunti: visita il negozio e comprane più che puoi!\n• Migliorie all\'interfaccia grafica;</string>
     <string name="internetoffline">Non sei connesso ad Internet</string>
     <string name="internetofflinereason">Questa app ha bisogno dell\'accesso alla rete per poter funzionare, l\'app verrà chiusa.</string>
     <string name="logintoearncoin">Registrati o effettua il login con un\'email per iniziare a guadagnare le monete e comprare nuove funzionalità!</string>

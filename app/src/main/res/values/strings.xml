@@ -157,7 +157,7 @@
     <string name="mustbeloggedwithfacebook">You must be logged with Facebook if you want to show your friends. Confirm if you want to go to your Facebook login page. Note: if you\'re registered with your username, you will be disconnected.</string>
     <string name="roomnolongeravailable">This room is no longer available.</string>
     <string name="appupdated">App updated! What\'s new?</string>
-    <string name="latestupdate">- GUI updated;\n- You can now choose an avatar as your profile picture;\n- Top 50 ranking added;\n- Multiplayer crashes fixed;\n- New ads added;</string>
+    <string name="latestupdate">• In-game store added;\n• Coins added: you can earn some watching video ads or winning games;\n• Premium avatars added: visit the store and buy as many as you can!\n• GUI Updated;</string>
     <string name="internetoffline">You aren\'t connected to Internet</string>
     <string name="internetofflinereason">This app needs the access to the internet in order to work, the app will be closed.</string>
     <string name="logintoearncoin">Register or login with an email to earn coin and buy some new cool features!</string>

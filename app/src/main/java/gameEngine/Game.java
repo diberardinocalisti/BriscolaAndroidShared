@@ -20,7 +20,7 @@ import static gameEngine.ActivityGame.*;
 import static gameEngine.Game.activity;
 
 public class Game {
-    public final static String GAME_VERSION = "1.6";
+    public final static String GAME_VERSION = "2.1";
     public final static Object gameLocker = new Object();
     public static AppCompatActivity activity;
 
