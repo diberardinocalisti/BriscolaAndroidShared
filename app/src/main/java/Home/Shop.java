@@ -263,11 +263,12 @@ public class Shop extends GameActivity{
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void mostraAdRemover(double price){
         Runnable onClick = () -> {
-            SkuDetails itemInfo = info.get(3);
+/*            SkuDetails itemInfo = info.get(3);
 
             billingClient.launchBillingFlow(this, BillingFlowParams.newBuilder().setSkuDetails(itemInfo).build());
 
-            coinShopped = -1;
+            coinShopped = -1;*/
+            Utility.oneLineDialog(this, this.getString(R.string.featurenotavailable), null);
         };
 
         mostraProdotto(String.valueOf(price),

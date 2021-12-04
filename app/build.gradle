@@ -4,6 +4,7 @@ plugins {
 }
 
 android {
+    ndkVersion '21.3.6528147'
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
@@ -12,7 +13,7 @@ android {
         minSdkVersion 17
         targetSdkVersion 30
         versionCode 10
-        versionName "2.0"
+        versionName "2.1"
 
         multiDexEnabled true
 
