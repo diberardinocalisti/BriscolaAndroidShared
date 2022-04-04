@@ -28,7 +28,6 @@ import UI.BottomDialog;
 import game.danielesimone.briscola.R;
 import gameEngine.Utility;
 
-import static Login.LoginActivity.fbUID;
 import static Login.loginClass.getFullName;
 import static Login.loginClass.getId;
 import static Login.loginClass.isFacebookLoggedIn;

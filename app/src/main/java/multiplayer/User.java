@@ -5,7 +5,6 @@ import java.lang.reflect.Field;
 import firebase.FirebaseClass;
 import gameEngine.SharedPref;
 
-import static Login.LoginActivity.fbUID;
 
 public class User {
     protected int vinte;

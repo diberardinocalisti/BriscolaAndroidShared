@@ -62,9 +62,9 @@ public class FirebaseClass {
             getFbRef().child(field).removeValue();
     }
 
-    public static void aggiornaVittorie(String fbUID)
+    public static void aggiornaVittorie(String fbUid)
     {
-        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+        FirebaseClass.getFbRef().child(fbUid).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 String vinte;
                 float vinteF = 0.0f;
@@ -74,16 +74,16 @@ public class FirebaseClass {
                     if(d.getKey().equals("vinte")) {
                         vinte = String.valueOf(d.getValue());
                         vinteF = Float.parseFloat(vinte);
-                        FirebaseClass.editFieldFirebase(fbUID,"vinte",vinteF+1);
+                        FirebaseClass.editFieldFirebase(loginClass.getId(),"vinte",vinteF+1);
                     }
                 }
             }
         });
     }
 
-    public static void aggiornaSconfitte(String fbUID)
+    public static void aggiornaSconfitte(String fbUid)
     {
-        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+        FirebaseClass.getFbRef().child(fbUid).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 String perse;
                 float perseF;
@@ -93,7 +93,7 @@ public class FirebaseClass {
                     if(d.getKey().equals("perse")){
                         perse = String.valueOf(d.getValue());
                         perseF = Float.parseFloat(perse);
-                        FirebaseClass.editFieldFirebase(fbUID,"perse",perseF+1);
+                        FirebaseClass.editFieldFirebase(loginClass.getId(),"perse",perseF+1);
                     }
                 }
 

@@ -110,7 +110,11 @@ public class LoginActivity extends GameActivity{
         LoginButton loginFacebookHook = findViewById(R.id.login_hook);
         Button back = findViewById(R.id.login_back);
 
-        loginFacebook.setOnClickListener(v -> loginFacebookHook.performClick());
+        loginFacebook.setOnClickListener(v -> {
+            String title = this.getString(R.string.featurenotavailable);
+            Utility.oneLineDialog(this, title, null);
+        });
+
         loginUsername.setOnClickListener(v -> loginDialog());
 
         loginHelp.setOnClickListener(v -> {
@@ -450,6 +454,7 @@ public class LoginActivity extends GameActivity{
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void setListeners(){
         Button modificaProfilo = findViewById(R.id.editB);
         modificaProfilo.setOnClickListener(v -> modificaProfilo());
@@ -629,6 +634,7 @@ public class LoginActivity extends GameActivity{
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void showAvatar(ViewGroup gallery, ArrayList<Avatar> avatars, String avatarIdStr, String avatarName, boolean isItemUnlocked){
         LayoutInflater inflater = LayoutInflater.from(this);
 

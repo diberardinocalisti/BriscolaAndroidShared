@@ -39,7 +39,6 @@ import multiplayer.RoomList;
 import multiplayer.User;
 import multiplayer.engineMultiplayer;
 
-import static Login.LoginActivity.fbUID;
 import static gameEngine.Engine.ordinaMazzo;
 import static gameEngine.Game.activity;
 import static gameEngine.Game.maxPunti;
@@ -246,11 +245,11 @@ public class postPartita extends GameActivity{
 
         loginClass.setCoin(Math.max(nextCoin, 0));
 
-        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+        FirebaseClass.getFbRef().child(loginClass.getId()).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 if(task.isSuccessful()){
                     int perse = task.getResult().getValue(User.class).getPerse();
-                    FirebaseClass.editFieldFirebase(fbUID,"perse",perse+1);
+                    FirebaseClass.editFieldFirebase(loginClass.getId(),"perse",perse+1);
                 }
             }
         });
@@ -266,10 +265,10 @@ public class postPartita extends GameActivity{
         int currentCoin = SharedPref.getCoin();
         loginClass.setCoin(currentCoin + loginClass.WIN_COIN);
 
-        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+        FirebaseClass.getFbRef().child(loginClass.getId()).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
                 int vinte = task.getResult().getValue(User.class).getVinte();
-                FirebaseClass.editFieldFirebase(fbUID,"vinte",vinte+1);
+                FirebaseClass.editFieldFirebase(loginClass.getId(),"vinte",vinte+1);
             }
         });
     }

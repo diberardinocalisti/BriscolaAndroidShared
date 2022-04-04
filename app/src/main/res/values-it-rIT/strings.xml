@@ -161,7 +161,7 @@
     <string name="price">Costo</string>
     <string name="removeads">Rimuovi annunci</string>
     <string name="verifiedConsume">Il tuo acquisto è andato a buon fine</string>
-    <string name="featurenotavailable">Questa funzionalità sarà presto disponibile.</string>
+    <string name="featurenotavailable">Questa funzionalità non è attualmente disponibile.</string>
     <string name="watchads">Guardando un breve video guadagnerai {coins} monete che potrai utilizzare per acquistare degli avatar esclusivi. Procedere?</string>
     <string name="earncoins">Ottieni monete</string>
     <string name="adnotready">Nessun annuncio è attualmente disponibile, riprova tra qualche istante…</string>

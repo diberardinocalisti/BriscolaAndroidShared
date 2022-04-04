@@ -169,11 +169,9 @@ public class Utility{
     }
 
     public static void showAd(AppCompatActivity appCompatActivity){
-        loginClass.showAds(() -> {
-            AdView mAdView = appCompatActivity.findViewById(R.id.adView);
-            AdRequest adRequest = new AdRequest.Builder().build();
-            mAdView.loadAd(adRequest);
-        }, appCompatActivity);
+        AdView mAdView = appCompatActivity.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     public static Dialog createLoadingDialog(AppCompatActivity appCompatActivity){

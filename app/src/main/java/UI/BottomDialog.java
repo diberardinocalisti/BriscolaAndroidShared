@@ -28,6 +28,7 @@ public class BottomDialog extends BottomSheetDialog{
         super(context, R.style.SheetDialog);
         this.setContentView(R.layout.bottom_dialog);
 
+
         LayoutInflater inflater = LayoutInflater.from(context);
 
         TextView dialogTitle = this.findViewById(R.id.bottom_dialog_title);

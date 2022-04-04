@@ -36,7 +36,6 @@ import multiplayer.EmailUser;
 import multiplayer.User;
 import okhttp3.internal.Util;
 
-import static Login.LoginActivity.fbUID;
 import static Login.loginClass.isUser;
 import static Login.loginClass.isUsernameLoggedIn;
 import static Login.loginClass.setImgProfile;
@@ -141,7 +140,7 @@ public class Shop extends GameActivity{
                 return;
             }
 
-            FirebaseClass.getFbRef().child(fbUID).addListenerForSingleValueEvent(new ValueEventListener(){
+            FirebaseClass.getFbRef().child(loginClass.getId()).addListenerForSingleValueEvent(new ValueEventListener(){
                 @Override
                 public void onDataChange(DataSnapshot snapshot){
                     EmailUser currUser = snapshot.getValue(EmailUser.class);
@@ -158,7 +157,7 @@ public class Shop extends GameActivity{
                                 if(SharedPref.getCoin() >= avatarPrice){
                                     try{
                                         selectedAvatarField.set(currUser, true);
-                                        FirebaseClass.editFieldFirebase(fbUID, avatarId,true);
+                                        FirebaseClass.editFieldFirebase(loginClass.getId(), avatarId,true);
                                     }catch(IllegalAccessException e){
                                         e.printStackTrace();
                                     }
@@ -185,7 +184,7 @@ public class Shop extends GameActivity{
 
         Object locker = new Object();
 
-        FirebaseClass.getFbRef().child(fbUID).addListenerForSingleValueEvent(new ValueEventListener(){
+        FirebaseClass.getFbRef().child(loginClass.getId()).addListenerForSingleValueEvent(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot snapshot){
                 EmailUser currUser = snapshot.getValue(EmailUser.class);
@@ -488,7 +487,7 @@ public class Shop extends GameActivity{
     }
 
     private void setRemoveAd(){
-        FirebaseClass.editFieldFirebase(fbUID,"removeAd","true");
+        FirebaseClass.editFieldFirebase(loginClass.getId(),"removeAd","true");
     }
 
     @Override

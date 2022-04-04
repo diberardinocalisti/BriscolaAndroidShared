@@ -62,7 +62,6 @@ import okhttp3.internal.Util;
 import pl.droidsonroids.gif.GifImageView;
 
 import static Home.LoadingScreen.gameRunning;
-import static Login.LoginActivity.fbUID;
 import static Login.loginClass.*;
 
 public class MainActivity extends GameActivity implements OnUserEarnedRewardListener{
@@ -188,7 +187,12 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
         });
 
         shop.setOnClickListener(v -> {
-            Utility.goTo(this, Shop.class);
+            if(!isUsernameLoggedIn()){
+                String message = this.getString(R.string.logintounlock);
+                Utility.oneLineDialog(this, message, null);
+            }else{
+                Utility.goTo(this, Shop.class);
+            }
         });
 
         gift.setOnClickListener(v -> {
@@ -286,8 +290,8 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
             ActivityMultiplayerGame.onStop = false;
 
         if(LoginActivity.login && isFacebookLoggedIn()){
-            FirebaseClass.editFieldFirebase(fbUID,"nome", loginClass.getFBNome());
-            FirebaseClass.editFieldFirebase(fbUID,"cognome", loginClass.getFBCognome());
+            FirebaseClass.editFieldFirebase(loginClass.getId(),"nome", loginClass.getFBNome());
+            FirebaseClass.editFieldFirebase(loginClass.getId(),"cognome", loginClass.getFBCognome());
             LoginActivity.login = false;
         }
 

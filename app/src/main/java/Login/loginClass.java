@@ -70,7 +70,9 @@ public class loginClass {
     }
 
     public static String getId(){
-        return isFacebookLoggedIn() ? getFBUserId() : SharedPref.getUsername();
+        if(fbUID == null)
+            return isFacebookLoggedIn() ? getFBUserId() : SharedPref.getUsername();
+        else return fbUID;
     }
 
     public static boolean isUsernameLoggedIn(){
@@ -310,7 +312,7 @@ public class loginClass {
         return d.hasChild("email");
     }
 
-    public static void showAds(Runnable callback, AppCompatActivity appCompatActivity)
+/*    public static void showAds(Runnable callback, AppCompatActivity appCompatActivity)
     {
         if(!isLoggedIn(appCompatActivity)){
             callback.run();
@@ -331,5 +333,5 @@ public class loginClass {
 
             }
         });
-    }
+    }*/
 }

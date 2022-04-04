@@ -33,7 +33,6 @@ import gameEngine.Utility;
 import multiplayer.FbUser;
 import multiplayer.User;
 
-import static Login.LoginActivity.fbUID;
 import static Login.loginClass.isFacebookLoggedIn;
 import static Login.loginClass.isLoggedIn;
 import static Login.loginClass.isUsernameLoggedIn;
@@ -63,9 +62,9 @@ public class LoadingScreen extends AppCompatActivity {
         if(isLoggedIn(this)){
             if(isFacebookLoggedIn()) {
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
-                fbUID = accessToken.getUserId();
+                LoginActivity.fbUID = accessToken.getUserId();
             }else if(isUsernameLoggedIn()){
-                fbUID = SharedPref.getUsername();
+                LoginActivity.fbUID = SharedPref.getUsername();
                 loginClass.updateEmail();
                 checkIfAccountExists();
             }
@@ -96,7 +95,7 @@ public class LoadingScreen extends AppCompatActivity {
             return;
         }
 
-        FirebaseClass.getFbRef().child(fbUID).get().addOnCompleteListener(task -> {
+        FirebaseClass.getFbRef().child(loginClass.getId()).get().addOnCompleteListener(task -> {
             if (!task.isSuccessful() || task.isCanceled() || task.getResult().getValue() == null) {
                 LoginActivity.doLogout(this);
             }
