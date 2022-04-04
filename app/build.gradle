@@ -12,8 +12,8 @@ android {
         applicationId "game.danielesimone.briscola"
         minSdkVersion 17
         targetSdkVersion 30
-        versionCode 12
-        versionName "2.2"
+        versionCode 13
+        versionName "2.3"
 
         multiDexEnabled true
 
