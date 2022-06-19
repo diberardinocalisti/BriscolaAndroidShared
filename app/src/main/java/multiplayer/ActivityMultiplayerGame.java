@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -24,6 +25,7 @@ import firebase.FirebaseClass;
 import gameEngine.ActivityGame;
 import gameEngine.Game;
 import gameEngine.Utility;
+import okhttp3.internal.Util;
 
 import static gameEngine.ActivityGame.leftGame;
 import static gameEngine.Game.terminata;
@@ -51,6 +53,23 @@ public class ActivityMultiplayerGame extends GameActivity{
 
         try{
             roleId = (role.equals("HOST") ? "host" : "enemy");
+            if(roleId.equals("enemy")){
+                new Thread(() -> {
+                    try{
+                        Thread.sleep(5000);
+                    }
+                    catch(InterruptedException e){
+                        e.printStackTrace();
+                    }
+                    if(mazzoOnline.isEmpty()){
+                        runOnUiThread(() -> {
+                            closeRoom();
+                            Toast.makeText(this, this.getString(R.string.roomnolongeravailable), Toast.LENGTH_LONG).show();
+                        });
+                    }
+
+                }).start();
+            }
 
             Game.initialize(this);
         }catch(Exception e){
@@ -86,6 +105,7 @@ public class ActivityMultiplayerGame extends GameActivity{
             @Override public void onCancelled(@NonNull @NotNull DatabaseError databaseError){}
         };
 
+
         FirebaseClass.getFbRefSpeicific(codiceStanza).addValueEventListener(valueEventListener);
     }
 
@@ -94,13 +114,10 @@ public class ActivityMultiplayerGame extends GameActivity{
         Game.terminata = true;
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
+    private void closeRoom(){
         leftGame = true;
         onStop = true;
-        
+
         FirebaseClass.editFieldFirebase(codiceStanza, roleId, "null");
         FirebaseClass.deleteFieldFirebase(null, codiceStanza);
 
@@ -109,8 +126,14 @@ public class ActivityMultiplayerGame extends GameActivity{
     }
 
     @Override
-    protected void onDestroy(){
+    protected void onStop() {
+        closeRoom();
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy(){
+        closeRoom();
         super.onDestroy();
     }
 

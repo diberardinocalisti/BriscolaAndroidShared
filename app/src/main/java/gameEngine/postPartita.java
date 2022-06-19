@@ -243,7 +243,7 @@ public class postPartita extends GameActivity{
         int currentCoin = SharedPref.getCoin();
         int nextCoin = currentCoin + loginClass.LOSE_COIN;
 
-        loginClass.setCoin(Math.max(nextCoin, 0));
+        loginClass.setCoin(Math.max(nextCoin, 0), this);
 
         FirebaseClass.getFbRef().child(loginClass.getId()).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){
@@ -263,7 +263,7 @@ public class postPartita extends GameActivity{
             return;
 
         int currentCoin = SharedPref.getCoin();
-        loginClass.setCoin(currentCoin + loginClass.WIN_COIN);
+        loginClass.setCoin(currentCoin + loginClass.WIN_COIN, this);
 
         FirebaseClass.getFbRef().child(loginClass.getId()).get().addOnCompleteListener(task -> {
             if(task.isSuccessful()){

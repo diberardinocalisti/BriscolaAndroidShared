@@ -149,7 +149,7 @@ public class LoginActivity extends GameActivity{
                         }else{
                             //Se l'utente c'è nel db ma non  ha il campo monete glielo aggiungo
                             if(!task.getResult().hasChild("monete"))
-                                loginClass.resetCoin();
+                                loginClass.resetCoin(LoginActivity.this);
                         }
                     }
                 });
@@ -283,9 +283,10 @@ public class LoginActivity extends GameActivity{
                     String hashPassword = loginClass.getMd5(password);
                     String email = emailInput.getText().toString().trim().replace(".", "_"); // Firebase non accetta punti;
 
-                    final Integer usernameRequiredLength = 3;
-                    if(username.length() < usernameRequiredLength){
-                        String message = this.getString(R.string.usernamelength).replace("{length}", usernameRequiredLength.toString());
+                    final int usernameRequiredLength = 3;
+                    final int usernameMaxLength = 16;
+                    if(username.length() < usernameRequiredLength || username.length() > usernameMaxLength){
+                        String message = this.getString(R.string.usernamelength);
                         Utility.oneLineDialog(this, message, null);
                         return;
                     }
@@ -462,7 +463,7 @@ public class LoginActivity extends GameActivity{
         View.OnClickListener doLogout = null;
         if(isFacebookLoggedIn()){
             doLogout = (v) -> findViewById(R.id.logoutHook).performClick();
-        }else if(loginClass.isUsernameLoggedIn()){
+        }else if(loginClass.isUsernameLoggedIn(this)){
             doLogout = (v) -> logoutDialog();
         }
 
@@ -585,7 +586,7 @@ public class LoginActivity extends GameActivity{
         String avatarName = avatar.getNomeAvatar();
         String avatarId = avatar.getIdAvatar();
 
-        if(!isUsernameLoggedIn()){
+        if(!isUsernameLoggedIn(this)){
             showAvatar(gallery, avatars, avatarId, avatarName, false);
         }else{
             Object locker = new Object();
@@ -676,14 +677,14 @@ public class LoginActivity extends GameActivity{
     }
 
     protected void logout(){
-        if(isUsernameLoggedIn()){
+        if(isUsernameLoggedIn(this)){
             doLogout(this);
             logoutMsg();
         }
     }
 
     public static void doLogout(AppCompatActivity appCompatActivity){
-        if(isUsernameLoggedIn()){
+        if(isUsernameLoggedIn(appCompatActivity, false)){
             SharedPref.setUsername("null");
             SharedPref.setPassword("null");
             SharedPref.setEmail("null");

@@ -137,7 +137,7 @@
     <string name="usernameexisting">This username is already registered.</string>
     <string name="erroredit">Login with Facebook if you want to edit your profile!</string>
     <string name="confirmlogout">Are you sure you want to logout?</string>
-    <string name="usernamelength">Your username needs to be atleast {length} characters long.</string>
+    <string name="usernamelength">Invalid username length.</string>
     <string name="passwordlength">Your password needs to be atleast {length} characters long.</string>
     <string name="emailnotvalid">Please enter a valid email.</string>
     <string name="registersuccess">Registered with success!</string>
@@ -157,9 +157,9 @@
     <string name="mustbeloggedwithfacebook">You must be logged with Facebook if you want to show your friends. Confirm if you want to go to your Facebook login page. Note: if you\'re registered with your username, you will be disconnected.</string>
     <string name="roomnolongeravailable">This room is no longer available.</string>
     <string name="appupdated">App updated! What\'s new?</string>
-    <string name="latestupdate">• In-game store added;\n• Coins added: you can earn some watching video ads or winning games;\n• Premium avatars added: visit the store and buy as many as you can!\n• GUI Updated;</string>
+    <string name="latestupdate">• Offline mode is now supported;\n• Game crashes reduced;\n• GUI improvements;\n• Game optimized;</string>
     <string name="internetoffline">You aren\'t connected to Internet</string>
-    <string name="internetofflinereason">This app needs the access to the internet in order to work, the app will be closed.</string>
+    <string name="internetofflinereason">Network error, you have been disconnected.</string>
     <string name="logintoearncoin">Register or login with an email to earn coin and buy some new cool features!</string>
     <string name="howtousecoin">Coins can be used to buy some premium features, watch some ads, beat your opponents or go to the store to earn some!</string>
     <string name="shop">Visit shop</string>
