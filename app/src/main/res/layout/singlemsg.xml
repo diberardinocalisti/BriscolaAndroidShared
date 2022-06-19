@@ -6,6 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <View
+        android:id="@+id/view6"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/frameLayout3"
+        app:layout_constraintTop_toTopOf="@+id/frameLayout3" />
+
     <FrameLayout
         android:id="@+id/frameLayout3"
         android:layout_width="wrap_content"
@@ -33,40 +41,14 @@
         android:id="@+id/messageSent"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="top"
+        android:layout_marginStart="8dp"
+        android:gravity="bottom"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
-        android:text="messaggio mandato"
+        android:text="@string/inserttext"
         android:textSize="35px"
-        app:layout_constraintBottom_toBottomOf="@+id/authorName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/chatSeperator2"
-        app:layout_constraintTop_toTopOf="@+id/authorName"
-        app:layout_constraintVertical_bias="0.0" />
-
-    <TextView
-        android:id="@+id/authorName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:fontFamily="@font/carter_one"
-        android:paddingLeft="3dp"
-        android:text="autore messaggio"
-        android:textSize="35px"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/frameLayout3"
         app:layout_constraintStart_toEndOf="@+id/frameLayout3"
-        app:layout_constraintTop_toTopOf="@+id/frameLayout3" />
-
-    <TextView
-        android:id="@+id/chatSeperator2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/carter_one"
-        android:text=":"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/authorName"
-        app:layout_constraintStart_toEndOf="@+id/authorName"
-        app:layout_constraintTop_toTopOf="@+id/authorName" />
+        app:layout_constraintTop_toTopOf="@+id/view6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

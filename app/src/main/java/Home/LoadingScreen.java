@@ -63,7 +63,7 @@ public class LoadingScreen extends AppCompatActivity {
             if(isFacebookLoggedIn()) {
                 AccessToken accessToken = AccessToken.getCurrentAccessToken();
                 LoginActivity.fbUID = accessToken.getUserId();
-            }else if(isUsernameLoggedIn()){
+            }else if(isUsernameLoggedIn(this)){
                 LoginActivity.fbUID = SharedPref.getUsername();
                 loginClass.updateEmail();
                 checkIfAccountExists();

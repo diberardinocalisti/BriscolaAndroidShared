@@ -2,6 +2,7 @@ package Login;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -57,7 +58,7 @@ public class loginClass {
      */
     public static boolean isLoggedIn(AppCompatActivity appCompatActivity)
     {
-        return (loginClass.isFacebookLoggedIn() || loginClass.isUsernameLoggedIn()) && Utility.isNetworkAvailable(appCompatActivity);
+        return (loginClass.isFacebookLoggedIn() || loginClass.isUsernameLoggedIn(appCompatActivity)) && Utility.isNetworkAvailable(appCompatActivity);
     }
 
     public static String getName()
@@ -75,8 +76,12 @@ public class loginClass {
         else return fbUID;
     }
 
-    public static boolean isUsernameLoggedIn(){
-        return !SharedPref.getUsername().equals("null");
+    public static boolean isUsernameLoggedIn(AppCompatActivity a){
+        return isUsernameLoggedIn(a, true);
+    }
+
+    public static boolean isUsernameLoggedIn(AppCompatActivity a, boolean internet){
+        return !SharedPref.getUsername().equals("null") && (Utility.isNetworkAvailable(a) || !internet);
     }
 
     public static String getFBUserId()
@@ -234,7 +239,7 @@ public class loginClass {
         }else{
             FirebaseClass.getFbRefSpeicific(fbUID).get().addOnCompleteListener(task -> {
                 if(!task.getResult().hasChild("monete")){
-                    loginClass.resetCoin();
+                    loginClass.resetCoin(appCompatActivity);
                 }else{
                     int coin = task.getResult().getValue(User.class).getMonete();
                     SharedPref.setCoin(coin);
@@ -289,12 +294,12 @@ public class loginClass {
         });
     }
 
-    public static void resetCoin(){
-        setCoin(DEFAULT_COIN);
+    public static void resetCoin(AppCompatActivity a){
+        setCoin(DEFAULT_COIN, a);
     }
 
-    public static void setCoin(int coin){
-        if(isUsernameLoggedIn()){
+    public static void setCoin(int coin, AppCompatActivity a){
+        if(isUsernameLoggedIn(a)){
             FirebaseClass.editFieldFirebase(fbUID,"monete", coin);
             SharedPref.setCoin(coin);
         }

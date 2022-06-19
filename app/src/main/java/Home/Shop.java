@@ -134,7 +134,7 @@ public class Shop extends GameActivity{
         int currCoins = SharedPref.getCoin();
 
         Runnable onClick = () -> {
-            if(!isUsernameLoggedIn()){
+            if(!isUsernameLoggedIn(this)){
                 String message = this.getString(R.string.logintounlock);
                 Utility.oneLineDialog(this, message, null);
                 return;
@@ -162,7 +162,7 @@ public class Shop extends GameActivity{
                                         e.printStackTrace();
                                     }
 
-                                    loginClass.setCoin(SharedPref.getCoin() - avatarPrice);
+                                    loginClass.setCoin(SharedPref.getCoin() - avatarPrice, Shop.this);
                                     mostraProdotti();
                                     Utility.oneLineDialog(Shop.this, Shop.this.getString(R.string.boughtsuccess), null);
                                 }else{
@@ -393,7 +393,7 @@ public class Shop extends GameActivity{
                                 //verifyPurchase(p);
                                 if(coinShopped != -1){
                                     int moneteOttenute = SharedPref.getCoin() + coinShopped;
-                                    loginClass.setCoin(moneteOttenute);
+                                    loginClass.setCoin(moneteOttenute, Shop.this);
                                 }else {
                                     setRemoveAd();
                                 }

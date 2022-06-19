@@ -140,7 +140,12 @@ public class ActivityGame extends GameActivity{
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if(multiplayer && attesa && !finishAttesa){
+            FirebaseClass.deleteFieldFirebase(null, codiceStanza);
+        }
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override

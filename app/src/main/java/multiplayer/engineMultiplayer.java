@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +33,7 @@ import gameEngine.Engine;
 import gameEngine.Game;
 import gameEngine.Giocatore;
 import gameEngine.Utility;
+import okhttp3.internal.Util;
 
 import static gameEngine.ActivityGame.leftGame;
 import static gameEngine.Game.I_CAMPO_GIOCO;
@@ -46,6 +48,7 @@ import static multiplayer.ActivityMultiplayerGame.onStop;
 import static multiplayer.ActivityMultiplayerGame.snapshot;
 
 
+@RequiresApi(api = Build.VERSION_CODES.N)
 public class engineMultiplayer extends Engine{
     public static String codiceStanza;
     public static String role;
@@ -401,6 +404,7 @@ public class engineMultiplayer extends Engine{
             removeChatNotis();
         });
 
+        Utility.ridimensionamento(activity, chat.findViewById(R.id.parent));
         closeDialog.setOnClickListener(v -> chat.dismiss());
         chat.setOnDismissListener(dialog -> removeChatNotis());
     }
@@ -413,24 +417,23 @@ public class engineMultiplayer extends Engine{
         View parentView = inflater.inflate(R.layout.singlemsg, null);
 
         ImageView icon = parentView.findViewById(R.id.icon);
-        TextView authorView = parentView.findViewById(R.id.authorName);
         TextView messageView = parentView.findViewById(R.id.messageSent);
-        TextView chatSeperator = parentView.findViewById(R.id.chatSeperator2);
 
         Giocatore author = getPlayerById(authorId);
         String authorName = author == Game.user ? activity.getString(R.string.you) : author.getNome();
+        authorName = String.format("<b>%s</b>", authorName);
 
-        authorView.setText(authorName.trim());
-        messageView.setText(message.trim());
+        String seperator = isEvent || authorName.isEmpty() ? new String() : ": ";
+        String finalMessage = String.format("%s%s%s", authorName.trim(), seperator, message.trim());
+
+        messageView.setText(Html.fromHtml(finalMessage));
         icon.setImageBitmap(author.getIcon());
 
-        if(isEvent || authorName.isEmpty())
-            chatSeperator.setText(new String());
-        else
+        if(!isEvent){
             sendChatNotis();
+        }
 
         scrollViewLayout.addView(parentView);
-
         ScrollView scrollView = chat.findViewById(R.id.scrollView);
         scrollView.post(() -> scrollView.fullScroll(View.FOCUS_DOWN));
     }

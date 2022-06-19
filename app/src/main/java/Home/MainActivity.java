@@ -147,6 +147,11 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
         });
 
         multiplayer.setOnClickListener(v -> {
+            if(!Utility.isNetworkAvailable(this)){
+                Utility.oneLineDialog(this, getString(R.string.internetoffline), null);
+                return;
+            }
+
             if(isLoggedIn(this)){
                 Intent i = new Intent(this, MultiplayerActivity.class);
                 this.startActivity(i);
@@ -163,6 +168,11 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
         });
 
         mioProfilo.setOnClickListener(v -> {
+            if(!Utility.isNetworkAvailable(this)){
+                Utility.oneLineDialog(this, getString(R.string.internetoffline), null);
+                return;
+            }
+
             Intent in = new Intent(this, LoginActivity.class);
             this.startActivity(in);
         });
@@ -173,7 +183,13 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
             Utility.createDialog(this, title, msg);
         });
 
-        ranking.setOnClickListener(v -> new Ranking(this));
+        ranking.setOnClickListener(v -> {
+            if(!Utility.isNetworkAvailable(this)){
+                Utility.oneLineDialog(this, getString(R.string.internetoffline), null);
+                return;
+            }
+            new Ranking(this);
+        });
         history.setOnClickListener(v -> new Storico(this));
 
         coin.setOnClickListener(v -> {
@@ -187,7 +203,12 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
         });
 
         shop.setOnClickListener(v -> {
-            if(!isUsernameLoggedIn()){
+            if(!Utility.isNetworkAvailable(this)){
+                Utility.oneLineDialog(this, getString(R.string.internetoffline), null);
+                return;
+            }
+            
+            if(!isUsernameLoggedIn(this)){
                 String message = this.getString(R.string.logintounlock);
                 Utility.oneLineDialog(this, message, null);
             }else{
@@ -196,7 +217,7 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
         });
 
         gift.setOnClickListener(v -> {
-            if(!isUsernameLoggedIn()){
+            if(!isUsernameLoggedIn(this)){
                 String message = this.getString(R.string.logintounlock);
                 Utility.oneLineDialog(this, message, null);
             }else{
@@ -232,7 +253,7 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
         rewardedInterstitialAd = null;
 
         int currentCoin = SharedPref.getCoin();
-        loginClass.setCoin(currentCoin + GIFT_COINS);
+        loginClass.setCoin(currentCoin + GIFT_COINS, this);
         updateCoins();
 
         Utility.oneLineDialog(this, getString(R.string.rewardsuccess), null);

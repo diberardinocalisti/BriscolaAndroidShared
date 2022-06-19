@@ -112,7 +112,7 @@ public class Ranking extends Dialog {
 
                     if(isEmailUser(d)){
                         nomeUtente = d.getKey();
-                        if(isUsernameLoggedIn())
+                        if(isUsernameLoggedIn(appCompatActivity))
                             if(getUsernameId().equals(idUtente))
                                 isSelf = true;
                     }else{

@@ -130,7 +130,7 @@
     <string name="usernameexisting">Questo username è già stato registrato.</string>
     <string name="erroredit">Accedi con Facebook se vuoi modificare il tuo profilo!</string>
     <string name="confirmlogout">Sei sicuro di volerti disconnettere?</string>
-    <string name="usernamelength">Il tuo username deve essere lungo almeno {length} caratteri.</string>
+    <string name="usernamelength">Lunghezza username non valida.</string>
     <string name="passwordlength">La tua password deve essere lunga almeno {length} caratteri.</string>
     <string name="emailnotvalid">Inserisci una email valida.</string>
     <string name="registersuccess">Registrazione effettuata correttamente!</string>
@@ -150,9 +150,9 @@
     <string name="mustbeloggedwithfacebook">È necessario aver effettuato l\'accesso a Facebook per vedere i tuoi amici. Vuoi accedere ora? Verrai renderizzato alla pagina di accesso e eventualmente disconnesso dall\'account attuale.</string>
     <string name="roomnolongeravailable">Questa stanza non è più disponibile.</string>
     <string name="appupdated">App aggiornata!</string>
-    <string name="latestupdate">• Negozio aggiunto;\n• Monete aggiunte: puoi guadagnarle guardando dei video pubblicitari o vincendo delle partite;\n• Avatar premium aggiunti: visita il negozio e comprane più che puoi!\n• Migliorie all\'interfaccia grafica;</string>
+    <string name="latestupdate">• Modalità offline aggiunta;\n• Ridotti gli arresti anomali del gioco;\n• Miglioramenti grafici;\n• Ottimizzazione del gioco;</string>
     <string name="internetoffline">Non sei connesso ad Internet</string>
-    <string name="internetofflinereason">Questa app ha bisogno dell\'accesso alla rete per poter funzionare, l\'app verrà chiusa.</string>
+    <string name="internetofflinereason">Internet non disponibile, verrai disconnesso.</string>
     <string name="logintoearncoin">Registrati o effettua il login con un\'email per iniziare a guadagnare le monete e comprare nuove funzionalità!</string>
     <string name="howtousecoin">Le monete possono essere utilizzate per acquistare delle funzionalità esclusive, guarda degli annunci, batti i tuoi avversari o accedi allo store per guadagnarne qualcuna!</string>
     <string name="shop">Negozio</string>
