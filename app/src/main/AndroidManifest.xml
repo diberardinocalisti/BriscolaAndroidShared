@@ -36,7 +36,7 @@
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            ><intent-filter>
+            android:exported="true"><intent-filter>
             <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>        <activity android:name="gameEngine.postPartita"
@@ -45,7 +45,7 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
 
-            >
+        android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
         </intent-filter>
@@ -54,7 +54,7 @@
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -65,7 +65,7 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:noHistory="true"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -75,7 +75,7 @@
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            >
+            android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.VIEW" />
         </intent-filter>
@@ -85,7 +85,7 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:noHistory="true"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -95,7 +95,7 @@
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -104,7 +104,7 @@
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:noHistory="true"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -115,7 +115,7 @@
         <activity android:name="Home.MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
@@ -143,7 +143,7 @@
             android:parentActivityName = "Home.MainActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
-            >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
             </intent-filter>
