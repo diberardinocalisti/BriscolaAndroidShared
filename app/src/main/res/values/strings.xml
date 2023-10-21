@@ -32,7 +32,7 @@
     <string name="accountid">Account ID:</string>
     <string name="insertcode">Insert your code</string>
     <string name="loading">Loading…</string>
-    <string name="credits">Created by Daniele Calisti and Di Berardino Simone</string>
+    <string name="credits">Created by Daniele Calisti and Di Berardino Simone - diberardinocalisti@gmail.com</string>
     <string name="whylogin">Why login?</string>
     <string name="win">Victory!</string>
     <string name="lost">Match lost!</string>
@@ -157,7 +157,7 @@
     <string name="mustbeloggedwithfacebook">You must be logged with Facebook if you want to show your friends. Confirm if you want to go to your Facebook login page. Note: if you\'re registered with your username, you will be disconnected.</string>
     <string name="roomnolongeravailable">This room is no longer available.</string>
     <string name="appupdated">App updated! What\'s new?</string>
-    <string name="latestupdate">• Offline mode is now supported;\n• Game crashes reduced;\n• GUI improvements;\n• Game optimized;</string>
+    <string name="latestupdate">• Added compatibility to Android 13 and Android 14;\n• Game optimization;</string>
     <string name="internetoffline">You aren\'t connected to Internet</string>
     <string name="internetofflinereason">Network error, you have been disconnected.</string>
     <string name="logintoearncoin">Register or login with an email to earn coin and buy some new cool features!</string>

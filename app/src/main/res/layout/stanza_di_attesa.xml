@@ -144,7 +144,6 @@
                 android:id="@+id/waitroom_titolo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
                 android:fontFamily="@font/carter_one"
                 android:paddingRight="2dp"
                 android:shadowColor="#000"
@@ -155,10 +154,10 @@
                 android:textAllCaps="true"
                 android:textColor="@color/green"
                 android:textSize="70px"
-                app:layout_constraintBottom_toBottomOf="@+id/waitroom_helper3"
+                app:layout_constraintBottom_toTopOf="@+id/waitroom_helper"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/waitroom_helper3" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/waitroom_nome1"

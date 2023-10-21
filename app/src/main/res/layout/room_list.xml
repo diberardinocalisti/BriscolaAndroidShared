@@ -107,7 +107,6 @@
             android:id="@+id/room_list_titolo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
             android:fontFamily="@font/carter_one"
             android:paddingRight="2dp"
             android:shadowColor="#000"
@@ -118,10 +117,10 @@
             android:textAllCaps="true"
             android:textColor="@color/green"
             android:textSize="70px"
-            app:layout_constraintBottom_toBottomOf="@+id/room_list_helper3"
+            app:layout_constraintBottom_toTopOf="@+id/room_list_helper"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/room_list_helper3"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.4" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
