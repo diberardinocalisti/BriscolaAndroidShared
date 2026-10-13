@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,7 +81,7 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        Utility.enableTopBar(this);
+        getSupportActionBar().hide();
         Utility.ridimensionamento(this, findViewById(R.id.parent));
         Utility.showAd(this);
 
@@ -88,6 +89,13 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
 
         ActivityMultiplayerGame.onStop = false;
         Game.terminata = true;
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackPress();
+            }
+        });
 
         setListeners();
         showUpdateNotes();
@@ -225,7 +233,11 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
             }
         });
 
-        closeGame.setOnClickListener(v -> this.onBackPressed());
+        closeGame.setOnClickListener(v -> handleBackPress());
+    }
+
+    private void handleBackPress() {
+        Utility.oneLineDialog(this, getString(R.string.confirmleave), this::finishAffinity);
     }
 
     public void initializeAd() {
@@ -291,11 +303,6 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
 
     private void showPrizeAd(){
         rewardedInterstitialAd.show(this, this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        Utility.oneLineDialog(this, this.getString(R.string.confirmleave), this::finishAffinity);
     }
 
     @Override

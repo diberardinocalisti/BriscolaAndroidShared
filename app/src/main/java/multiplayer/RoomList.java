@@ -56,7 +56,7 @@ public class RoomList extends GameActivity{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        Utility.enableTopBar(this);
+        getSupportActionBar().hide();
         setContentView(R.layout.room_list);
 
         initializeLayout();

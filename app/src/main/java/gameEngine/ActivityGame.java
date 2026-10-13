@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,8 +51,13 @@ public class ActivityGame extends GameActivity{
         multiplayer = extras.getBoolean("multiplayer");
 
         ActivityMultiplayerGame.resetAttributes();
-        Utility.enableTopBar(this);
-
+        getSupportActionBar().hide();
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackPress();
+            }
+        });
         if(multiplayer) {
             startMultiPlayer();
         } else {
@@ -158,6 +164,11 @@ public class ActivityGame extends GameActivity{
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
+        handleBackPress();
+    }
+
+    private void handleBackPress() {
         Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), () -> {
             leftGame = true;
             Utility.goTo(this, multiplayer ? MultiplayerActivity.class : MainActivity.class);

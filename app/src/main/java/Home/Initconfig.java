@@ -36,7 +36,7 @@ public class Initconfig extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.choicecard);
 
-        Utility.enableTopBar(this);
+        getSupportActionBar().hide();
         Utility.ridimensionamento(this, findViewById(R.id.actionbar));
         Utility.ridimensionamento(this, findViewById(R.id.init_parent));
 

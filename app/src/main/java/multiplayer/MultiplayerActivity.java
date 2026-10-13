@@ -34,7 +34,7 @@ public class MultiplayerActivity extends GameActivity{
 
         setContentView(R.layout.activity_multiplayer);
 
-        Utility.enableTopBar(this);
+        getSupportActionBar().hide();
         Utility.ridimensionamento(this, findViewById(R.id.parent));
         Utility.showAd(this);
 

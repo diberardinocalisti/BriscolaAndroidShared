@@ -90,7 +90,7 @@ public class Shop extends GameActivity{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.shop);
 
-        Utility.enableTopBar(this);
+        getSupportActionBar().hide();
         Utility.ridimensionamento(this, findViewById(R.id.parent));
         Utility.showAd(this);
 

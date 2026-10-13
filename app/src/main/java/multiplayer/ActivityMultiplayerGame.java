@@ -8,10 +8,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import Home.MainActivity;
 import game.danielesimone.briscola.GameActivity;
 import game.danielesimone.briscola.R;
 import com.google.android.gms.ads.AdView;
@@ -50,6 +52,12 @@ public class ActivityMultiplayerGame extends GameActivity{
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackPress();
+            }
+        });
 
         try{
             roleId = (role.equals("HOST") ? "host" : "enemy");
@@ -139,6 +147,11 @@ public class ActivityMultiplayerGame extends GameActivity{
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
+        handleBackPress();
+    }
+
+    private void handleBackPress() {
         Utility.oneLineDialog(this, this.getString(R.string.confirmleavegame), () -> {
             leftGame = true;
             Utility.mainMenu(this);
