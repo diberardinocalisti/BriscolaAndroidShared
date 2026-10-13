@@ -4,14 +4,14 @@ plugins {
 }
 
 android {
-    ndkVersion '21.3.6528147'
-    compileSdkVersion 34
-    buildToolsVersion "30.0.3"
+    namespace 'game.danielesimone.briscola'
+    ndkVersion '28.0.12433566'
+    compileSdkVersion 35
 
     defaultConfig {
         applicationId "game.danielesimone.briscola"
         minSdkVersion 21
-        targetSdkVersion 37
+        targetSdkVersion 35
         versionCode 21
         versionName "2.6"
 

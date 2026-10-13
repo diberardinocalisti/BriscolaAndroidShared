@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/logo"
-            android:layout_width="500px"
-            android:layout_height="500px"
+            android:layout_width="400px"
+            android:layout_height="400px"
             app:layout_constraintBottom_toTopOf="@+id/singleplayer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
