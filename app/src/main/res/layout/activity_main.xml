@@ -28,7 +28,7 @@
             app:layout_constraintVertical_bias="0.366"
             app:srcCompat="@drawable/logo" />
 
-        <pl.droidsonroids.gif.GifImageView
+        <ImageView
             android:id="@+id/giftIcon"
             android:layout_width="200px"
             android:layout_height="200px"
@@ -36,7 +36,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-        </pl.droidsonroids.gif.GifImageView>
+        </ImageView>
         <ImageView
             android:id="@+id/coinIcon"
             android:layout_width="75px"

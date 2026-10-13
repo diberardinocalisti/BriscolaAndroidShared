@@ -60,7 +60,6 @@ import multiplayer.ActivityMultiplayerGame;
 import multiplayer.MultiplayerActivity;
 import multiplayer.engineMultiplayer;
 import okhttp3.internal.Util;
-import pl.droidsonroids.gif.GifImageView;
 
 import static Home.LoadingScreen.gameRunning;
 import static Login.loginClass.*;
@@ -146,7 +145,7 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
         ImageButton history = findViewById(R.id.history);
         ImageButton ranking = findViewById(R.id.ranking);
         ImageView coin = findViewById(R.id.coinIcon);
-        GifImageView gift = findViewById(R.id.giftIcon);
+        ImageView gift = findViewById(R.id.giftIcon);
 
         singleplayer.setOnClickListener(v -> {
             Intent intent = new Intent(this, ActivityGame.class);
@@ -215,7 +214,7 @@ public class MainActivity extends GameActivity implements OnUserEarnedRewardList
                 Utility.oneLineDialog(this, getString(R.string.internetoffline), null);
                 return;
             }
-            
+
             if(!isUsernameLoggedIn(this)){
                 String message = this.getString(R.string.logintounlock);
                 Utility.oneLineDialog(this, message, null);

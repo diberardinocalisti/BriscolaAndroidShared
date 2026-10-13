@@ -30,16 +30,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_close" />
 
-            <pl.droidsonroids.gif.GifImageView
-                android:id="@+id/load_dialog_gif"
-                android:layout_width="150px"
-                android:layout_height="150px"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/loading"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/load_dialog_titleDialog"></pl.droidsonroids.gif.GifImageView>
-
             <TextView
                 android:id="@+id/load_dialog_descr"
                 android:layout_width="wrap_content"

@@ -12,7 +12,7 @@ android {
         applicationId "game.danielesimone.briscola"
         minSdkVersion 21
         targetSdkVersion 37
-        versionCode 21
+        versionCode 22
         versionName "2.6"
 
         multiDexEnabled true
@@ -68,7 +68,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:22.2.0'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
-    implementation "pl.droidsonroids.gif:android-gif-drawable:1.2.19"
     implementation 'androidx.multidex:multidex:2.0.1'
 
 
