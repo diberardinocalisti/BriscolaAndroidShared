@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import game.danielesimone.briscola.GameActivity;
 import game.danielesimone.briscola.R;
 
 import java.util.Random;
@@ -24,7 +25,7 @@ import gameEngine.Game;
 import gameEngine.SharedPref;
 import gameEngine.Utility;
 
-public class Initconfig extends AppCompatActivity {
+public class Initconfig extends GameActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +35,10 @@ public class Initconfig extends AppCompatActivity {
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.choicecard);
-
         getSupportActionBar().hide();
-        Utility.ridimensionamento(this, findViewById(R.id.actionbar));
-        Utility.ridimensionamento(this, findViewById(R.id.init_parent));
+
+        setContentView(R.layout.choicecard);
+        Utility.ridimensionamento(this, findViewById(R.id.parent));
 
         LinearLayout gallery = this.findViewById(R.id.init_cardGallery);
         LayoutInflater inflater = LayoutInflater.from(this);

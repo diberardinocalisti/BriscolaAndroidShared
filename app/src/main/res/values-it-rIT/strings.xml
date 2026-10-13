@@ -150,7 +150,7 @@
     <string name="mustbeloggedwithfacebook">È necessario aver effettuato l\'accesso a Facebook per vedere i tuoi amici. Vuoi accedere ora? Verrai renderizzato alla pagina di accesso e eventualmente disconnesso dall\'account attuale.</string>
     <string name="roomnolongeravailable">Questa stanza non è più disponibile.</string>
     <string name="appupdated">App aggiornata!</string>
-    <string name="latestupdate">• Aggiunta compatibilità con Android 13 e Android 14;\n• Ottimizzazione del gioco;</string>
+    <string name="latestupdate">• Aggiunta compatibilità con Android 16 e Android 17;\n• Ottimizzazione del gioco;</string>
     <string name="internetoffline">Non sei connesso ad Internet</string>
     <string name="internetofflinereason">Internet non disponibile, verrai disconnesso.</string>
     <string name="logintoearncoin">Registrati o effettua il login con un\'email per iniziare a guadagnare le monete e comprare nuove funzionalità!</string>
